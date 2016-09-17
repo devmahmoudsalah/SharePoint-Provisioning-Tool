@@ -18,16 +18,17 @@ namespace Karabina.SharePoint.Provisioning
 {
     public class SharePoint2013OnPrem
     {
+        public SharePoint2013OnPrem()
+        {
+            //do nothing
+        }
+
         private ListBox _lbOutput = null;
+
         public ListBox OutputBox
         {
             get { return _lbOutput; }
             set { _lbOutput = value; }
-        }
-
-        public SharePoint2013OnPrem()
-        {
-            //do nothing
         }
 
         private void WriteMessage(string message)
@@ -290,30 +291,6 @@ namespace Karabina.SharePoint.Provisioning
                             XElement tempElement = XElement.Parse(tempField.SchemaXml);
                             string tempTitle = tempElement.Attribute("Name").Value;
 
-                            /*
-                            if (referenceFields.ContainsKey(tempTitle))
-                            {
-                                //handle it if the lowest field is a referenced field too
-                                bool lowestChanged = false;
-                                List<string> tempValues = referenceFields[tempTitle];
-                                foreach (string keyValue in tempValues)
-                                {
-                                    int keyIndex = indexFields[keyValue];
-                                    if (keyIndex < lowestIndex)
-                                    {
-                                        lowestIndex = keyIndex;
-                                        lowestChanged = true;
-                                    }
-                                }
-                                if (lowestChanged)
-                                {
-                                    tempField = fields[lowestIndex];
-                                    tempElement = XElement.Parse(tempField.SchemaXml);
-                                    tempTitle = tempElement.Attribute("Name").Value;
-                                }
-                            }
-                            */
-
                             fields[lowestIndex] = fields[index];
                             fields[index] = tempField;
 
@@ -488,6 +465,7 @@ namespace Karabina.SharePoint.Provisioning
             try
             {
                 _lbOutput = lbOutput;
+
                 using (var ctx = new ClientContext(provisioningOptions.WebAddress))
                 {
                     if (provisioningOptions.AuthenticationRequired)

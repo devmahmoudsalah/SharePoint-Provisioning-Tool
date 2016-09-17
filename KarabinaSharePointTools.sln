@@ -15,6 +15,11 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "KSPTInstall", "KSPTInstall\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvisioningGlobals", "ProvisioningGlobals\ProvisioningGlobals.csproj", "{42F37640-6554-461E-9C68-74CEA510EB4F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2116E641-B69F-4407-838D-541E6D7F4A50}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
