@@ -11,8 +11,8 @@ namespace Karabina.SharePoint.Provisioning
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern Int32 SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)]string lParam);
 
-        private int _selectedVersion = 0;
-        public int SelectedVersion
+        private SharePointVersion _selectedVersion = SharePointVersion.SharePoint_Invalid;
+        public SharePointVersion SelectedVersion
         {
             get { return _selectedVersion; }
             set { _selectedVersion = value; }
@@ -127,7 +127,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private void FormShown(object sender, EventArgs e)
         {
-            if (_selectedVersion == Constants.SP2016ONLINE)
+            if (_selectedVersion == SharePointVersion.SharePoint_2016_OnLine)
             {
                 SendMessage(tbSharePointUrl.Handle, EM_SETCUEBANNER, 0, "https://company.sharepoint.com/sites/site");
                 cbNoUNP.Enabled = false;

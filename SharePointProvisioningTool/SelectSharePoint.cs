@@ -12,8 +12,8 @@ namespace Karabina.SharePoint.Provisioning
 {
     public partial class SelectSharePoint : Form
     {
-        private int _versionSelected = 0;
-        public int VersionSelected
+        private SharePointVersion _versionSelected = SharePointVersion.SharePoint_Invalid;
+        public SharePointVersion VersionSelected
         {
             get { return _versionSelected; }
             set { _versionSelected = value; }
@@ -42,7 +42,7 @@ namespace Karabina.SharePoint.Provisioning
         private void SetVersionSelected(object sender, EventArgs e)
         {
             RadioButton rb = sender as RadioButton;
-            _versionSelected = Convert.ToInt32(rb.Tag);
+            _versionSelected = (SharePointVersion)Convert.ToInt32(rb.Tag);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Karabina.SharePoint.Provisioning
         {
             string fileName = string.Empty;
             OpenFileDialog openFileDialog = new OpenFileDialog();
+
             if (!string.IsNullOrWhiteSpace(lastFolder))
             {
                 openFileDialog.InitialDirectory = lastFolder;
@@ -29,12 +30,15 @@ namespace Karabina.SharePoint.Provisioning
             {
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             }
-            openFileDialog.Filter = "SharePoint Provisioning Template Files (*.pnp)|*.pnp|All Files (*.*)|*.*";
+
+            openFileDialog.Filter = Constants.FileDialogFilter;
+
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 lastFolder = openFileDialog.FileName.Substring(0, openFileDialog.FileName.LastIndexOf('\\'));
                 fileName = openFileDialog.FileName;
             }
+
             return fileName;
         }
 
@@ -42,6 +46,7 @@ namespace Karabina.SharePoint.Provisioning
         {
             string fileName = string.Empty;
             SaveFileDialog saveFileDialog = new SaveFileDialog();
+
             if (!string.IsNullOrWhiteSpace(lastFolder))
             {
                 saveFileDialog.InitialDirectory = lastFolder;
@@ -50,12 +55,15 @@ namespace Karabina.SharePoint.Provisioning
             {
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             }
-            saveFileDialog.Filter = "SharePoint Provisioning Template Files (*.pnp)|*.pnp|All Files (*.*)|*.*";
+
+            saveFileDialog.Filter = Constants.FileDialogFilter;
+
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 lastFolder = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.LastIndexOf('\\'));
                 fileName = saveFileDialog.FileName;
             }
+
             return fileName;
         }
 
@@ -97,92 +105,111 @@ namespace Karabina.SharePoint.Provisioning
             progressWin.SetButtonFocus();
         }
 
-        private bool CreateSP2013OPTemplate(Form callee, ProvisioningOptions provisioningOptions)
+        private bool CreateSPTemplate(Form callee, ProvisioningOptions provisioningOptions)
         {
+            SourceWin callForm = callee as SourceWin;
             bool result = false;
-            callee.Visible = false;
-            ProgressWin progressWin = StartProgressWin(true, "SharePoint 2013 On Prem");
-            if (_sp2013OnPrem == null)
+            callForm.Visible = false;
+            string spVerionTitle = String.Empty;
+            switch (callForm.SelectedVersion)
             {
-                _sp2013OnPrem = new SharePoint2013OnPrem();
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    spVerionTitle = Constants.SharePoint_2013_On_Premise;
+                    if (_sp2013OnPrem == null)
+                    {
+                        _sp2013OnPrem = new SharePoint2013OnPrem();
+                    }
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    spVerionTitle = Constants.SharePoint_2016_On_Premise;
+                    if (_sp2016OnPrem == null)
+                    {
+                        _sp2016OnPrem = new SharePoint2016OnPrem();
+                    }
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    spVerionTitle = Constants.SharePoint_2016_Online;
+                    if (_sp2016Online == null)
+                    {
+                        _sp2016Online = new SharePoint2016Online();
+                    }
+                    break;
+                default:
+                    break;
             }
-            result = _sp2013OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
-            callee.Visible = true;
+
+            ProgressWin progressWin = StartProgressWin(true, spVerionTitle);
+
+            switch (callForm.SelectedVersion)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    result = _sp2013OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    result = _sp2016OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    result = _sp2016Online.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    break;
+                default:
+                    break;
+            }
+
+            callForm.Visible = true;
+
             FinishProgressWin(progressWin);
             return result;
         }
 
-        private bool CreateSP2016OPTemplate(Form callee, ProvisioningOptions provisioningOptions)
+        private bool ApplySPTemplate(Form callee, ProvisioningOptions provisioningOptions)
         {
+            TargetWin callForm = callee as TargetWin;
             bool result = false;
-            callee.Visible = false;
-            ProgressWin progressWin = StartProgressWin(true, "SharePoint 2016 On Prem");
-            if (_sp2016OnPrem == null)
-            {
-                _sp2016OnPrem = new SharePoint2016OnPrem();
-            }
-            result = _sp2016OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
-            callee.Visible = true;
-            FinishProgressWin(progressWin);
-            return result;
-        }
+            callForm.Visible = false;
 
-        private bool CreateSP2016OLTemplate(Form callee, ProvisioningOptions provisioningOptions)
-        {
-            bool result = false;
-            callee.Visible = false;
-            ProgressWin progressWin = StartProgressWin(true, "SharePoint 2016 Online");
-            if (_sp2016Online == null)
+            string spVerionTitle = String.Empty;
+            switch (callForm.SelectedVersion)
             {
-                _sp2016Online = new SharePoint2016Online();
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    spVerionTitle = Constants.SharePoint_2013_On_Premise;
+                    if (_sp2013OnPrem == null)
+                    {
+                        _sp2013OnPrem = new SharePoint2013OnPrem();
+                    }
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    spVerionTitle = Constants.SharePoint_2016_On_Premise;
+                    if (_sp2016OnPrem == null)
+                    {
+                        _sp2016OnPrem = new SharePoint2016OnPrem();
+                    }
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    spVerionTitle = Constants.SharePoint_2016_Online;
+                    if (_sp2016Online == null)
+                    {
+                        _sp2016Online = new SharePoint2016Online();
+                    }
+                    break;
             }
-            result = _sp2016Online.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
-            callee.Visible = true;
-            FinishProgressWin(progressWin);
-            return result;
-        }
 
-        private bool ApplySP2013OPTemplate(Form callee, ProvisioningOptions provisioningOptions)
-        {
-            bool result = false;
-            callee.Visible = false;
-            ProgressWin progressWin = StartProgressWin(false, "SharePoint 2013 On Prem");
-            if (_sp2013OnPrem == null)
-            {
-                _sp2013OnPrem = new SharePoint2013OnPrem();
-            }
-            result = _sp2013OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
-            callee.Visible = true;
-            FinishProgressWin(progressWin);
-            return result;
-        }
+            ProgressWin progressWin = StartProgressWin(false, spVerionTitle);
 
-        private bool ApplySP2016OPTemplate(Form callee, ProvisioningOptions provisioningOptions)
-        {
-            bool result = false;
-            callee.Visible = false;
-            ProgressWin progressWin = StartProgressWin(false, "SharePoint 2016 On Prem");
-            if (_sp2016OnPrem == null)
+            switch (callForm.SelectedVersion)
             {
-                _sp2016OnPrem = new SharePoint2016OnPrem();
-            }
-            result = _sp2016OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
-            callee.Visible = true;
-            FinishProgressWin(progressWin);
-            return result;
-        }
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    result = _sp2013OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    result = _sp2016OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    result = _sp2016Online.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    break;
 
-        private bool ApplySP2016OLTemplate(Form callee, ProvisioningOptions provisioningOptions)
-        {
-            bool result = false;
-            callee.Visible = false;
-            ProgressWin progressWin = StartProgressWin(false, "SharePoint 2016 Online");
-            if (_sp2016Online == null)
-            {
-                _sp2016Online = new SharePoint2016Online();
             }
-            result = _sp2016Online.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
-            callee.Visible = true;
+
+            callForm.Visible = true;
             FinishProgressWin(progressWin);
             return result;
         }
@@ -237,29 +264,29 @@ namespace Karabina.SharePoint.Provisioning
 
             if (result == DialogResult.OK)
             {
-                int version = dialog.VersionSelected;
+                SharePointVersion version = dialog.VersionSelected;
 
                 TargetWin applyForm = new TargetWin();
 
                 applyForm.FormClosed += new FormClosedEventHandler(DestroyForm);
+                applyForm.Text = "Apply Template To ";
 
                 switch (version)
                 {
-                    case Constants.SP2013ONPREM:
-                        applyForm.Text = "Apply Template To SharePoint 2013 On Prem";
-                        applyForm.ApplyTemplate = ApplySP2013OPTemplate;
+                    case SharePointVersion.SharePoint_2013_On_Premise:
+                        applyForm.Text += Constants.SharePoint_2013_On_Premise;
                         break;
-                    case Constants.SP2016ONPREM:
-                        applyForm.Text = "Apply Template To SharePoint 2016 On Prem";
-                        applyForm.ApplyTemplate = ApplySP2016OPTemplate;
+                    case SharePointVersion.SharePoint_2016_On_Premise:
+                        applyForm.Text += Constants.SharePoint_2016_On_Premise;
                         break;
-                    case Constants.SP2016ONLINE:
-                        applyForm.Text = "Apply Template To SharePoint 2016 Online";
-                        applyForm.ApplyTemplate = ApplySP2016OLTemplate;
+                    case SharePointVersion.SharePoint_2016_OnLine:
+                        applyForm.Text += Constants.SharePoint_2016_Online;
                         break;
                     default:
                         break;
                 }
+
+                applyForm.ApplyTemplate = ApplySPTemplate;
 
                 applyForm.SelectedVersion = version;
 
@@ -283,29 +310,29 @@ namespace Karabina.SharePoint.Provisioning
 
             if (result == DialogResult.OK)
             {
-                int version = dialog.VersionSelected;
+                SharePointVersion version = dialog.VersionSelected;
 
                 SourceWin createForm = new SourceWin();
 
                 createForm.FormClosed += new FormClosedEventHandler(DestroyForm);
+                createForm.Text = "Create Template From ";
 
                 switch (version)
                 {
-                    case Constants.SP2013ONPREM:
-                        createForm.Text = "Create Template From SharePoint 2013 On Prem";
-                        createForm.CreateTemplate = CreateSP2013OPTemplate;
+                    case SharePointVersion.SharePoint_2013_On_Premise:
+                        createForm.Text += Constants.SharePoint_2013_On_Premise;
                         break;
-                    case Constants.SP2016ONPREM:
-                        createForm.Text = "Create Template From SharePoint 2016 On Prem";
-                        createForm.CreateTemplate = CreateSP2016OPTemplate;
+                    case SharePointVersion.SharePoint_2016_On_Premise:
+                        createForm.Text += Constants.SharePoint_2016_On_Premise;
                         break;
-                    case Constants.SP2016ONLINE:
-                        createForm.Text = "Create Template From SharePoint 2016 Online";
-                        createForm.CreateTemplate = CreateSP2016OLTemplate;
+                    case SharePointVersion.SharePoint_2016_OnLine:
+                        createForm.Text += Constants.SharePoint_2016_Online;
                         break;
                     default:
                         break;
                 }
+
+                createForm.CreateTemplate = CreateSPTemplate;
 
                 createForm.SelectedVersion = version;
 
