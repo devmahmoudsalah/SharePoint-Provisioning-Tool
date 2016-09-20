@@ -19,6 +19,8 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly string SharePoint_2013_On_Premise = "SharePoint 2013 On Premise";
         public static readonly string SharePoint_2016_On_Premise = "SharePoint 2016 On Premise";
         public static readonly string SharePoint_2016_Online = "SharePoint 2016 Online";
-        public static readonly string FileDialogFilter = "SharePoint Provisioning Template Files (*.pnp)|*.pnp|All Files (*.*)|*.*";
+        public static readonly string File_Dialog_Filter = "SharePoint Provisioning Template Files (*.pnp)|*.pnp|All Files (*.*)|*.*";
+        public static readonly string Enterprise_Wiki_TemplateId = "ENTERWIKI#0";
+        public static readonly string Publishing_Feature_Property = "__PublishingFeatureActivated";
     }
 }

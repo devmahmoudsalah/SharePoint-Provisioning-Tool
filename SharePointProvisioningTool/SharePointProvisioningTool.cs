@@ -31,7 +31,7 @@ namespace Karabina.SharePoint.Provisioning
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             }
 
-            openFileDialog.Filter = Constants.FileDialogFilter;
+            openFileDialog.Filter = Constants.File_Dialog_Filter;
 
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
@@ -56,7 +56,7 @@ namespace Karabina.SharePoint.Provisioning
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             }
 
-            saveFileDialog.Filter = Constants.FileDialogFilter;
+            saveFileDialog.Filter = Constants.File_Dialog_Filter;
 
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {

@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.SharePoint.Client;
+using Microsoft.SharePoint.Client.WebParts;
 using OfficeDevPnP.Core.Framework.Provisioning.Connectors;
 using OfficeDevPnP.Core.Framework.Provisioning.Model;
 using OfficeDevPnP.Core.Framework.Provisioning.ObjectHandlers;
 using OfficeDevPnP.Core.Framework.Provisioning.Providers.Xml;
 using PnPModel = OfficeDevPnP.Core.Framework.Provisioning.Model;
+using SPClient = Microsoft.SharePoint.Client;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
@@ -24,6 +27,7 @@ namespace Karabina.SharePoint.Provisioning
         }
 
         private ListBox _lbOutput = null;
+
         public ListBox OutputBox
         {
             get { return _lbOutput; }
@@ -44,6 +48,119 @@ namespace Karabina.SharePoint.Provisioning
             Application.DoEvents();
         }
 
+        private Dictionary<string, string> GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection, SPClient.FieldCollection fields)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            Dictionary<string, object> fieldValues = item.FieldValues;
+
+            foreach (ProvisioningField field in fieldCollection.Fields)
+            {
+                if (fieldValues.ContainsKey(field.Name))
+                {
+                    object value = fieldValues[field.Name];
+                    if (value != null)
+                    {
+                        //Check what type of field we have.
+                        switch (field.FieldType)
+                        {
+                            case ProvisioningFieldType.Lookup:
+                                FieldLookup fieldLookup = fields.GetFieldByName<FieldLookup>(field.Name);
+                                if (fieldLookup != null)
+                                {
+                                    //Check it allows multiple values
+                                    if (fieldLookup.AllowMultipleValues)
+                                    {
+                                        //Yes, get the array of ids and values
+                                        FieldLookupValue[] lookupValues = value as FieldLookupValue[];
+                                        StringBuilder sb = new StringBuilder();
+                                        for (int i = 0; i < lookupValues.Length; i++)
+                                        {
+                                            if (i > 0)
+                                            {
+                                                sb.Append("#;");
+                                            }
+                                            sb.Append($"{lookupValues[i].LookupId}#;{lookupValues[i].LookupValue}");
+                                        }
+                                        data.Add(field.Name, sb.ToString());
+                                    }
+                                    else
+                                    {
+                                        //No, get the field id and value
+                                        FieldLookupValue lookupValue = value as FieldLookupValue;
+                                        data.Add(field.Name, $"{lookupValue.LookupId}#;{lookupValue.LookupValue}");
+                                    }
+                                }
+                                break;
+                            case ProvisioningFieldType.User:
+                                FieldUser fieldUser = fields.GetFieldByName<FieldUser>(field.Name);
+                                if (fieldUser != null)
+                                {
+                                    //Check if it allows multiple users
+                                    if (fieldUser.AllowMultipleValues)
+                                    {
+                                        //Yes, get the array of users
+                                        FieldUserValue[] userValues = value as FieldUserValue[];
+                                        StringBuilder sb = new StringBuilder();
+                                        for (int i = 0; i < userValues.Length; i++)
+                                        {
+                                            if (i > 0)
+                                            {
+                                                sb.Append("#;");
+                                            }
+                                            sb.Append($"{userValues[i].LookupId}#;{userValues[i].LookupValue}");
+                                        }
+                                        data.Add(field.Name, sb.ToString());
+                                    }
+                                    else
+                                    {
+                                        //No, get the user id and value
+                                        FieldUserValue userValue = value as FieldUserValue;
+                                        data.Add(field.Name, $"{userValue.LookupId}#;{userValue.LookupValue}");
+                                    }
+                                }
+                                break;
+                            case ProvisioningFieldType.URL:
+                                //Field is URL, save in url,description format.
+                                FieldUrlValue urlValue = value as FieldUrlValue;
+                                data.Add(field.Name, $"{urlValue.Url},{urlValue.Description}");
+                                break;
+                            case ProvisioningFieldType.Guid:
+                                //Field is GUID, save full guid format.
+                                Guid guid = Guid.Parse(value.ToString());
+                                data.Add(field.Name, guid.ToString("N"));
+                                break;
+                            case ProvisioningFieldType.DateTime:
+                                //Field is date time, save in ISO format
+                                DateTime dateTime = Convert.ToDateTime(value);
+                                data.Add(field.Name, dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+                                break;
+                            default:
+                                //Field is text, number or one of the other types not checked above.
+                                data.Add(field.Name, value.ToString());
+                                break;
+                        }
+                    }
+                }
+
+            }
+
+            return data;
+        }
+
+
+        private void GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection, SPClient.FieldCollection fields, Dictionary<string, string> properties)
+        {
+            Dictionary<string, string> data = GetItemFieldValues(item, fieldCollection, fields);
+            if (data.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> keyValue in data)
+                {
+                    properties.Add(keyValue.Key, keyValue.Value);
+                }
+            }
+        }
+
+
         private void SaveListItemsToTemplate(ClientContext ctx, ListCollection lists, ListInstance listInstance)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
@@ -52,19 +169,19 @@ namespace Karabina.SharePoint.Provisioning
             camlQuery.ViewXml = "<View/>";
             ListItemCollection listItems = list.GetItems(camlQuery);
             ctx.Load(listItems);
-            Microsoft.SharePoint.Client.FieldCollection fields = list.Fields;
+            SPClient.FieldCollection fields = list.Fields;
             ctx.Load(fields);
             ctx.ExecuteQuery();
 
             WriteMessage($"Info: Saving items from {listInstance.Title}");
-            Application.DoEvents();
 
             int itemCount = 0;
 
             if (listItems.Count > 0)
             {
-                ProvisioningFieldCollection fieldColl = new ProvisioningFieldCollection();
+                ProvisioningFieldCollection fieldCollection = new ProvisioningFieldCollection();
 
+                //Get only the fields we need.
                 foreach (Microsoft.SharePoint.Client.Field field in fields)
                 {
                     if ((!field.ReadOnlyField) &&
@@ -74,102 +191,21 @@ namespace Karabina.SharePoint.Provisioning
                         (field.FieldTypeKind != FieldType.Computed) &&
                         (field.FieldTypeKind != FieldType.ContentTypeId))
                     {
-                        fieldColl.Add(field.InternalName, (ProvisioningFieldType)field.FieldTypeKind);
+                        fieldCollection.Add(field.InternalName, (ProvisioningFieldType)field.FieldTypeKind);
                     }
                 }
 
+                //Now get this items with our fields.
                 foreach (ListItem item in listItems)
                 {
                     itemCount++;
-                    Dictionary<string, string> data = new Dictionary<string, string>();
-                    Dictionary<string, object> fieldValues = item.FieldValues;
-
-                    foreach (ProvisioningField field in fieldColl.Fields)
-                    {
-                        if (fieldValues.ContainsKey(field.Name))
-                        {
-                            object value = fieldValues[field.Name];
-                            if (value != null)
-                            {
-                                switch (field.FieldType)
-                                {
-                                    case ProvisioningFieldType.Lookup:
-                                        FieldLookup fieldLookup = fields.GetFieldByName<FieldLookup>(field.Name);
-                                        if (fieldLookup != null)
-                                        {
-                                            if (fieldLookup.AllowMultipleValues)
-                                            {
-                                                FieldLookupValue[] lookupValues = value as FieldLookupValue[];
-                                                StringBuilder sb = new StringBuilder();
-                                                for (int i = 0; i < lookupValues.Length; i++)
-                                                {
-                                                    if (i > 0)
-                                                    {
-                                                        sb.Append("#;");
-                                                    }
-                                                    sb.Append($"{lookupValues[i].LookupId}#;{lookupValues[i].LookupValue}");
-                                                }
-                                                data.Add(field.Name, sb.ToString());
-                                            }
-                                            else
-                                            {
-                                                FieldLookupValue lookupValue = value as FieldLookupValue;
-                                                data.Add(field.Name, $"{lookupValue.LookupId}#;{lookupValue.LookupValue}");
-                                            }
-                                        }
-                                        break;
-                                    case ProvisioningFieldType.User:
-                                        FieldUser fieldUser = fields.GetFieldByName<FieldUser>(field.Name);
-                                        if (fieldUser != null)
-                                        {
-                                            if (fieldUser.AllowMultipleValues)
-                                            {
-                                                FieldUserValue[] userValues = value as FieldUserValue[];
-                                                StringBuilder sb = new StringBuilder();
-                                                for (int i = 0; i < userValues.Length; i++)
-                                                {
-                                                    if (i > 0)
-                                                    {
-                                                        sb.Append("#;");
-                                                    }
-                                                    sb.Append($"{userValues[i].LookupId}#;{userValues[i].LookupValue}");
-                                                }
-                                                data.Add(field.Name, sb.ToString());
-                                            }
-                                            else
-                                            {
-                                                FieldUserValue userValue = value as FieldUserValue;
-                                                data.Add(field.Name, $"{userValue.LookupId}#;{userValue.LookupValue}");
-                                            }
-                                        }
-                                        break;
-                                    case ProvisioningFieldType.URL:
-                                        FieldUrlValue urlValue = value as FieldUrlValue;
-                                        data.Add(field.Name, $"{urlValue.Url},{urlValue.Description}");
-                                        break;
-                                    case ProvisioningFieldType.Guid:
-                                        Guid guid = Guid.Parse(value.ToString());
-                                        data.Add(field.Name, guid.ToString("N"));
-                                        break;
-                                    case ProvisioningFieldType.DateTime:
-                                        DateTime dateTime = Convert.ToDateTime(value);
-                                        data.Add(field.Name, dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
-                                        break;
-                                    default:
-                                        data.Add(field.Name, value.ToString());
-                                        break;
-                                }
-                            }
-                        }
-
-                    }
+                    Dictionary<string, string> data = GetItemFieldValues(item, fieldCollection, fields);
                     DataRow dataRow = new DataRow(data);
                     listInstance.DataRows.Add(dataRow);
                 }
             }
 
             WriteMessage($"Info: {itemCount} items saved");
-            Application.DoEvents();
         }
 
         private void FixReferenceFields(ProvisioningTemplate template, List<string> lookupLists)
@@ -306,31 +342,37 @@ namespace Karabina.SharePoint.Provisioning
 
         private void CleanupTemplate(ProvisioningOptions provisioningOptions, ProvisioningTemplate template, ProvisioningTemplate baseTemplate)
         {
-            WriteMessage("Info: Start performing template clean up");
+            WriteMessage($"Info: Start performing {template.BaseSiteTemplate} template clean up");
             if (provisioningOptions.IncludeCustomActions)
             {
-                WriteMessage("Cleanup: Cleaning site collection custom actions from template");
-                foreach (var customAction in baseTemplate.CustomActions.SiteCustomActions)
+                if (baseTemplate.CustomActions != null)
                 {
-                    template.CustomActions.SiteCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title, StringComparison.OrdinalIgnoreCase));
-                }
-                WriteMessage("Cleanup: Cleaning site custom actions from template");
-                foreach (var customAction in baseTemplate.CustomActions.WebCustomActions)
-                {
-                    template.CustomActions.WebCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title, StringComparison.OrdinalIgnoreCase));
+                    WriteMessage("Cleanup: Cleaning site collection custom actions from template");
+                    foreach (var customAction in baseTemplate.CustomActions.SiteCustomActions)
+                    {
+                        template.CustomActions.SiteCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title, StringComparison.OrdinalIgnoreCase));
+                    }
+                    WriteMessage("Cleanup: Cleaning site custom actions from template");
+                    foreach (var customAction in baseTemplate.CustomActions.WebCustomActions)
+                    {
+                        template.CustomActions.WebCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title, StringComparison.OrdinalIgnoreCase));
+                    }
                 }
             }
             if (provisioningOptions.IncludeFeatures)
             {
-                WriteMessage("Cleanup: Cleaning site collection features from template");
-                foreach (var feature in baseTemplate.Features.SiteFeatures)
+                if (baseTemplate.Features != null)
                 {
-                    template.Features.SiteFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
-                }
-                WriteMessage("Cleanup: Cleaning site features from template");
-                foreach (var feature in baseTemplate.Features.WebFeatures)
-                {
-                    template.Features.WebFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+                    WriteMessage("Cleanup: Cleaning site collection features from template");
+                    foreach (var feature in baseTemplate.Features.SiteFeatures)
+                    {
+                        template.Features.SiteFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+                    }
+                    WriteMessage("Cleanup: Cleaning site features from template");
+                    foreach (var feature in baseTemplate.Features.WebFeatures)
+                    {
+                        template.Features.WebFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+                    }
                 }
             }
             if (provisioningOptions.IncludeFields)
@@ -399,15 +441,18 @@ namespace Karabina.SharePoint.Provisioning
             }
             if (provisioningOptions.IncludePublishing)
             {
-                WriteMessage("Cleanup: Cleaning avaiable web templates from template");
-                foreach (var availableWebTemplate in baseTemplate.Publishing.AvailableWebTemplates)
+                if (baseTemplate.Publishing != null)
                 {
-                    template.Publishing.AvailableWebTemplates.RemoveAll(p => p.TemplateName.Equals(availableWebTemplate.TemplateName, StringComparison.OrdinalIgnoreCase));
-                }
-                WriteMessage("Cleanup: Cleaning page layouts from template");
-                foreach (var pageLayout in baseTemplate.Publishing.PageLayouts)
-                {
-                    template.Publishing.PageLayouts.RemoveAll(p => p.Path.Equals(pageLayout.Path, StringComparison.OrdinalIgnoreCase));
+                    WriteMessage("Cleanup: Cleaning avaiable web templates from template");
+                    foreach (var availableWebTemplate in baseTemplate.Publishing.AvailableWebTemplates)
+                    {
+                        template.Publishing.AvailableWebTemplates.RemoveAll(p => p.TemplateName.Equals(availableWebTemplate.TemplateName, StringComparison.OrdinalIgnoreCase));
+                    }
+                    WriteMessage("Cleanup: Cleaning page layouts from template");
+                    foreach (var pageLayout in baseTemplate.Publishing.PageLayouts)
+                    {
+                        template.Publishing.PageLayouts.RemoveAll(p => p.Path.Equals(pageLayout.Path, StringComparison.OrdinalIgnoreCase));
+                    }
                 }
             }
             if (provisioningOptions.IncludeSupportedUILanguages)
@@ -428,15 +473,18 @@ namespace Karabina.SharePoint.Provisioning
             }
             if (provisioningOptions.IncludeWorkflows)
             {
-                WriteMessage("Cleanup: Cleaning workflow subscriptions from template");
-                foreach (var workflowSubscription in baseTemplate.Workflows.WorkflowSubscriptions)
+                if (baseTemplate.Workflows != null)
                 {
-                    template.Workflows.WorkflowSubscriptions.RemoveAll(p => (p.DefinitionId.CompareTo(workflowSubscription.DefinitionId) == 0));
-                }
-                WriteMessage("Cleanup: Cleaning workflow definitions from template");
-                foreach (var workflowDefinition in baseTemplate.Workflows.WorkflowDefinitions)
-                {
-                    template.Workflows.WorkflowDefinitions.RemoveAll(p => (p.Id.CompareTo(workflowDefinition.Id) == 0));
+                    WriteMessage("Cleanup: Cleaning workflow subscriptions from template");
+                    foreach (var workflowSubscription in baseTemplate.Workflows.WorkflowSubscriptions)
+                    {
+                        template.Workflows.WorkflowSubscriptions.RemoveAll(p => (p.DefinitionId.CompareTo(workflowSubscription.DefinitionId) == 0));
+                    }
+                    WriteMessage("Cleanup: Cleaning workflow definitions from template");
+                    foreach (var workflowDefinition in baseTemplate.Workflows.WorkflowDefinitions)
+                    {
+                        template.Workflows.WorkflowDefinitions.RemoveAll(p => (p.Id.CompareTo(workflowDefinition.Id) == 0));
+                    }
                 }
             }
             if (provisioningOptions.IncludeContentTypes)
@@ -455,7 +503,146 @@ namespace Karabina.SharePoint.Provisioning
                     template.PropertyBagEntries.RemoveAll(p => p.Key.Equals(propertyBagEntry.Key, StringComparison.OrdinalIgnoreCase));
                 }
             }
-            WriteMessage("Info: Done performing template clean up");
+            WriteMessage($"Info: Performed {template.BaseSiteTemplate} template clean up");
+        }
+
+        private string TokenizeWebPartXml(Web web, string xml)
+        {
+            var lists = web.Lists;
+            web.Context.Load(web, w => w.ServerRelativeUrl, w => w.Id);
+            web.Context.Load(lists, ls => ls.Include(l => l.Id, l => l.Title));
+            web.Context.ExecuteQueryRetry();
+
+            foreach (var list in lists)
+            {
+                xml = Regex.Replace(xml, list.Id.ToString(), string.Format("{{listid:{0}}}", list.Title), RegexOptions.IgnoreCase);
+            }
+            xml = Regex.Replace(xml, web.Id.ToString(), "{siteid}", RegexOptions.IgnoreCase);
+            xml = Regex.Replace(xml, "(\"" + web.ServerRelativeUrl + ")(?!&)", "\"{site}", RegexOptions.IgnoreCase);
+            xml = Regex.Replace(xml, "'" + web.ServerRelativeUrl, "'{site}", RegexOptions.IgnoreCase);
+            xml = Regex.Replace(xml, ">" + web.ServerRelativeUrl, ">{site}", RegexOptions.IgnoreCase);
+            return xml;
+        }
+
+        private void SaveFilesToTemplate(ClientContext ctx, Web web, ListInstance listInstance, ProvisioningTemplate template)
+        {
+            List list = web.Lists.GetByTitle(listInstance.Title);
+            CamlQuery camlQuery = new CamlQuery();
+            camlQuery.ViewXml = "<View Scope='RecursiveAll'/>";
+            ListItemCollection listItems = list.GetItems(camlQuery);
+            ctx.Load(listItems);
+            SPClient.FieldCollection fields = list.Fields;
+            ctx.Load(fields);
+            ctx.ExecuteQuery();
+
+            if (listItems.Count > 0)
+            {
+                ProvisioningFieldCollection fieldCollection = new ProvisioningFieldCollection();
+
+                //Get only the fields we need.
+                foreach (SPClient.Field field in fields)
+                {
+                    if ((!field.ReadOnlyField) &&
+                        (!field.Hidden) &&
+                        (!field.InternalName.Equals("FileLeafRef", StringComparison.OrdinalIgnoreCase)) &&
+                        (field.FieldTypeKind != FieldType.Attachments) &&
+                        (field.FieldTypeKind != FieldType.Calculated) &&
+                        (field.FieldTypeKind != FieldType.Computed) &&
+                        (field.FieldTypeKind != FieldType.ContentTypeId))
+                    {
+                        fieldCollection.Add(field.InternalName, (ProvisioningFieldType)field.FieldTypeKind);
+                    }
+                }
+
+                WriteMessage($"Info: Saving items from {listInstance.Title}");
+
+                int itemCount = 0;
+
+                foreach (ListItem item in listItems)
+                {
+                    itemCount++;
+
+                    string fileFullName = item["FileRef"].ToString();
+                    string fileDirectory = item["FileDirRef"].ToString();
+                    string fileName = item["FileLeafRef"].ToString();
+                    string filePathName = fileFullName.Replace(web.ServerRelativeUrl, (web.IsSubSite() ? "~site" : "~sitecollection"));
+
+                    if (item.FileSystemObjectType == FileSystemObjectType.File)
+                    {
+
+                        SPClient.File file = item.File;
+                        ctx.Load(file);
+                        ctx.ExecuteQuery();
+
+                        if (file.Exists)
+                        {
+                            PnPModel.File pnpFile = new PnPModel.File();
+                            pnpFile.Folder = fileDirectory.Replace(web.ServerRelativeUrl, (web.IsSubSite() ? "~site" : "~sitecollection"));
+                            switch (file.Level)
+                            {
+                                case SPClient.FileLevel.Draft:
+                                    pnpFile.Level = PnPModel.FileLevel.Draft;
+                                    break;
+                                case SPClient.FileLevel.Published:
+                                    pnpFile.Level = PnPModel.FileLevel.Published;
+                                    break;
+                                case SPClient.FileLevel.Checkout:
+                                    pnpFile.Level = PnPModel.FileLevel.Checkout;
+                                    break;
+                            }
+                            pnpFile.Overwrite = true;
+
+                            pnpFile.Src = filePathName;
+
+                            if (fieldCollection.Count > 0)
+                            {
+                                GetItemFieldValues(item, fieldCollection, fields, pnpFile.Properties);
+                            }
+
+                            if (fileName.ToLowerInvariant().EndsWith(".aspx"))
+                            {
+                                var webParts = web.GetWebParts(fileFullName);
+                                foreach (var webPartDefinition in webParts)
+                                {
+                                    string webPartXml = web.GetWebPartXml(webPartDefinition.Id, fileFullName);
+                                    var webPartxml = TokenizeWebPartXml(web, webPartXml);
+
+                                    PnPModel.WebPart webPart = new PnPModel.WebPart()
+                                    {
+                                        Title = webPartDefinition.WebPart.Title,
+                                        Row = (uint)webPartDefinition.WebPart.ZoneIndex,
+                                        Order = (uint)webPartDefinition.WebPart.ZoneIndex,
+                                        Contents = webPartxml
+                                    };
+
+                                    pnpFile.WebParts.Add(webPart);
+                                }
+                            }
+
+                            template.Files.Add(pnpFile);
+
+                            //save the file contents to the template
+                            FileInformation fileInfo = SPClient.File.OpenBinaryDirect(ctx, fileFullName);
+
+                            template.Connector.SaveFileStream(filePathName, string.Empty, fileInfo.Stream);
+                        }
+                    }
+                    else if (item.FileSystemObjectType == FileSystemObjectType.Folder)
+                    {
+                        PnPModel.Directory pnpDirectory = new PnPModel.Directory();
+                        pnpDirectory.Folder = fileDirectory.Replace(web.ServerRelativeUrl, (web.IsSubSite() ? "~site" : "~sitecollection"));
+                        pnpDirectory.Level = PnPModel.FileLevel.Published;
+                        pnpDirectory.Overwrite = true;
+
+                        pnpDirectory.Src = filePathName;
+
+                        template.Directories.Add(pnpDirectory);
+                    }
+                }
+
+                WriteMessage($"Info: {itemCount} items saved");
+            }
+
         }
 
         public bool CreateProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
@@ -486,33 +673,24 @@ namespace Karabina.SharePoint.Provisioning
 
                     WriteMessage($"Connecting to {provisioningOptions.WebAddress}");
 
-                    // Just to output the site details 
+                    // Load the web with all fields we will need.
                     Web web = ctx.Web;
-                    ctx.Load(web, w => w.Title, w => w.Url, w => w.WebTemplate, w => w.Configuration, w => w.AllProperties);
+                    ctx.Load(web, w => w.Title,
+                                  w => w.Url,
+                                  w => w.WebTemplate,
+                                  w => w.Configuration,
+                                  w => w.AllProperties,
+                                  w => w.ServerRelativeUrl);
                     ctx.ExecuteQueryRetry();
 
                     WriteMessage($"Creating provisioning template from {web.Title} ( {web.Url} )");
                     WriteMessage($"Base template is {web.WebTemplate}#{web.Configuration}");
 
-                    ProvisioningTemplate baseTemplate = null;
-                    if (provisioningOptions.ExcludeBaseTemplate)
-                    {
-                        WriteMessage("Info: Loading base template for excluding option");
-
-                        baseTemplate = web.GetBaseTemplate(web.WebTemplate, web.Configuration);
-
-                        WriteMessage("Info: Base template loaded for excluding option");
-                    }
 
                     string fileNamePNP = provisioningOptions.TemplateName + ".pnp";
                     string fileNameXML = provisioningOptions.TemplateName + ".xml";
 
                     ProvisioningTemplateCreationInformation ptci = new ProvisioningTemplateCreationInformation(web);
-
-                    if (baseTemplate != null)
-                    {
-                        ptci.BaseTemplate = baseTemplate;
-                    }
 
                     ptci.IncludeAllTermGroups = provisioningOptions.IncludeAllTermGroups;
                     ptci.IncludeNativePublishingFiles = provisioningOptions.IncludeNativePublishingFiles;
@@ -587,38 +765,6 @@ namespace Karabina.SharePoint.Provisioning
                     // Execute actual extraction of the tepmplate 
                     ProvisioningTemplate template = web.GetProvisioningTemplate(ptci);
 
-                    //if exclude base template from template
-                    if (provisioningOptions.ExcludeBaseTemplate)
-                    {
-                        //perform the clean up
-                        CleanupTemplate(provisioningOptions, template, baseTemplate);
-
-                        //if not publishing site and publishing feature is activated, then clean publishing features from template
-                        if (!baseTemplate.BaseSiteTemplate.Equals("ENTERWIKI#0", StringComparison.OrdinalIgnoreCase))
-                        {
-                            if (web.AllProperties.FieldValues.ContainsKey("__PublishingFeatureActivated"))
-                            {
-                                var propBagEntry = web.AllProperties["__PublishingFeatureActivated"];
-                                if (propBagEntry != null)
-                                {
-                                    if (propBagEntry.ToString().Equals("True", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        WriteMessage("Info: Publishing feature actived on site");
-                                        WriteMessage("Info: Loading ENTERWIKI#0 base template");
-
-                                        short config = 0;
-                                        baseTemplate = web.GetBaseTemplate("ENTERWIKI", config);
-
-                                        WriteMessage("Info: Done loading ENTERWIKI#0 base template");
-
-                                        //perform the clean up
-                                        CleanupTemplate(provisioningOptions, template, baseTemplate);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
                     //List to hold all the lookup list names
                     List<string> lookupListTitles = new List<string>();
 
@@ -648,27 +794,28 @@ namespace Karabina.SharePoint.Provisioning
                             switch (listTitle)
                             {
                                 case "documents":
+                                    SaveFilesToTemplate(ctx, web, listInstance, template);
                                     break;
                                 case "images":
                                 case "site collection images":
+                                    SaveFilesToTemplate(ctx, web, listInstance, template);
                                     break;
                                 case "pages":
                                 case "site pages":
+                                    SaveFilesToTemplate(ctx, web, listInstance, template);
                                     break;
                                 case "site assets":
+                                    SaveFilesToTemplate(ctx, web, listInstance, template);
                                     break;
                                 case "style library":
-                                    if (provisioningOptions.IncludeJavaScriptFiles)
+                                    if ((provisioningOptions.IncludeJavaScriptFiles) ||
+                                        (provisioningOptions.IncludeXSLStyleSheetFiles))
                                     {
-
-                                    }
-                                    if (provisioningOptions.IncludeXSLStyleSheetFiles)
-                                    {
-
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
                                     break;
                                 default:
-                                    if (listInstance.TemplateType == 100)
+                                    if (listInstance.TemplateType == 100) //100 = Custom list
                                     {
                                         if (provisioningOptions.IncludeGenericListItems)
                                         {
@@ -682,11 +829,54 @@ namespace Karabina.SharePoint.Provisioning
                                             }
                                         }
                                     }
-                                    if ((listInstance.TemplateType == 101) && (provisioningOptions.IncludeDocumentLibraryFiles))
+                                    else if ((listInstance.TemplateType == 101) && //101 = Document Library
+                                             (provisioningOptions.IncludeDocumentLibraryFiles))
                                     {
-
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
                                     break;
+                            }
+                        }
+                    }
+
+                    //if exclude base template from template
+                    if (provisioningOptions.ExcludeBaseTemplate)
+                    {
+                        ProvisioningTemplate baseTemplate = null;
+                        WriteMessage($"Info: Loading base template {web.WebTemplate}#{web.Configuration}");
+
+                        baseTemplate = web.GetBaseTemplate(web.WebTemplate, web.Configuration);
+
+                        WriteMessage("Info: Base template loaded");
+
+                        //perform the clean up
+                        CleanupTemplate(provisioningOptions, template, baseTemplate);
+
+                        //if not publishing site and publishing feature is activated, then clean publishing features from template
+                        if (!baseTemplate.BaseSiteTemplate.Equals(Constants.Enterprise_Wiki_TemplateId, StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (web.AllProperties.FieldValues.ContainsKey(Constants.Publishing_Feature_Property))
+                            {
+                                var propBagEntry = web.AllProperties[Constants.Publishing_Feature_Property];
+                                if (propBagEntry != null)
+                                {
+                                    if (propBagEntry.ToString().Equals("True", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        WriteMessage("Info: Publishing feature actived on site");
+                                        WriteMessage($"Info: Loading {Constants.Enterprise_Wiki_TemplateId} base template");
+
+                                        string[] enterWikiArr = Constants.Enterprise_Wiki_TemplateId.Split(new char[] { '#' });
+
+                                        short config = Convert.ToInt16(enterWikiArr[1]);
+
+                                        baseTemplate = web.GetBaseTemplate(enterWikiArr[0], config);
+
+                                        WriteMessage($"Info: Done loading {Constants.Enterprise_Wiki_TemplateId} base template");
+
+                                        //perform the clean up
+                                        CleanupTemplate(provisioningOptions, template, baseTemplate);
+                                    }
+                                }
                             }
                         }
                     }
@@ -694,10 +884,9 @@ namespace Karabina.SharePoint.Provisioning
                     XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(ptci.FileConnector as OpenXMLConnector);
                     provider.SaveAs(template, fileNameXML);
 
+                    WriteMessage($"Template saved to {provisioningOptions.TemplatePath}\\{provisioningOptions.TemplateName}.pnp");
 
-                    WriteMessage($"Base site template is {template.BaseSiteTemplate}");
-
-                    WriteMessage($"Done creating provisioning template from {web.Title}");
+                    WriteMessage($"Done creating provisioning template from {web.Title} ( {web.Url} )");
 
                     result = true;
                 }
@@ -729,7 +918,6 @@ namespace Karabina.SharePoint.Provisioning
             try
             {
                 _lbOutput = lbOutput;
-
                 using (var ctx = new ClientContext(provisioningOptions.WebAddress))
                 {
                     if (provisioningOptions.AuthenticationRequired)

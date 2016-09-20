@@ -6,7 +6,7 @@ namespace Karabina.SharePoint.Provisioning
     public class ProvisioningOptions
     {
         private bool _includeRegionalSettings = true;
-        private bool _includeSupportedUILanguages = true;
+        private bool _includeSupportedUILanguages = false;
         private bool _includeAuditSettings = true;
         private bool _includeSitePolicy = true;
         private bool _includeSiteSecurity = true;
@@ -21,11 +21,11 @@ namespace Karabina.SharePoint.Provisioning
         //private bool _includeFiles = false; //value from _includeDocumentLibraryFiles || _includeImageFiles || _includeJavaScriptFiles || _includePublishingPages || _includeXSLStyleSheetFiles
         //private bool _includePages = false; //value from _includePublishingPages || _includeXSLStyleSheetFiles;
         private bool _includePageContents = true; //home page only
-        private bool _includePropertyBagEntries = true;
+        private bool _includePropertyBagEntries = false;
         private bool _includePublishing = true;
         private bool _includeWorkflows = true;
         private bool _includeWebSettings = true;
-        private bool _includeNavigation = true;
+        private bool _includeNavigation = false;
 
         private bool _persistBrandingFiles = true;
         private bool _persistMultiLanguageResourceFiles = false;

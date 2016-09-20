@@ -69,6 +69,14 @@ namespace Karabina.SharePoint.Provisioning
             set { _fields = value; }
         }
 
+        public int Count
+        {
+            get
+            {
+                return _fields != null ? _fields.Count : 0;
+            }
+        }
+
         public ProvisioningFieldCollection()
         {
             _fields = new List<ProvisioningField>();
