@@ -901,7 +901,7 @@ namespace Karabina.SharePoint.Provisioning
                 if (ex.InnerException != null)
                 {
                     WriteMessage("Error: Start of inner exception");
-                    WriteMessage(ex.InnerException.Message);
+                    WriteMessage("Error: " + ex.InnerException.Message);
                     WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
                 }
@@ -1019,7 +1019,7 @@ namespace Karabina.SharePoint.Provisioning
                 if (ex.InnerException != null)
                 {
                     WriteMessage("Error: Start of inner exception");
-                    WriteMessage(ex.InnerException.Message);
+                    WriteMessage("Error: " + ex.InnerException.Message);
                     WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
                 }
