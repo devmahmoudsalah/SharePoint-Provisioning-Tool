@@ -41,7 +41,6 @@ namespace Karabina.SharePoint.Provisioning
                 Brush foreBrush = SystemBrushes.WindowText;
                 Brush backBrush = SystemBrushes.Window;
 
-                bool isError = false;
                 bool itemSelected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
 
                 if (itemSelected)
@@ -52,30 +51,70 @@ namespace Karabina.SharePoint.Provisioning
 
                 string itemString = lbResult.Items[e.Index].ToString();
 
-                if (itemString.StartsWith("Cleanup: "))
+                if (itemString.StartsWith("Info: "))
                 {
-                    foreBrush = Brushes.RoyalBlue;
+                    if (itemSelected)
+                    {
+                        backBrush = Brushes.DarkGreen;
+                        foreBrush = Brushes.White;
+                    }
+                    else
+                    {
+                        foreBrush = Brushes.DarkGreen;
+                    }
+                }
+                else if (itemString.StartsWith("Cleanup: "))
+                {
+                    if (itemSelected)
+                    {
+                        backBrush = Brushes.RoyalBlue;
+                        foreBrush = Brushes.White;
+                    }
+                    else
+                    {
+                        foreBrush = Brushes.RoyalBlue;
+                    }
                 }
                 else if (itemString.StartsWith("Error: "))
                 {
-                    foreBrush = Brushes.OrangeRed;
-                    isError = true;
+                    if (itemSelected)
+                    {
+                        backBrush = Brushes.OrangeRed;
+                        foreBrush = Brushes.White;
+                    }
+                    else
+                    {
+                        foreBrush = Brushes.OrangeRed;
+                    }
                 }
                 else if (itemString.StartsWith("Warning: "))
                 {
-                    foreBrush = Brushes.DarkOrange;
-                    isError = true;
+                    if (itemSelected)
+                    {
+                        backBrush = Brushes.DarkOrange;
+                        foreBrush = Brushes.White;
+                    }
+                    else
+                    {
+                        foreBrush = Brushes.DarkOrange;
+                    }
                 }
                 else if (itemString.StartsWith("   at "))
                 {
-                    foreBrush = Brushes.OrangeRed;
-                    isError = true;
+                    if (itemSelected)
+                    {
+                        backBrush = Brushes.OrangeRed;
+                        foreBrush = Brushes.White;
+                    }
+                    else
+                    {
+                        foreBrush = Brushes.OrangeRed;
+                    }
                 }
 
-                if ((itemSelected) && (isError))
+                if (itemSelected)
                 {
-                    e.Graphics.FillRectangle(foreBrush, e.Bounds);
-                    foreBrush = Brushes.White;
+                    e.Graphics.FillRectangle(backBrush, e.Bounds);
                 }
 
                 e.Graphics.DrawString(itemString, Font, foreBrush, e.Bounds);

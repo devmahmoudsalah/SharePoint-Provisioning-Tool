@@ -661,7 +661,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.ContentTypes.Count;
-                    WriteMessage($"Cleanup: {total} content types cleande from template");
+                    WriteMessage($"Cleanup: {total} content types cleaned from template");
 
                 }
 

@@ -659,7 +659,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.ContentTypes.Count;
-                    WriteMessage($"Cleanup: {total} content types cleande from template");
+                    WriteMessage($"Cleanup: {total} content types cleaned from template");
 
                 }
 
@@ -1026,7 +1026,8 @@ namespace Karabina.SharePoint.Provisioning
                                     break;
                                 case "style library":
                                     if ((provisioningOptions.IncludeJavaScriptFiles) ||
-                                        (provisioningOptions.IncludeXSLStyleSheetFiles))
+                                        (provisioningOptions.IncludeXSLStyleSheetFiles) ||
+                                        (provisioningOptions.IncludeImageFiles))
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
@@ -1048,6 +1049,11 @@ namespace Karabina.SharePoint.Provisioning
                                     }
                                     else if ((listInstance.TemplateType == 101) && //101 = Document Library
                                              (provisioningOptions.IncludeDocumentLibraryFiles))
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    }
+                                    else if ((listInstance.TemplateType == 109) && //109 = Picture Library
+                                             (provisioningOptions.IncludeImageFiles))
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }

@@ -173,7 +173,7 @@ namespace Karabina.SharePoint.Provisioning
             ctx.Load(fields);
             ctx.ExecuteQuery();
 
-            WriteMessage($"Info: Saving items from {listInstance.Title}");
+            WriteMessage($"Info: Saving items from {listInstance.Title} to template");
 
             int itemCount = 0;
 
@@ -659,7 +659,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.ContentTypes.Count;
-                    WriteMessage($"Cleanup: {total} content types cleande from template");
+                    WriteMessage($"Cleanup: {total} content types cleaned from template");
 
                 }
 
