@@ -38,27 +38,37 @@ namespace Karabina.SharePoint.Provisioning
 
             if (e.Index >= 0)
             {
-                Brush foreBrush = Brushes.Black;
-                Brush backBrush = SystemBrushes.Highlight;
+                Brush foreBrush = SystemBrushes.WindowText;
+                Brush backBrush = SystemBrushes.Window;
 
                 bool isError = false;
                 bool itemSelected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
 
+                if (itemSelected)
+                {
+                    foreBrush = SystemBrushes.HighlightText;
+                    backBrush = SystemBrushes.Highlight;
+                }
+
                 string itemString = lbResult.Items[e.Index].ToString();
 
-                if (itemString.StartsWith("Error: "))
+                if (itemString.StartsWith("Cleanup: "))
                 {
-                    foreBrush = Brushes.Red;
+                    foreBrush = Brushes.RoyalBlue;
+                }
+                else if (itemString.StartsWith("Error: "))
+                {
+                    foreBrush = Brushes.OrangeRed;
                     isError = true;
                 }
                 else if (itemString.StartsWith("Warning: "))
                 {
-                    foreBrush = Brushes.Red;
+                    foreBrush = Brushes.DarkOrange;
                     isError = true;
                 }
                 else if (itemString.StartsWith("   at "))
                 {
-                    foreBrush = Brushes.Red;
+                    foreBrush = Brushes.OrangeRed;
                     isError = true;
                 }
 
@@ -91,6 +101,32 @@ namespace Karabina.SharePoint.Provisioning
         private void bClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void CopyLines(object sender, EventArgs e)
+        {
+            if (lbResult.SelectedItems?.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (object item in lbResult.SelectedItems)
+                {
+                    sb.AppendLine(item.ToString());
+                }
+                Clipboard.SetText(sb.ToString());
+            }
+        }
+
+        private void CopyAllLines(object sender, EventArgs e)
+        {
+            if (lbResult.Items?.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (object item in lbResult.Items)
+                {
+                    sb.AppendLine(item.ToString());
+                }
+                Clipboard.SetText(sb.ToString());
+            }
         }
 
     }

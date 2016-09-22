@@ -28,9 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lResult = new System.Windows.Forms.Label();
             this.lbResult = new System.Windows.Forms.ListBox();
+            this.cmsPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiCopyAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCopyLines = new System.Windows.Forms.ToolStripMenuItem();
             this.bClose = new System.Windows.Forms.Button();
+            this.cmsPopupMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // lResult
@@ -45,13 +50,37 @@
             // 
             // lbResult
             // 
+            this.lbResult.ContextMenuStrip = this.cmsPopupMenu;
             this.lbResult.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.lbResult.ItemHeight = 15;
+            this.lbResult.ItemHeight = 16;
             this.lbResult.Location = new System.Drawing.Point(18, 39);
             this.lbResult.Name = "lbResult";
             this.lbResult.ScrollAlwaysVisible = true;
+            this.lbResult.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbResult.Size = new System.Drawing.Size(621, 259);
             this.lbResult.TabIndex = 1;
+            // 
+            // cmsPopupMenu
+            // 
+            this.cmsPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiCopyAll,
+            this.tsmiCopyLines});
+            this.cmsPopupMenu.Name = "cmsPopupMenu";
+            this.cmsPopupMenu.Size = new System.Drawing.Size(175, 48);
+            // 
+            // tsmiCopyAll
+            // 
+            this.tsmiCopyAll.Name = "tsmiCopyAll";
+            this.tsmiCopyAll.Size = new System.Drawing.Size(174, 22);
+            this.tsmiCopyAll.Text = "Copy All Text";
+            this.tsmiCopyAll.Click += new System.EventHandler(this.CopyAllLines);
+            // 
+            // tsmiCopyLines
+            // 
+            this.tsmiCopyLines.Name = "tsmiCopyLines";
+            this.tsmiCopyLines.Size = new System.Drawing.Size(174, 22);
+            this.tsmiCopyLines.Text = "Copy Selected Text";
+            this.tsmiCopyLines.Click += new System.EventHandler(this.CopyLines);
             // 
             // bClose
             // 
@@ -84,6 +113,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ProgressWin";
             this.TopMost = true;
+            this.cmsPopupMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -94,5 +124,8 @@
         private System.Windows.Forms.Label lResult;
         private System.Windows.Forms.ListBox lbResult;
         private System.Windows.Forms.Button bClose;
+        private System.Windows.Forms.ContextMenuStrip cmsPopupMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCopyLines;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCopyAll;
     }
 }

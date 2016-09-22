@@ -340,170 +340,354 @@ namespace Karabina.SharePoint.Provisioning
             WriteMessage("Info: Done performing fix up of reference fields");
         }
 
-        private void CleanupTemplate(ProvisioningOptions provisioningOptions, ProvisioningTemplate template, ProvisioningTemplate baseTemplate)
+        private void CleanupTemplate(ProvisioningOptions provisioningOptions,
+                                     ProvisioningTemplate template,
+                                     ProvisioningTemplate baseTemplate)
         {
-            WriteMessage($"Info: Start performing {template.BaseSiteTemplate} template clean up");
+            int total = 0;
+            WriteMessage($"Info: Start performing {baseTemplate.BaseSiteTemplate} template clean up");
+
             if (provisioningOptions.IncludeCustomActions)
             {
-                if (baseTemplate.CustomActions != null)
+                if ((baseTemplate.CustomActions != null) &&
+                    (template.CustomActions != null))
                 {
-                    WriteMessage("Cleanup: Cleaning site collection custom actions from template");
-                    foreach (var customAction in baseTemplate.CustomActions.SiteCustomActions)
+                    if ((baseTemplate.CustomActions.SiteCustomActions != null) &&
+                        (template.CustomActions.SiteCustomActions != null))
                     {
-                        template.CustomActions.SiteCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title, StringComparison.OrdinalIgnoreCase));
+                        total = template.CustomActions.SiteCustomActions.Count;
+                        WriteMessage("Cleanup: Cleaning site collection custom actions from template");
+                        foreach (var customAction in baseTemplate.CustomActions.SiteCustomActions)
+                        {
+                            template.CustomActions.SiteCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title,
+                                                                                                   StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        total -= template.CustomActions.SiteCustomActions.Count;
+                        WriteMessage($"Cleanup: {total} site collection custom actions cleaned from template");
                     }
-                    WriteMessage("Cleanup: Cleaning site custom actions from template");
-                    foreach (var customAction in baseTemplate.CustomActions.WebCustomActions)
+
+                    if ((baseTemplate.CustomActions.WebCustomActions != null) &&
+                       (template.CustomActions.WebCustomActions != null))
                     {
-                        template.CustomActions.WebCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title, StringComparison.OrdinalIgnoreCase));
+                        total = template.CustomActions.WebCustomActions.Count;
+                        WriteMessage("Cleanup: Cleaning site custom actions from template");
+                        foreach (var customAction in baseTemplate.CustomActions.WebCustomActions)
+                        {
+                            template.CustomActions.WebCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title,
+                                                                                                  StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        total -= template.CustomActions.WebCustomActions.Count;
+                        WriteMessage($"Cleanup: {total} site custom actions cleaned from template");
                     }
+
                 }
+
             }
             if (provisioningOptions.IncludeFeatures)
             {
-                if (baseTemplate.Features != null)
+                if ((baseTemplate.Features != null) &&
+                    (template.Features != null))
                 {
-                    WriteMessage("Cleanup: Cleaning site collection features from template");
-                    foreach (var feature in baseTemplate.Features.SiteFeatures)
+                    if ((baseTemplate.Features.SiteFeatures != null) &&
+                        (template.Features.SiteFeatures != null))
                     {
-                        template.Features.SiteFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+                        total = template.Features.SiteFeatures.Count;
+                        WriteMessage("Cleanup: Cleaning site collection features from template");
+                        foreach (var feature in baseTemplate.Features.SiteFeatures)
+                        {
+                            template.Features.SiteFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+                        }
+
+                        total -= template.Features.SiteFeatures.Count;
+                        WriteMessage($"Cleanup: {total} site collection features cleaned from template");
                     }
-                    WriteMessage("Cleanup: Cleaning site features from template");
-                    foreach (var feature in baseTemplate.Features.WebFeatures)
+
+                    if ((baseTemplate.Features.WebFeatures != null) &&
+                        (template.Features.WebFeatures != null))
                     {
-                        template.Features.WebFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+                        total = template.Features.WebFeatures.Count;
+                        WriteMessage("Cleanup: Cleaning site features from template");
+                        foreach (var feature in baseTemplate.Features.WebFeatures)
+                        {
+                            template.Features.WebFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+                        }
+
+                        total -= template.Features.WebFeatures.Count;
+                        WriteMessage($"Cleanup: {total} site features cleaned from template");
                     }
+
                 }
+
             }
             if (provisioningOptions.IncludeFields)
             {
-                WriteMessage("Cleanup: Cleaning site collection fields from template");
-                List<string> baseFieldKeys = new List<string>();
-                Dictionary<string, int> fieldsIndex = new Dictionary<string, int>();
-                var baseFields = baseTemplate.SiteFields;
-                var fields = template.SiteFields;
-                int baseCount = baseFields.Count;
-                int count = fields.Count;
-                int totalFields = ((baseCount > count) ? baseCount : count);
-                for (int i = 0; i < totalFields; i++)
+                if ((baseTemplate.SiteFields != null) &&
+                    (template.SiteFields != null))
                 {
-                    if (i < baseCount)
+                    WriteMessage("Cleanup: Cleaning site collection fields from template");
+                    List<string> baseFieldKeys = new List<string>();
+                    Dictionary<string, int> fieldsIndex = new Dictionary<string, int>();
+                    var baseFields = baseTemplate.SiteFields;
+                    var fields = template.SiteFields;
+                    int baseCount = baseFields.Count;
+                    int count = fields.Count;
+                    int totalFields = ((baseCount > count) ? baseCount : count);
+                    for (int i = 0; i < totalFields; i++)
                     {
-                        PnPModel.Field baseField = baseFields[i];
-                        XElement baseFieldElement = XElement.Parse(baseField.SchemaXml);
-                        baseFieldKeys.Add(baseFieldElement.Attribute("Name").Value);
+                        if (i < baseCount)
+                        {
+                            PnPModel.Field baseField = baseFields[i];
+                            XElement baseFieldElement = XElement.Parse(baseField.SchemaXml);
+                            baseFieldKeys.Add(baseFieldElement.Attribute("Name").Value);
+                        }
+
+                        if (i < count)
+                        {
+                            PnPModel.Field field = fields[i];
+                            XElement fieldElement = XElement.Parse(field.SchemaXml);
+                            fieldsIndex.Add(fieldElement.Attribute("Name").Value, i);
+                        }
+
                     }
-                    if (i < count)
+
+                    int fieldsToDelete = 0;
+                    foreach (var baseFieldKey in baseFieldKeys)
                     {
-                        PnPModel.Field field = fields[i];
-                        XElement fieldElement = XElement.Parse(field.SchemaXml);
-                        fieldsIndex.Add(fieldElement.Attribute("Name").Value, i);
+                        if (fieldsIndex.ContainsKey(baseFieldKey))
+                        {
+                            int idx = fieldsIndex[baseFieldKey];
+                            fields[idx].SchemaXml = null;
+                            fieldsToDelete++;
+                        }
+
                     }
-                }
-                int fieldsToDelete = 0;
-                foreach (var baseFieldKey in baseFieldKeys)
-                {
-                    if (fieldsIndex.ContainsKey(baseFieldKey))
+
+                    if (fieldsToDelete > 0)
                     {
-                        int idx = fieldsIndex[baseFieldKey];
-                        fields[idx].SchemaXml = null;
-                        fieldsToDelete++;
+                        fields.RemoveAll(p => p.SchemaXml == null);
                     }
+
+                    WriteMessage($"Cleanup: {fieldsToDelete} site collection fields cleaned from template");
                 }
-                if (fieldsToDelete > 0)
-                {
-                    fields.RemoveAll(p => p.SchemaXml == null);
-                }
+
             }
+
             if (provisioningOptions.IncludeFiles)
             {
-                WriteMessage("Cleanup: Cleaning files from template");
-                foreach (var file in baseTemplate.Files)
+                if ((baseTemplate.Files != null) &&
+                    (template.Files != null))
                 {
-                    template.Files.RemoveAll(p => p.Src.Equals(file.Src, StringComparison.OrdinalIgnoreCase));
+                    total = template.Files.Count;
+                    WriteMessage("Cleanup: Cleaning files from template");
+                    foreach (var file in baseTemplate.Files)
+                    {
+                        template.Files.RemoveAll(p => p.Src.Equals(file.Src, StringComparison.OrdinalIgnoreCase));
+                    }
+
+                    total -= template.Files.Count;
+                    WriteMessage($"Cleanup: {total} files cleaned from template");
                 }
+
             }
+
             if (provisioningOptions.IncludeListInstances)
             {
-                WriteMessage("Cleanup: Cleaning lists from template");
-                foreach (var listInstance in baseTemplate.Lists)
+                if ((baseTemplate.Lists != null) &&
+                    (template.Lists != null))
                 {
-                    template.Lists.RemoveAll(p => p.Title.Equals(listInstance.Title, StringComparison.OrdinalIgnoreCase));
+                    total = template.Lists.Count;
+                    WriteMessage("Cleanup: Cleaning lists from template");
+                    foreach (var listInstance in baseTemplate.Lists)
+                    {
+                        template.Lists.RemoveAll(p => p.Title.Equals(listInstance.Title, StringComparison.OrdinalIgnoreCase));
+                    }
+
+                    total -= template.Lists.Count;
+                    WriteMessage($"Cleanup: {total} lists cleaned from template");
                 }
+
             }
+
             if (provisioningOptions.IncludePages)
             {
-                WriteMessage("Cleanup: Cleaning pages from template");
-                foreach (var page in baseTemplate.Pages)
+                if ((baseTemplate.Pages != null) &&
+                    (template.Pages != null))
                 {
-                    template.Pages.RemoveAll(p => p.Url.Equals(page.Url, StringComparison.OrdinalIgnoreCase));
+                    total = template.Pages.Count;
+                    WriteMessage("Cleanup: Cleaning pages from template");
+                    foreach (var page in baseTemplate.Pages)
+                    {
+                        template.Pages.RemoveAll(p => p.Url.Equals(page.Url, StringComparison.OrdinalIgnoreCase));
+                    }
+
+                    total -= template.Pages.Count;
+                    WriteMessage($"Cleanup: {total} pages cleaned from template");
+
                 }
+
             }
+
             if (provisioningOptions.IncludePublishing)
             {
-                if (baseTemplate.Publishing != null)
+                if ((baseTemplate.Publishing != null) &&
+                    (template.Publishing != null))
                 {
-                    WriteMessage("Cleanup: Cleaning avaiable web templates from template");
-                    foreach (var availableWebTemplate in baseTemplate.Publishing.AvailableWebTemplates)
+                    if ((baseTemplate.Publishing.AvailableWebTemplates != null) &&
+                        (template.Publishing.AvailableWebTemplates != null))
                     {
-                        template.Publishing.AvailableWebTemplates.RemoveAll(p => p.TemplateName.Equals(availableWebTemplate.TemplateName, StringComparison.OrdinalIgnoreCase));
+                        total = template.Publishing.AvailableWebTemplates.Count;
+                        WriteMessage("Cleanup: Cleaning avaiable web templates from template");
+                        foreach (var availableWebTemplate in baseTemplate.Publishing.AvailableWebTemplates)
+                        {
+                            template.Publishing.AvailableWebTemplates.RemoveAll(p => p.TemplateName.Equals(availableWebTemplate.TemplateName,
+                                                                                                           StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        total -= template.Publishing.AvailableWebTemplates.Count;
+                        WriteMessage($"Cleanup: {total} avaiable web templates cleaned from template");
                     }
-                    WriteMessage("Cleanup: Cleaning page layouts from template");
-                    foreach (var pageLayout in baseTemplate.Publishing.PageLayouts)
+
+                    if ((baseTemplate.Publishing.PageLayouts != null) &&
+                        (template.Publishing.PageLayouts != null))
                     {
-                        template.Publishing.PageLayouts.RemoveAll(p => p.Path.Equals(pageLayout.Path, StringComparison.OrdinalIgnoreCase));
+                        total = template.Publishing.PageLayouts.Count;
+                        WriteMessage("Cleanup: Cleaning page layouts from template");
+                        foreach (var pageLayout in baseTemplate.Publishing.PageLayouts)
+                        {
+                            template.Publishing.PageLayouts.RemoveAll(p => p.Path.Equals(pageLayout.Path,
+                                                                                         StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        total -= template.Publishing.PageLayouts.Count;
+                        WriteMessage($"Cleanup: {total} page layouts cleaned from template");
                     }
+
                 }
+
             }
+
             if (provisioningOptions.IncludeSupportedUILanguages)
             {
-                WriteMessage("Cleanup: Cleaning supported UI languages from template");
-                foreach (var supportedUILanguage in baseTemplate.SupportedUILanguages)
+                if ((baseTemplate.SupportedUILanguages != null) &&
+                    (template.SupportedUILanguages != null))
                 {
-                    template.SupportedUILanguages.RemoveAll(p => (p.LCID == supportedUILanguage.LCID));
+                    total = template.SupportedUILanguages.Count;
+                    WriteMessage("Cleanup: Cleaning supported UI languages from template");
+                    foreach (var supportedUILanguage in baseTemplate.SupportedUILanguages)
+                    {
+                        template.SupportedUILanguages.RemoveAll(p => (p.LCID == supportedUILanguage.LCID));
+                    }
+
+                    total -= template.SupportedUILanguages.Count;
+                    WriteMessage($"Cleanup: {total} supported UI languages cleaned from template");
+
                 }
+
             }
+
             if (provisioningOptions.IncludeTermGroups)
             {
-                WriteMessage("Cleanup: Cleaning term groups from template");
-                foreach (var termGroup in baseTemplate.TermGroups)
+                if ((baseTemplate.TermGroups != null) &&
+                    (template.TermGroups != null))
                 {
-                    template.TermGroups.RemoveAll(p => (p.Id.CompareTo(termGroup.Id) == 0));
+                    total = template.TermGroups.Count;
+                    WriteMessage("Cleanup: Cleaning term groups from template");
+                    foreach (var termGroup in baseTemplate.TermGroups)
+                    {
+                        template.TermGroups.RemoveAll(p => (p.Id.CompareTo(termGroup.Id) == 0));
+                    }
+
+                    total -= template.TermGroups.Count;
+                    WriteMessage($"Cleanup: {total} term groups cleaned from template");
+
                 }
+
             }
+
             if (provisioningOptions.IncludeWorkflows)
             {
-                if (baseTemplate.Workflows != null)
+                if ((baseTemplate.Workflows != null) &&
+                    (template.Workflows != null))
                 {
-                    WriteMessage("Cleanup: Cleaning workflow subscriptions from template");
-                    foreach (var workflowSubscription in baseTemplate.Workflows.WorkflowSubscriptions)
+                    if ((baseTemplate.Workflows.WorkflowSubscriptions != null) &&
+                        (template.Workflows.WorkflowSubscriptions != null))
                     {
-                        template.Workflows.WorkflowSubscriptions.RemoveAll(p => (p.DefinitionId.CompareTo(workflowSubscription.DefinitionId) == 0));
+                        total = template.Workflows.WorkflowSubscriptions.Count;
+                        WriteMessage("Cleanup: Cleaning workflow subscriptions from template");
+                        foreach (var workflowSubscription in baseTemplate.Workflows.WorkflowSubscriptions)
+                        {
+                            template.Workflows.WorkflowSubscriptions.RemoveAll(p =>
+                            (p.DefinitionId.CompareTo(workflowSubscription.DefinitionId) == 0));
+                        }
+
+                        total -= template.Workflows.WorkflowSubscriptions.Count;
+                        WriteMessage($"Cleanup: {total} workflow subscriptions cleaned from template");
+
                     }
-                    WriteMessage("Cleanup: Cleaning workflow definitions from template");
-                    foreach (var workflowDefinition in baseTemplate.Workflows.WorkflowDefinitions)
+
+
+                    if ((baseTemplate.Workflows.WorkflowDefinitions != null) &&
+                        (template.Workflows.WorkflowDefinitions != null))
                     {
-                        template.Workflows.WorkflowDefinitions.RemoveAll(p => (p.Id.CompareTo(workflowDefinition.Id) == 0));
+                        total = template.Workflows.WorkflowDefinitions.Count;
+                        WriteMessage("Cleanup: Cleaning workflow definitions from template");
+                        foreach (var workflowDefinition in baseTemplate.Workflows.WorkflowDefinitions)
+                        {
+                            template.Workflows.WorkflowDefinitions.RemoveAll(p =>
+                            (p.Id.CompareTo(workflowDefinition.Id) == 0));
+                        }
+
+                        total -= template.Workflows.WorkflowDefinitions.Count;
+                        WriteMessage($"Cleanup: {total} workflow definitions cleaned from template");
+
                     }
+
                 }
+
             }
+
             if (provisioningOptions.IncludeContentTypes)
             {
-                WriteMessage("Cleanup: Cleaning content types from template");
-                foreach (var contentType in baseTemplate.ContentTypes)
+                if ((baseTemplate.ContentTypes != null) &&
+                    (template.ContentTypes != null))
                 {
-                    template.ContentTypes.RemoveAll(p => p.Id.Equals(contentType.Id, StringComparison.OrdinalIgnoreCase));
+                    total = template.ContentTypes.Count;
+                    WriteMessage("Cleanup: Cleaning content types from template");
+                    foreach (var contentType in baseTemplate.ContentTypes)
+                    {
+                        template.ContentTypes.RemoveAll(p => p.Id.Equals(contentType.Id, StringComparison.OrdinalIgnoreCase));
+                    }
+
+                    total -= template.ContentTypes.Count;
+                    WriteMessage($"Cleanup: {total} content types cleande from template");
+
                 }
+
             }
+
             if (provisioningOptions.IncludePropertyBagEntries)
             {
-                WriteMessage("Cleanup: Cleaning property bag entries from template");
-                foreach (var propertyBagEntry in baseTemplate.PropertyBagEntries)
+                if ((baseTemplate.PropertyBagEntries != null) &&
+                    (template.PropertyBagEntries != null))
                 {
-                    template.PropertyBagEntries.RemoveAll(p => p.Key.Equals(propertyBagEntry.Key, StringComparison.OrdinalIgnoreCase));
+                    total = template.PropertyBagEntries.Count;
+                    WriteMessage("Cleanup: Cleaning property bag entries from template");
+                    foreach (var propertyBagEntry in baseTemplate.PropertyBagEntries)
+                    {
+                        template.PropertyBagEntries.RemoveAll(p => p.Key.Equals(propertyBagEntry.Key, StringComparison.OrdinalIgnoreCase));
+                    }
+
+                    total -= template.PropertyBagEntries.Count;
+                    WriteMessage($"Cleanup: {total} property bag entries cleaned from template");
+
                 }
+
             }
-            WriteMessage($"Info: Performed {template.BaseSiteTemplate} template clean up");
+
+            WriteMessage($"Info: Performed {baseTemplate.BaseSiteTemplate} template clean up");
+
         }
 
         private string TokenizeWebPartXml(Web web, string xml)
@@ -554,100 +738,114 @@ namespace Karabina.SharePoint.Provisioning
                     }
                 }
 
-                WriteMessage($"Info: Saving items from {listInstance.Title}");
+                WriteMessage($"Info: Saving items from {listInstance.Title} to template");
 
                 int itemCount = 0;
+
+                string serverRelativeUrl = web.ServerRelativeUrl;
+                string serverRelativeUrlForwardSlash = serverRelativeUrl + "/";
 
                 foreach (ListItem item in listItems)
                 {
                     itemCount++;
 
-                    string fileFullName = item["FileRef"].ToString();
-                    string fileDirectory = item["FileDirRef"].ToString();
+                    string filePathName = item["FileRef"].ToString();
+                    string fileFullName = filePathName.Replace(serverRelativeUrl, "{site}");
+                    string fileDirectory = item["FileDirRef"].ToString().Replace(serverRelativeUrl, "{site}");
                     string fileName = item["FileLeafRef"].ToString();
-                    string filePathName = fileFullName.Replace(web.ServerRelativeUrl, (web.IsSubSite() ? "~site" : "~sitecollection"));
+                    string fileStreamName = filePathName.Replace(serverRelativeUrlForwardSlash, "");
 
                     if (item.FileSystemObjectType == FileSystemObjectType.File)
                     {
+                        //Make sure file is not already saved during template creation
+                        int fileIndex = template.Files.FindIndex(p => ((p.Folder.Equals(fileDirectory, StringComparison.OrdinalIgnoreCase)) &&
+                                                                       (p.Src.Equals(fileName, StringComparison.OrdinalIgnoreCase))));
 
-                        SPClient.File file = item.File;
-                        ctx.Load(file);
-                        ctx.ExecuteQuery();
-
-                        if (file.Exists)
+                        if (fileIndex < 0)
                         {
-                            PnPModel.File pnpFile = new PnPModel.File();
-                            pnpFile.Folder = fileDirectory.Replace(web.ServerRelativeUrl, (web.IsSubSite() ? "~site" : "~sitecollection"));
-                            switch (file.Level)
-                            {
-                                case SPClient.FileLevel.Draft:
-                                    pnpFile.Level = PnPModel.FileLevel.Draft;
-                                    break;
-                                case SPClient.FileLevel.Published:
-                                    pnpFile.Level = PnPModel.FileLevel.Published;
-                                    break;
-                                case SPClient.FileLevel.Checkout:
-                                    pnpFile.Level = PnPModel.FileLevel.Checkout;
-                                    break;
-                            }
-                            pnpFile.Overwrite = true;
+                            SPClient.File file = item.File;
+                            ctx.Load(file);
+                            ctx.ExecuteQuery();
 
-                            pnpFile.Src = filePathName;
-
-                            if (fieldCollection.Count > 0)
+                            if (file.Exists)
                             {
-                                GetItemFieldValues(item, fieldCollection, fields, pnpFile.Properties);
-                            }
-
-                            if (fileName.ToLowerInvariant().EndsWith(".aspx"))
-                            {
-                                var webParts = web.GetWebParts(fileFullName);
-                                foreach (var webPartDefinition in webParts)
+                                PnPModel.File pnpFile = new PnPModel.File();
+                                pnpFile.Folder = fileDirectory;
+                                switch (file.Level)
                                 {
-                                    string webPartXml = web.GetWebPartXml(webPartDefinition.Id, fileFullName);
-                                    var webPartxml = TokenizeWebPartXml(web, webPartXml);
+                                    case SPClient.FileLevel.Draft:
+                                        pnpFile.Level = PnPModel.FileLevel.Draft;
+                                        break;
+                                    case SPClient.FileLevel.Published:
+                                        pnpFile.Level = PnPModel.FileLevel.Published;
+                                        break;
+                                    case SPClient.FileLevel.Checkout:
+                                        pnpFile.Level = PnPModel.FileLevel.Checkout;
+                                        break;
+                                }
+                                pnpFile.Overwrite = true;
 
-                                    WebPart webPart = new WebPart()
-                                    {
-                                        Title = webPartDefinition.WebPart.Title,
-                                        Row = (uint)webPartDefinition.WebPart.ZoneIndex,
-                                        Order = (uint)webPartDefinition.WebPart.ZoneIndex,
-                                        Contents = webPartxml
-                                    };
+                                pnpFile.Src = fileName;
 
-                                    string MINIMUMZONEIDREQUIREDSERVERVERSION = "16.0.4803.1200";
-                                    
-                                    if (web.Context.HasMinimalServerLibraryVersion(MINIMUMZONEIDREQUIREDSERVERVERSION))
+                                if (fieldCollection.Count > 0)
+                                {
+                                    GetItemFieldValues(item, fieldCollection, fields, pnpFile.Properties);
+                                }
+
+                                if (fileName.ToLowerInvariant().EndsWith(".aspx"))
+                                {
+                                    var webParts = web.GetWebParts(filePathName);
+
+                                    foreach (var webPartDefinition in webParts)
                                     {
-                                        webPart.Zone = webPartDefinition.ZoneId;
+                                        string webPartXml = web.GetWebPartXml(webPartDefinition.Id, filePathName);
+                                        var webPartxml = TokenizeWebPartXml(web, webPartXml);
+
+                                        WebPart webPart = new WebPart()
+                                        {
+                                            Title = webPartDefinition.WebPart.Title,
+                                            Row = (uint)webPartDefinition.WebPart.ZoneIndex,
+                                            Order = (uint)webPartDefinition.WebPart.ZoneIndex,
+                                            Contents = webPartxml
+                                        };
+
+                                        pnpFile.WebParts.Add(webPart);
                                     }
 
-                                    pnpFile.WebParts.Add(webPart);
                                 }
+
+                                template.Files.Add(pnpFile);
+                                FileInformation fileInfo = SPClient.File.OpenBinaryDirect(ctx, filePathName);
+                                template.Connector.SaveFileStream(fileStreamName, string.Empty, fileInfo.Stream);
                             }
 
-                            template.Files.Add(pnpFile);
-
-                            //save the file contents to the template
-                            FileInformation fileInfo = SPClient.File.OpenBinaryDirect(ctx, fileFullName);
-
-                            template.Connector.SaveFileStream(filePathName, string.Empty, fileInfo.Stream);
                         }
+
                     }
                     else if (item.FileSystemObjectType == FileSystemObjectType.Folder)
                     {
-                        PnPModel.Directory pnpDirectory = new PnPModel.Directory();
-                        pnpDirectory.Folder = fileDirectory.Replace(web.ServerRelativeUrl, (web.IsSubSite() ? "~site" : "~sitecollection"));
-                        pnpDirectory.Level = PnPModel.FileLevel.Published;
-                        pnpDirectory.Overwrite = true;
+                        //Make sure the directory is not already stored during template creation
+                        int directoryIndex = template.Directories.FindIndex(p => ((p.Folder.Equals(fileDirectory, StringComparison.OrdinalIgnoreCase)) &&
+                                                                                  (p.Src.Equals(fileName, StringComparison.OrdinalIgnoreCase))));
 
-                        pnpDirectory.Src = filePathName;
+                        if (directoryIndex < 0)
+                        {
+                            Directory pnpDirectory = new Directory();
+                            pnpDirectory.Folder = fileDirectory;
+                            pnpDirectory.Level = PnPModel.FileLevel.Published;
+                            pnpDirectory.Overwrite = true;
 
-                        template.Directories.Add(pnpDirectory);
+                            pnpDirectory.Src = fileName;
+
+
+                            template.Directories.Add(pnpDirectory);
+                        }
+
                     }
-                }
 
+                }
                 WriteMessage($"Info: {itemCount} items saved");
+
             }
 
         }
@@ -787,18 +985,33 @@ namespace Karabina.SharePoint.Provisioning
                             switch (listTitle)
                             {
                                 case "documents":
-                                    SaveFilesToTemplate(ctx, web, listInstance, template);
+                                case "site collection documents":
+                                    if (provisioningOptions.IncludeDocumentLibraryFiles)
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    }
                                     break;
                                 case "images":
                                 case "site collection images":
-                                    SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    if (provisioningOptions.IncludeImageFiles)
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    }
                                     break;
                                 case "pages":
                                 case "site pages":
-                                    SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    if (provisioningOptions.IncludePages)
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    }
                                     break;
                                 case "site assets":
-                                    SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    if ((provisioningOptions.IncludeDocumentLibraryFiles) ||
+                                        (provisioningOptions.IncludeImageFiles) ||
+                                        (provisioningOptions.IncludeJavaScriptFiles))
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+                                    }
                                     break;
                                 case "style library":
                                     if ((provisioningOptions.IncludeJavaScriptFiles) ||
@@ -848,28 +1061,21 @@ namespace Karabina.SharePoint.Provisioning
                         //if not publishing site and publishing feature is activated, then clean publishing features from template
                         if (!baseTemplate.BaseSiteTemplate.Equals(Constants.Enterprise_Wiki_TemplateId, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (web.AllProperties.FieldValues.ContainsKey(Constants.Publishing_Feature_Property))
+                            if (web.IsPublishingWeb())
                             {
-                                var propBagEntry = web.AllProperties[Constants.Publishing_Feature_Property];
-                                if (propBagEntry != null)
-                                {
-                                    if (propBagEntry.ToString().Equals("True", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        WriteMessage("Info: Publishing feature actived on site");
-                                        WriteMessage($"Info: Loading {Constants.Enterprise_Wiki_TemplateId} base template");
+                                WriteMessage("Info: Publishing feature actived on site");
+                                WriteMessage($"Info: Loading {Constants.Enterprise_Wiki_TemplateId} base template");
 
-                                        string[] enterWikiArr = Constants.Enterprise_Wiki_TemplateId.Split(new char[] { '#' });
+                                string[] enterWikiArr = Constants.Enterprise_Wiki_TemplateId.Split(new char[] { '#' });
 
-                                        short config = Convert.ToInt16(enterWikiArr[1]);
+                                short config = Convert.ToInt16(enterWikiArr[1]);
 
-                                        baseTemplate = web.GetBaseTemplate(enterWikiArr[0], config);
+                                baseTemplate = web.GetBaseTemplate(enterWikiArr[0], config);
 
-                                        WriteMessage($"Info: Done loading {Constants.Enterprise_Wiki_TemplateId} base template");
+                                WriteMessage($"Info: Done loading {Constants.Enterprise_Wiki_TemplateId} base template");
 
-                                        //perform the clean up
-                                        CleanupTemplate(provisioningOptions, template, baseTemplate);
-                                    }
-                                }
+                                //perform the clean up
+                                CleanupTemplate(provisioningOptions, template, baseTemplate);
                             }
                         }
                     }
@@ -890,11 +1096,11 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     lbOutput.HorizontalScrollbar = true;
                 }
-                WriteMessage("Error: " + ex.Message);
+                WriteMessage("Error: " + ex.Message.Replace("\r\n", " "));
                 if (ex.InnerException != null)
                 {
                     WriteMessage("Error: Start of inner exception");
-                    WriteMessage("Error: " + ex.InnerException.Message);
+                    WriteMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
                     WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
                 }
@@ -995,11 +1201,11 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     lbOutput.HorizontalScrollbar = true;
                 }
-                WriteMessage("Error: " + ex.Message);
+                WriteMessage("Error: " + ex.Message.Replace("\r\n", " "));
                 if (ex.InnerException != null)
                 {
                     WriteMessage("Error: Start of inner exception");
-                    WriteMessage("Error: " + ex.InnerException.Message);
+                    WriteMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
                     WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
                 }
