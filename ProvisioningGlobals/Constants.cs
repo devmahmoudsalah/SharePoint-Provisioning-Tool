@@ -22,5 +22,12 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly string File_Dialog_Filter = "SharePoint Provisioning Template Files (*.pnp)|*.pnp|All Files (*.*)|*.*";
         public static readonly string Enterprise_Wiki_TemplateId = "ENTERWIKI#0";
         public static readonly string Publishing_Feature_Property = "__PublishingFeatureActivated";
+        public static readonly string Include = "Include";
+        public static readonly string Apply = "Apply";
+        public static readonly string String0 = "String0";
+        public static readonly string Source0 = "Source0";
+        public static readonly string Edit0 = "Edit0";
+        public static readonly string Target0 = "Target0";
+        public static readonly string Progress0 = "Progress0";
     }
 }

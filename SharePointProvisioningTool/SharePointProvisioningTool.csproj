@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Karabina.SharePoint.Provisioning</RootNamespace>
-    <AssemblyName>KSPPApplication</AssemblyName>
+    <AssemblyName>SharePointProvisioningTool</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,7 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>glossy-3d-blue-orbs2-110.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\glossy-3d-blue-orbs2-110.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Karabina.SharePoint.Provisioning.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditWin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditWin.Designer.cs">
+      <DependentUpon>EditWin.cs</DependentUpon>
+    </Compile>
     <Compile Include="SharePointProvisioningTool.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +101,9 @@
     <Compile Include="TemplateOptions.Designer.cs">
       <DependentUpon>TemplateOptions.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="EditWin.resx">
+      <DependentUpon>EditWin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProgressWin.resx">
       <DependentUpon>ProgressWin.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,31 +149,31 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon1.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\glossy-3d-blue-orbs2-110.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\application-exit.png" />
+    <None Include="Resources\Cascade.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\fill-color.png" />
+    <None Include="Resources\DocumentNew.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\view-split-left-right.png" />
+    <None Include="Resources\Edit.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\view-split-top-bottom.png" />
+    <None Include="Resources\FileSetting.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\window-duplicate.png" />
+    <None Include="Resources\Horizontal.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Apps-text-editor-icon.png" />
+    <None Include="Resources\NewsPaper.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="glossy-3d-blue-orbs2-110.ico" />
+    <None Include="Resources\PowerOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vertical.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -29,6 +29,10 @@ namespace Karabina.SharePoint.Provisioning
 
         public CreateTemplateDelegate CreateTemplate;
 
+        public delegate void SetStatusTextDelegate(string message);
+
+        public SetStatusTextDelegate SetStatusBarText;
+
         public SourceWin()
         {
             InitializeComponent();
@@ -133,7 +137,7 @@ namespace Karabina.SharePoint.Provisioning
                 SendMessage(tbSharePointUrl.Handle, EM_SETCUEBANNER, 0, "https://company.sharepoint.com/sites/site");
                 cbNoUNP.Enabled = false;
                 lUserName.Text = "Email";
-                SendMessage(tbUserName.Handle, EM_SETCUEBANNER, 0, "Email Address");
+                SendMessage(tbUserName.Handle, EM_SETCUEBANNER, 0, "john.doe@company.com");
                 lUserNameError.Text = lUserNameError.Text.Replace("#", "email");
             }
             else
@@ -143,7 +147,7 @@ namespace Karabina.SharePoint.Provisioning
                 SendMessage(tbUserName.Handle, EM_SETCUEBANNER, 0, "Domain\\UserName");
                 lUserNameError.Text = lUserNameError.Text.Replace("#", "user name");
             }
-            SendMessage(tbPassword.Handle, EM_SETCUEBANNER, 0, "●●●●●●●●");
+            SendMessage(tbPassword.Handle, EM_SETCUEBANNER, 0, "●●●●●●●●"); //password
         }
 
         private void bOptions_Click(object sender, EventArgs e)
@@ -160,6 +164,18 @@ namespace Karabina.SharePoint.Provisioning
                 _options = templateOptions.ProvisioningOptions;
             }
 
+        }
+
+        private void SetStatusText(object sender, EventArgs e)
+        {
+            string tag = Constants.Source0;
+            tag = (sender as Control).Tag.ToString();
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+        }
+
+        private void SetStatusDefault(object sender, EventArgs e)
+        {
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Source0));
         }
 
     }

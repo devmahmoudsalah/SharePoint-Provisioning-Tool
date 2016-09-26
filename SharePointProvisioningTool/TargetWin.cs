@@ -12,6 +12,7 @@ namespace Karabina.SharePoint.Provisioning
         private static extern Int32 SendMessage(IntPtr hWnd, int msg, int wParam, [MarshalAs(UnmanagedType.LPWStr)]string lParam);
 
         private SharePointVersion _selectedVersion = SharePointVersion.SharePoint_Invalid;
+
         public SharePointVersion SelectedVersion
         {
             get { return _selectedVersion; }
@@ -27,6 +28,10 @@ namespace Karabina.SharePoint.Provisioning
         public delegate bool ApplyTemplateDelegate(Form callee, ProvisioningOptions provisioningOptions);
 
         public ApplyTemplateDelegate ApplyTemplate;
+
+        public delegate void SetStatusTextDelegate(string message);
+
+        public SetStatusTextDelegate SetStatusBarText;
 
         public TargetWin()
         {
@@ -144,6 +149,19 @@ namespace Karabina.SharePoint.Provisioning
             }
             SendMessage(tbPassword.Handle, EM_SETCUEBANNER, 0, "●●●●●●●●");
         }
+
+        private void SetStatusText(object sender, EventArgs e)
+        {
+            string tag = Constants.Target0;
+            tag = (sender as Control).Tag.ToString();
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+        }
+
+        private void SetStatusDefault(object sender, EventArgs e)
+        {
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Target0));
+        }
+
     }
 
 }

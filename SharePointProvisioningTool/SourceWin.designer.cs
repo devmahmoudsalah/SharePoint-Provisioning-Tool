@@ -55,9 +55,12 @@
             this.cbNoUNP.Name = "cbNoUNP";
             this.cbNoUNP.Size = new System.Drawing.Size(182, 20);
             this.cbNoUNP.TabIndex = 4;
+            this.cbNoUNP.Tag = "Source2";
             this.cbNoUNP.Text = "Authentication not required ";
             this.cbNoUNP.UseVisualStyleBackColor = true;
             this.cbNoUNP.CheckedChanged += new System.EventHandler(this.cbNoUNP_CheckedChanged);
+            this.cbNoUNP.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.cbNoUNP.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // tbPassword
             // 
@@ -66,7 +69,10 @@
             this.tbPassword.PasswordChar = '*';
             this.tbPassword.Size = new System.Drawing.Size(243, 23);
             this.tbPassword.TabIndex = 9;
+            this.tbPassword.Tag = "Source4";
             this.tbPassword.UseSystemPasswordChar = true;
+            this.tbPassword.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tbPassword.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // lPassword
             // 
@@ -84,6 +90,9 @@
             this.tbUserName.Name = "tbUserName";
             this.tbUserName.Size = new System.Drawing.Size(243, 23);
             this.tbUserName.TabIndex = 6;
+            this.tbUserName.Tag = "Source3";
+            this.tbUserName.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tbUserName.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // lUserName
             // 
@@ -101,6 +110,9 @@
             this.tbSharePointUrl.Name = "tbSharePointUrl";
             this.tbSharePointUrl.Size = new System.Drawing.Size(499, 23);
             this.tbSharePointUrl.TabIndex = 2;
+            this.tbSharePointUrl.Tag = "Source1";
+            this.tbSharePointUrl.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tbSharePointUrl.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // lSharePointUrl
             // 
@@ -119,9 +131,12 @@
             this.bBrowse.Name = "bBrowse";
             this.bBrowse.Size = new System.Drawing.Size(75, 23);
             this.bBrowse.TabIndex = 13;
+            this.bBrowse.Tag = "Source6";
             this.bBrowse.Text = "Browse...";
             this.bBrowse.UseVisualStyleBackColor = true;
             this.bBrowse.Click += new System.EventHandler(this.bBrowse_Click);
+            this.bBrowse.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bBrowse.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // lTemplate
             // 
@@ -140,17 +155,23 @@
             this.tbTemplate.ReadOnly = true;
             this.tbTemplate.Size = new System.Drawing.Size(418, 23);
             this.tbTemplate.TabIndex = 12;
+            this.tbTemplate.Tag = "Source5";
+            this.tbTemplate.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tbTemplate.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // bCreate
             // 
             this.bCreate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bCreate.Location = new System.Drawing.Point(300, 317);
+            this.bCreate.Location = new System.Drawing.Point(345, 323);
             this.bCreate.Name = "bCreate";
             this.bCreate.Size = new System.Drawing.Size(75, 23);
-            this.bCreate.TabIndex = 15;
+            this.bCreate.TabIndex = 16;
+            this.bCreate.Tag = "Source8";
             this.bCreate.Text = "Create";
             this.bCreate.UseVisualStyleBackColor = true;
             this.bCreate.Click += new System.EventHandler(this.bCreate_Click);
+            this.bCreate.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bCreate.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // lSharePointUrlError
             // 
@@ -207,30 +228,36 @@
             // bClose
             // 
             this.bClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bClose.Location = new System.Drawing.Point(445, 317);
+            this.bClose.Location = new System.Drawing.Point(445, 323);
             this.bClose.Name = "bClose";
             this.bClose.Size = new System.Drawing.Size(75, 23);
-            this.bClose.TabIndex = 16;
+            this.bClose.TabIndex = 17;
+            this.bClose.Tag = "Source9";
             this.bClose.Text = "Close";
             this.bClose.UseVisualStyleBackColor = true;
             this.bClose.Click += new System.EventHandler(this.bClose_Click);
+            this.bClose.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bClose.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // bOptions
             // 
             this.bOptions.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bOptions.Location = new System.Drawing.Point(155, 317);
+            this.bOptions.Location = new System.Drawing.Point(245, 323);
             this.bOptions.Name = "bOptions";
             this.bOptions.Size = new System.Drawing.Size(75, 23);
-            this.bOptions.TabIndex = 17;
+            this.bOptions.TabIndex = 15;
+            this.bOptions.Tag = "Source7";
             this.bOptions.Text = "Options";
             this.bOptions.UseVisualStyleBackColor = true;
             this.bOptions.Click += new System.EventHandler(this.bOptions_Click);
+            this.bOptions.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bOptions.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // SourceWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 345);
+            this.ClientSize = new System.Drawing.Size(535, 357);
             this.ControlBox = false;
             this.Controls.Add(this.bOptions);
             this.Controls.Add(this.bClose);
@@ -256,7 +283,9 @@
             this.Name = "SourceWin";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.Tag = "Source0";
             this.Text = "Create Template";
+            this.Activated += new System.EventHandler(this.SetStatusText);
             this.Shown += new System.EventHandler(this.FormShown);
             this.ResumeLayout(false);
             this.PerformLayout();

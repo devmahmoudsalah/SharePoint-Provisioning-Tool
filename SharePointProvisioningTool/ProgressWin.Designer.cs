@@ -57,8 +57,11 @@
             this.lbResult.Name = "lbResult";
             this.lbResult.ScrollAlwaysVisible = true;
             this.lbResult.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbResult.Size = new System.Drawing.Size(621, 259);
+            this.lbResult.Size = new System.Drawing.Size(622, 259);
             this.lbResult.TabIndex = 1;
+            this.lbResult.Tag = "Progress1";
+            this.lbResult.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.lbResult.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // cmsPopupMenu
             // 
@@ -72,33 +75,42 @@
             // 
             this.tsmiCopyAll.Name = "tsmiCopyAll";
             this.tsmiCopyAll.Size = new System.Drawing.Size(174, 22);
+            this.tsmiCopyAll.Tag = "Progress3";
             this.tsmiCopyAll.Text = "Copy All Text";
             this.tsmiCopyAll.Click += new System.EventHandler(this.CopyAllLines);
+            this.tsmiCopyAll.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tsmiCopyAll.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // tsmiCopyLines
             // 
             this.tsmiCopyLines.Name = "tsmiCopyLines";
             this.tsmiCopyLines.Size = new System.Drawing.Size(174, 22);
+            this.tsmiCopyLines.Tag = "Progress4";
             this.tsmiCopyLines.Text = "Copy Selected Text";
             this.tsmiCopyLines.Click += new System.EventHandler(this.CopyLines);
+            this.tsmiCopyLines.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tsmiCopyLines.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // bClose
             // 
             this.bClose.Enabled = false;
             this.bClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bClose.Location = new System.Drawing.Point(289, 313);
+            this.bClose.Location = new System.Drawing.Point(300, 323);
             this.bClose.Name = "bClose";
             this.bClose.Size = new System.Drawing.Size(75, 23);
             this.bClose.TabIndex = 2;
+            this.bClose.Tag = "Progress2";
             this.bClose.Text = "Close";
             this.bClose.UseVisualStyleBackColor = true;
             this.bClose.Click += new System.EventHandler(this.bClose_Click);
+            this.bClose.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bClose.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // ProgressWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(659, 349);
+            this.ClientSize = new System.Drawing.Size(660, 361);
             this.ControlBox = false;
             this.Controls.Add(this.bClose);
             this.Controls.Add(this.lbResult);
@@ -111,8 +123,10 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Tag = "Progress0";
             this.Text = "ProgressWin";
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.SetStatusText);
             this.cmsPopupMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

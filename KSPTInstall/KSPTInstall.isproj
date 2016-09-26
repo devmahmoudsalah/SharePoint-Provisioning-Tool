@@ -28,22 +28,5 @@
 		</TaggedOutputs> -->
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath32)\InstallShield\2015Limited\InstallShield.targets"/>
-	<ItemGroup>
-		<ProjectReference Include="..\KSPPApplication\KSPPApplication.csproj">
-			<Name>KSPPApplication</Name>
-			<Project>{9B03FE1D-2014-405D-8503-874CDFA8B96F}</Project>
-		</ProjectReference>
-		<ProjectReference Include="..\SharePoint2013OnPrem\SharePoint2013OnPrem.csproj">
-			<Name>SharePoint2013OnPrem</Name>
-			<Project>{00043C6B-E5E2-4FE2-9E20-F5308D06C674}</Project>
-		</ProjectReference>
-		<ProjectReference Include="..\SharePoint2016OnPrem\SharePoint2016OnPrem.csproj">
-			<Name>SharePoint2016OnPrem</Name>
-			<Project>{5D520B17-887D-4105-BFAB-8352D45C9684}</Project>
-		</ProjectReference>
-		<ProjectReference Include="..\SharePoint2016Online\SharePoint2016Online.csproj">
-			<Name>SharePoint2016Online</Name>
-			<Project>{8B770922-2953-44AC-A4C0-025861E45ED8}</Project>
-		</ProjectReference>
-	</ItemGroup>
+	<ItemGroup/>
 </Project>

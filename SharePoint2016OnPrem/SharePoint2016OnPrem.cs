@@ -735,7 +735,9 @@ namespace Karabina.SharePoint.Provisioning
                         (field.FieldTypeKind != FieldType.Attachments) &&
                         (field.FieldTypeKind != FieldType.Calculated) &&
                         (field.FieldTypeKind != FieldType.Computed) &&
-                        (field.FieldTypeKind != FieldType.ContentTypeId))
+                        (field.FieldTypeKind != FieldType.ContentTypeId) &&
+                        (field.FieldTypeKind != FieldType.User) &&
+                        (!field.TypeAsString.Contains("Taxonomy")))
                     {
                         fieldCollection.Add(field.InternalName, (ProvisioningFieldType)field.FieldTypeKind);
                     }
@@ -762,7 +764,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         //Make sure file is not already saved during template creation
                         int fileIndex = template.Files.FindIndex(p => ((p.Folder.Equals(fileDirectory, StringComparison.OrdinalIgnoreCase)) &&
-                                                                       (p.Src.Equals(fileName, StringComparison.OrdinalIgnoreCase))));
+                                                                       (p.Src.Equals(fileStreamName, StringComparison.OrdinalIgnoreCase))));
 
                         if (fileIndex < 0)
                         {
@@ -788,7 +790,7 @@ namespace Karabina.SharePoint.Provisioning
                                 }
                                 pnpFile.Overwrite = true;
 
-                                pnpFile.Src = fileName;
+                                pnpFile.Src = fileStreamName;
 
                                 if (fieldCollection.Count > 0)
                                 {
@@ -829,7 +831,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         //Make sure the directory is not already stored during template creation
                         int directoryIndex = template.Directories.FindIndex(p => ((p.Folder.Equals(fileDirectory, StringComparison.OrdinalIgnoreCase)) &&
-                                                                                  (p.Src.Equals(fileName, StringComparison.OrdinalIgnoreCase))));
+                                                                                  (p.Src.Equals(fileStreamName, StringComparison.OrdinalIgnoreCase))));
 
                         if (directoryIndex < 0)
                         {
@@ -838,8 +840,7 @@ namespace Karabina.SharePoint.Provisioning
                             pnpDirectory.Level = PnPModel.FileLevel.Published;
                             pnpDirectory.Overwrite = true;
 
-                            pnpDirectory.Src = fileName;
-
+                            pnpDirectory.Src = fileStreamName;
 
                             template.Directories.Add(pnpDirectory);
                         }

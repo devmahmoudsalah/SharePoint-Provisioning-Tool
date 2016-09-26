@@ -33,7 +33,7 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +43,7 @@
             this.tileHorizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.editToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -54,14 +55,15 @@
             // 
             // menuStrip
             // 
-            this.menuStrip.ImageScalingSize = new System.Drawing.Size(48, 48);
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenu,
             this.windowsMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.MdiWindowListItem = this.windowsMenu;
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1038, 24);
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip.Size = new System.Drawing.Size(1055, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
             // 
@@ -69,52 +71,78 @@
             // 
             this.fileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.toolStripSeparator3,
+            this.editToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.toolStripSeparator4,
             this.exitToolStripMenuItem});
-            this.fileMenu.ImageTransparentColor = System.Drawing.SystemColors.ActiveBorder;
+            this.fileMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.fileMenu.ImageTransparentColor = System.Drawing.Color.White;
             this.fileMenu.Name = "fileMenu";
             this.fileMenu.Size = new System.Drawing.Size(37, 20);
+            this.fileMenu.Tag = "String9";
             this.fileMenu.Text = "&File";
+            this.fileMenu.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.fileMenu.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // newToolStripMenuItem
             // 
-            this.newToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.CreateTemplate;
-            this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
+            this.newToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateCreate;
+            this.newToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(235, 54);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(219, 38);
+            this.newToolStripMenuItem.Tag = "String1";
             this.newToolStripMenuItem.Text = "&Create Template";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.ShowCreateForm);
+            this.newToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.newToolStripMenuItem.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
-            // toolStripSeparator3
+            // editToolStripMenuItem
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(232, 6);
+            this.editToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateEdit;
+            this.editToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.editToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(219, 38);
+            this.editToolStripMenuItem.Tag = "String2";
+            this.editToolStripMenuItem.Text = "&Edit Template";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.ShowEditForm);
+            this.editToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.editToolStripMenuItem.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ApplyTemplate;
-            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
+            this.saveToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateApply;
+            this.saveToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(235, 54);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(219, 38);
+            this.saveToolStripMenuItem.Tag = "String3";
             this.saveToolStripMenuItem.Text = "&Apply Template";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ShowApplyForm);
+            this.saveToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.saveToolStripMenuItem.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(216, 6);
             // 
             // exitToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ApplicationExit;
+            this.exitToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ExitApplication;
+            this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.exitToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(235, 54);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(219, 38);
+            this.exitToolStripMenuItem.Tag = "String4";
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
+            this.exitToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.exitToolStripMenuItem.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // windowsMenu
             // 
@@ -122,95 +150,140 @@
             this.cascadeToolStripMenuItem,
             this.tileVerticalToolStripMenuItem,
             this.tileHorizontalToolStripMenuItem});
+            this.windowsMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.windowsMenu.ImageTransparentColor = System.Drawing.Color.White;
             this.windowsMenu.Name = "windowsMenu";
             this.windowsMenu.Size = new System.Drawing.Size(68, 20);
+            this.windowsMenu.Tag = "String8";
             this.windowsMenu.Text = "&Windows";
+            this.windowsMenu.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.windowsMenu.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // cascadeToolStripMenuItem
             // 
             this.cascadeToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewCascade;
+            this.cascadeToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.cascadeToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(184, 54);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
+            this.cascadeToolStripMenuItem.Tag = "String5";
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
+            this.cascadeToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.cascadeToolStripMenuItem.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // tileVerticalToolStripMenuItem
             // 
             this.tileVerticalToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewVertical;
+            this.tileVerticalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tileVerticalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(184, 54);
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
+            this.tileVerticalToolStripMenuItem.Tag = "String6";
             this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
+            this.tileVerticalToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tileVerticalToolStripMenuItem.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // tileHorizontalToolStripMenuItem
             // 
             this.tileHorizontalToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewHorizontal;
+            this.tileHorizontalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tileHorizontalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(184, 54);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
+            this.tileHorizontalToolStripMenuItem.Tag = "String7";
             this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
+            this.tileHorizontalToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tileHorizontalToolStripMenuItem.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // toolStrip
             // 
             this.toolStrip.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStrip.ImageScalingSize = new System.Drawing.Size(48, 48);
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripButton,
+            this.editToolStripButton,
             this.saveToolStripButton});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(1038, 55);
+            this.toolStrip.Size = new System.Drawing.Size(1055, 39);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "ToolStrip";
             // 
             // newToolStripButton
             // 
             this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.CreateTemplate;
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
+            this.newToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateCreate;
+            this.newToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(52, 52);
+            this.newToolStripButton.Size = new System.Drawing.Size(36, 36);
+            this.newToolStripButton.Tag = "String1";
             this.newToolStripButton.Text = "Create Template";
             this.newToolStripButton.Click += new System.EventHandler(this.ShowCreateForm);
+            this.newToolStripButton.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.newToolStripButton.MouseLeave += new System.EventHandler(this.SetStatusDefault);
+            // 
+            // editToolStripButton
+            // 
+            this.editToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.editToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateEdit;
+            this.editToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.editToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
+            this.editToolStripButton.Name = "editToolStripButton";
+            this.editToolStripButton.Size = new System.Drawing.Size(36, 36);
+            this.editToolStripButton.Tag = "String2";
+            this.editToolStripButton.Text = "Edit Template";
+            this.editToolStripButton.Click += new System.EventHandler(this.ShowEditForm);
+            this.editToolStripButton.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.editToolStripButton.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // saveToolStripButton
             // 
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ApplyTemplate;
-            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
+            this.saveToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateApply;
+            this.saveToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(52, 52);
+            this.saveToolStripButton.Size = new System.Drawing.Size(36, 36);
+            this.saveToolStripButton.Tag = "String3";
             this.saveToolStripButton.Text = "Apply Template";
             this.saveToolStripButton.Click += new System.EventHandler(this.ShowApplyForm);
+            this.saveToolStripButton.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.saveToolStripButton.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 584);
+            this.statusStrip.Location = new System.Drawing.Point(0, 432);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1038, 22);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusStrip.Size = new System.Drawing.Size(1055, 22);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "StatusStrip";
             // 
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(39, 17);
-            this.toolStripStatusLabel.Text = "Status";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(303, 17);
+            this.toolStripStatusLabel.Text = "SharePoint Provisioning Tool - Based on SharePoint PnP";
             // 
-            // KSPPApplication
+            // SharePointProvisioningTool
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1038, 606);
+            this.ClientSize = new System.Drawing.Size(1055, 454);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.menuStrip);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
-            this.Name = "KSPPApplication";
+            this.Name = "SharePointProvisioningTool";
             this.Text = "SharePoint Provisioning Tool";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip.ResumeLayout(false);
@@ -229,7 +302,6 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem tileHorizontalToolStripMenuItem;
@@ -243,6 +315,8 @@
         private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ToolStripButton editToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
     }
 }
 

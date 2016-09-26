@@ -346,7 +346,7 @@
             // bSave
             // 
             this.bSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bSave.Location = new System.Drawing.Point(748, 298);
+            this.bSave.Location = new System.Drawing.Point(793, 298);
             this.bSave.Name = "bSave";
             this.bSave.Size = new System.Drawing.Size(75, 23);
             this.bSave.TabIndex = 20;

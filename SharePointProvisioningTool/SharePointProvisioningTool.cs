@@ -92,6 +92,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 progressWin.Text = "Applying provisioning template to " + sharePointVersion;
             }
+            progressWin.SetStatusBarText = SetStatusBarText;
             progressWin.SetButtonState(false);
             progressWin.Show();
             Application.DoEvents();
@@ -214,6 +215,50 @@ namespace Karabina.SharePoint.Provisioning
             return result;
         }
 
+        private void EditSPTemplate(TreeView treeView, string templatePath, string templateName, SharePointVersion version)
+        {
+            string spVerionTitle = String.Empty;
+            switch (version)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    spVerionTitle = Constants.SharePoint_2013_On_Premise;
+                    if (_sp2013OnPrem == null)
+                    {
+                        _sp2013OnPrem = new SharePoint2013OnPrem();
+                    }
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    spVerionTitle = Constants.SharePoint_2016_On_Premise;
+                    if (_sp2016OnPrem == null)
+                    {
+                        _sp2016OnPrem = new SharePoint2016OnPrem();
+                    }
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    spVerionTitle = Constants.SharePoint_2016_Online;
+                    if (_sp2016Online == null)
+                    {
+                        _sp2016Online = new SharePoint2016Online();
+                    }
+                    break;
+            }
+
+            switch (version)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    _sp2013OnPrem.OpenTemplateForEdit(templatePath, templateName, treeView);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    //_sp2016OnPrem.OpenTemplateForEdit(templatePath, templateName, treeView);
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    //_sp2016Online.OpenTemplateForEdit(templatePath, templateName, treeView);
+                    break;
+
+            }
+
+        }
+
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_sp2016Online != null)
@@ -292,6 +337,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 applyForm.OpenTemplate = OpenFile;
 
+                applyForm.SetStatusBarText = SetStatusBarText;
+
                 applyForm.MdiParent = this;
 
                 applyForm.Show();
@@ -338,6 +385,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 createForm.SaveTemplate = SaveFile;
 
+                createForm.SetStatusBarText = SetStatusBarText;
+
                 createForm.MdiParent = this;
 
                 createForm.Show();
@@ -345,6 +394,71 @@ namespace Karabina.SharePoint.Provisioning
 
         }
 
+        private void ShowEditForm(object sender, EventArgs e)
+        {
+            SelectSharePoint dialog = new SelectSharePoint();
+
+            dialog.FormClosed += new FormClosedEventHandler(DestroyForm);
+
+            dialog.setTopic("Select the SharePoint version of the template to edit");
+
+            DialogResult result = dialog.ShowDialog(this);
+
+            if (result == DialogResult.OK)
+            {
+                SharePointVersion version = dialog.VersionSelected;
+
+                EditWin editForm = new EditWin();
+
+                editForm.FormClosed += new FormClosedEventHandler(DestroyForm);
+                editForm.Text = "Edit Template - ";
+
+                switch (version)
+                {
+                    case SharePointVersion.SharePoint_2013_On_Premise:
+                        editForm.Text += Constants.SharePoint_2013_On_Premise;
+                        break;
+                    case SharePointVersion.SharePoint_2016_On_Premise:
+                        editForm.Text += Constants.SharePoint_2016_On_Premise;
+                        break;
+                    case SharePointVersion.SharePoint_2016_OnLine:
+                        editForm.Text += Constants.SharePoint_2016_Online;
+                        break;
+                    default:
+                        break;
+                }
+
+                editForm.EditTemplate = EditSPTemplate;
+
+                editForm.SelectedVersion = version;
+
+                editForm.OpenTemplate = OpenFile;
+
+                editForm.SetStatusBarText = SetStatusBarText;
+
+                editForm.MdiParent = this;
+
+                editForm.Show();
+            }
+
+        }
+
+        private void SetStatusBarText(string message)
+        {
+            toolStripStatusLabel.Text = message;
+        }
+
+        private void SetStatusText(object sender, EventArgs e)
+        {
+            string tag = Constants.String0;
+            tag = (sender as ToolStripItem).Tag.ToString();
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+        }
+
+        private void SetStatusDefault(object sender, EventArgs e)
+        {
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.String0));
+        }
     }
 
 }

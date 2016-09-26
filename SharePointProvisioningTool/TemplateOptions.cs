@@ -14,6 +14,10 @@ namespace Karabina.SharePoint.Provisioning
     {
         private ProvisioningOptions _provisioningOptions = null;
 
+        public delegate void SetStatusTextDelegate(string message);
+
+        public SetStatusTextDelegate SetStatusBarText;
+
         public ProvisioningOptions ProvisioningOptions
         {
             get { return _provisioningOptions; }
@@ -149,6 +153,7 @@ namespace Karabina.SharePoint.Provisioning
         {
             CheckBox cb = sender as CheckBox;
             int tooltipId = Convert.ToInt32(cb.Tag);
+
         }
 
         private void HideToolTip(object sender, EventArgs e)

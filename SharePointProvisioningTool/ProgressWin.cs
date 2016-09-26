@@ -12,6 +12,10 @@ namespace Karabina.SharePoint.Provisioning
 {
     public partial class ProgressWin : Form
     {
+        public delegate void SetStatusTextDelegate(string message);
+
+        public SetStatusTextDelegate SetStatusBarText;
+
         public ProgressWin()
         {
             InitializeComponent();
@@ -166,6 +170,18 @@ namespace Karabina.SharePoint.Provisioning
                 }
                 Clipboard.SetText(sb.ToString());
             }
+        }
+
+        private void SetStatusText(object sender, EventArgs e)
+        {
+            string tag = Constants.Progress0;
+            tag = (sender as Control).Tag.ToString();
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+        }
+
+        private void SetStatusDefault(object sender, EventArgs e)
+        {
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Progress0));
         }
 
     }
