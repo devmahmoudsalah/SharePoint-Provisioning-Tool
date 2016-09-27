@@ -43,7 +43,6 @@
             this.lUserNameError = new System.Windows.Forms.Label();
             this.lPasswordError = new System.Windows.Forms.Label();
             this.lTemplateError = new System.Windows.Forms.Label();
-            this.bClose = new System.Windows.Forms.Button();
             this.bOptions = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -51,7 +50,7 @@
             // 
             this.cbNoUNP.AutoSize = true;
             this.cbNoUNP.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbNoUNP.Location = new System.Drawing.Point(21, 86);
+            this.cbNoUNP.Location = new System.Drawing.Point(21, 92);
             this.cbNoUNP.Name = "cbNoUNP";
             this.cbNoUNP.Size = new System.Drawing.Size(182, 20);
             this.cbNoUNP.TabIndex = 4;
@@ -162,7 +161,7 @@
             // bCreate
             // 
             this.bCreate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bCreate.Location = new System.Drawing.Point(345, 323);
+            this.bCreate.Location = new System.Drawing.Point(445, 323);
             this.bCreate.Name = "bCreate";
             this.bCreate.Size = new System.Drawing.Size(75, 23);
             this.bCreate.TabIndex = 16;
@@ -225,24 +224,10 @@
             this.lTemplateError.Text = "Please specify the path and name for the template file.";
             this.lTemplateError.Visible = false;
             // 
-            // bClose
-            // 
-            this.bClose.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bClose.Location = new System.Drawing.Point(445, 323);
-            this.bClose.Name = "bClose";
-            this.bClose.Size = new System.Drawing.Size(75, 23);
-            this.bClose.TabIndex = 17;
-            this.bClose.Tag = "Source9";
-            this.bClose.Text = "Close";
-            this.bClose.UseVisualStyleBackColor = true;
-            this.bClose.Click += new System.EventHandler(this.bClose_Click);
-            this.bClose.MouseEnter += new System.EventHandler(this.SetStatusText);
-            this.bClose.MouseLeave += new System.EventHandler(this.SetStatusDefault);
-            // 
             // bOptions
             // 
             this.bOptions.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bOptions.Location = new System.Drawing.Point(245, 323);
+            this.bOptions.Location = new System.Drawing.Point(345, 323);
             this.bOptions.Name = "bOptions";
             this.bOptions.Size = new System.Drawing.Size(75, 23);
             this.bOptions.TabIndex = 15;
@@ -257,10 +242,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(535, 357);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(539, 361);
             this.Controls.Add(this.bOptions);
-            this.Controls.Add(this.bClose);
             this.Controls.Add(this.lTemplateError);
             this.Controls.Add(this.lPasswordError);
             this.Controls.Add(this.lUserNameError);
@@ -309,7 +292,6 @@
         private System.Windows.Forms.Label lUserNameError;
         private System.Windows.Forms.Label lPasswordError;
         private System.Windows.Forms.Label lTemplateError;
-        private System.Windows.Forms.Button bClose;
         private System.Windows.Forms.Button bOptions;
     }
 }

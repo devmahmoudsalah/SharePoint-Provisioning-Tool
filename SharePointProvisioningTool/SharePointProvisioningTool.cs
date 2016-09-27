@@ -111,7 +111,7 @@ namespace Karabina.SharePoint.Provisioning
             SourceWin callForm = callee as SourceWin;
             bool result = false;
             callForm.Visible = false;
-            string spVerionTitle = String.Empty;
+            string spVerionTitle = string.Empty;
             switch (callForm.SelectedVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premise:
@@ -168,7 +168,7 @@ namespace Karabina.SharePoint.Provisioning
             bool result = false;
             callForm.Visible = false;
 
-            string spVerionTitle = String.Empty;
+            string spVerionTitle = string.Empty;
             switch (callForm.SelectedVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premise:
@@ -213,50 +213,6 @@ namespace Karabina.SharePoint.Provisioning
             callForm.Visible = true;
             FinishProgressWin(progressWin);
             return result;
-        }
-
-        private void EditSPTemplate(TreeView treeView, string templatePath, string templateName, SharePointVersion version)
-        {
-            string spVerionTitle = String.Empty;
-            switch (version)
-            {
-                case SharePointVersion.SharePoint_2013_On_Premise:
-                    spVerionTitle = Constants.SharePoint_2013_On_Premise;
-                    if (_sp2013OnPrem == null)
-                    {
-                        _sp2013OnPrem = new SharePoint2013OnPrem();
-                    }
-                    break;
-                case SharePointVersion.SharePoint_2016_On_Premise:
-                    spVerionTitle = Constants.SharePoint_2016_On_Premise;
-                    if (_sp2016OnPrem == null)
-                    {
-                        _sp2016OnPrem = new SharePoint2016OnPrem();
-                    }
-                    break;
-                case SharePointVersion.SharePoint_2016_OnLine:
-                    spVerionTitle = Constants.SharePoint_2016_Online;
-                    if (_sp2016Online == null)
-                    {
-                        _sp2016Online = new SharePoint2016Online();
-                    }
-                    break;
-            }
-
-            switch (version)
-            {
-                case SharePointVersion.SharePoint_2013_On_Premise:
-                    _sp2013OnPrem.OpenTemplateForEdit(templatePath, templateName, treeView);
-                    break;
-                case SharePointVersion.SharePoint_2016_On_Premise:
-                    //_sp2016OnPrem.OpenTemplateForEdit(templatePath, templateName, treeView);
-                    break;
-                case SharePointVersion.SharePoint_2016_OnLine:
-                    //_sp2016Online.OpenTemplateForEdit(templatePath, templateName, treeView);
-                    break;
-
-            }
-
         }
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
@@ -412,25 +368,37 @@ namespace Karabina.SharePoint.Provisioning
 
                 editForm.FormClosed += new FormClosedEventHandler(DestroyForm);
                 editForm.Text = "Edit Template - ";
+                editForm.SelectedVersion = version;
 
                 switch (version)
                 {
                     case SharePointVersion.SharePoint_2013_On_Premise:
                         editForm.Text += Constants.SharePoint_2013_On_Premise;
+                        if (_sp2013OnPrem == null)
+                        {
+                            _sp2013OnPrem = new SharePoint2013OnPrem();
+                        }
+                        editForm.SP2013OP = _sp2013OnPrem;
                         break;
                     case SharePointVersion.SharePoint_2016_On_Premise:
                         editForm.Text += Constants.SharePoint_2016_On_Premise;
+                        if (_sp2016OnPrem == null)
+                        {
+                            _sp2016OnPrem = new SharePoint2016OnPrem();
+                        }
+                        editForm.SP2016OP = _sp2016OnPrem;
                         break;
                     case SharePointVersion.SharePoint_2016_OnLine:
                         editForm.Text += Constants.SharePoint_2016_Online;
+                        if (_sp2016Online == null)
+                        {
+                            _sp2016Online = new SharePoint2016Online();
+                        }
+                        editForm.SP2016OL = _sp2016Online;
                         break;
                     default:
                         break;
                 }
-
-                editForm.EditTemplate = EditSPTemplate;
-
-                editForm.SelectedVersion = version;
 
                 editForm.OpenTemplate = OpenFile;
 

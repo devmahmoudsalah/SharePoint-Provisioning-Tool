@@ -14,6 +14,23 @@ namespace Karabina.SharePoint.Provisioning
         SharePoint_2016_OnLine = 3
     }
 
+    public enum RegionalSettingProperty
+    {
+        AdjustHijriDays = 0,
+        AlternateCalendarType = 1,
+        CalendarType = 2,
+        Collation = 3,
+        FirstDayOfWeek = 4,
+        FirstWeekOfYear = 5,
+        LocaleId = 6,
+        ShowWeeks = 7,
+        Time24 = 8,
+        TimeZone = 9,
+        WorkDayEndHour = 10,
+        WorkDays = 11,
+        WorkDayStartHour = 12
+    }
+
     public static class Constants
     {
         public static readonly string SharePoint_2013_On_Premise = "SharePoint 2013 On Premise";

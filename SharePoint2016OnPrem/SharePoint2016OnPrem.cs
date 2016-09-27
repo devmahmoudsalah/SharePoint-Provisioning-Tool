@@ -26,7 +26,14 @@ namespace Karabina.SharePoint.Provisioning
             //do nothing
         }
 
+        private ProvisioningTemplate _editingTemplate = null;
         private ListBox _lbOutput = null;
+
+        public ProvisioningTemplate EditingTemplate
+        {
+            get { return _editingTemplate; }
+            set { _editingTemplate = value; }
+        }
 
         public ListBox OutputBox
         {

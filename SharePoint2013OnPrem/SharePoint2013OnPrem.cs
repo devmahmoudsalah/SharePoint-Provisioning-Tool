@@ -26,13 +26,13 @@ namespace Karabina.SharePoint.Provisioning
             //do nothing
         }
 
-        private ProvisioningTemplate _currentTemplate = null;
+        private ProvisioningTemplate _editingTemplate = null;
         private ListBox _lbOutput = null;
 
-        public ProvisioningTemplate CurrentTemplate
+        public ProvisioningTemplate EditingTemplate
         {
-            get { return _currentTemplate; }
-            set { _currentTemplate = value; }
+            get { return _editingTemplate; }
+            set { _editingTemplate = value; }
         }
 
         public ListBox OutputBox
@@ -974,7 +974,6 @@ namespace Karabina.SharePoint.Provisioning
 
                     // Execute actual extraction of the tepmplate 
                     ProvisioningTemplate template = web.GetProvisioningTemplate(ptci);
-                    _currentTemplate = template;
 
                     //List to hold all the lookup list names
                     List<string> lookupListTitles = new List<string>();
@@ -1184,7 +1183,6 @@ namespace Karabina.SharePoint.Provisioning
                     List<ProvisioningTemplate> templates = provider.GetTemplates();
 
                     ProvisioningTemplate template = templates[0];
-                    _currentTemplate = template;
 
                     WriteMessage($"Base site template in provisioning template is {template.BaseSiteTemplate}");
 
@@ -1266,11 +1264,11 @@ namespace Karabina.SharePoint.Provisioning
             List<ProvisioningTemplate> templates = provider.GetTemplates();
 
             ProvisioningTemplate template = templates[0];
-            _currentTemplate = template;
+            _editingTemplate = template;
 
             treeView.Nodes.Clear();
 
-            TreeNode rootNode = new TreeNode($"Template - ( {template.DisplayName} )");
+            TreeNode rootNode = new TreeNode($"Template - ( {templateName} )");
 
             if (template.RegionalSettings != null)
             {
@@ -1278,7 +1276,6 @@ namespace Karabina.SharePoint.Provisioning
                 rsNode.Tag = template.RegionalSettings;
 
                 rootNode.Nodes.Add(rsNode);
-
             }
 
             if (template.AddIns?.Count > 0)
@@ -1576,9 +1573,33 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
+            rootNode.Expand();
             treeView.Nodes.Add(rootNode);
 
         } //OpenTemplateForEdit
+
+        public int[] GetRegionalSettingProperty()
+        {
+            int[] result = new int[] { EditingTemplate.RegionalSettings.AdjustHijriDays,
+                                  (int)EditingTemplate.RegionalSettings.AlternateCalendarType,
+                                  (int)EditingTemplate.RegionalSettings.CalendarType,
+                                       EditingTemplate.RegionalSettings.Collation,
+                                  (int)EditingTemplate.RegionalSettings.FirstDayOfWeek,
+                                       EditingTemplate.RegionalSettings.FirstWeekOfYear,
+                                       EditingTemplate.RegionalSettings.LocaleId,
+                                      (EditingTemplate.RegionalSettings.ShowWeeks ? 1 : 0),
+                                      (EditingTemplate.RegionalSettings.Time24 ? 1 : 0),
+                                       EditingTemplate.RegionalSettings.TimeZone,
+                                  (int)EditingTemplate.RegionalSettings.WorkDayEndHour / 60,
+                                       EditingTemplate.RegionalSettings.WorkDays,
+                                  (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
+                                     };
+
+            //Note: Ensure that the above array is populated in the order of RegionalSettingProperty 
+
+            return result;
+
+        } //GetRegionalSettingProperty
 
     }
 

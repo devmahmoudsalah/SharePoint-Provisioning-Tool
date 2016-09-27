@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Karabina.SharePoint.Provisioning
+{
+    public class TimeFormat
+    {
+        public int TimeFormatId { get; set; }
+
+        public string TimeFormatName { get; set; }
+
+        public TimeFormat() { }
+    }
+
+    public class TimeFormatCollection
+    {
+        private List<TimeFormat> _timeFormats = null;
+
+        public List<TimeFormat> TimeFormats
+        {
+            get { return _timeFormats; }
+            set { _timeFormats = value; }
+        }
+
+        public TimeFormatCollection()
+        {
+            _timeFormats = new List<TimeFormat>();
+
+            _timeFormats.Add(new TimeFormat() { TimeFormatId = 0, TimeFormatName = "12 Hour" });
+            _timeFormats.Add(new TimeFormat() { TimeFormatId = 1, TimeFormatName = "24 Hour" });
+
+        }
+
+    }
+
+}

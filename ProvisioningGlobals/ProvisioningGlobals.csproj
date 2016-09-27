@@ -40,10 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calendars.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="DayHours.cs" />
+    <Compile Include="FirstWeekYear.cs" />
+    <Compile Include="Locales.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvisioningFields.cs" />
     <Compile Include="ProvisioningOptions.cs" />
+    <Compile Include="SortOrder.cs" />
+    <Compile Include="TimeFormats.cs" />
+    <Compile Include="TimeZones.cs" />
+    <Compile Include="WeekDays.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
