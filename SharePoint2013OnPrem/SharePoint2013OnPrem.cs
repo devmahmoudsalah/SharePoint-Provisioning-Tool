@@ -1280,7 +1280,7 @@ namespace Karabina.SharePoint.Provisioning
 
             if (template.AddIns?.Count > 0)
             {
-                TreeNode aiNodes = new TreeNode("AddIns");
+                TreeNode aiNodes = new TreeNode("Add-Ins");
 
                 foreach (var addIn in template.AddIns)
                 {
@@ -1580,26 +1580,42 @@ namespace Karabina.SharePoint.Provisioning
 
         public int[] GetRegionalSettingProperty()
         {
-            int[] result = new int[] { EditingTemplate.RegionalSettings.AdjustHijriDays,
-                                  (int)EditingTemplate.RegionalSettings.AlternateCalendarType,
-                                  (int)EditingTemplate.RegionalSettings.CalendarType,
-                                       EditingTemplate.RegionalSettings.Collation,
-                                  (int)EditingTemplate.RegionalSettings.FirstDayOfWeek,
-                                       EditingTemplate.RegionalSettings.FirstWeekOfYear,
-                                       EditingTemplate.RegionalSettings.LocaleId,
-                                      (EditingTemplate.RegionalSettings.ShowWeeks ? 1 : 0),
-                                      (EditingTemplate.RegionalSettings.Time24 ? 1 : 0),
-                                       EditingTemplate.RegionalSettings.TimeZone,
-                                  (int)EditingTemplate.RegionalSettings.WorkDayEndHour / 60,
-                                       EditingTemplate.RegionalSettings.WorkDays,
-                                  (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
-                                     };
+            int[] result = new int[]
+            {
+                EditingTemplate.RegionalSettings.AdjustHijriDays,
+                (int)EditingTemplate.RegionalSettings.AlternateCalendarType,
+                (int)EditingTemplate.RegionalSettings.CalendarType,
+                EditingTemplate.RegionalSettings.Collation,
+                (int)EditingTemplate.RegionalSettings.FirstDayOfWeek,
+                EditingTemplate.RegionalSettings.FirstWeekOfYear,
+                EditingTemplate.RegionalSettings.LocaleId,
+                (EditingTemplate.RegionalSettings.ShowWeeks ? 1 : 0),
+                (EditingTemplate.RegionalSettings.Time24 ? 1 : 0),
+                EditingTemplate.RegionalSettings.TimeZone,
+                (int)EditingTemplate.RegionalSettings.WorkDayEndHour / 60,
+                EditingTemplate.RegionalSettings.WorkDays,
+                (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
+            };
 
             //Note: Ensure that the above array is populated in the order of RegionalSettingProperty 
 
             return result;
 
         } //GetRegionalSettingProperty
+
+        public string[] GetComposedLook()
+        {
+            string[] result = new string[]
+            {
+                EditingTemplate.ComposedLook.Name,
+                EditingTemplate.ComposedLook.BackgroundFile,
+                EditingTemplate.ComposedLook.ColorFile,
+                EditingTemplate.ComposedLook.FontFile,
+                EditingTemplate.ComposedLook.Version.ToString()
+            };
+
+            return result;
+        }
 
     }
 

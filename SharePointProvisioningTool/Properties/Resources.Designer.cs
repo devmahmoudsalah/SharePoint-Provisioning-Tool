@@ -63,9 +63,9 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ExitApplication {
+        internal static System.Drawing.Bitmap ExitApplicationRed {
             get {
-                object obj = ResourceManager.GetObject("ExitApplication", resourceCulture);
+                object obj = ResourceManager.GetObject("ExitApplicationRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TemplateApply {
+        internal static System.Drawing.Bitmap TemplateApplyRed {
             get {
-                object obj = ResourceManager.GetObject("TemplateApply", resourceCulture);
+                object obj = ResourceManager.GetObject("TemplateApplyRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TemplateCreate {
+        internal static System.Drawing.Bitmap TemplateCreateRed {
             get {
-                object obj = ResourceManager.GetObject("TemplateCreate", resourceCulture);
+                object obj = ResourceManager.GetObject("TemplateCreateRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,9 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TemplateCreate2 {
+        internal static System.Drawing.Bitmap TemplateEditRed {
             get {
-                object obj = ResourceManager.GetObject("TemplateCreate2", resourceCulture);
+                object obj = ResourceManager.GetObject("TemplateEditRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TemplateEdit {
+        internal static System.Drawing.Bitmap ViewCascadeRed {
             get {
-                object obj = ResourceManager.GetObject("TemplateEdit", resourceCulture);
+                object obj = ResourceManager.GetObject("ViewCascadeRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +213,9 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ViewCascade {
+        internal static System.Drawing.Bitmap ViewHorizontalRed {
             get {
-                object obj = ResourceManager.GetObject("ViewCascade", resourceCulture);
+                object obj = ResourceManager.GetObject("ViewHorizontalRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,19 +223,9 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ViewHorizontal {
+        internal static System.Drawing.Bitmap ViewVerticalRed {
             get {
-                object obj = ResourceManager.GetObject("ViewHorizontal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ViewVertical {
-            get {
-                object obj = ResourceManager.GetObject("ViewVertical", resourceCulture);
+                object obj = ResourceManager.GetObject("ViewVerticalRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

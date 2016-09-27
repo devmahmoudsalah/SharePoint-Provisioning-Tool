@@ -12,6 +12,8 @@ namespace Karabina.SharePoint.Provisioning
 {
     public partial class EditWin : Form
     {
+        private string _activeNodePath = string.Empty;
+
         private SharePointVersion _selectedVersion = SharePointVersion.SharePoint_Invalid;
 
         public SharePointVersion SelectedVersion
@@ -263,22 +265,183 @@ namespace Karabina.SharePoint.Provisioning
 
         } //PopulateRegionalSettings
 
+        private void PopulateComposedLook()
+        {
+            string[] composedLook = null;
+            switch (_selectedVersion)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    composedLook = SP2013OP.GetComposedLook();
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    break;
+            }
+
+            tbComposedLookName.Text = composedLook[0];
+            tbBackgroundFile.Text = composedLook[1];
+            tbColorFile.Text = composedLook[2];
+            tbFontFile.Text = composedLook[3];
+            tbComposedLookVersion.Text = composedLook[4];
+
+        } //PopulateComposedLook
+
+        private void HideActivePanel(string nodeFullPath)
+        {
+            if (!string.IsNullOrWhiteSpace(_activeNodePath))
+            {
+                if (_activeNodePath.Contains("Regional Settings"))
+                {
+                    pRegionalSettings.Visible = false;
+                    pRegionalSettings.Left = 1038;
+                }
+                else if (_activeNodePath.Contains("Add-Ins"))
+                {
+                    if (!nodeFullPath.Contains("Add-Ins"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Composed Look"))
+                {
+                    pComposedLook.Visible = false;
+                    pComposedLook.Left = 1038;
+                }
+                else if (_activeNodePath.Contains("Site Custom Actions"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Web Custom Actions"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Site Features"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Web Features"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Content Types"))
+                {
+                    if (!nodeFullPath.Contains("Content Types"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Site Fields"))
+                {
+                    if (!nodeFullPath.Contains("Site Fields"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Files"))
+                {
+                    if (!nodeFullPath.Contains("Files"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Lists"))
+                {
+                    if (!nodeFullPath.Contains("Lists"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Localizations"))
+                {
+                    if (!nodeFullPath.Contains("Localizations"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Pages"))
+                {
+                    if (!nodeFullPath.Contains("Pages"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Properties"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Property Bag Entries"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Publishing"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Supported UI Languages"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Term Groups"))
+                {
+                    if (!nodeFullPath.Contains("Term Groups"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Web Settings"))
+                {
+
+                }
+                else if (_activeNodePath.Contains("Workflow Definitions"))
+                {
+                    if (!nodeFullPath.Contains("Workflow Definitions"))
+                    {
+
+                    }
+                }
+                else if (_activeNodePath.Contains("Workflow Subscriptions"))
+                {
+                    if (!nodeFullPath.Contains("Workflow Subscriptions"))
+                    {
+
+                    }
+                }
+
+
+            } //if
+
+        } // HideActivePanel
+
         private void NodeSelected(object sender, TreeViewEventArgs e)
         {
             TreeNode node = e.Node;
             if (node != null)
-            {
-                if (node.Text.Equals("Regional Settings", StringComparison.OrdinalIgnoreCase))
+            {       
+                if(!node.FullPath.Equals(_activeNodePath, StringComparison.OrdinalIgnoreCase))
+                {
+                    HideActivePanel(node.FullPath);
+                }
+
+                _activeNodePath = node.FullPath;
+                if (_activeNodePath.Contains("Regional Settings"))
                 {
                     if (cbTimeZone.Items.Count <= 0)
                     {
                         PopulateRegionalSettings();
                     }
+                    pRegionalSettings.Left = 438;
                     pRegionalSettings.Visible = true;
                 }
-                else
+                else if(_activeNodePath.Contains("Composed Look"))
                 {
-                    pRegionalSettings.Visible = false;
+                    if (string.IsNullOrWhiteSpace(tbComposedLookName.Text))
+                    {
+                        PopulateComposedLook();
+                    }
+                    pComposedLook.Left = 438;
+                    pComposedLook.Visible = true;
                 }
 
             }

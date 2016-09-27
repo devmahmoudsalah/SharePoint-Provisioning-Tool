@@ -86,7 +86,7 @@
             // 
             // newToolStripMenuItem
             // 
-            this.newToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateCreate;
+            this.newToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateCreateRed;
             this.newToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
@@ -100,7 +100,7 @@
             // 
             // editToolStripMenuItem
             // 
-            this.editToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateEdit;
+            this.editToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateEditRed;
             this.editToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.editToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -114,7 +114,7 @@
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateApply;
+            this.saveToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateApplyRed;
             this.saveToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
@@ -133,7 +133,7 @@
             // 
             // exitToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ExitApplication;
+            this.exitToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ExitApplicationRed;
             this.exitToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.exitToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -161,11 +161,11 @@
             // 
             // cascadeToolStripMenuItem
             // 
-            this.cascadeToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewCascade;
+            this.cascadeToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewCascadeRed;
             this.cascadeToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.cascadeToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
             this.cascadeToolStripMenuItem.Tag = "String5";
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
@@ -174,11 +174,11 @@
             // 
             // tileVerticalToolStripMenuItem
             // 
-            this.tileVerticalToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewVertical;
+            this.tileVerticalToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewVerticalRed;
             this.tileVerticalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tileVerticalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
             this.tileVerticalToolStripMenuItem.Tag = "String6";
             this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
@@ -187,11 +187,11 @@
             // 
             // tileHorizontalToolStripMenuItem
             // 
-            this.tileHorizontalToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewHorizontal;
+            this.tileHorizontalToolStripMenuItem.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.ViewHorizontalRed;
             this.tileHorizontalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tileHorizontalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
             this.tileHorizontalToolStripMenuItem.Tag = "String7";
             this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
@@ -215,7 +215,7 @@
             // newToolStripButton
             // 
             this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateCreate;
+            this.newToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateCreateRed;
             this.newToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.newToolStripButton.Name = "newToolStripButton";
@@ -229,7 +229,7 @@
             // editToolStripButton
             // 
             this.editToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.editToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateEdit;
+            this.editToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateEditRed;
             this.editToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.editToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.editToolStripButton.Name = "editToolStripButton";
@@ -243,7 +243,7 @@
             // saveToolStripButton
             // 
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateApply;
+            this.saveToolStripButton.Image = global::Karabina.SharePoint.Provisioning.Properties.Resources.TemplateApplyRed;
             this.saveToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.saveToolStripButton.Name = "saveToolStripButton";

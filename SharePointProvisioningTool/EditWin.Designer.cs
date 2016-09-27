@@ -59,7 +59,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbTimeZone = new System.Windows.Forms.ComboBox();
             this.bSave = new System.Windows.Forms.Button();
+            this.pComposedLook = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.tbComposedLookName = new System.Windows.Forms.TextBox();
+            this.tbBackgroundFile = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.tbColorFile = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tbFontFile = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.tbComposedLookVersion = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.pRegionalSettings.SuspendLayout();
+            this.pComposedLook.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvTemplate
@@ -129,7 +141,7 @@
             this.pRegionalSettings.Controls.Add(this.cbLocale);
             this.pRegionalSettings.Controls.Add(this.label1);
             this.pRegionalSettings.Controls.Add(this.cbTimeZone);
-            this.pRegionalSettings.Location = new System.Drawing.Point(438, 61);
+            this.pRegionalSettings.Location = new System.Drawing.Point(1038, 61);
             this.pRegionalSettings.Name = "pRegionalSettings";
             this.pRegionalSettings.Size = new System.Drawing.Size(514, 488);
             this.pRegionalSettings.TabIndex = 4;
@@ -406,12 +418,117 @@
             this.bSave.Tag = "";
             this.bSave.Text = "Save";
             this.bSave.UseVisualStyleBackColor = true;
+            this.bSave.Visible = false;
+            // 
+            // pComposedLook
+            // 
+            this.pComposedLook.Controls.Add(this.tbComposedLookVersion);
+            this.pComposedLook.Controls.Add(this.label16);
+            this.pComposedLook.Controls.Add(this.tbFontFile);
+            this.pComposedLook.Controls.Add(this.label15);
+            this.pComposedLook.Controls.Add(this.tbColorFile);
+            this.pComposedLook.Controls.Add(this.label14);
+            this.pComposedLook.Controls.Add(this.tbBackgroundFile);
+            this.pComposedLook.Controls.Add(this.label13);
+            this.pComposedLook.Controls.Add(this.tbComposedLookName);
+            this.pComposedLook.Controls.Add(this.label12);
+            this.pComposedLook.Location = new System.Drawing.Point(438, 61);
+            this.pComposedLook.Name = "pComposedLook";
+            this.pComposedLook.Size = new System.Drawing.Size(514, 488);
+            this.pComposedLook.TabIndex = 6;
+            this.pComposedLook.Visible = false;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label12.Location = new System.Drawing.Point(13, 8);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(42, 15);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Name:";
+            // 
+            // tbComposedLookName
+            // 
+            this.tbComposedLookName.Location = new System.Drawing.Point(13, 27);
+            this.tbComposedLookName.Name = "tbComposedLookName";
+            this.tbComposedLookName.Size = new System.Drawing.Size(463, 23);
+            this.tbComposedLookName.TabIndex = 1;
+            // 
+            // tbBackgroundFile
+            // 
+            this.tbBackgroundFile.Location = new System.Drawing.Point(13, 89);
+            this.tbBackgroundFile.Name = "tbBackgroundFile";
+            this.tbBackgroundFile.Size = new System.Drawing.Size(463, 23);
+            this.tbBackgroundFile.TabIndex = 3;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label13.Location = new System.Drawing.Point(13, 70);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(93, 15);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Background file:";
+            // 
+            // tbColorFile
+            // 
+            this.tbColorFile.Location = new System.Drawing.Point(13, 157);
+            this.tbColorFile.Name = "tbColorFile";
+            this.tbColorFile.Size = new System.Drawing.Size(463, 23);
+            this.tbColorFile.TabIndex = 5;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label14.Location = new System.Drawing.Point(13, 138);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(58, 15);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Color file:";
+            // 
+            // tbFontFile
+            // 
+            this.tbFontFile.Location = new System.Drawing.Point(13, 232);
+            this.tbFontFile.Name = "tbFontFile";
+            this.tbFontFile.Size = new System.Drawing.Size(463, 23);
+            this.tbFontFile.TabIndex = 7;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label15.Location = new System.Drawing.Point(13, 213);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(53, 15);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Font file:";
+            // 
+            // tbComposedLookVersion
+            // 
+            this.tbComposedLookVersion.Location = new System.Drawing.Point(13, 302);
+            this.tbComposedLookVersion.Name = "tbComposedLookVersion";
+            this.tbComposedLookVersion.Size = new System.Drawing.Size(463, 23);
+            this.tbComposedLookVersion.TabIndex = 9;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label16.Location = new System.Drawing.Point(13, 283);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(49, 15);
+            this.label16.TabIndex = 8;
+            this.label16.Text = "Version:";
             // 
             // EditWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 561);
+            this.Controls.Add(this.pComposedLook);
             this.Controls.Add(this.bSave);
             this.Controls.Add(this.pRegionalSettings);
             this.Controls.Add(this.tbTemplate);
@@ -429,6 +546,8 @@
             this.Text = "Edit Provisioning Template";
             this.pRegionalSettings.ResumeLayout(false);
             this.pRegionalSettings.PerformLayout();
+            this.pComposedLook.ResumeLayout(false);
+            this.pComposedLook.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -467,5 +586,16 @@
         private System.Windows.Forms.ComboBox cbAdjustHijriDate;
         private System.Windows.Forms.Label lAdjustHijriDate;
         private System.Windows.Forms.Button bSave;
+        private System.Windows.Forms.Panel pComposedLook;
+        private System.Windows.Forms.TextBox tbBackgroundFile;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox tbComposedLookName;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox tbFontFile;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox tbColorFile;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox tbComposedLookVersion;
+        private System.Windows.Forms.Label label16;
     }
 }

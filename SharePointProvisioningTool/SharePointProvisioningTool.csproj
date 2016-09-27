@@ -152,28 +152,25 @@
     <None Include="Resources\glossy-3d-blue-orbs2-110.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Cascade.png" />
+    <None Include="Resources\CascadeRed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DocumentNew.png" />
+    <None Include="Resources\EditRed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Edit.png" />
+    <None Include="Resources\FileSettingRed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FileSetting.png" />
+    <None Include="Resources\HorizontalRed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Horizontal.png" />
+    <None Include="Resources\NewsPaperRed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\NewsPaper.png" />
+    <None Include="Resources\PowerOffRed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PowerOff.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Vertical.png" />
+    <None Include="Resources\VerticalRed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
