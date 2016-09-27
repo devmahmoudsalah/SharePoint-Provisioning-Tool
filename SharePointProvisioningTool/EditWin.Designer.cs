@@ -58,6 +58,7 @@
             this.cbLocale = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbTimeZone = new System.Windows.Forms.ComboBox();
+            this.bSave = new System.Windows.Forms.Button();
             this.pRegionalSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +78,7 @@
             this.tbTemplate.ReadOnly = true;
             this.tbTemplate.Size = new System.Drawing.Size(418, 23);
             this.tbTemplate.TabIndex = 1;
-            this.tbTemplate.Tag = "Source5";
+            this.tbTemplate.Tag = "";
             // 
             // lTemplate
             // 
@@ -96,7 +97,7 @@
             this.bBrowse.Name = "bBrowse";
             this.bBrowse.Size = new System.Drawing.Size(75, 23);
             this.bBrowse.TabIndex = 2;
-            this.bBrowse.Tag = "Source6";
+            this.bBrowse.Tag = "";
             this.bBrowse.Text = "Browse...";
             this.bBrowse.UseVisualStyleBackColor = true;
             this.bBrowse.Click += new System.EventHandler(this.bBrowse_Click);
@@ -169,7 +170,7 @@
             this.cbTimeFormat.FormattingEnabled = true;
             this.cbTimeFormat.Location = new System.Drawing.Point(104, 441);
             this.cbTimeFormat.Name = "cbTimeFormat";
-            this.cbTimeFormat.Size = new System.Drawing.Size(121, 23);
+            this.cbTimeFormat.Size = new System.Drawing.Size(91, 23);
             this.cbTimeFormat.TabIndex = 22;
             // 
             // label11
@@ -187,16 +188,16 @@
             this.cbWorkDayEndTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbWorkDayEndTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbWorkDayEndTime.FormattingEnabled = true;
-            this.cbWorkDayEndTime.Location = new System.Drawing.Point(364, 402);
+            this.cbWorkDayEndTime.Location = new System.Drawing.Point(404, 402);
             this.cbWorkDayEndTime.Name = "cbWorkDayEndTime";
-            this.cbWorkDayEndTime.Size = new System.Drawing.Size(121, 23);
+            this.cbWorkDayEndTime.Size = new System.Drawing.Size(81, 23);
             this.cbWorkDayEndTime.TabIndex = 20;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label9.Location = new System.Drawing.Point(297, 404);
+            this.label9.Location = new System.Drawing.Point(337, 404);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(57, 15);
             this.label9.TabIndex = 19;
@@ -227,16 +228,16 @@
             this.cbWorkDayStartTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbWorkDayStartTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbWorkDayStartTime.FormattingEnabled = true;
-            this.cbWorkDayStartTime.Location = new System.Drawing.Point(364, 372);
+            this.cbWorkDayStartTime.Location = new System.Drawing.Point(404, 372);
             this.cbWorkDayStartTime.Name = "cbWorkDayStartTime";
-            this.cbWorkDayStartTime.Size = new System.Drawing.Size(121, 23);
+            this.cbWorkDayStartTime.Size = new System.Drawing.Size(81, 23);
             this.cbWorkDayStartTime.TabIndex = 16;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label8.Location = new System.Drawing.Point(297, 375);
+            this.label8.Location = new System.Drawing.Point(337, 375);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(61, 15);
             this.label8.TabIndex = 15;
@@ -395,11 +396,23 @@
             this.cbTimeZone.Size = new System.Drawing.Size(472, 23);
             this.cbTimeZone.TabIndex = 0;
             // 
+            // bSave
+            // 
+            this.bSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.bSave.Location = new System.Drawing.Point(877, 31);
+            this.bSave.Name = "bSave";
+            this.bSave.Size = new System.Drawing.Size(75, 23);
+            this.bSave.TabIndex = 5;
+            this.bSave.Tag = "";
+            this.bSave.Text = "Save";
+            this.bSave.UseVisualStyleBackColor = true;
+            // 
             // EditWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 561);
+            this.Controls.Add(this.bSave);
             this.Controls.Add(this.pRegionalSettings);
             this.Controls.Add(this.tbTemplate);
             this.Controls.Add(this.lTemplate);
@@ -453,5 +466,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cbAdjustHijriDate;
         private System.Windows.Forms.Label lAdjustHijriDate;
+        private System.Windows.Forms.Button bSave;
     }
 }

@@ -162,7 +162,7 @@ namespace Karabina.SharePoint.Provisioning
             CalendarCollection calendarCollection = new CalendarCollection();
             cbCalendar.DisplayMember = "CalendarName";
             cbCalendar.ValueMember = "CalendarId";
-            cbCalendar.DataSource = calendarCollection.Calendars.ToList();
+            cbCalendar.DataSource = calendarCollection.Calendars.Where(p => p.CalendarId > 0).ToList();
 
             selectedIdx = -1;
             tmpIdx = regionalSettings[RegionalSettingProperty.CalendarType.GetHashCode()];
