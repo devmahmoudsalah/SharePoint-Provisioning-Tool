@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using System.Web.Script.Serialization;
 
 namespace Karabina.SharePoint.Provisioning
 {
@@ -1294,7 +1295,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (template.ComposedLook != null)
+            if (template.ComposedLook?.Name != null)
             {
                 TreeNode clNode = new TreeNode("Composed Look");
                 clNode.Tag = template.ComposedLook;
@@ -1303,60 +1304,55 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (template.CustomActions != null)
+            if (template.CustomActions?.SiteCustomActions?.Count > 0)
             {
-                if (template.CustomActions.SiteCustomActions?.Count > 0)
+                TreeNode scaNodes = new TreeNode("Site Custom Actions");
+
+                foreach (var siteCustomAction in template.CustomActions.SiteCustomActions)
                 {
-                    TreeNode scaNodes = new TreeNode("Site Custom Actions");
+                    TreeNode scaNode = new TreeNode(siteCustomAction.Name);
+                    scaNode.Tag = siteCustomAction;
 
-                    foreach (var siteCustomAction in template.CustomActions.SiteCustomActions)
-                    {
-                        TreeNode scaNode = new TreeNode(siteCustomAction.Name);
-                        scaNode.Tag = siteCustomAction;
-
-                        scaNodes.Nodes.Add(scaNode);
-                    }
-
-                    rootNode.Nodes.Add(scaNodes);
-
+                    scaNodes.Nodes.Add(scaNode);
                 }
 
-                if (template.CustomActions.WebCustomActions?.Count > 0)
-                {
-                    TreeNode wcaNodes = new TreeNode("Web Custom Actions");
+                rootNode.Nodes.Add(scaNodes);
 
-                    foreach (var webCustomAction in template.CustomActions.WebCustomActions)
-                    {
-                        TreeNode wcaNode = new TreeNode(webCustomAction.Name);
-                        wcaNode.Tag = webCustomAction;
-
-                        wcaNodes.Nodes.Add(wcaNode);
-                    }
-
-                    rootNode.Nodes.Add(wcaNodes);
-
-                }
             }
 
-            if (template.Features != null)
+            if (template.CustomActions?.WebCustomActions?.Count > 0)
             {
-                if (template.Features.SiteFeatures?.Count > 0)
-                {
-                    TreeNode sfNodes = new TreeNode("Site Features");
-                    sfNodes.Tag = template.Features.SiteFeatures;
+                TreeNode wcaNodes = new TreeNode("Web Custom Actions");
 
-                    rootNode.Nodes.Add(sfNodes);
+                foreach (var webCustomAction in template.CustomActions.WebCustomActions)
+                {
+                    TreeNode wcaNode = new TreeNode(webCustomAction.Name);
+                    wcaNode.Tag = webCustomAction;
+
+                    wcaNodes.Nodes.Add(wcaNode);
                 }
 
-                if (template.Features.WebFeatures?.Count > 0)
-                {
-                    TreeNode wfNodes = new TreeNode("Web Features");
-                    wfNodes.Tag = template.Features.WebFeatures;
-
-                    rootNode.Nodes.Add(wfNodes);
-                }
+                rootNode.Nodes.Add(wcaNodes);
 
             }
+
+            if (template.Features?.SiteFeatures?.Count > 0)
+            {
+                TreeNode sfNodes = new TreeNode("Site Features");
+                sfNodes.Tag = template.Features.SiteFeatures;
+
+                rootNode.Nodes.Add(sfNodes);
+            }
+
+            if (template.Features?.WebFeatures?.Count > 0)
+            {
+                TreeNode wfNodes = new TreeNode("Web Features");
+                wfNodes.Tag = template.Features.WebFeatures;
+
+                rootNode.Nodes.Add(wfNodes);
+            }
+
+
 
             if (template.ContentTypes?.Count > 0)
             {
@@ -1365,7 +1361,7 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var contentType in template.ContentTypes)
                 {
                     TreeNode ctNode = new TreeNode(contentType.Name);
-                    ctNode.Tag = contentType;
+                    ctNode.Tag = contentType.Id;
 
                     ctNodes.Nodes.Add(ctNode);
 
@@ -1384,7 +1380,12 @@ namespace Karabina.SharePoint.Provisioning
                     XElement fieldElement = XElement.Parse(siteField.SchemaXml);
                     string fieldName = fieldElement.Attribute("Name").Value;
                     TreeNode sfNode = new TreeNode(fieldName);
-                    sfNodes.Tag = siteField;
+
+                    string fieldXml = fieldElement.ToString(SaveOptions.None);
+                    int gtFirst = fieldXml.IndexOf('>', 0);
+                    string fieldText = fieldXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n       ") + fieldXml.Substring(gtFirst);
+
+                    sfNode.Tag = fieldText;
 
                     sfNodes.Nodes.Add(sfNode);
                 }
@@ -1400,7 +1401,7 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var file in template.Files)
                 {
                     TreeNode fNode = new TreeNode(file.Src);
-                    fNode.Tag = file;
+                    fNode.Tag = file.Src;
 
                     fNodes.Nodes.Add(fNode);
                 }
@@ -1416,7 +1417,29 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var list in template.Lists)
                 {
                     TreeNode lNode = new TreeNode(list.Title);
-                    lNode.Tag = list;
+                    lNode.Tag = list.Url;
+
+                    if (list.Views?.Count > 0)
+                    {
+                        TreeNode vNodes = new TreeNode("Views");
+
+                        foreach (var view in list.Views)
+                        {
+                            XElement viewElement = XElement.Parse(view.SchemaXml);
+                            string displayName = viewElement.Attribute("DisplayName").Value;
+
+                            TreeNode vNode = new TreeNode(displayName);
+                            string viewXml = viewElement.ToString(SaveOptions.None);
+                            int gtFirst = viewXml.IndexOf('>', 0);
+                            string viewText = viewXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n      ") + viewXml.Substring(gtFirst);
+                            vNode.Tag = viewText;
+
+                            vNodes.Nodes.Add(vNode);
+                        }
+
+                        lNode.Nodes.Add(vNodes);
+
+                    }
 
                     lNodes.Nodes.Add(lNode);
 
@@ -1433,7 +1456,7 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var localization in template.Localizations)
                 {
                     TreeNode glNode = new TreeNode(localization.Name);
-                    glNode.Tag = localization;
+                    glNode.Tag = localization.LCID;
 
                     glNodes.Nodes.Add(glNode);
 
@@ -1452,7 +1475,7 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var page in template.Pages)
                 {
                     TreeNode pNode = new TreeNode(page.Url);
-                    pNode.Tag = page;
+                    pNode.Tag = page.Url;
 
                     pNodes.Nodes.Add(pNode);
 
@@ -1535,41 +1558,37 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (template.Workflows != null)
+            if (template.Workflows?.WorkflowDefinitions?.Count > 0)
             {
-                if (template.Workflows.WorkflowDefinitions?.Count > 0)
+                TreeNode wwdNodes = new TreeNode("Workflow Definitions");
+
+                foreach (var workflowDefinition in template.Workflows.WorkflowDefinitions)
                 {
-                    TreeNode wwdNodes = new TreeNode("Workflow Definitions");
+                    TreeNode wwdNode = new TreeNode(workflowDefinition.DisplayName);
+                    wwdNode.Tag = workflowDefinition;
 
-                    foreach (var workflowDefinition in template.Workflows.WorkflowDefinitions)
-                    {
-                        TreeNode wwdNode = new TreeNode(workflowDefinition.DisplayName);
-                        wwdNode.Tag = workflowDefinition;
-
-                        wwdNodes.Nodes.Add(wwdNode);
-
-                    }
-
-                    rootNode.Nodes.Add(wwdNodes);
+                    wwdNodes.Nodes.Add(wwdNode);
 
                 }
 
-                if (template.Workflows.WorkflowSubscriptions?.Count > 0)
+                rootNode.Nodes.Add(wwdNodes);
+
+            }
+
+            if (template.Workflows?.WorkflowSubscriptions?.Count > 0)
+            {
+                TreeNode wwsNodes = new TreeNode("Workflow Subscriptions");
+
+                foreach (var workflowSubscription in template.Workflows.WorkflowSubscriptions)
                 {
-                    TreeNode wwsNodes = new TreeNode("Workflow Subscriptions");
+                    TreeNode wwsNode = new TreeNode(workflowSubscription.Name);
+                    wwsNode.Tag = workflowSubscription;
 
-                    foreach (var workflowSubscription in template.Workflows.WorkflowSubscriptions)
-                    {
-                        TreeNode wwsNode = new TreeNode(workflowSubscription.Name);
-                        wwsNode.Tag = workflowSubscription;
-
-                        wwsNodes.Nodes.Add(wwsNode);
-
-                    }
-
-                    rootNode.Nodes.Add(wwsNodes);
+                    wwsNodes.Nodes.Add(wwsNode);
 
                 }
+
+                rootNode.Nodes.Add(wwsNodes);
 
             }
 
@@ -1615,7 +1634,122 @@ namespace Karabina.SharePoint.Provisioning
             };
 
             return result;
-        }
+        } //GetComposedLook
+
+        public string GetContentType(string contentTypeId)
+        {
+            string result = string.Empty;
+            PnPModel.ContentType contentType = EditingTemplate.ContentTypes.Find(p => p.Id.Equals(contentTypeId, StringComparison.OrdinalIgnoreCase));
+            if (contentType != null)
+            {
+                PnPModel.ContentType newCT = new PnPModel.ContentType()
+                {
+                    Id = contentType.Id,
+                    Description = contentType.Description,
+                    DisplayFormUrl = contentType.DisplayFormUrl,
+                    DocumentSetTemplate = contentType.DocumentSetTemplate,
+                    DocumentTemplate = contentType.DocumentTemplate,
+                    EditFormUrl = contentType.EditFormUrl,
+                    Group = contentType.Group,
+                    Hidden = contentType.Hidden,
+                    Name = contentType.Name,
+                    NewFormUrl = contentType.NewFormUrl,
+                    Overwrite = contentType.Overwrite,
+                    ReadOnly = contentType.ReadOnly,
+                    Sealed = contentType.Sealed
+                };
+                if (contentType.FieldRefs?.Count > 0)
+                {
+                    newCT.FieldRefs.AddRange(contentType.FieldRefs);
+                }
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newCT).Replace(",\"ParentTemplate\":null", "").Replace("{", "{\r\n").Replace(",", ",\r\n").Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+
+            }
+            return result;
+
+        } //GetContentType
+
+        public string GetListInstance(string url)
+        {
+            string result = string.Empty;
+            ListInstance listInstance = EditingTemplate.Lists.Find(p => p.Url.Equals(url, StringComparison.OrdinalIgnoreCase));
+            if (listInstance != null)
+            {
+                ListInstance newLI = new ListInstance()
+                {
+                    ContentTypesEnabled = listInstance.ContentTypesEnabled,
+                    Description = listInstance.Description,
+                    DocumentTemplate = listInstance.DocumentTemplate,
+                    DraftVersionVisibility = listInstance.DraftVersionVisibility,
+                    EnableAttachments = listInstance.EnableAttachments,
+                    EnableFolderCreation = listInstance.EnableFolderCreation,
+                    EnableMinorVersions = listInstance.EnableMinorVersions,
+                    EnableModeration = listInstance.EnableModeration,
+                    EnableVersioning = listInstance.EnableVersioning,
+                    ForceCheckout = listInstance.ForceCheckout,
+                    Hidden = listInstance.Hidden,
+                    MaxVersionLimit = listInstance.MaxVersionLimit,
+                    MinorVersionLimit = listInstance.MinorVersionLimit,
+                    OnQuickLaunch = listInstance.OnQuickLaunch,
+                    RemoveExistingContentTypes = listInstance.RemoveExistingContentTypes,
+                    RemoveExistingViews = listInstance.RemoveExistingViews,
+                    TemplateFeatureID = listInstance.TemplateFeatureID,
+                    TemplateType = listInstance.TemplateType,
+                    Title = listInstance.Title,
+                    Url = listInstance.Url
+                };
+                if (listInstance.ContentTypeBindings?.Count > 0)
+                {
+                    newLI.ContentTypeBindings.AddRange(listInstance.ContentTypeBindings);
+                }
+                if (listInstance.DataRows?.Count > 0)
+                {
+                    newLI.DataRows.AddRange(listInstance.DataRows);
+                }
+                if (listInstance.FieldDefaults?.Count > 0)
+                {
+                    foreach (var kvp in listInstance.FieldDefaults)
+                    {
+                        newLI.FieldDefaults.Add(kvp.Key, kvp.Value);
+                    }
+                }
+                if (listInstance.FieldRefs?.Count > 0)
+                {
+                    newLI.FieldRefs.AddRange(listInstance.FieldRefs);
+                }
+                if (listInstance.Fields?.Count > 0)
+                {
+                    newLI.Fields.AddRange(listInstance.Fields);
+                }
+                if (listInstance.Folders?.Count > 0)
+                {
+                    newLI.Folders.AddRange(listInstance.Folders);
+                }
+                if (listInstance.Security != null)
+                {
+                    newLI.Security = new ObjectSecurity()
+                    {
+                        ClearSubscopes = listInstance.Security.ClearSubscopes,
+                        CopyRoleAssignments = listInstance.Security.CopyRoleAssignments
+                    };
+                    newLI.Security.RoleAssignments.AddRange(listInstance.Security.RoleAssignments);
+                }
+                if (listInstance.UserCustomActions?.Count > 0)
+                {
+                    newLI.UserCustomActions.AddRange(listInstance.UserCustomActions);
+                }
+
+                //ensure views are empty as they are handled elsewhere
+                newLI.Views.Clear();
+
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newLI).Replace(",\"ParentTemplate\":null", "").Replace("{", "{\r\n").Replace(",", ",\r\n").Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+
+            }
+            return result;
+
+        } //GetListInstance
 
     }
 

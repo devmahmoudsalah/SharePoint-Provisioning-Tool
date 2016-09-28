@@ -288,122 +288,173 @@ namespace Karabina.SharePoint.Provisioning
 
         } //PopulateComposedLook
 
+        private void PopulateContentType(string contentTypeId)
+        {
+            string contentType = string.Empty;
+            switch (_selectedVersion)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    contentType = SP2013OP.GetContentType(contentTypeId);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    break;
+            }
+            tbContentType.Text = contentType;
+
+        } //PopulateContentType
+
+        private void PopulateListInstance(string url)
+        {
+            string listInstance = string.Empty;
+            switch (_selectedVersion)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    listInstance = SP2013OP.GetListInstance(url);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    break;
+            }
+            tbListInstance.Text = listInstance;
+
+        } //PopulateListInstance
+
         private void HideActivePanel(string nodeFullPath)
         {
             if (!string.IsNullOrWhiteSpace(_activeNodePath))
             {
-                if (_activeNodePath.Contains("Regional Settings"))
+                if (_activeNodePath.Contains(@"\Regional Settings"))
                 {
                     pRegionalSettings.Visible = false;
                     pRegionalSettings.Left = 1038;
                 }
-                else if (_activeNodePath.Contains("Add-Ins"))
+                else if (_activeNodePath.Contains(@"\Add-Ins"))
                 {
-                    if (!nodeFullPath.Contains("Add-Ins"))
+                    if (!nodeFullPath.Contains(@"\Add-Ins\"))
                     {
 
                     }
                 }
-                else if (_activeNodePath.Contains("Composed Look"))
+                else if (_activeNodePath.Contains(@"\Composed Look"))
                 {
                     pComposedLook.Visible = false;
                     pComposedLook.Left = 1038;
                 }
-                else if (_activeNodePath.Contains("Site Custom Actions"))
+                else if (_activeNodePath.Contains(@"\Site Custom Actions"))
                 {
 
                 }
-                else if (_activeNodePath.Contains("Web Custom Actions"))
+                else if (_activeNodePath.Contains(@"\Web Custom Actions"))
                 {
 
                 }
-                else if (_activeNodePath.Contains("Site Features"))
+                else if (_activeNodePath.Contains(@"\Site Features"))
                 {
 
                 }
-                else if (_activeNodePath.Contains("Web Features"))
+                else if (_activeNodePath.Contains(@"\Web Features"))
                 {
 
                 }
-                else if (_activeNodePath.Contains("Content Types"))
+                else if (_activeNodePath.Contains(@"\Content Types"))
                 {
-                    if (!nodeFullPath.Contains("Content Types"))
+                    if (!nodeFullPath.Contains(@"\Content Types\"))
+                    {
+                        pContentTypes.Visible = false;
+                        pContentTypes.Left = 1038;
+                    }
+                }
+                else if (_activeNodePath.Contains(@"\Site Fields"))
+                {
+                    if (!nodeFullPath.Contains(@"\Site Fields\"))
+                    {
+                        pSiteFields.Visible = false;
+                        pSiteFields.Left = 1038;
+                    }
+                }
+                else if (_activeNodePath.Contains(@"\Files"))
+                {
+                    if (!nodeFullPath.Contains(@"\Files\"))
                     {
 
                     }
                 }
-                else if (_activeNodePath.Contains("Site Fields"))
+                else if (_activeNodePath.Contains(@"\Lists"))
                 {
-                    if (!nodeFullPath.Contains("Site Fields"))
+                    if (!nodeFullPath.Contains(@"\Lists\"))
+                    {
+                        pLists.Visible = false;
+                        pLists.Left = 1038;
+                    }
+                    else if (!nodeFullPath.Contains(@"\Views\"))
+                    {
+                        pLists.Visible = false;
+                        pLists.Left = 1038;
+                        pViews.Visible = false;
+                        pViews.Left = 1038;
+                    }
+                    else if (nodeFullPath.Contains(@"\Views\"))
+                    {
+                        pLists.Visible = false;
+                        pLists.Left = 1038;
+                    }
+                }
+                else if (_activeNodePath.Contains(@"\Localizations"))
+                {
+                    if (!nodeFullPath.Contains(@"\Localizations\"))
                     {
 
                     }
                 }
-                else if (_activeNodePath.Contains("Files"))
+                else if (_activeNodePath.Contains(@"\Pages"))
                 {
-                    if (!nodeFullPath.Contains("Files"))
+                    if (!nodeFullPath.Contains(@"\Pages\"))
                     {
 
                     }
                 }
-                else if (_activeNodePath.Contains("Lists"))
+                else if (_activeNodePath.Contains(@"\Properties"))
                 {
-                    if (!nodeFullPath.Contains("Lists"))
+
+                }
+                else if (_activeNodePath.Contains(@"\Property Bag Entries"))
+                {
+
+                }
+                else if (_activeNodePath.Contains(@"\Publishing"))
+                {
+
+                }
+                else if (_activeNodePath.Contains(@"\Supported UI Languages"))
+                {
+
+                }
+                else if (_activeNodePath.Contains(@"\Term Groups"))
+                {
+                    if (!nodeFullPath.Contains(@"\Term Groups\"))
                     {
 
                     }
                 }
-                else if (_activeNodePath.Contains("Localizations"))
+                else if (_activeNodePath.Contains(@"\Web Settings"))
                 {
-                    if (!nodeFullPath.Contains("Localizations"))
+
+                }
+                else if (_activeNodePath.Contains(@"\Workflow Definitions"))
+                {
+                    if (!nodeFullPath.Contains(@"\Workflow Definitions\"))
                     {
 
                     }
                 }
-                else if (_activeNodePath.Contains("Pages"))
+                else if (_activeNodePath.Contains(@"\Workflow Subscriptions"))
                 {
-                    if (!nodeFullPath.Contains("Pages"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains("Properties"))
-                {
-
-                }
-                else if (_activeNodePath.Contains("Property Bag Entries"))
-                {
-
-                }
-                else if (_activeNodePath.Contains("Publishing"))
-                {
-
-                }
-                else if (_activeNodePath.Contains("Supported UI Languages"))
-                {
-
-                }
-                else if (_activeNodePath.Contains("Term Groups"))
-                {
-                    if (!nodeFullPath.Contains("Term Groups"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains("Web Settings"))
-                {
-
-                }
-                else if (_activeNodePath.Contains("Workflow Definitions"))
-                {
-                    if (!nodeFullPath.Contains("Workflow Definitions"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains("Workflow Subscriptions"))
-                {
-                    if (!nodeFullPath.Contains("Workflow Subscriptions"))
+                    if (!nodeFullPath.Contains(@"\Workflow Subscriptions\"))
                     {
 
                     }
@@ -418,14 +469,14 @@ namespace Karabina.SharePoint.Provisioning
         {
             TreeNode node = e.Node;
             if (node != null)
-            {       
-                if(!node.FullPath.Equals(_activeNodePath, StringComparison.OrdinalIgnoreCase))
+            {
+                if (!node.FullPath.Equals(_activeNodePath, StringComparison.OrdinalIgnoreCase))
                 {
                     HideActivePanel(node.FullPath);
                 }
 
                 _activeNodePath = node.FullPath;
-                if (_activeNodePath.Contains("Regional Settings"))
+                if (_activeNodePath.Contains(@"\Regional Settings"))
                 {
                     if (cbTimeZone.Items.Count <= 0)
                     {
@@ -433,8 +484,9 @@ namespace Karabina.SharePoint.Provisioning
                     }
                     pRegionalSettings.Left = 438;
                     pRegionalSettings.Visible = true;
+
                 }
-                else if(_activeNodePath.Contains("Composed Look"))
+                else if (_activeNodePath.Contains(@"\Composed Look"))
                 {
                     if (string.IsNullOrWhiteSpace(tbComposedLookName.Text))
                     {
@@ -442,6 +494,63 @@ namespace Karabina.SharePoint.Provisioning
                     }
                     pComposedLook.Left = 438;
                     pComposedLook.Visible = true;
+
+                }
+                else if (_activeNodePath.Contains(@"\Content Types\"))
+                {
+                    string tagCT = node.Tag.ToString();
+                    if (tagCT.StartsWith("{"))
+                    {
+                        tbContentType.Text = tagCT;
+                    }
+                    else
+                    {
+                        PopulateContentType(node.Tag.ToString());
+                        node.Tag = tbContentType.Text;
+                    }
+                    pContentTypes.Left = 438;
+                    pContentTypes.Visible = true;
+
+                }
+                else if (_activeNodePath.Contains(@"\Site Fields\"))
+                {
+                    string tagSF = node.Tag.ToString();
+                    tbSiteField.Text = tagSF;
+                    pSiteFields.Left = 438;
+                    pSiteFields.Visible = true;
+
+                }
+                else if (_activeNodePath.Contains(@"\Lists\"))
+                {
+                    if (_activeNodePath.Contains(@"\Views"))
+                    {
+                        if (_activeNodePath.Contains(@"\Views\"))
+                        {
+                            string tagLV = node.Tag.ToString();
+                            tbView.Text = tagLV;
+                            pViews.Left = 438;
+                            pViews.Visible = true;
+
+                        }
+
+                    }
+                    else
+                    {
+                        string tagLI = node.Tag.ToString();
+                        if (tagLI.StartsWith("{"))
+                        {
+                            tbListInstance.Text = tagLI;
+                        }
+                        else
+                        {
+                            PopulateListInstance(node.Tag.ToString());
+                            node.Tag = tbListInstance.Text;
+                        }
+                        pLists.Left = 438;
+                        pLists.Visible = true;
+
+                    }
+
                 }
 
             }
