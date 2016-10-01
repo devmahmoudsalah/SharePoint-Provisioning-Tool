@@ -29,17 +29,15 @@ namespace Karabina.SharePoint.Provisioning
         public List<DayHour> DayHours
         {
             get { return _dayHours; }
-            set { _dayHours = value; }
+            private set { _dayHours = value; }
         }
-
-
 
         public DayHourCollection()
         {
             _dayHours = new List<DayHour>();
             for (int i = 0; i < 24; i++)
             {
-                _dayHours.Add(new DayHour() { DayHourId = 1, DayHourName = string.Format("{0:00}:00", i) });
+                _dayHours.Add(new DayHour() { DayHourId = i, DayHourName = string.Format("{0:00}:00", i) });
             }
 
         }

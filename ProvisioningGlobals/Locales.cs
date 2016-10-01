@@ -12,6 +12,7 @@ namespace Karabina.SharePoint.Provisioning
         public string LocaleName { get; set; }
 
         public Locale() { }
+
     }
 
     public class LocaleCollection
@@ -20,7 +21,7 @@ namespace Karabina.SharePoint.Provisioning
         public List<Locale> Locales
         {
             get { return _locales; }
-            set { _locales = value; }
+            private set { _locales = value; }
         }
 
         public LocaleCollection()

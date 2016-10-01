@@ -23,7 +23,7 @@ namespace Karabina.SharePoint.Provisioning
         public List<FirstWeek> FirstWeeks
         {
             get { return _firstWeeks; }
-            set { _firstWeeks = value; }
+            private set { _firstWeeks = value; }
         }
 
         public FirstWeekCollection()

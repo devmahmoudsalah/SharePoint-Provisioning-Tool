@@ -12,7 +12,8 @@ namespace Karabina.SharePoint.Provisioning
         public string CalendarName { get; set; }
 
         public Calendar() { }
-    }
+
+    } //Calendar
 
     public class CalendarCollection
     {
@@ -20,7 +21,7 @@ namespace Karabina.SharePoint.Provisioning
         public List<Calendar> Calendars
         {
             get { return _calendars; }
-            set { _calendars = value; }
+            private set { _calendars = value; }
         }
 
         public CalendarCollection()
@@ -41,8 +42,8 @@ namespace Karabina.SharePoint.Provisioning
             _calendars.Add(new Calendar() { CalendarId = 16, CalendarName = "Saka Era" });
             _calendars.Add(new Calendar() { CalendarId = 23, CalendarName = "Umm al-Qura" });
 
-        }
+        } //CalendarCollection
 
-    }
+    } //CalendarCollection class
 
 }

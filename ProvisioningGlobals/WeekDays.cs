@@ -41,7 +41,7 @@ namespace Karabina.SharePoint.Provisioning
         public List<WeekDay> WeekDays
         {
             get { return _weekDays; }
-            set { _weekDays = value; }
+            private set { _weekDays = value; }
         }
 
         public WeekDayCollletion()

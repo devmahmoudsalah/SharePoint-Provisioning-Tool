@@ -28,7 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditWin));
             this.tvTemplate = new System.Windows.Forms.TreeView();
+            this.cmsTreeViewPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.tbTemplate = new System.Windows.Forms.TextBox();
             this.lTemplate = new System.Windows.Forms.Label();
             this.bBrowse = new System.Windows.Forms.Button();
@@ -70,34 +74,72 @@
             this.label13 = new System.Windows.Forms.Label();
             this.tbComposedLookName = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.pContentTypes = new System.Windows.Forms.Panel();
-            this.label17 = new System.Windows.Forms.Label();
-            this.tbContentType = new System.Windows.Forms.TextBox();
-            this.pSiteFields = new System.Windows.Forms.Panel();
-            this.label18 = new System.Windows.Forms.Label();
-            this.tbSiteField = new System.Windows.Forms.TextBox();
-            this.pLists = new System.Windows.Forms.Panel();
-            this.label19 = new System.Windows.Forms.Label();
-            this.tbListInstance = new System.Windows.Forms.TextBox();
-            this.pViews = new System.Windows.Forms.Panel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.tbView = new System.Windows.Forms.TextBox();
+            this.pTextControl = new System.Windows.Forms.Panel();
+            this.lTextControl = new System.Windows.Forms.Label();
+            this.tbTextControl = new System.Windows.Forms.TextBox();
+            this.pWebSettings = new System.Windows.Forms.Panel();
+            this.cbWSNoCrawl = new System.Windows.Forms.CheckBox();
+            this.tbWSRequestAccessEmail = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.tbWSWelcomePage = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.tbWSAlternateCSS = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.tbWSCustomMasterPageUrl = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tbWSMasterPageUrl = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.tbWSSiteLogo = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.tbWSDescription = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.tbWSTitle = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.pPropertyBagEntries = new System.Windows.Forms.Panel();
+            this.lvPropertyBagEntries = new System.Windows.Forms.ListView();
+            this.pbeKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pbeValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label29 = new System.Windows.Forms.Label();
+            this.pListControl = new System.Windows.Forms.Panel();
+            this.lbListControl = new System.Windows.Forms.ListBox();
+            this.lListControl = new System.Windows.Forms.Label();
+            this.cmsTreeViewPopup.SuspendLayout();
             this.pRegionalSettings.SuspendLayout();
             this.pComposedLook.SuspendLayout();
-            this.pContentTypes.SuspendLayout();
-            this.pSiteFields.SuspendLayout();
-            this.pLists.SuspendLayout();
-            this.pViews.SuspendLayout();
+            this.pTextControl.SuspendLayout();
+            this.pWebSettings.SuspendLayout();
+            this.pPropertyBagEntries.SuspendLayout();
+            this.pListControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvTemplate
             // 
+            this.tvTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tvTemplate.ContextMenuStrip = this.cmsTreeViewPopup;
+            this.tvTemplate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tvTemplate.FullRowSelect = true;
+            this.tvTemplate.HideSelection = false;
+            this.tvTemplate.HotTracking = true;
             this.tvTemplate.Location = new System.Drawing.Point(14, 61);
             this.tvTemplate.Name = "tvTemplate";
+            this.tvTemplate.ShowLines = false;
             this.tvTemplate.Size = new System.Drawing.Size(418, 488);
             this.tvTemplate.TabIndex = 3;
             this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
+            // 
+            // cmsTreeViewPopup
+            // 
+            this.cmsTreeViewPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDelete});
+            this.cmsTreeViewPopup.Name = "cmsTreeViewPopup";
+            this.cmsTreeViewPopup.Size = new System.Drawing.Size(108, 26);
+            // 
+            // tsmiDelete
+            // 
+            this.tsmiDelete.Name = "tsmiDelete";
+            this.tsmiDelete.Size = new System.Drawing.Size(107, 22);
+            this.tsmiDelete.Text = "Delete";
+            this.tsmiDelete.Click += new System.EventHandler(this.DeleteTemplateItem);
             // 
             // tbTemplate
             // 
@@ -128,7 +170,7 @@
             this.bBrowse.Tag = "";
             this.bBrowse.Text = "Browse...";
             this.bBrowse.UseVisualStyleBackColor = true;
-            this.bBrowse.Click += new System.EventHandler(this.bBrowse_Click);
+            this.bBrowse.Click += new System.EventHandler(this.BrowseForTemplate);
             // 
             // pRegionalSettings
             // 
@@ -539,147 +581,299 @@
             this.label12.TabIndex = 0;
             this.label12.Text = "Name:";
             // 
-            // pContentTypes
+            // pTextControl
             // 
-            this.pContentTypes.Controls.Add(this.label17);
-            this.pContentTypes.Controls.Add(this.tbContentType);
-            this.pContentTypes.Location = new System.Drawing.Point(1038, 61);
-            this.pContentTypes.Name = "pContentTypes";
-            this.pContentTypes.Size = new System.Drawing.Size(514, 488);
-            this.pContentTypes.TabIndex = 7;
-            this.pContentTypes.Visible = false;
+            this.pTextControl.Controls.Add(this.lTextControl);
+            this.pTextControl.Controls.Add(this.tbTextControl);
+            this.pTextControl.Location = new System.Drawing.Point(1038, 61);
+            this.pTextControl.Name = "pTextControl";
+            this.pTextControl.Size = new System.Drawing.Size(514, 488);
+            this.pTextControl.TabIndex = 7;
+            this.pTextControl.Visible = false;
             // 
-            // label17
+            // lTextControl
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(13, 8);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(79, 15);
-            this.label17.TabIndex = 1;
-            this.label17.Text = "Content type:";
+            this.lTextControl.AutoSize = true;
+            this.lTextControl.Location = new System.Drawing.Point(13, 8);
+            this.lTextControl.Name = "lTextControl";
+            this.lTextControl.Size = new System.Drawing.Size(73, 15);
+            this.lTextControl.TabIndex = 1;
+            this.lTextControl.Text = "Text control:";
             // 
-            // tbContentType
+            // tbTextControl
             // 
-            this.tbContentType.AcceptsReturn = true;
-            this.tbContentType.AcceptsTab = true;
-            this.tbContentType.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbContentType.Location = new System.Drawing.Point(13, 29);
-            this.tbContentType.Multiline = true;
-            this.tbContentType.Name = "tbContentType";
-            this.tbContentType.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbContentType.ShortcutsEnabled = false;
-            this.tbContentType.Size = new System.Drawing.Size(489, 443);
-            this.tbContentType.TabIndex = 0;
-            this.tbContentType.WordWrap = false;
+            this.tbTextControl.AcceptsReturn = true;
+            this.tbTextControl.AcceptsTab = true;
+            this.tbTextControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTextControl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTextControl.Location = new System.Drawing.Point(13, 29);
+            this.tbTextControl.Multiline = true;
+            this.tbTextControl.Name = "tbTextControl";
+            this.tbTextControl.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbTextControl.ShortcutsEnabled = false;
+            this.tbTextControl.Size = new System.Drawing.Size(489, 443);
+            this.tbTextControl.TabIndex = 0;
+            this.tbTextControl.WordWrap = false;
             // 
-            // pSiteFields
+            // pWebSettings
             // 
-            this.pSiteFields.Controls.Add(this.label18);
-            this.pSiteFields.Controls.Add(this.tbSiteField);
-            this.pSiteFields.Location = new System.Drawing.Point(1038, 61);
-            this.pSiteFields.Name = "pSiteFields";
-            this.pSiteFields.Size = new System.Drawing.Size(514, 488);
-            this.pSiteFields.TabIndex = 8;
-            this.pSiteFields.Visible = false;
+            this.pWebSettings.Controls.Add(this.cbWSNoCrawl);
+            this.pWebSettings.Controls.Add(this.tbWSRequestAccessEmail);
+            this.pWebSettings.Controls.Add(this.label28);
+            this.pWebSettings.Controls.Add(this.tbWSWelcomePage);
+            this.pWebSettings.Controls.Add(this.label27);
+            this.pWebSettings.Controls.Add(this.tbWSAlternateCSS);
+            this.pWebSettings.Controls.Add(this.label26);
+            this.pWebSettings.Controls.Add(this.tbWSCustomMasterPageUrl);
+            this.pWebSettings.Controls.Add(this.label21);
+            this.pWebSettings.Controls.Add(this.tbWSMasterPageUrl);
+            this.pWebSettings.Controls.Add(this.label22);
+            this.pWebSettings.Controls.Add(this.tbWSSiteLogo);
+            this.pWebSettings.Controls.Add(this.label23);
+            this.pWebSettings.Controls.Add(this.tbWSDescription);
+            this.pWebSettings.Controls.Add(this.label24);
+            this.pWebSettings.Controls.Add(this.tbWSTitle);
+            this.pWebSettings.Controls.Add(this.label25);
+            this.pWebSettings.Location = new System.Drawing.Point(1038, 61);
+            this.pWebSettings.Name = "pWebSettings";
+            this.pWebSettings.Size = new System.Drawing.Size(514, 488);
+            this.pWebSettings.TabIndex = 11;
+            this.pWebSettings.Visible = false;
             // 
-            // label18
+            // cbWSNoCrawl
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(13, 8);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(55, 15);
-            this.label18.TabIndex = 1;
-            this.label18.Text = "Site field:";
+            this.cbWSNoCrawl.AutoSize = true;
+            this.cbWSNoCrawl.Location = new System.Drawing.Point(13, 425);
+            this.cbWSNoCrawl.Name = "cbWSNoCrawl";
+            this.cbWSNoCrawl.Size = new System.Drawing.Size(81, 19);
+            this.cbWSNoCrawl.TabIndex = 16;
+            this.cbWSNoCrawl.Text = " No Crawl ";
+            this.cbWSNoCrawl.UseVisualStyleBackColor = true;
             // 
-            // tbSiteField
+            // tbWSRequestAccessEmail
             // 
-            this.tbSiteField.AcceptsReturn = true;
-            this.tbSiteField.AcceptsTab = true;
-            this.tbSiteField.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbSiteField.Location = new System.Drawing.Point(13, 29);
-            this.tbSiteField.Multiline = true;
-            this.tbSiteField.Name = "tbSiteField";
-            this.tbSiteField.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbSiteField.ShortcutsEnabled = false;
-            this.tbSiteField.Size = new System.Drawing.Size(489, 443);
-            this.tbSiteField.TabIndex = 0;
-            this.tbSiteField.WordWrap = false;
+            this.tbWSRequestAccessEmail.Location = new System.Drawing.Point(13, 396);
+            this.tbWSRequestAccessEmail.Name = "tbWSRequestAccessEmail";
+            this.tbWSRequestAccessEmail.Size = new System.Drawing.Size(463, 23);
+            this.tbWSRequestAccessEmail.TabIndex = 15;
             // 
-            // pLists
+            // label28
             // 
-            this.pLists.Controls.Add(this.label19);
-            this.pLists.Controls.Add(this.tbListInstance);
-            this.pLists.Location = new System.Drawing.Point(1038, 61);
-            this.pLists.Name = "pLists";
-            this.pLists.Size = new System.Drawing.Size(514, 488);
-            this.pLists.TabIndex = 9;
-            this.pLists.Visible = false;
+            this.label28.AutoSize = true;
+            this.label28.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label28.Location = new System.Drawing.Point(13, 377);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(121, 15);
+            this.label28.TabIndex = 14;
+            this.label28.Text = "Request access email:";
             // 
-            // label19
+            // tbWSWelcomePage
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(13, 8);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(75, 15);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "List instance:";
+            this.tbWSWelcomePage.Location = new System.Drawing.Point(13, 348);
+            this.tbWSWelcomePage.Name = "tbWSWelcomePage";
+            this.tbWSWelcomePage.Size = new System.Drawing.Size(463, 23);
+            this.tbWSWelcomePage.TabIndex = 13;
             // 
-            // tbListInstance
+            // label27
             // 
-            this.tbListInstance.AcceptsReturn = true;
-            this.tbListInstance.AcceptsTab = true;
-            this.tbListInstance.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbListInstance.Location = new System.Drawing.Point(13, 29);
-            this.tbListInstance.Multiline = true;
-            this.tbListInstance.Name = "tbListInstance";
-            this.tbListInstance.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbListInstance.ShortcutsEnabled = false;
-            this.tbListInstance.Size = new System.Drawing.Size(489, 443);
-            this.tbListInstance.TabIndex = 0;
-            this.tbListInstance.WordWrap = false;
+            this.label27.AutoSize = true;
+            this.label27.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label27.Location = new System.Drawing.Point(13, 329);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(113, 15);
+            this.label27.TabIndex = 12;
+            this.label27.Text = "Welcome page URL:";
             // 
-            // pViews
+            // tbWSAlternateCSS
             // 
-            this.pViews.Controls.Add(this.label20);
-            this.pViews.Controls.Add(this.tbView);
-            this.pViews.Location = new System.Drawing.Point(438, 61);
-            this.pViews.Name = "pViews";
-            this.pViews.Size = new System.Drawing.Size(514, 488);
-            this.pViews.TabIndex = 10;
-            this.pViews.Visible = false;
+            this.tbWSAlternateCSS.Location = new System.Drawing.Point(13, 300);
+            this.tbWSAlternateCSS.Name = "tbWSAlternateCSS";
+            this.tbWSAlternateCSS.Size = new System.Drawing.Size(463, 23);
+            this.tbWSAlternateCSS.TabIndex = 11;
             // 
-            // label20
+            // label26
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 8);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(55, 15);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "List view:";
+            this.label26.AutoSize = true;
+            this.label26.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label26.Location = new System.Drawing.Point(13, 281);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(81, 15);
+            this.label26.TabIndex = 10;
+            this.label26.Text = "Alternate CSS:";
             // 
-            // tbView
+            // tbWSCustomMasterPageUrl
             // 
-            this.tbView.AcceptsReturn = true;
-            this.tbView.AcceptsTab = true;
-            this.tbView.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbView.Location = new System.Drawing.Point(13, 29);
-            this.tbView.Multiline = true;
-            this.tbView.Name = "tbView";
-            this.tbView.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbView.ShortcutsEnabled = false;
-            this.tbView.Size = new System.Drawing.Size(489, 443);
-            this.tbView.TabIndex = 0;
-            this.tbView.WordWrap = false;
+            this.tbWSCustomMasterPageUrl.Location = new System.Drawing.Point(13, 252);
+            this.tbWSCustomMasterPageUrl.Name = "tbWSCustomMasterPageUrl";
+            this.tbWSCustomMasterPageUrl.Size = new System.Drawing.Size(463, 23);
+            this.tbWSCustomMasterPageUrl.TabIndex = 9;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label21.Location = new System.Drawing.Point(13, 233);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(144, 15);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Custom master page URL:";
+            // 
+            // tbWSMasterPageUrl
+            // 
+            this.tbWSMasterPageUrl.Location = new System.Drawing.Point(13, 204);
+            this.tbWSMasterPageUrl.Name = "tbWSMasterPageUrl";
+            this.tbWSMasterPageUrl.Size = new System.Drawing.Size(463, 23);
+            this.tbWSMasterPageUrl.TabIndex = 7;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label22.Location = new System.Drawing.Point(13, 185);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(99, 15);
+            this.label22.TabIndex = 6;
+            this.label22.Text = "Master page URL:";
+            // 
+            // tbWSSiteLogo
+            // 
+            this.tbWSSiteLogo.Location = new System.Drawing.Point(13, 156);
+            this.tbWSSiteLogo.Name = "tbWSSiteLogo";
+            this.tbWSSiteLogo.Size = new System.Drawing.Size(463, 23);
+            this.tbWSSiteLogo.TabIndex = 5;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label23.Location = new System.Drawing.Point(13, 137);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(56, 15);
+            this.label23.TabIndex = 4;
+            this.label23.Text = "Site logo:";
+            // 
+            // tbWSDescription
+            // 
+            this.tbWSDescription.Location = new System.Drawing.Point(13, 75);
+            this.tbWSDescription.Multiline = true;
+            this.tbWSDescription.Name = "tbWSDescription";
+            this.tbWSDescription.ShortcutsEnabled = false;
+            this.tbWSDescription.Size = new System.Drawing.Size(463, 56);
+            this.tbWSDescription.TabIndex = 3;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label24.Location = new System.Drawing.Point(13, 57);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(70, 15);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "Description:";
+            // 
+            // tbWSTitle
+            // 
+            this.tbWSTitle.Location = new System.Drawing.Point(13, 27);
+            this.tbWSTitle.Name = "tbWSTitle";
+            this.tbWSTitle.Size = new System.Drawing.Size(463, 23);
+            this.tbWSTitle.TabIndex = 1;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label25.Location = new System.Drawing.Point(13, 8);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(33, 15);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Title:";
+            // 
+            // pPropertyBagEntries
+            // 
+            this.pPropertyBagEntries.Controls.Add(this.lvPropertyBagEntries);
+            this.pPropertyBagEntries.Controls.Add(this.label29);
+            this.pPropertyBagEntries.Location = new System.Drawing.Point(1038, 61);
+            this.pPropertyBagEntries.Name = "pPropertyBagEntries";
+            this.pPropertyBagEntries.Size = new System.Drawing.Size(514, 488);
+            this.pPropertyBagEntries.TabIndex = 15;
+            this.pPropertyBagEntries.Visible = false;
+            // 
+            // lvPropertyBagEntries
+            // 
+            this.lvPropertyBagEntries.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lvPropertyBagEntries.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.pbeKey,
+            this.pbeValue});
+            this.lvPropertyBagEntries.FullRowSelect = true;
+            this.lvPropertyBagEntries.GridLines = true;
+            this.lvPropertyBagEntries.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvPropertyBagEntries.Location = new System.Drawing.Point(13, 29);
+            this.lvPropertyBagEntries.Name = "lvPropertyBagEntries";
+            this.lvPropertyBagEntries.ShowGroups = false;
+            this.lvPropertyBagEntries.Size = new System.Drawing.Size(489, 443);
+            this.lvPropertyBagEntries.TabIndex = 2;
+            this.lvPropertyBagEntries.UseCompatibleStateImageBehavior = false;
+            this.lvPropertyBagEntries.View = System.Windows.Forms.View.Details;
+            // 
+            // pbeKey
+            // 
+            this.pbeKey.Text = "Key";
+            this.pbeKey.Width = 150;
+            // 
+            // pbeValue
+            // 
+            this.pbeValue.Text = "Value";
+            this.pbeValue.Width = 313;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(13, 8);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(116, 15);
+            this.label29.TabIndex = 1;
+            this.label29.Text = "Property bag entries:";
+            // 
+            // pListControl
+            // 
+            this.pListControl.Controls.Add(this.lbListControl);
+            this.pListControl.Controls.Add(this.lListControl);
+            this.pListControl.Location = new System.Drawing.Point(438, 61);
+            this.pListControl.Name = "pListControl";
+            this.pListControl.Size = new System.Drawing.Size(514, 488);
+            this.pListControl.TabIndex = 16;
+            this.pListControl.Visible = false;
+            // 
+            // lbListControl
+            // 
+            this.lbListControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbListControl.FormattingEnabled = true;
+            this.lbListControl.ItemHeight = 15;
+            this.lbListControl.Location = new System.Drawing.Point(13, 29);
+            this.lbListControl.Name = "lbListControl";
+            this.lbListControl.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbListControl.Size = new System.Drawing.Size(489, 437);
+            this.lbListControl.TabIndex = 2;
+            this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
+            // 
+            // lListControl
+            // 
+            this.lListControl.AutoSize = true;
+            this.lListControl.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.lListControl.Location = new System.Drawing.Point(13, 8);
+            this.lListControl.Name = "lListControl";
+            this.lListControl.Size = new System.Drawing.Size(69, 15);
+            this.lListControl.TabIndex = 1;
+            this.lListControl.Text = "List control:";
             // 
             // EditWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 561);
-            this.Controls.Add(this.pViews);
-            this.Controls.Add(this.pLists);
-            this.Controls.Add(this.pSiteFields);
-            this.Controls.Add(this.pContentTypes);
+            this.Controls.Add(this.pListControl);
+            this.Controls.Add(this.pPropertyBagEntries);
+            this.Controls.Add(this.pWebSettings);
             this.Controls.Add(this.pComposedLook);
             this.Controls.Add(this.bSave);
             this.Controls.Add(this.pRegionalSettings);
@@ -687,27 +881,28 @@
             this.Controls.Add(this.lTemplate);
             this.Controls.Add(this.bBrowse);
             this.Controls.Add(this.tvTemplate);
+            this.Controls.Add(this.pTextControl);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EditWin";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Provisioning Template";
+            this.Resize += new System.EventHandler(this.ResizeControls);
+            this.cmsTreeViewPopup.ResumeLayout(false);
             this.pRegionalSettings.ResumeLayout(false);
             this.pRegionalSettings.PerformLayout();
             this.pComposedLook.ResumeLayout(false);
             this.pComposedLook.PerformLayout();
-            this.pContentTypes.ResumeLayout(false);
-            this.pContentTypes.PerformLayout();
-            this.pSiteFields.ResumeLayout(false);
-            this.pSiteFields.PerformLayout();
-            this.pLists.ResumeLayout(false);
-            this.pLists.PerformLayout();
-            this.pViews.ResumeLayout(false);
-            this.pViews.PerformLayout();
+            this.pTextControl.ResumeLayout(false);
+            this.pTextControl.PerformLayout();
+            this.pWebSettings.ResumeLayout(false);
+            this.pWebSettings.PerformLayout();
+            this.pPropertyBagEntries.ResumeLayout(false);
+            this.pPropertyBagEntries.PerformLayout();
+            this.pListControl.ResumeLayout(false);
+            this.pListControl.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -757,17 +952,36 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox tbComposedLookVersion;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Panel pContentTypes;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox tbContentType;
-        private System.Windows.Forms.Panel pSiteFields;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox tbSiteField;
-        private System.Windows.Forms.Panel pLists;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox tbListInstance;
-        private System.Windows.Forms.Panel pViews;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox tbView;
+        private System.Windows.Forms.Panel pTextControl;
+        private System.Windows.Forms.Label lTextControl;
+        private System.Windows.Forms.TextBox tbTextControl;
+        private System.Windows.Forms.Panel pWebSettings;
+        private System.Windows.Forms.CheckBox cbWSNoCrawl;
+        private System.Windows.Forms.TextBox tbWSRequestAccessEmail;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox tbWSWelcomePage;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox tbWSAlternateCSS;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox tbWSCustomMasterPageUrl;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox tbWSMasterPageUrl;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox tbWSSiteLogo;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox tbWSDescription;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox tbWSTitle;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.ContextMenuStrip cmsTreeViewPopup;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDelete;
+        private System.Windows.Forms.Panel pPropertyBagEntries;
+        private System.Windows.Forms.ListView lvPropertyBagEntries;
+        private System.Windows.Forms.ColumnHeader pbeKey;
+        private System.Windows.Forms.ColumnHeader pbeValue;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Panel pListControl;
+        private System.Windows.Forms.ListBox lbListControl;
+        private System.Windows.Forms.Label lListControl;
     }
 }

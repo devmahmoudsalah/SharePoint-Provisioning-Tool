@@ -21,7 +21,7 @@ namespace Karabina.SharePoint.Provisioning
         public List<SortOrder> SortOrders
         {
             get { return _sortOrders; }
-            set { _sortOrders = value; }
+            private set { _sortOrders = value; }
         }
 
         public SortOrderCollection()

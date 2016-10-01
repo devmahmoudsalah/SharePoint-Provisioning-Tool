@@ -14,7 +14,7 @@ namespace Karabina.SharePoint.Provisioning
         SharePoint_2016_OnLine = 3
     }
 
-    public enum RegionalSettingProperty
+    public enum RegionalSettingProperties
     {
         AdjustHijriDays = 0,
         AlternateCalendarType = 1,
@@ -29,6 +29,19 @@ namespace Karabina.SharePoint.Provisioning
         WorkDayEndHour = 10,
         WorkDays = 11,
         WorkDayStartHour = 12
+    }
+
+    public enum WebSettingProperties
+    {
+        AlternateCSS = 0,
+        CustomMasterPageUrl = 1,
+        Description = 2,
+        MasterPageUrl = 3,
+        NoCrawl = 4,
+        RequestAccessEmail = 5,
+        SiteLogo = 6,
+        Title = 7,
+        WelcomePage = 8
     }
 
     public static class Constants

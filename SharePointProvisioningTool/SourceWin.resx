@@ -117,4 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIADvAQAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAAFz
+        UkdCAK7OHOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABhElEQVQ4T6WSvS+D
+        URTGH5S8iUpq62Bg6yCRJkgMEk2YGEgYJITGH1CDgYjJaGGSbkwGg1ViYCMqsRgkhkpILB2aMBjq43fe
+        XuoW7dAnOe/5vM97zrlXjaLJPlfSIarf7J/4kKIUnD1Lsymp5MK/AUHemR6ILyJP9oNTKeLCHpqd/hd0
+        kaWLxw7p4C+SugQgA8kkerpdWi6HKqhJwFL2BqROdA9umk6i5UwFX0vMW9GltALjeJipoPQmzZvRJgVJ
+        6T6MOngE11IM1+QbHA7I3eYYgVG6BqVtdhFwK6+W9wjQm7hzFgNFrm+Inlex+5AExTHk2IioH7Mibwdc
+        dJZkGj1MQdL9pcCh4L08Ror8C7po9QaPoEWaILBg2ny7fw5vMcYGMXtsJ9j7kIxY11YTwnOqYDkkgTwg
+        ORY9yj7uLhjD8jWvkeJeVIQultAzjLGGjuN386KYsg5BK/NyKE3LRnTEwV1kHd8WWLAafPqSzjHiZlcD
+        gh3+Erjl3SAZHtdUmGwc0idp3mIclDiXDgAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

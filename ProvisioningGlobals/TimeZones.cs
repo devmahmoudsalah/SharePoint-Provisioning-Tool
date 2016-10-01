@@ -21,7 +21,7 @@ namespace Karabina.SharePoint.Provisioning
         public List<TimeZone> TimeZones
         {
             get { return _timeZones; }
-            set { _timeZones = value; }
+            private set { _timeZones = value; }
         }
 
         public TimeZoneCollection()

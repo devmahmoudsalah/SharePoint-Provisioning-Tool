@@ -117,4 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="cmsTreeViewPopup.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>48</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIAC+AQAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAAFz
+        UkdCAK7OHOkAAAAEZ0FNQQAAsY8L/GEFAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABU0lEQVQ4T6WTuy5E
+        URiFl1uQTCHRTHEKngAxE9MIHkBMP41HUBAlyZiIxJsgUepIKAQFiVKhkJjiFDrEML59mWP2OUdEZiUr
+        /23/6/z7ctQr+ry1uJcKr9Ia7qDLZHBWht636PdWl1L0Jp2jWCecctkfkF/ALLoohRupAp9h23PVlxJc
+        S9uGPkzQmeAUFp37P3QERuD8gDRpSHDo0n/DHqIZ2zR+SFUSY7bShS/pmC9VjT8q7XNWB7iNknQRCLxL
+        reGcGxiSYm5nHfcJRjSNYysIlAOBT2mXMHMW5PdQfWCSTRom4C0TNWakl0CgJZVIFGxXFxA4oaFuam1p
+        GqGlOalpaoEAC4ssMAeaRi2v2SAtkNkCTUeYLRgzxfIsW7EFj0CAPT3abBeueNo0mqmaiEU85R1XcUgE
+        GG2DhbHN5oDmFcwdAsFrtAJ5T/QXZH6mHiF9A97sWQrhldeHAAAAAElFTkSuQmCC
+</value>
+  </data>
 </root>

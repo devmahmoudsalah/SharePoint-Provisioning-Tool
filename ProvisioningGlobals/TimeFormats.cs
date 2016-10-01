@@ -22,7 +22,7 @@ namespace Karabina.SharePoint.Provisioning
         public List<TimeFormat> TimeFormats
         {
             get { return _timeFormats; }
-            set { _timeFormats = value; }
+            private set { _timeFormats = value; }
         }
 
         public TimeFormatCollection()

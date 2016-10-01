@@ -1269,200 +1269,333 @@ namespace Karabina.SharePoint.Provisioning
 
             treeView.Nodes.Clear();
 
+            KeyValueList templateList = new KeyValueList();
+
             TreeNode rootNode = new TreeNode($"Template - ( {templateName} )");
+            rootNode.Name = "TemplateNode";
 
             if (template.RegionalSettings != null)
             {
                 TreeNode rsNode = new TreeNode("Regional Settings");
+                rsNode.Name = "RegionalSettings";
                 rsNode.Tag = template.RegionalSettings;
 
                 rootNode.Nodes.Add(rsNode);
+                templateList.AddKeyValue(rsNode.Text, rsNode.Name);
+
             }
 
             if (template.AddIns?.Count > 0)
             {
                 TreeNode aiNodes = new TreeNode("Add-Ins");
+                aiNodes.Name = "AddIns";
 
                 foreach (var addIn in template.AddIns)
                 {
-                    TreeNode aiNode = new TreeNode(addIn.Source);
+                    TreeNode aiNode = new TreeNode(addIn.PackagePath);
                     aiNode.Tag = addIn;
 
                     aiNodes.Nodes.Add(aiNode);
                 }
 
                 rootNode.Nodes.Add(aiNodes);
+                templateList.AddKeyValue(aiNodes.Text, aiNodes.Name);
 
             }
 
             if (template.ComposedLook?.Name != null)
             {
                 TreeNode clNode = new TreeNode("Composed Look");
+                clNode.Name = "ComposedLook";
                 clNode.Tag = template.ComposedLook;
 
                 rootNode.Nodes.Add(clNode);
+                templateList.AddKeyValue(clNode.Text, clNode.Name);
 
             }
 
             if (template.CustomActions?.SiteCustomActions?.Count > 0)
             {
                 TreeNode scaNodes = new TreeNode("Site Custom Actions");
+                scaNodes.Name = "SiteCustomActions";
+
+                KeyValueList siteCustomActionsList = new KeyValueList();
 
                 foreach (var siteCustomAction in template.CustomActions.SiteCustomActions)
                 {
                     TreeNode scaNode = new TreeNode(siteCustomAction.Name);
+                    scaNode.Name = siteCustomAction.RegistrationId;
                     scaNode.Tag = siteCustomAction;
 
                     scaNodes.Nodes.Add(scaNode);
+
+                    siteCustomActionsList.AddKeyValue(siteCustomAction.Name, siteCustomAction.RegistrationId);
                 }
 
+                scaNodes.Tag = siteCustomActionsList;
                 rootNode.Nodes.Add(scaNodes);
+                templateList.AddKeyValue(scaNodes.Text, scaNodes.Name);
 
             }
 
             if (template.CustomActions?.WebCustomActions?.Count > 0)
             {
                 TreeNode wcaNodes = new TreeNode("Web Custom Actions");
+                wcaNodes.Name = "WebCustomActions";
+
+                KeyValueList webCustomActionsList = new KeyValueList();
 
                 foreach (var webCustomAction in template.CustomActions.WebCustomActions)
                 {
                     TreeNode wcaNode = new TreeNode(webCustomAction.Name);
+                    wcaNode.Name = webCustomAction.RegistrationId;
                     wcaNode.Tag = webCustomAction;
 
                     wcaNodes.Nodes.Add(wcaNode);
+
+                    webCustomActionsList.AddKeyValue(webCustomAction.Name, webCustomAction.RegistrationId);
+
                 }
 
+                wcaNodes.Tag = webCustomActionsList;
                 rootNode.Nodes.Add(wcaNodes);
+                templateList.AddKeyValue(wcaNodes.Text, wcaNodes.Name);
 
             }
 
             if (template.Features?.SiteFeatures?.Count > 0)
             {
                 TreeNode sfNodes = new TreeNode("Site Features");
-                sfNodes.Tag = template.Features.SiteFeatures;
+                sfNodes.Name = "SiteFeatures";
+
+                KeyValueList siteFeaturesList = new KeyValueList();
+
+                foreach (var siteFeature in template.Features.SiteFeatures)
+                {
+                    siteFeaturesList.AddKeyValue(siteFeature.Id.ToString("N"), siteFeature.Id.ToString("N"));
+                }
+
+                sfNodes.Tag = siteFeaturesList;
 
                 rootNode.Nodes.Add(sfNodes);
+                templateList.AddKeyValue(sfNodes.Text, sfNodes.Name);
+
             }
 
             if (template.Features?.WebFeatures?.Count > 0)
             {
                 TreeNode wfNodes = new TreeNode("Web Features");
-                wfNodes.Tag = template.Features.WebFeatures;
+                wfNodes.Name = "WebFeatures";
+
+                KeyValueList webFeaturesList = new KeyValueList();
+
+                foreach (var webFeature in template.Features.WebFeatures)
+                {
+                    webFeaturesList.AddKeyValue(webFeature.Id.ToString("N"), webFeature.Id.ToString("N"));
+                }
+
+                wfNodes.Tag = webFeaturesList;
 
                 rootNode.Nodes.Add(wfNodes);
+                templateList.AddKeyValue(wfNodes.Text, wfNodes.Name);
+
             }
-
-
 
             if (template.ContentTypes?.Count > 0)
             {
                 TreeNode ctNodes = new TreeNode("Content Types");
+                ctNodes.Name = "ContentTypes";
+
+                KeyValueList contentTypeList = new KeyValueList();
 
                 foreach (var contentType in template.ContentTypes)
                 {
                     TreeNode ctNode = new TreeNode(contentType.Name);
+                    ctNode.Name = contentType.Id;
                     ctNode.Tag = contentType.Id;
 
                     ctNodes.Nodes.Add(ctNode);
 
+                    contentTypeList.AddKeyValue(contentType.Name, contentType.Id);
+
                 }
+                ctNodes.Tag = contentTypeList;
 
                 rootNode.Nodes.Add(ctNodes);
+                templateList.AddKeyValue(ctNodes.Text, ctNodes.Name);
 
             }
 
             if (template.SiteFields?.Count > 0)
             {
                 TreeNode sfNodes = new TreeNode("Site Fields");
+                sfNodes.Name = "SiteFields";
+
+                KeyValueList siteFieldsList = new KeyValueList();
 
                 foreach (var siteField in template.SiteFields)
                 {
                     XElement fieldElement = XElement.Parse(siteField.SchemaXml);
+                    string fieldID = fieldElement.Attribute("ID").Value;
                     string fieldName = fieldElement.Attribute("Name").Value;
                     TreeNode sfNode = new TreeNode(fieldName);
 
                     string fieldXml = fieldElement.ToString(SaveOptions.None);
                     int gtFirst = fieldXml.IndexOf('>', 0);
-                    string fieldText = fieldXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n       ") + fieldXml.Substring(gtFirst);
+                    string fieldText = fieldXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n       ") +
+                                       fieldXml.Substring(gtFirst);
 
+                    sfNode.Name = fieldID;
                     sfNode.Tag = fieldText;
 
                     sfNodes.Nodes.Add(sfNode);
+
+                    siteFieldsList.AddKeyValue(fieldName, fieldID);
+
                 }
 
+                sfNodes.Tag = siteFieldsList;
+
                 rootNode.Nodes.Add(sfNodes);
+                templateList.AddKeyValue(sfNodes.Text, sfNodes.Name);
 
             }
 
             if (template.Files?.Count > 0)
             {
                 TreeNode fNodes = new TreeNode("Files");
+                fNodes.Name = "Files";
+
+                KeyValueList filesList = new KeyValueList();
 
                 foreach (var file in template.Files)
                 {
                     TreeNode fNode = new TreeNode(file.Src);
+                    fNode.Name = file.Src;
                     fNode.Tag = file.Src;
 
                     fNodes.Nodes.Add(fNode);
+
+                    filesList.AddKeyValue(file.Src, file.Src);
                 }
 
-                rootNode.Nodes.Add(fNodes);
+                fNodes.Tag = filesList;
 
+                rootNode.Nodes.Add(fNodes);
+                templateList.AddKeyValue(fNodes.Text, fNodes.Name);
             }
 
             if (template.Lists?.Count > 0)
             {
                 TreeNode lNodes = new TreeNode("Lists");
+                lNodes.Name = "Lists";
+
+                KeyValueList listsList = new KeyValueList();
 
                 foreach (var list in template.Lists)
                 {
                     TreeNode lNode = new TreeNode(list.Title);
+                    lNode.Name = list.Url;
                     lNode.Tag = list.Url;
+
+                    if (list.Fields?.Count > 0)
+                    {
+                        TreeNode fNodes = new TreeNode("Fields");
+
+                        KeyValueList fieldsList = new KeyValueList();
+
+                        foreach (var field in list.Fields)
+                        {
+                            XElement fieldElement = XElement.Parse(field.SchemaXml);
+                            string fieldID = fieldElement.Attribute("ID").Value;
+                            string fieldName = fieldElement.Attribute("Name").Value;
+
+                            TreeNode fNode = new TreeNode(fieldName);
+
+                            string fieldXml = fieldElement.ToString(SaveOptions.None);
+                            int gtFirst = fieldXml.IndexOf('>', 0);
+                            string fieldText = fieldXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n       ") + fieldXml.Substring(gtFirst);
+
+                            fNode.Name = fieldID;
+                            fNode.Tag = fieldText;
+
+                            fNodes.Nodes.Add(fNode);
+                            fieldsList.AddKeyValue(fieldName, fieldID);
+
+                        }
+
+                        fNodes.Tag = fieldsList;
+                        lNode.Nodes.Add(fNodes);
+
+                    }
 
                     if (list.Views?.Count > 0)
                     {
                         TreeNode vNodes = new TreeNode("Views");
 
+                        KeyValueList viewsList = new KeyValueList();
+
                         foreach (var view in list.Views)
                         {
                             XElement viewElement = XElement.Parse(view.SchemaXml);
+                            string viewName = viewElement.Attribute("Name").Value;
                             string displayName = viewElement.Attribute("DisplayName").Value;
 
                             TreeNode vNode = new TreeNode(displayName);
+
                             string viewXml = viewElement.ToString(SaveOptions.None);
                             int gtFirst = viewXml.IndexOf('>', 0);
                             string viewText = viewXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n      ") + viewXml.Substring(gtFirst);
+
+                            vNode.Name = viewName;
                             vNode.Tag = viewText;
 
                             vNodes.Nodes.Add(vNode);
+
+                            viewsList.AddKeyValue(displayName, viewName);
+
                         }
 
+                        vNodes.Tag = viewsList;
                         lNode.Nodes.Add(vNodes);
 
                     }
+
+                    listsList.AddKeyValue(list.Title, list.Url);
 
                     lNodes.Nodes.Add(lNode);
 
                 }
 
+                lNodes.Tag = listsList;
                 rootNode.Nodes.Add(lNodes);
+                templateList.AddKeyValue(lNodes.Text, lNodes.Name);
 
             }
 
             if (template.Localizations?.Count > 0)
             {
                 TreeNode glNodes = new TreeNode("Localizations");
+                glNodes.Name = "Localizations";
+
+                KeyValueList localizationsList = new KeyValueList();
 
                 foreach (var localization in template.Localizations)
                 {
                     TreeNode glNode = new TreeNode(localization.Name);
+                    glNode.Name = localization.LCID.ToString();
                     glNode.Tag = localization.LCID;
 
                     glNodes.Nodes.Add(glNode);
 
+                    localizationsList.AddKeyValue(localization.Name, localization.LCID.ToString());
+
                 }
 
+                glNodes.Tag = localizationsList;
+
                 rootNode.Nodes.Add(glNodes);
+                templateList.AddKeyValue(glNodes.Text, glNodes.Name);
 
             }
 
@@ -1471,6 +1604,7 @@ namespace Karabina.SharePoint.Provisioning
             if (template.Pages?.Count > 0)
             {
                 TreeNode pNodes = new TreeNode("Pages");
+                pNodes.Name = "Pages";
 
                 foreach (var page in template.Pages)
                 {
@@ -1482,122 +1616,207 @@ namespace Karabina.SharePoint.Provisioning
                 }
 
                 rootNode.Nodes.Add(pNodes);
+                templateList.AddKeyValue(pNodes.Text, pNodes.Name);
 
             }
 
             if (template.Properties?.Count > 0)
             {
-                TreeNode propNode = new TreeNode("Properties");
-                propNode.Tag = template.Properties;
+                TreeNode pNode = new TreeNode("Properties");
+                pNode.Name = "Properties";
 
-                rootNode.Nodes.Add(propNode);
+                KeyValueList propertiesList = new KeyValueList();
+
+                foreach (var property in template.Properties)
+                {
+                    propertiesList.AddKeyValue(property.Key, property.Value);
+                }
+
+                pNode.Tag = propertiesList;
+
+                rootNode.Nodes.Add(pNode);
+                templateList.AddKeyValue(pNode.Text, pNode.Name);
+
             }
 
             if (template.PropertyBagEntries?.Count > 0)
             {
                 TreeNode pbeNodes = new TreeNode("Property Bag Entries");
-                pbeNodes.Tag = template.PropertyBagEntries;
+                pbeNodes.Name = "PropertyBagEntries";
+
+                KeyValueList propertyBagEntriesList = new KeyValueList();
+
+                foreach (var propertyBagEntry in template.PropertyBagEntries)
+                {
+                    propertyBagEntriesList.AddKeyValue(propertyBagEntry.Key, propertyBagEntry.Value);
+                }
+
+                pbeNodes.Tag = propertyBagEntriesList;
 
                 rootNode.Nodes.Add(pbeNodes);
+                templateList.AddKeyValue(pbeNodes.Text, pbeNodes.Name);
 
             }
 
             if (template.Publishing != null)
             {
-                TreeNode pubNode = new TreeNode("Publishing");
-                pubNode.Tag = template.Publishing;
+                TreeNode pNode = new TreeNode("Publishing");
+                pNode.Name = "Publishing";
 
-                rootNode.Nodes.Add(pubNode);
+                pNode.Tag = template.Publishing;
+
+                rootNode.Nodes.Add(pNode);
+                templateList.AddKeyValue(pNode.Text, pNode.Name);
 
             }
 
             if (template.SupportedUILanguages?.Count > 0)
             {
                 TreeNode suilNode = new TreeNode("Supported UI Languages");
+                suilNode.Name = "SupportedUILanguages";
+
+
                 suilNode.Tag = template.SupportedUILanguages;
 
                 rootNode.Nodes.Add(suilNode);
+                templateList.AddKeyValue(suilNode.Text, suilNode.Name);
 
             }
 
             if (template.TermGroups?.Count > 0)
             {
                 TreeNode tgNodes = new TreeNode("Term Groups");
+                tgNodes.Name = "TermGroups";
+
+                KeyValueList termGroupsList = new KeyValueList();
 
                 foreach (var termGroup in template.TermGroups)
                 {
                     TreeNode tgNode = new TreeNode(termGroup.Name);
-                    tgNode.Tag = termGroup;
+                    tgNode.Name = termGroup.Id.ToString("N");
+                    tgNode.Tag = termGroup.Id;
 
                     if (termGroup.TermSets?.Count > 0)
                     {
+                        TreeNode tsNodes = new TreeNode("Term Sets");
+
+                        KeyValueList termSetsList = new KeyValueList();
+
                         foreach (var termSet in termGroup.TermSets)
                         {
                             TreeNode tsNode = new TreeNode(termSet.Name);
-                            tsNode.Tag = termSet;
+                            tsNode.Name = termSet.Id.ToString("N");
+                            tsNode.Tag = termSet.Id;
 
-                            tgNode.Nodes.Add(tsNode);
+                            tsNodes.Nodes.Add(tsNode);
+
+                            termSetsList.AddKeyValue(termSet.Name, termSet.Id.ToString("N"));
 
                         }
+
+                        tsNodes.Tag = termSetsList;
+
+                        tgNode.Nodes.Add(tsNodes);
+
                     }
 
                     tgNodes.Nodes.Add(tgNode);
 
+                    termGroupsList.AddKeyValue(termGroup.Name, termGroup.Id.ToString("N"));
+
                 }
 
+                tgNodes.Tag = termGroupsList;
+
                 rootNode.Nodes.Add(tgNodes);
+                templateList.AddKeyValue(tgNodes.Text, tgNodes.Name);
 
             }
 
             if (template.WebSettings != null)
             {
                 TreeNode wsNode = new TreeNode("Web Settings");
-                wsNode.Tag = template.WebSettings;
+                wsNode.Name = "WebSettings";
+
+                WebSettings ws = template.WebSettings;
+                wsNode.Tag = new WebSettings()
+                {
+                    AlternateCSS = ws.AlternateCSS,
+                    CustomMasterPageUrl = ws.CustomMasterPageUrl,
+                    Description = ws.Description,
+                    MasterPageUrl = ws.MasterPageUrl,
+                    NoCrawl = ws.NoCrawl,
+                    RequestAccessEmail = ws.RequestAccessEmail,
+                    SiteLogo = ws.SiteLogo,
+                    Title = ws.Title,
+                    WelcomePage = ws.WelcomePage
+                };
 
                 rootNode.Nodes.Add(wsNode);
+                templateList.AddKeyValue(wsNode.Text, wsNode.Name);
 
             }
 
             if (template.Workflows?.WorkflowDefinitions?.Count > 0)
             {
                 TreeNode wwdNodes = new TreeNode("Workflow Definitions");
+                wwdNodes.Name = "WorkflowDefinitions";
+
+                KeyValueList workflowDefinitionsList = new KeyValueList();
 
                 foreach (var workflowDefinition in template.Workflows.WorkflowDefinitions)
                 {
                     TreeNode wwdNode = new TreeNode(workflowDefinition.DisplayName);
-                    wwdNode.Tag = workflowDefinition;
+                    wwdNode.Name = workflowDefinition.Id.ToString("N");
+                    wwdNode.Tag = workflowDefinition.Id.ToString("D"); //do not want curly brackets {}
 
                     wwdNodes.Nodes.Add(wwdNode);
 
+                    workflowDefinitionsList.AddKeyValue(workflowDefinition.DisplayName, workflowDefinition.Id.ToString("N"));
+
                 }
 
+                wwdNodes.Tag = workflowDefinitionsList;
+
                 rootNode.Nodes.Add(wwdNodes);
+                templateList.AddKeyValue(wwdNodes.Text, wwdNodes.Name);
 
             }
 
             if (template.Workflows?.WorkflowSubscriptions?.Count > 0)
             {
                 TreeNode wwsNodes = new TreeNode("Workflow Subscriptions");
+                wwsNodes.Name = "WorkflowSubscriptions";
+
+                KeyValueList workflowSubscriptionsList = new KeyValueList();
 
                 foreach (var workflowSubscription in template.Workflows.WorkflowSubscriptions)
                 {
                     TreeNode wwsNode = new TreeNode(workflowSubscription.Name);
-                    wwsNode.Tag = workflowSubscription;
+                    wwsNode.Name = workflowSubscription.Name;
+                    wwsNode.Tag = workflowSubscription.Name;
 
                     wwsNodes.Nodes.Add(wwsNode);
 
+                    workflowSubscriptionsList.AddKeyValue(workflowSubscription.Name, workflowSubscription.Name);
+
                 }
 
+                wwsNodes.Tag = workflowSubscriptionsList;
+
                 rootNode.Nodes.Add(wwsNodes);
+                templateList.AddKeyValue(wwsNodes.Text, wwsNodes.Name);
 
             }
 
+            rootNode.Tag = templateList;
             rootNode.Expand();
+
             treeView.Nodes.Add(rootNode);
 
         } //OpenTemplateForEdit
 
-        public int[] GetRegionalSettingProperty()
+        public int[] GetRegionalSettings()
         {
             int[] result = new int[]
             {
@@ -1616,7 +1835,7 @@ namespace Karabina.SharePoint.Provisioning
                 (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
             };
 
-            //Note: Ensure that the above array is populated in the order of RegionalSettingProperty 
+            //Note: Ensure that the above array is populated in the order of the RegionalSettingProperties enum
 
             return result;
 
@@ -1663,7 +1882,9 @@ namespace Karabina.SharePoint.Provisioning
                     newCT.FieldRefs.AddRange(contentType.FieldRefs);
                 }
                 var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newCT).Replace(",\"ParentTemplate\":null", "").Replace("{", "{\r\n").Replace(",", ",\r\n").Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                result = serializer.Serialize(newCT).Replace(",\"ParentTemplate\":null", "")
+                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             }
             return result;
@@ -1718,10 +1939,6 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     newLI.FieldRefs.AddRange(listInstance.FieldRefs);
                 }
-                if (listInstance.Fields?.Count > 0)
-                {
-                    newLI.Fields.AddRange(listInstance.Fields);
-                }
                 if (listInstance.Folders?.Count > 0)
                 {
                     newLI.Folders.AddRange(listInstance.Folders);
@@ -1740,17 +1957,131 @@ namespace Karabina.SharePoint.Provisioning
                     newLI.UserCustomActions.AddRange(listInstance.UserCustomActions);
                 }
 
+                //ensure fields are empty as they are handled elsewhere
+                newLI.Fields.Clear();
                 //ensure views are empty as they are handled elsewhere
                 newLI.Views.Clear();
 
                 var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newLI).Replace(",\"ParentTemplate\":null", "").Replace("{", "{\r\n").Replace(",", ",\r\n").Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                result = serializer.Serialize(newLI).Replace(",\"ParentTemplate\":null", "")
+                                                    .Replace(",\"Fields\":[]", "")
+                                                    .Replace(",\"Views\":[]", "")
+                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             }
             return result;
 
         } //GetListInstance
 
-    }
+        public string[] GetWebSettings(object webSettings)
+        {
+            WebSettings ws = webSettings as WebSettings;
+            string[] result = new string[]
+            {
+                ws.AlternateCSS,
+                ws.CustomMasterPageUrl,
+                ws.Description,
+                ws.MasterPageUrl,
+                (ws.NoCrawl ? "1" : "0"),
+                ws.RequestAccessEmail,
+                ws.SiteLogo,
+                ws.Title,
+                ws.WelcomePage
+            };
 
-}
+            //Note: Ensure that the above are added in the order as defined in the WebSettingProperties enum
+
+            return result;
+
+        } //GetWebSettings
+
+        public string GetWorkflowDefinition(Guid WorkflowDefinitionId)
+        {
+            string result = string.Empty;
+
+            WorkflowDefinition workflowDefinition = EditingTemplate.Workflows.WorkflowDefinitions.Find(p => p.Id.Equals(WorkflowDefinitionId));
+            if (workflowDefinition != null)
+            {
+                WorkflowDefinition newWD = new WorkflowDefinition()
+                {
+                    AssociationUrl = workflowDefinition.AssociationUrl,
+                    Description = workflowDefinition.Description,
+                    DisplayName = workflowDefinition.DisplayName,
+                    DraftVersion = workflowDefinition.DraftVersion,
+                    FormField = workflowDefinition.FormField,
+                    Id = workflowDefinition.Id,
+                    InitiationUrl = workflowDefinition.InitiationUrl,
+                    Published = workflowDefinition.Published,
+                    RequiresAssociationForm = workflowDefinition.RequiresAssociationForm,
+                    RequiresInitiationForm = workflowDefinition.RequiresInitiationForm,
+                    RestrictToScope = workflowDefinition.RestrictToScope,
+                    RestrictToType = workflowDefinition.RestrictToType,
+                    XamlPath = workflowDefinition.XamlPath
+                };
+
+                if (workflowDefinition.Properties?.Count > 0)
+                {
+                    foreach (var property in workflowDefinition.Properties)
+                    {
+                        newWD.Properties.Add(property.Key, property.Value);
+                    }
+
+                }
+
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newWD).Replace(",\"ParentTemplate\":null", "")
+                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+
+            }
+
+            return result;
+
+        } //GetWorkflowDefinition
+
+        public string GetWorkflowSubscription(string workflowSubscriptionName)
+        {
+            string result = string.Empty;
+
+            WorkflowSubscription workflowSubscription = EditingTemplate.Workflows.WorkflowSubscriptions
+                                                                       .Find(p => p.Name.Equals(workflowSubscriptionName,
+                                                                                                StringComparison.OrdinalIgnoreCase));
+            if (workflowSubscription != null)
+            {
+                WorkflowSubscription newWS = new WorkflowSubscription()
+                {
+                    DefinitionId = workflowSubscription.DefinitionId,
+                    Enabled = workflowSubscription.Enabled,
+                    EventSourceId = workflowSubscription.EventSourceId,
+                    EventTypes = workflowSubscription.EventTypes,
+                    ListId = workflowSubscription.ListId,
+                    ManualStartBypassesActivationLimit = workflowSubscription.ManualStartBypassesActivationLimit,
+                    Name = workflowSubscription.Name,
+                    ParentContentTypeId = workflowSubscription.ParentContentTypeId,
+                    StatusFieldName = workflowSubscription.StatusFieldName
+                };
+
+                if (workflowSubscription.PropertyDefinitions?.Count > 0)
+                {
+                    foreach (var propertyDefinition in workflowSubscription.PropertyDefinitions)
+                    {
+                        newWS.PropertyDefinitions.Add(propertyDefinition.Key, propertyDefinition.Value);
+                    }
+
+                }
+
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newWS).Replace(",\"ParentTemplate\":null", "")
+                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+
+            }
+
+            return result;
+
+        } //GetWorkflowSubscription
+
+    } //SharePoint2013OnPrem
+
+} //namespace

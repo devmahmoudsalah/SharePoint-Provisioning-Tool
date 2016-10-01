@@ -39,9 +39,18 @@ namespace Karabina.SharePoint.Provisioning
         public EditWin()
         {
             InitializeComponent();
+            //panels are moved offscreen during design, now move them back to where they will appear.
+            int left = 438;
+            pComposedLook.Left = left;
+            pTextControl.Left = left;
+            pPropertyBagEntries.Left = left;
+            pRegionalSettings.Left = left;
+            pWebSettings.Left = left;
+            pListControl.Left = left;
+
         }
 
-        private void bBrowse_Click(object sender, EventArgs e)
+        private void BrowseForTemplate(object sender, EventArgs e)
         {
             string fileName = OpenTemplate();
             if (!string.IsNullOrWhiteSpace(fileName))
@@ -75,12 +84,17 @@ namespace Karabina.SharePoint.Provisioning
                 }
                 finally
                 {
+                    if (tvTemplate.Nodes?.Count > 0)
+                    {
+                        tvTemplate.SelectedNode = tvTemplate.Nodes["TemplateNode"];
+                    }
+
                     Cursor = Cursors.Default;
                 }
 
-            } // if
+            }
 
-        } //bBrowse_Click
+        } //BrowseForTemplate
 
         private void bClose_Click(object sender, EventArgs e)
         {
@@ -94,15 +108,15 @@ namespace Karabina.SharePoint.Provisioning
             switch (_selectedVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premise:
-                    regionalSettings = SP2013OP.GetRegionalSettingProperty();
+                    regionalSettings = SP2013OP.GetRegionalSettings();
                     break;
                 case SharePointVersion.SharePoint_2016_On_Premise:
-
                     break;
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
 
+            cbTimeZone.DataSource = null;
             cbTimeZone.Items.Clear();
             TimeZoneCollection timeZoneCollection = new TimeZoneCollection();
             cbTimeZone.DisplayMember = "TimeZoneName";
@@ -110,7 +124,7 @@ namespace Karabina.SharePoint.Provisioning
             cbTimeZone.DataSource = timeZoneCollection.TimeZones;
 
             int selectedIdx = -1;
-            int tmpIdx = regionalSettings[RegionalSettingProperty.TimeZone.GetHashCode()];
+            int tmpIdx = regionalSettings[(int)RegionalSettingProperties.TimeZone];
             for (int i = 0; i < cbTimeZone.Items.Count; i++)
             {
                 TimeZone timeZone = cbTimeZone.Items[i] as TimeZone;
@@ -122,6 +136,7 @@ namespace Karabina.SharePoint.Provisioning
             }
             cbTimeZone.SelectedIndex = selectedIdx;
 
+            cbLocale.DataSource = null;
             cbLocale.Items.Clear();
             LocaleCollection localeCollection = new LocaleCollection();
             cbLocale.DisplayMember = "LocaleName";
@@ -129,7 +144,7 @@ namespace Karabina.SharePoint.Provisioning
             cbLocale.DataSource = localeCollection.Locales;
 
             selectedIdx = -1;
-            tmpIdx = regionalSettings[RegionalSettingProperty.LocaleId.GetHashCode()];
+            tmpIdx = regionalSettings[(int)RegionalSettingProperties.LocaleId];
             for (int i = 0; i < cbLocale.Items.Count; i++)
             {
                 Locale locale = cbLocale.Items[i] as Locale;
@@ -141,6 +156,7 @@ namespace Karabina.SharePoint.Provisioning
             }
             cbLocale.SelectedIndex = selectedIdx;
 
+            cbSortOrder.DataSource = null;
             cbSortOrder.Items.Clear();
             SortOrderCollection sortOrderCollection = new SortOrderCollection();
             cbSortOrder.DisplayMember = "SortOrderName";
@@ -148,7 +164,7 @@ namespace Karabina.SharePoint.Provisioning
             cbSortOrder.DataSource = sortOrderCollection.SortOrders;
 
             selectedIdx = -1;
-            tmpIdx = regionalSettings[RegionalSettingProperty.Collation.GetHashCode()];
+            tmpIdx = regionalSettings[(int)RegionalSettingProperties.Collation];
             for (int i = 0; i < cbSortOrder.Items.Count; i++)
             {
                 SortOrder sortOrder = cbSortOrder.Items[i] as SortOrder;
@@ -160,6 +176,7 @@ namespace Karabina.SharePoint.Provisioning
             }
             cbSortOrder.SelectedIndex = selectedIdx;
 
+            cbCalendar.DataSource = null;
             cbCalendar.Items.Clear();
             CalendarCollection calendarCollection = new CalendarCollection();
             cbCalendar.DisplayMember = "CalendarName";
@@ -167,7 +184,7 @@ namespace Karabina.SharePoint.Provisioning
             cbCalendar.DataSource = calendarCollection.Calendars.Where(p => p.CalendarId > 0).ToList();
 
             selectedIdx = -1;
-            tmpIdx = regionalSettings[RegionalSettingProperty.CalendarType.GetHashCode()];
+            tmpIdx = regionalSettings[(int)RegionalSettingProperties.CalendarType];
             bool isHijriSelected = tmpIdx == 6; //Hijri
             for (int i = 0; i < cbCalendar.Items.Count; i++)
             {
@@ -180,7 +197,7 @@ namespace Karabina.SharePoint.Provisioning
             }
             cbCalendar.SelectedIndex = selectedIdx;
 
-            tmpIdx = regionalSettings[RegionalSettingProperty.ShowWeeks.GetHashCode()];
+            tmpIdx = regionalSettings[(int)RegionalSettingProperties.ShowWeeks];
             if (tmpIdx > 0)
             {
                 cbShowWeekNumbers.Checked = true;
@@ -194,7 +211,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 lAdjustHijriDate.Visible = true;
                 cbAdjustHijriDate.Visible = true;
-                tmpIdx = 2 + regionalSettings[RegionalSettingProperty.AdjustHijriDays.GetHashCode()];
+                tmpIdx = 2 + regionalSettings[(int)RegionalSettingProperties.AdjustHijriDays];
                 cbAdjustHijriDate.SelectedIndex = tmpIdx;
             }
             else
@@ -204,13 +221,14 @@ namespace Karabina.SharePoint.Provisioning
                 cbAdjustHijriDate.SelectedIndex = 2; // equal to 0 value
             }
 
+            cbAlternateCalendar.DataSource = null;
             cbAlternateCalendar.Items.Clear();
             cbAlternateCalendar.DisplayMember = "CalendarName";
             cbAlternateCalendar.ValueMember = "CalendarId";
             cbAlternateCalendar.DataSource = calendarCollection.Calendars.ToList();
 
             selectedIdx = -1;
-            tmpIdx = regionalSettings[RegionalSettingProperty.AlternateCalendarType.GetHashCode()];
+            tmpIdx = regionalSettings[(int)RegionalSettingProperties.AlternateCalendarType];
             for (int i = 0; i < cbAlternateCalendar.Items.Count; i++)
             {
                 Calendar calendar = cbAlternateCalendar.Items[i] as Calendar;
@@ -223,45 +241,51 @@ namespace Karabina.SharePoint.Provisioning
             cbAlternateCalendar.SelectedIndex = selectedIdx;
 
             clbWorkDays.Items.Clear();
-            tmpIdx = regionalSettings[RegionalSettingProperty.WorkDays.GetHashCode()];
+            tmpIdx = regionalSettings[(int)RegionalSettingProperties.WorkDays];
             WeekDayCollletion weekDayCollection = new WeekDayCollletion();
             foreach (WeekDay weekDay in weekDayCollection.WeekDays)
             {
                 clbWorkDays.Items.Add(weekDay.WeekDayShortName, ((tmpIdx & weekDay.WeekDayBit) == weekDay.WeekDayBit));
+
             }
 
+            cbFirstDayOfWeek.DataSource = null;
             cbFirstDayOfWeek.Items.Clear();
             cbFirstDayOfWeek.DisplayMember = "WeekDayLongName";
             cbFirstDayOfWeek.ValueMember = "WeekDayId";
             cbFirstDayOfWeek.DataSource = weekDayCollection.WeekDays;
-            cbFirstDayOfWeek.SelectedIndex = regionalSettings[RegionalSettingProperty.FirstDayOfWeek.GetHashCode()];
+            cbFirstDayOfWeek.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.FirstDayOfWeek];
 
+            cbFirstWeekOfYear.DataSource = null;
             cbFirstWeekOfYear.Items.Clear();
             FirstWeekCollection firstWeekCollection = new FirstWeekCollection();
             cbFirstWeekOfYear.DisplayMember = "FirstWeekName";
             cbFirstWeekOfYear.ValueMember = "FirstWeekId";
             cbFirstWeekOfYear.DataSource = firstWeekCollection.FirstWeeks;
-            cbFirstWeekOfYear.SelectedIndex = regionalSettings[RegionalSettingProperty.FirstWeekOfYear.GetHashCode()];
+            cbFirstWeekOfYear.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.FirstWeekOfYear];
 
+            cbWorkDayStartTime.DataSource = null;
             cbWorkDayStartTime.Items.Clear();
             DayHourCollection dayHourCollection = new DayHourCollection();
             cbWorkDayStartTime.DisplayMember = "DayHourName";
             cbWorkDayStartTime.ValueMember = "DayHourId";
             cbWorkDayStartTime.DataSource = dayHourCollection.DayHours.ToList();
-            cbWorkDayStartTime.SelectedIndex = regionalSettings[RegionalSettingProperty.WorkDayStartHour.GetHashCode()];
+            cbWorkDayStartTime.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.WorkDayStartHour];
 
+            cbWorkDayEndTime.DataSource = null;
             cbWorkDayEndTime.Items.Clear();
             cbWorkDayEndTime.DisplayMember = "DayHourName";
             cbWorkDayEndTime.ValueMember = "DayHourId";
             cbWorkDayEndTime.DataSource = dayHourCollection.DayHours.ToList();
-            cbWorkDayEndTime.SelectedIndex = regionalSettings[RegionalSettingProperty.WorkDayEndHour.GetHashCode()];
+            cbWorkDayEndTime.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.WorkDayEndHour];
 
+            cbTimeFormat.DataSource = null;
             cbTimeFormat.Items.Clear();
             TimeFormatCollection timeFormatCollection = new TimeFormatCollection();
             cbTimeFormat.DisplayMember = "TimeFormatName";
             cbTimeFormat.ValueMember = "TimeFormatId";
             cbTimeFormat.DataSource = timeFormatCollection.TimeFormats;
-            cbTimeFormat.SelectedIndex = regionalSettings[RegionalSettingProperty.Time24.GetHashCode()];
+            cbTimeFormat.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.Time24];
 
         } //PopulateRegionalSettings
 
@@ -274,7 +298,6 @@ namespace Karabina.SharePoint.Provisioning
                     composedLook = SP2013OP.GetComposedLook();
                     break;
                 case SharePointVersion.SharePoint_2016_On_Premise:
-
                     break;
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
@@ -297,12 +320,11 @@ namespace Karabina.SharePoint.Provisioning
                     contentType = SP2013OP.GetContentType(contentTypeId);
                     break;
                 case SharePointVersion.SharePoint_2016_On_Premise:
-
                     break;
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
-            tbContentType.Text = contentType;
+            tbTextControl.Text = contentType;
 
         } //PopulateContentType
 
@@ -315,153 +337,111 @@ namespace Karabina.SharePoint.Provisioning
                     listInstance = SP2013OP.GetListInstance(url);
                     break;
                 case SharePointVersion.SharePoint_2016_On_Premise:
-
                     break;
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
-            tbListInstance.Text = listInstance;
+            tbTextControl.Text = listInstance;
 
         } //PopulateListInstance
 
+        private void PopulateWebSettings(object webSettings)
+        {
+            string[] ws = null;
+            switch (_selectedVersion)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    ws = SP2013OP.GetWebSettings(webSettings);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    break;
+            }
+            if (ws?.Length > 0)
+            {
+                tbWSTitle.Text = ws[(int)WebSettingProperties.Title];
+                tbWSDescription.Text = ws[(int)WebSettingProperties.Description];
+                tbWSSiteLogo.Text = ws[(int)WebSettingProperties.SiteLogo];
+                tbWSMasterPageUrl.Text = ws[(int)WebSettingProperties.MasterPageUrl];
+                tbWSCustomMasterPageUrl.Text = ws[(int)WebSettingProperties.CustomMasterPageUrl];
+                tbWSAlternateCSS.Text = ws[(int)WebSettingProperties.AlternateCSS];
+                tbWSWelcomePage.Text = ws[(int)WebSettingProperties.WelcomePage];
+                tbWSRequestAccessEmail.Text = ws[(int)WebSettingProperties.RequestAccessEmail];
+                cbWSNoCrawl.Checked = (ws[(int)WebSettingProperties.NoCrawl].Equals("1"));
+
+            }
+
+        } //PopulateWebSettings
+
+        private void PopulatePropertyBagEntries(object propertyBagEntries)
+        {
+            KeyValueList keyValueList = propertyBagEntries as KeyValueList;
+
+            if (keyValueList?.Count > 0)
+            {
+                foreach (var keyValue in keyValueList)
+                {
+                    var listViewItem = lvPropertyBagEntries.Items.Add(keyValue.Key);
+                    listViewItem.SubItems.Add(keyValue.Value);
+                }
+            }
+
+        } //PopulatePropertyBagEntries
+
+        private void PopulateControlList(object keyValueTag)
+        {
+            lbListControl.DataSource = null;
+            KeyValueList keyValueList = keyValueTag as KeyValueList;
+            lbListControl.Items.Clear();
+            lbListControl.DisplayMember = "Key";
+            lbListControl.ValueMember = "Value";
+            lbListControl.DataSource = keyValueList;
+
+        } //PopulateControlList
+
+        private void PopulateWorkflowDefinition(Guid workflowDefinitionId)
+        {
+            string workflowDefinition = string.Empty;
+            switch (_selectedVersion)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    workflowDefinition = SP2013OP.GetWorkflowDefinition(workflowDefinitionId);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    break;
+            }
+            tbTextControl.Text = workflowDefinition;
+
+        } //PopulateWorkflowDefinition
+
+        private void PopulateWorkflowSubscription(string workflowSubscriptionName)
+        {
+            string workflowSubscription = string.Empty;
+            switch (_selectedVersion)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premise:
+                    workflowSubscription = SP2013OP.GetWorkflowSubscription(workflowSubscriptionName);
+                    break;
+                case SharePointVersion.SharePoint_2016_On_Premise:
+                    break;
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    break;
+            }
+            tbTextControl.Text = workflowSubscription;
+
+        } //PopulateWorkflowSubscription
+
         private void HideActivePanel(string nodeFullPath)
         {
-            if (!string.IsNullOrWhiteSpace(_activeNodePath))
-            {
-                if (_activeNodePath.Contains(@"\Regional Settings"))
-                {
-                    pRegionalSettings.Visible = false;
-                    pRegionalSettings.Left = 1038;
-                }
-                else if (_activeNodePath.Contains(@"\Add-Ins"))
-                {
-                    if (!nodeFullPath.Contains(@"\Add-Ins\"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Composed Look"))
-                {
-                    pComposedLook.Visible = false;
-                    pComposedLook.Left = 1038;
-                }
-                else if (_activeNodePath.Contains(@"\Site Custom Actions"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Web Custom Actions"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Site Features"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Web Features"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Content Types"))
-                {
-                    if (!nodeFullPath.Contains(@"\Content Types\"))
-                    {
-                        pContentTypes.Visible = false;
-                        pContentTypes.Left = 1038;
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Site Fields"))
-                {
-                    if (!nodeFullPath.Contains(@"\Site Fields\"))
-                    {
-                        pSiteFields.Visible = false;
-                        pSiteFields.Left = 1038;
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Files"))
-                {
-                    if (!nodeFullPath.Contains(@"\Files\"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Lists"))
-                {
-                    if (!nodeFullPath.Contains(@"\Lists\"))
-                    {
-                        pLists.Visible = false;
-                        pLists.Left = 1038;
-                    }
-                    else if (!nodeFullPath.Contains(@"\Views\"))
-                    {
-                        pLists.Visible = false;
-                        pLists.Left = 1038;
-                        pViews.Visible = false;
-                        pViews.Left = 1038;
-                    }
-                    else if (nodeFullPath.Contains(@"\Views\"))
-                    {
-                        pLists.Visible = false;
-                        pLists.Left = 1038;
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Localizations"))
-                {
-                    if (!nodeFullPath.Contains(@"\Localizations\"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Pages"))
-                {
-                    if (!nodeFullPath.Contains(@"\Pages\"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Properties"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Property Bag Entries"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Publishing"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Supported UI Languages"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Term Groups"))
-                {
-                    if (!nodeFullPath.Contains(@"\Term Groups\"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Web Settings"))
-                {
-
-                }
-                else if (_activeNodePath.Contains(@"\Workflow Definitions"))
-                {
-                    if (!nodeFullPath.Contains(@"\Workflow Definitions\"))
-                    {
-
-                    }
-                }
-                else if (_activeNodePath.Contains(@"\Workflow Subscriptions"))
-                {
-                    if (!nodeFullPath.Contains(@"\Workflow Subscriptions\"))
-                    {
-
-                    }
-                }
-
-
-            } //if
+            pComposedLook.Hide();
+            pListControl.Hide();
+            pPropertyBagEntries.Hide();
+            pRegionalSettings.Hide();
+            pTextControl.Hide();
+            pWebSettings.Hide();
 
         } // HideActivePanel
 
@@ -476,14 +456,22 @@ namespace Karabina.SharePoint.Provisioning
                 }
 
                 _activeNodePath = node.FullPath;
+
+                if (node.Name.Equals("TemplateNode", StringComparison.OrdinalIgnoreCase))
+                {
+                    lListControl.Text = node.Text;
+                    PopulateControlList(node.Tag);
+                    pListControl.Show();
+
+                }
+
                 if (_activeNodePath.Contains(@"\Regional Settings"))
                 {
                     if (cbTimeZone.Items.Count <= 0)
                     {
                         PopulateRegionalSettings();
                     }
-                    pRegionalSettings.Left = 438;
-                    pRegionalSettings.Visible = true;
+                    pRegionalSettings.Show();
 
                 }
                 else if (_activeNodePath.Contains(@"\Composed Look"))
@@ -492,63 +480,232 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         PopulateComposedLook();
                     }
-                    pComposedLook.Left = 438;
-                    pComposedLook.Visible = true;
+                    pComposedLook.Show();
 
                 }
-                else if (_activeNodePath.Contains(@"\Content Types\"))
+                else if (_activeNodePath.Contains(@"\Content Types"))
                 {
-                    string tagCT = node.Tag.ToString();
-                    if (tagCT.StartsWith("{"))
+                    if (_activeNodePath.Contains(@"\Content Types\"))
                     {
-                        tbContentType.Text = tagCT;
-                    }
-                    else
-                    {
-                        PopulateContentType(node.Tag.ToString());
-                        node.Tag = tbContentType.Text;
-                    }
-                    pContentTypes.Left = 438;
-                    pContentTypes.Visible = true;
-
-                }
-                else if (_activeNodePath.Contains(@"\Site Fields\"))
-                {
-                    string tagSF = node.Tag.ToString();
-                    tbSiteField.Text = tagSF;
-                    pSiteFields.Left = 438;
-                    pSiteFields.Visible = true;
-
-                }
-                else if (_activeNodePath.Contains(@"\Lists\"))
-                {
-                    if (_activeNodePath.Contains(@"\Views"))
-                    {
-                        if (_activeNodePath.Contains(@"\Views\"))
+                        lTextControl.Text = "Content type:";
+                        string tagCT = node.Tag.ToString();
+                        if (tagCT.StartsWith("{"))
                         {
-                            string tagLV = node.Tag.ToString();
-                            tbView.Text = tagLV;
-                            pViews.Left = 438;
-                            pViews.Visible = true;
-
+                            tbTextControl.Text = tagCT;
                         }
+                        else
+                        {
+                            PopulateContentType(node.Tag.ToString());
+                            node.Tag = tbTextControl.Text;
+                        }
+                        pTextControl.Show();
 
                     }
                     else
                     {
+                        lListControl.Text = "Content types:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+
+                }
+                else if (_activeNodePath.Contains(@"\Site Fields"))
+                {
+                    if (_activeNodePath.Contains(@"\Site Fields\"))
+                    {
+                        lTextControl.Text = "Site field:";
+                        string tagSF = node.Tag.ToString();
+                        tbTextControl.Text = tagSF;
+                        pTextControl.Show();
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "Site fields:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+
+                }
+                else if (_activeNodePath.Contains(@"\Fields")) //fields under lists
+                {
+                    if (_activeNodePath.Contains(@"\Fields\"))
+                    {
+                        lTextControl.Text = "List field:";
+                        string tagF = node.Tag.ToString();
+                        tbTextControl.Text = tagF;
+                        pTextControl.Show();
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "List fields:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+
+                }
+                else if (_activeNodePath.Contains(@"\Views")) //views under lists
+                {
+                    if (_activeNodePath.Contains(@"\Views\"))
+                    {
+                        lTextControl.Text = "List view:";
+                        string tagLV = node.Tag.ToString();
+                        tbTextControl.Text = tagLV;
+                        pTextControl.Show();
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "List views:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+
+                }
+                else if (_activeNodePath.Contains(@"\Lists")) //the lists
+                {
+                    if (_activeNodePath.Contains(@"\Lists\"))
+                    {
+                        lTextControl.Text = "List instance:";
                         string tagLI = node.Tag.ToString();
                         if (tagLI.StartsWith("{"))
                         {
-                            tbListInstance.Text = tagLI;
+                            tbTextControl.Text = tagLI;
                         }
                         else
                         {
                             PopulateListInstance(node.Tag.ToString());
-                            node.Tag = tbListInstance.Text;
+                            node.Tag = tbTextControl.Text;
                         }
-                        pLists.Left = 438;
-                        pLists.Visible = true;
+                        pTextControl.Show();
 
+                    }
+                    else
+                    {
+                        lListControl.Text = "Lists:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+                }
+                else if (_activeNodePath.Contains(@"\Files"))
+                {
+                    if (_activeNodePath.Contains(@"\Files\"))
+                    {
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "Files:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+                    }
+                }
+                else if (_activeNodePath.Contains(@"\Web Settings"))
+                {
+                    if (string.IsNullOrWhiteSpace(tbWSMasterPageUrl.Text))
+                    {
+                        PopulateWebSettings(node.Tag);
+                    }
+                    pWebSettings.Show();
+
+                }
+                else if (_activeNodePath.Contains(@"\Property Bag Entries"))
+                {
+                    if (lvPropertyBagEntries.Items.Count <= 0)
+                    {
+                        PopulatePropertyBagEntries(node.Tag);
+                    }
+                    pPropertyBagEntries.Show();
+
+                }
+                else if (_activeNodePath.Contains(@"\Term Sets"))
+                {
+                    if (_activeNodePath.Contains(@"\Term Sets\"))
+                    {
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "Term sets:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+
+                }
+                else if (_activeNodePath.Contains(@"\Term Groups"))
+                {
+                    if (_activeNodePath.Contains(@"\Term Groups\"))
+                    {
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "Term groups:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+
+                }
+                else if (_activeNodePath.Contains(@"\Workflow Definitions"))
+                {
+                    if (_activeNodePath.Contains(@"\Workflow Definitions\"))
+                    {
+                        lTextControl.Text = "Workflow definition:";
+                        string tagWD = node.Tag.ToString();
+                        if (tagWD.StartsWith("{"))
+                        {
+                            tbTextControl.Text = tagWD.ToString();
+
+                        }
+                        else
+                        {
+                            PopulateWorkflowDefinition(Guid.Parse(node.Tag.ToString()));
+                            node.Tag = tbTextControl.Text;
+                        }
+                        pTextControl.Show();
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "Workflow definitions:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
+
+                    }
+
+                }
+                else if (_activeNodePath.Contains(@"\Workflow Subscriptions"))
+                {
+                    if (_activeNodePath.Contains(@"\Workflow Subscriptions\"))
+                    {
+                        lTextControl.Text = "Workflow subscription:";
+                        string tagWS = node.Tag.ToString();
+                        if (tagWS.StartsWith("{"))
+                        {
+                            tbTextControl.Text = tagWS.ToString();
+
+                        }
+                        else
+                        {
+                            PopulateWorkflowSubscription(node.Tag.ToString());
+                            node.Tag = tbTextControl.Text;
+                        }
+                        pTextControl.Show();
+
+                    }
+                    else
+                    {
+                        lListControl.Text = "Workflow subscriptions:";
+                        PopulateControlList(node.Tag);
+                        pListControl.Show();
                     }
 
                 }
@@ -572,6 +729,65 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         } //CalendarItemSelected
+
+        private void ResizeControls(object sender, EventArgs e)
+        {
+            int newPanelHeight = (Height - 61 - 51);
+
+            int newControlHeight = (newPanelHeight - 48);
+
+            int newPanelWidth = (Width - 438 - 36);
+
+            int newControlWidth = (newPanelWidth - 24);
+
+            tvTemplate.Height = newPanelHeight;
+
+            Size panelSize = new Size(newPanelWidth, newPanelHeight);
+            Size controlSize = new Size(newControlWidth, newControlHeight);
+
+            pRegionalSettings.Size = panelSize;
+
+            pComposedLook.Size = panelSize;
+
+            pTextControl.Size = panelSize;
+            tbTextControl.Size = controlSize;
+
+            pWebSettings.Size = panelSize;
+
+            pPropertyBagEntries.Size = panelSize;
+            lvPropertyBagEntries.Size = controlSize;
+
+            pListControl.Size = panelSize;
+            lbListControl.Size = controlSize;
+
+        } //ResizeControls
+
+        private void DeleteTemplateItem(object sender, EventArgs e)
+        {
+            //to do
+        } //DeleteTemplateItem
+
+        private void DisplayActiveNode(object sender, EventArgs e)
+        {
+            ListBox listBox = sender as ListBox;
+            if (listBox.SelectedItem != null)
+            {
+                KeyValue listItem = listBox.SelectedItem as KeyValue;
+                TreeNode node = tvTemplate.SelectedNode;
+                if (node?.Nodes?.Count > 0)
+                {
+                    TreeNode[] nodes = node.Nodes.Find(listItem.Value, true);
+                    if (nodes?.Length > 0)
+                    {
+                        tvTemplate.SelectedNode = nodes.First(p => p.Name.Equals(listItem.Value, StringComparison.OrdinalIgnoreCase));
+                    }
+
+                }
+
+            }
+
+        } //DisplayActiveNode
+
 
     } //EditWin
 

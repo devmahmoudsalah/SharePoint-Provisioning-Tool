@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SourceWin));
             this.cbNoUNP = new System.Windows.Forms.CheckBox();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.lPassword = new System.Windows.Forms.Label();
@@ -261,10 +262,10 @@
             this.Controls.Add(this.lSharePointUrl);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SourceWin";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Tag = "Source0";
             this.Text = "Create Template";
