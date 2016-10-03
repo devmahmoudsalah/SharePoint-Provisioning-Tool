@@ -12,7 +12,8 @@ namespace Karabina.SharePoint.Provisioning
         SharePoint_2013_On_Premise = 1,
         SharePoint_2016_On_Premise = 2,
         SharePoint_2016_OnLine = 3
-    }
+
+    } //SharePointVersion
 
     public enum RegionalSettingProperties
     {
@@ -29,7 +30,18 @@ namespace Karabina.SharePoint.Provisioning
         WorkDayEndHour = 10,
         WorkDays = 11,
         WorkDayStartHour = 12
-    }
+
+    } //RegionalSettingProperties
+
+    public enum ComposedLookProperties
+    {
+        Name = 0,
+        BackgroundFile = 1,
+        ColorFile = 2,
+        FontFile = 3,
+        Version = 4
+
+    } //ComposedLookProperties
 
     public enum WebSettingProperties
     {
@@ -42,7 +54,8 @@ namespace Karabina.SharePoint.Provisioning
         SiteLogo = 6,
         Title = 7,
         WelcomePage = 8
-    }
+
+    } //WebSettingProperties
 
     public static class Constants
     {
@@ -54,10 +67,13 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly string Publishing_Feature_Property = "__PublishingFeatureActivated";
         public static readonly string Include = "Include";
         public static readonly string Apply = "Apply";
+        public static readonly string Deploy = "Deploy";
         public static readonly string String0 = "String0";
         public static readonly string Source0 = "Source0";
         public static readonly string Edit0 = "Edit0";
         public static readonly string Target0 = "Target0";
         public static readonly string Progress0 = "Progress0";
-    }
+
+    } //Constants
+
 }

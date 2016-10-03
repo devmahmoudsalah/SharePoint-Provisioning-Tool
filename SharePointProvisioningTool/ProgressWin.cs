@@ -27,9 +27,9 @@ namespace Karabina.SharePoint.Provisioning
         private void MeasureItemToDraw(object sender, MeasureItemEventArgs e)
         {
             if (e.Index < 0) return;
-            Graphics g = e.Graphics;
-            e.ItemHeight = (int)(g.MeasureString("A", Font).Height * 1.05);
-            int horzWidth = (int)g.MeasureString(lbResult.Items[e.Index].ToString(), Font).Width;
+
+            e.ItemHeight = (int)(TextRenderer.MeasureText(e.Graphics, "A", Font).Height * 1.05);
+            int horzWidth = TextRenderer.MeasureText(e.Graphics, lbResult.Items[e.Index].ToString(), Font).Width;
             if (lbResult.HorizontalExtent < horzWidth)
             {
                 lbResult.HorizontalExtent = horzWidth + 5;
@@ -42,14 +42,16 @@ namespace Karabina.SharePoint.Provisioning
 
             if (e.Index >= 0)
             {
-                Brush foreBrush = SystemBrushes.WindowText;
                 Brush backBrush = SystemBrushes.Window;
+                Color foreColour = SystemColors.WindowText;
+                Color backColour = SystemColors.Window;
 
                 bool itemSelected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
 
                 if (itemSelected)
                 {
-                    foreBrush = SystemBrushes.HighlightText;
+                    foreColour = SystemColors.HighlightText;
+                    backColour = SystemColors.Highlight;
                     backBrush = SystemBrushes.Highlight;
                 }
 
@@ -59,69 +61,75 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     if (itemSelected)
                     {
+                        foreColour = Color.White;
+                        backColour = Color.DarkGreen;
                         backBrush = Brushes.DarkGreen;
-                        foreBrush = Brushes.White;
                     }
                     else
                     {
-                        foreBrush = Brushes.DarkGreen;
+                        foreColour = Color.DarkGreen;
                     }
                 }
                 else if (itemString.StartsWith("Cleanup: "))
                 {
                     if (itemSelected)
                     {
+                        foreColour = Color.White;
+                        backColour = Color.RoyalBlue;
                         backBrush = Brushes.RoyalBlue;
-                        foreBrush = Brushes.White;
                     }
                     else
                     {
-                        foreBrush = Brushes.RoyalBlue;
+                        foreColour = Color.RoyalBlue;
                     }
                 }
                 else if (itemString.StartsWith("Error: "))
                 {
                     if (itemSelected)
                     {
+                        foreColour = Color.White;
+                        backColour = Color.OrangeRed;
                         backBrush = Brushes.OrangeRed;
-                        foreBrush = Brushes.White;
                     }
                     else
                     {
-                        foreBrush = Brushes.OrangeRed;
+                        foreColour = Color.OrangeRed;
                     }
                 }
                 else if (itemString.StartsWith("Warning: "))
                 {
                     if (itemSelected)
                     {
+                        foreColour = Color.White;
+                        backColour = Color.DarkOrange;
                         backBrush = Brushes.DarkOrange;
-                        foreBrush = Brushes.White;
                     }
                     else
                     {
-                        foreBrush = Brushes.DarkOrange;
+                        foreColour = Color.DarkOrange;
                     }
                 }
                 else if (itemString.StartsWith("   at "))
                 {
                     if (itemSelected)
                     {
+                        foreColour = Color.White;
+                        backColour = Color.OrangeRed;
                         backBrush = Brushes.OrangeRed;
-                        foreBrush = Brushes.White;
                     }
                     else
                     {
-                        foreBrush = Brushes.OrangeRed;
+                        foreColour = Color.OrangeRed;
                     }
                 }
-
+                
                 if (itemSelected)
                 {
                     e.Graphics.FillRectangle(backBrush, e.Bounds);
                 }
-
-                e.Graphics.DrawString(itemString, Font, foreBrush, e.Bounds);
+                
+                TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.VerticalCenter;
+                TextRenderer.DrawText(e.Graphics, itemString, Font, e.Bounds, foreColour, backColour, flags);
             }
 
         }

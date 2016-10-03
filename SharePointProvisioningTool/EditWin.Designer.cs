@@ -102,6 +102,9 @@
             this.label29 = new System.Windows.Forms.Label();
             this.pListControl = new System.Windows.Forms.Panel();
             this.lbListControl = new System.Windows.Forms.ListBox();
+            this.cmsListControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lListControl = new System.Windows.Forms.Label();
             this.cmsTreeViewPopup.SuspendLayout();
             this.pRegionalSettings.SuspendLayout();
@@ -110,6 +113,7 @@
             this.pWebSettings.SuspendLayout();
             this.pPropertyBagEntries.SuspendLayout();
             this.pListControl.SuspendLayout();
+            this.cmsListControlPopup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvTemplate
@@ -125,6 +129,7 @@
             this.tvTemplate.ShowLines = false;
             this.tvTemplate.Size = new System.Drawing.Size(418, 488);
             this.tvTemplate.TabIndex = 3;
+            this.tvTemplate.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.NodeSelecting);
             this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
             // 
             // cmsTreeViewPopup
@@ -132,13 +137,13 @@
             this.cmsTreeViewPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiDelete});
             this.cmsTreeViewPopup.Name = "cmsTreeViewPopup";
-            this.cmsTreeViewPopup.Size = new System.Drawing.Size(108, 26);
+            this.cmsTreeViewPopup.Size = new System.Drawing.Size(182, 26);
             // 
             // tsmiDelete
             // 
             this.tsmiDelete.Name = "tsmiDelete";
-            this.tsmiDelete.Size = new System.Drawing.Size(107, 22);
-            this.tsmiDelete.Text = "Delete";
+            this.tsmiDelete.Size = new System.Drawing.Size(181, 22);
+            this.tsmiDelete.Text = "Delete Selected Item";
             this.tsmiDelete.Click += new System.EventHandler(this.DeleteTemplateItem);
             // 
             // tbTemplate
@@ -469,7 +474,7 @@
             // bSave
             // 
             this.bSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bSave.Location = new System.Drawing.Point(877, 31);
+            this.bSave.Location = new System.Drawing.Point(538, 32);
             this.bSave.Name = "bSave";
             this.bSave.Size = new System.Drawing.Size(75, 23);
             this.bSave.TabIndex = 5;
@@ -477,6 +482,7 @@
             this.bSave.Text = "Save";
             this.bSave.UseVisualStyleBackColor = true;
             this.bSave.Visible = false;
+            this.bSave.Click += new System.EventHandler(this.SaveChanges);
             // 
             // pComposedLook
             // 
@@ -847,6 +853,7 @@
             // lbListControl
             // 
             this.lbListControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbListControl.ContextMenuStrip = this.cmsListControlPopup;
             this.lbListControl.FormattingEnabled = true;
             this.lbListControl.ItemHeight = 15;
             this.lbListControl.Location = new System.Drawing.Point(13, 29);
@@ -855,6 +862,28 @@
             this.lbListControl.Size = new System.Drawing.Size(489, 437);
             this.lbListControl.TabIndex = 2;
             this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
+            // 
+            // cmsListControlPopup
+            // 
+            this.cmsListControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSelectAll,
+            this.tsmiDeleteItem});
+            this.cmsListControlPopup.Name = "cmsListControlPopup";
+            this.cmsListControlPopup.Size = new System.Drawing.Size(195, 48);
+            // 
+            // tsmiSelectAll
+            // 
+            this.tsmiSelectAll.Name = "tsmiSelectAll";
+            this.tsmiSelectAll.Size = new System.Drawing.Size(194, 22);
+            this.tsmiSelectAll.Text = "Select All";
+            this.tsmiSelectAll.Click += new System.EventHandler(this.ListControlSelectAll);
+            // 
+            // tsmiDeleteItem
+            // 
+            this.tsmiDeleteItem.Name = "tsmiDeleteItem";
+            this.tsmiDeleteItem.Size = new System.Drawing.Size(194, 22);
+            this.tsmiDeleteItem.Text = "Delete Selected Item(s)";
+            this.tsmiDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromList);
             // 
             // lListControl
             // 
@@ -903,6 +932,7 @@
             this.pPropertyBagEntries.PerformLayout();
             this.pListControl.ResumeLayout(false);
             this.pListControl.PerformLayout();
+            this.cmsListControlPopup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -983,5 +1013,8 @@
         private System.Windows.Forms.Panel pListControl;
         private System.Windows.Forms.ListBox lbListControl;
         private System.Windows.Forms.Label lListControl;
+        private System.Windows.Forms.ContextMenuStrip cmsListControlPopup;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteItem;
     }
 }

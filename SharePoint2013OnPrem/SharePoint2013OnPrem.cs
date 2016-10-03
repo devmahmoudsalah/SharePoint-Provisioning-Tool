@@ -1501,6 +1501,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (list.Fields?.Count > 0)
                     {
                         TreeNode fNodes = new TreeNode("Fields");
+                        fNodes.Name = lNode.Name + "_ListFields";
 
                         KeyValueList fieldsList = new KeyValueList();
 
@@ -1532,6 +1533,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (list.Views?.Count > 0)
                     {
                         TreeNode vNodes = new TreeNode("Views");
+                        vNodes.Name = lNode.Name + "_ListViews";
 
                         KeyValueList viewsList = new KeyValueList();
 
@@ -1609,6 +1611,7 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var page in template.Pages)
                 {
                     TreeNode pNode = new TreeNode(page.Url);
+                    pNode.Name = page.Url;
                     pNode.Tag = page.Url;
 
                     pNodes.Nodes.Add(pNode);
@@ -1694,11 +1697,12 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode tgNode = new TreeNode(termGroup.Name);
                     tgNode.Name = termGroup.Id.ToString("N");
-                    tgNode.Tag = termGroup.Id;
+                    tgNode.Tag = termGroup.Id.ToString("D");
 
                     if (termGroup.TermSets?.Count > 0)
                     {
                         TreeNode tsNodes = new TreeNode("Term Sets");
+                        tsNodes.Name = tgNode.Name + "_TermSets";
 
                         KeyValueList termSetsList = new KeyValueList();
 
@@ -1706,11 +1710,11 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             TreeNode tsNode = new TreeNode(termSet.Name);
                             tsNode.Name = termSet.Id.ToString("N");
-                            tsNode.Tag = termSet.Id;
+                            tsNode.Tag = termSet.Id.ToString("D");
 
                             tsNodes.Nodes.Add(tsNode);
 
-                            termSetsList.AddKeyValue(termSet.Name, termSet.Id.ToString("N"));
+                            termSetsList.AddKeyValue(termSet.Name, tsNodes.Name);
 
                         }
 
@@ -1722,7 +1726,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     tgNodes.Nodes.Add(tgNode);
 
-                    termGroupsList.AddKeyValue(termGroup.Name, termGroup.Id.ToString("N"));
+                    termGroupsList.AddKeyValue(termGroup.Name, tgNode.Name);
 
                 }
 
@@ -1772,7 +1776,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     wwdNodes.Nodes.Add(wwdNode);
 
-                    workflowDefinitionsList.AddKeyValue(workflowDefinition.DisplayName, workflowDefinition.Id.ToString("N"));
+                    workflowDefinitionsList.AddKeyValue(workflowDefinition.DisplayName, wwdNode.Name);
 
                 }
 
@@ -1852,7 +1856,10 @@ namespace Karabina.SharePoint.Provisioning
                 EditingTemplate.ComposedLook.Version.ToString()
             };
 
+            //Note: Ensure that the above array is populated in the order of the ComposedLookProperties enum
+
             return result;
+
         } //GetComposedLook
 
         public string GetContentType(string contentTypeId)
@@ -2001,6 +2008,7 @@ namespace Karabina.SharePoint.Provisioning
             string result = string.Empty;
 
             WorkflowDefinition workflowDefinition = EditingTemplate.Workflows.WorkflowDefinitions.Find(p => p.Id.Equals(WorkflowDefinitionId));
+
             if (workflowDefinition != null)
             {
                 WorkflowDefinition newWD = new WorkflowDefinition()

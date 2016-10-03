@@ -12,6 +12,9 @@ namespace Karabina.SharePoint.Provisioning
 {
     public partial class EditWin : Form
     {
+        private TreeNode _selectedNode = null;
+        private KeyValueList _changedNodes = new KeyValueList();
+        private KeyValueList _deletedNodes = new KeyValueList();
         private string _activeNodePath = string.Empty;
 
         private SharePointVersion _selectedVersion = SharePointVersion.SharePoint_Invalid;
@@ -20,6 +23,7 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _selectedVersion; }
             set { _selectedVersion = value; }
+
         }
 
         public SharePoint2013OnPrem SP2013OP { get; set; }
@@ -78,10 +82,12 @@ namespace Karabina.SharePoint.Provisioning
                     } // switch
 
                 } // try
-                catch
+                catch (Exception ex)
                 {
+                    string msg = "Error:\r\n" + ex.Message + "\r\n\r\nPlease try again.";
+                    MessageBox.Show(msg, "Error Loading Template", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                }
+                } //catch
                 finally
                 {
                     if (tvTemplate.Nodes?.Count > 0)
@@ -90,7 +96,8 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     Cursor = Cursors.Default;
-                }
+
+                } //finally
 
             }
 
@@ -99,6 +106,7 @@ namespace Karabina.SharePoint.Provisioning
         private void bClose_Click(object sender, EventArgs e)
         {
             Close();
+
         } //bClose_Click
 
 
@@ -132,8 +140,11 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     selectedIdx = i;
                     break;
+
                 }
+
             }
+
             cbTimeZone.SelectedIndex = selectedIdx;
 
             cbLocale.DataSource = null;
@@ -152,8 +163,11 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     selectedIdx = i;
                     break;
+
                 }
+
             }
+
             cbLocale.SelectedIndex = selectedIdx;
 
             cbSortOrder.DataSource = null;
@@ -172,8 +186,11 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     selectedIdx = i;
                     break;
+
                 }
+
             }
+
             cbSortOrder.SelectedIndex = selectedIdx;
 
             cbCalendar.DataSource = null;
@@ -193,18 +210,23 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     selectedIdx = i;
                     break;
+
                 }
+
             }
+
             cbCalendar.SelectedIndex = selectedIdx;
 
             tmpIdx = regionalSettings[(int)RegionalSettingProperties.ShowWeeks];
             if (tmpIdx > 0)
             {
                 cbShowWeekNumbers.Checked = true;
+
             }
             else
             {
                 cbShowWeekNumbers.Checked = false;
+
             }
 
             if (isHijriSelected)
@@ -213,6 +235,7 @@ namespace Karabina.SharePoint.Provisioning
                 cbAdjustHijriDate.Visible = true;
                 tmpIdx = 2 + regionalSettings[(int)RegionalSettingProperties.AdjustHijriDays];
                 cbAdjustHijriDate.SelectedIndex = tmpIdx;
+
             }
             else
             {
@@ -236,8 +259,11 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     selectedIdx = i;
                     break;
+
                 }
+
             }
+
             cbAlternateCalendar.SelectedIndex = selectedIdx;
 
             clbWorkDays.Items.Clear();
@@ -287,6 +313,8 @@ namespace Karabina.SharePoint.Provisioning
             cbTimeFormat.DataSource = timeFormatCollection.TimeFormats;
             cbTimeFormat.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.Time24];
 
+            pRegionalSettings.Tag = regionalSettings; //used to check if there were changes
+
         } //PopulateRegionalSettings
 
         private void PopulateComposedLook()
@@ -303,11 +331,13 @@ namespace Karabina.SharePoint.Provisioning
                     break;
             }
 
-            tbComposedLookName.Text = composedLook[0];
-            tbBackgroundFile.Text = composedLook[1];
-            tbColorFile.Text = composedLook[2];
-            tbFontFile.Text = composedLook[3];
-            tbComposedLookVersion.Text = composedLook[4];
+            tbComposedLookName.Text = composedLook[(int)ComposedLookProperties.Name];
+            tbBackgroundFile.Text = composedLook[(int)ComposedLookProperties.BackgroundFile];
+            tbColorFile.Text = composedLook[(int)ComposedLookProperties.ColorFile];
+            tbFontFile.Text = composedLook[(int)ComposedLookProperties.FontFile];
+            tbComposedLookVersion.Text = composedLook[(int)ComposedLookProperties.Version];
+
+            pComposedLook.Tag = composedLook; //used to check if there were changes
 
         } //PopulateComposedLook
 
@@ -324,6 +354,7 @@ namespace Karabina.SharePoint.Provisioning
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
+
             tbTextControl.Text = contentType;
 
         } //PopulateContentType
@@ -341,6 +372,7 @@ namespace Karabina.SharePoint.Provisioning
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
+
             tbTextControl.Text = listInstance;
 
         } //PopulateListInstance
@@ -358,6 +390,7 @@ namespace Karabina.SharePoint.Provisioning
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
+
             if (ws?.Length > 0)
             {
                 tbWSTitle.Text = ws[(int)WebSettingProperties.Title];
@@ -372,6 +405,8 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
+            pWebSettings.Tag = ws; //used to check if there were changes
+
         } //PopulateWebSettings
 
         private void PopulatePropertyBagEntries(object propertyBagEntries)
@@ -384,6 +419,7 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     var listViewItem = lvPropertyBagEntries.Items.Add(keyValue.Key);
                     listViewItem.SubItems.Add(keyValue.Value);
+
                 }
             }
 
@@ -413,6 +449,7 @@ namespace Karabina.SharePoint.Provisioning
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
+
             tbTextControl.Text = workflowDefinition;
 
         } //PopulateWorkflowDefinition
@@ -430,6 +467,7 @@ namespace Karabina.SharePoint.Provisioning
                 case SharePointVersion.SharePoint_2016_OnLine:
                     break;
             }
+
             tbTextControl.Text = workflowSubscription;
 
         } //PopulateWorkflowSubscription
@@ -450,18 +488,21 @@ namespace Karabina.SharePoint.Provisioning
             TreeNode node = e.Node;
             if (node != null)
             {
+
                 if (!node.FullPath.Equals(_activeNodePath, StringComparison.OrdinalIgnoreCase))
                 {
                     HideActivePanel(node.FullPath);
                 }
 
                 _activeNodePath = node.FullPath;
+                _selectedNode = null;
 
                 if (node.Name.Equals("TemplateNode", StringComparison.OrdinalIgnoreCase))
                 {
                     lListControl.Text = node.Text;
                     PopulateControlList(node.Tag);
                     pListControl.Show();
+                    return;
 
                 }
 
@@ -470,7 +511,9 @@ namespace Karabina.SharePoint.Provisioning
                     if (cbTimeZone.Items.Count <= 0)
                     {
                         PopulateRegionalSettings();
+
                     }
+
                     pRegionalSettings.Show();
 
                 }
@@ -479,7 +522,9 @@ namespace Karabina.SharePoint.Provisioning
                     if (string.IsNullOrWhiteSpace(tbComposedLookName.Text))
                     {
                         PopulateComposedLook();
+
                     }
+
                     pComposedLook.Show();
 
                 }
@@ -492,13 +537,16 @@ namespace Karabina.SharePoint.Provisioning
                         if (tagCT.StartsWith("{"))
                         {
                             tbTextControl.Text = tagCT;
+
                         }
                         else
                         {
                             PopulateContentType(node.Tag.ToString());
                             node.Tag = tbTextControl.Text;
+
                         }
                         pTextControl.Show();
+                        _selectedNode = node;
 
                     }
                     else
@@ -518,6 +566,7 @@ namespace Karabina.SharePoint.Provisioning
                         string tagSF = node.Tag.ToString();
                         tbTextControl.Text = tagSF;
                         pTextControl.Show();
+                        _selectedNode = node;
 
                     }
                     else
@@ -537,6 +586,7 @@ namespace Karabina.SharePoint.Provisioning
                         string tagF = node.Tag.ToString();
                         tbTextControl.Text = tagF;
                         pTextControl.Show();
+                        _selectedNode = node;
 
                     }
                     else
@@ -556,6 +606,7 @@ namespace Karabina.SharePoint.Provisioning
                         string tagLV = node.Tag.ToString();
                         tbTextControl.Text = tagLV;
                         pTextControl.Show();
+                        _selectedNode = node;
 
                     }
                     else
@@ -576,13 +627,16 @@ namespace Karabina.SharePoint.Provisioning
                         if (tagLI.StartsWith("{"))
                         {
                             tbTextControl.Text = tagLI;
+
                         }
                         else
                         {
                             PopulateListInstance(node.Tag.ToString());
                             node.Tag = tbTextControl.Text;
+
                         }
                         pTextControl.Show();
+                        _selectedNode = node;
 
                     }
                     else
@@ -597,6 +651,7 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     if (_activeNodePath.Contains(@"\Files\"))
                     {
+                        _selectedNode = node;
 
                     }
                     else
@@ -604,6 +659,7 @@ namespace Karabina.SharePoint.Provisioning
                         lListControl.Text = "Files:";
                         PopulateControlList(node.Tag);
                         pListControl.Show();
+
                     }
                 }
                 else if (_activeNodePath.Contains(@"\Web Settings"))
@@ -611,7 +667,9 @@ namespace Karabina.SharePoint.Provisioning
                     if (string.IsNullOrWhiteSpace(tbWSMasterPageUrl.Text))
                     {
                         PopulateWebSettings(node.Tag);
+
                     }
+
                     pWebSettings.Show();
 
                 }
@@ -621,6 +679,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         PopulatePropertyBagEntries(node.Tag);
                     }
+
                     pPropertyBagEntries.Show();
 
                 }
@@ -628,6 +687,8 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     if (_activeNodePath.Contains(@"\Term Sets\"))
                     {
+                        //to do
+                        _selectedNode = node;
 
                     }
                     else
@@ -643,6 +704,8 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     if (_activeNodePath.Contains(@"\Term Groups\"))
                     {
+                        //to do
+                        _selectedNode = node;
 
                     }
                     else
@@ -669,8 +732,11 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             PopulateWorkflowDefinition(Guid.Parse(node.Tag.ToString()));
                             node.Tag = tbTextControl.Text;
+
                         }
+
                         pTextControl.Show();
+                        _selectedNode = node;
 
                     }
                     else
@@ -697,8 +763,11 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             PopulateWorkflowSubscription(node.Tag.ToString());
                             node.Tag = tbTextControl.Text;
+
                         }
+
                         pTextControl.Show();
+                        _selectedNode = node;
 
                     }
                     else
@@ -706,6 +775,7 @@ namespace Karabina.SharePoint.Provisioning
                         lListControl.Text = "Workflow subscriptions:";
                         PopulateControlList(node.Tag);
                         pListControl.Show();
+
                     }
 
                 }
@@ -764,7 +834,49 @@ namespace Karabina.SharePoint.Provisioning
 
         private void DeleteTemplateItem(object sender, EventArgs e)
         {
-            //to do
+            if (tvTemplate.SelectedNode != null)
+            {
+                TreeNode node = tvTemplate.SelectedNode;
+                if (!node.Name.Equals("TemplateNode"))
+                {
+                    if (!_deletedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        _deletedNodes.AddKeyValue(node.Name, node.Parent.Name);
+
+                    }
+
+                    if (_changedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        _changedNodes.RemoveAll(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+
+                    }
+
+                    TreeNode prevNode = node.PrevNode;
+                    TreeNode parentNode = node.Parent;
+
+                    KeyValueList tagList = parentNode.Tag as KeyValueList;
+
+                    tagList.RemoveAll(p => p.Value.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+
+                    _selectedNode = null; //ensure NodeSelecting will not throw an exception
+
+                    node.Remove();
+
+                    tvTemplate.SelectedNode = prevNode != null ? prevNode : parentNode;
+
+                    bSave.Visible = true;
+
+                }
+                else
+                {
+                    MessageBox.Show("It will be easier to delete the provisioning file\r\n than to delete all the nodes.",
+                                    "Delete Information",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+
+            }
+
         } //DeleteTemplateItem
 
         private void DisplayActiveNode(object sender, EventArgs e)
@@ -788,7 +900,100 @@ namespace Karabina.SharePoint.Provisioning
 
         } //DisplayActiveNode
 
+        private void SaveChanges(object sender, EventArgs e)
+        {
+            //save the changes
+
+        } //SaveChanges
+
+        private void ListControlSelectAll(object sender, EventArgs e)
+        {
+            int topIdx = lbListControl.TopIndex;
+            lbListControl.BeginUpdate();
+            for (var i = 0; i < lbListControl.Items.Count; i++)
+            {
+                lbListControl.SetSelected(i, true);
+            }
+            lbListControl.EndUpdate();
+            lbListControl.TopIndex = topIdx;
+
+        } //ListControlSelectAll
+
+        private void DeleteTemplateItemFromList(object sender, EventArgs e)
+        {
+            if (lbListControl.SelectedItems?.Count > 0)
+            {
+                KeyValueList itemsToDelete = new KeyValueList();
+                foreach (var item in lbListControl.SelectedItems)
+                {
+                    itemsToDelete.Add((item as KeyValue));
+
+                }
+
+                TreeNode parentNode = null;
+
+                foreach (var keyValue in itemsToDelete)
+                {                    
+                    TreeNode[] nodes = tvTemplate.SelectedNode.Nodes.Find(keyValue.Value, true);
+
+                    TreeNode node = nodes.First(p => p.Name.Equals(keyValue.Value, StringComparison.OrdinalIgnoreCase));
+
+                    if (!_deletedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        _deletedNodes.AddKeyValue(node.Name, node.Parent.Name);
+
+                    }
+
+                    if (_changedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        _changedNodes.RemoveAll(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+
+                    }
+
+                    parentNode = node.Parent;
+
+                    KeyValueList tagList = parentNode.Tag as KeyValueList;
+
+                    tagList.RemoveAll(p => p.Value.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+
+                    node.Remove();
+                    
+                }
+
+                if (parentNode != null)
+                {
+                    PopulateControlList(parentNode.Tag);
+
+                }
+
+                bSave.Visible = true;
+
+            }
+
+        } //DeleteTemplateItemFromList
+
+        private void NodeSelecting(object sender, TreeViewCancelEventArgs e)
+        {
+            if (_selectedNode != null)
+            {
+                string tagValue = _selectedNode.Tag.ToString();
+                if (!tagValue.Equals(tbTextControl.Text, StringComparison.Ordinal))
+                {
+                    if (!_changedNodes.Exists(p => p.Key.Equals(_selectedNode.Name)))
+                    {
+                        _changedNodes.AddKeyValue(_selectedNode.Name, _selectedNode.Parent.Name);
+
+                    }
+
+                    _selectedNode.Tag = tbTextControl.Text;
+                    bSave.Visible = true;
+
+                }
+
+            }
+
+        } //NodeSelecting
 
     } //EditWin
 
-}
+} //Namespace
