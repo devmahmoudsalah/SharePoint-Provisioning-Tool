@@ -902,7 +902,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SaveChanges(object sender, EventArgs e)
         {
-            //save the changes
+            //to do
 
         } //SaveChanges
 
@@ -921,52 +921,57 @@ namespace Karabina.SharePoint.Provisioning
 
         private void DeleteTemplateItemFromList(object sender, EventArgs e)
         {
-            if (lbListControl.SelectedItems?.Count > 0)
+            TreeNode selectedNode = tvTemplate.SelectedNode;
+            if (!selectedNode.Name.Equals("TemplateNode"))
             {
-                KeyValueList itemsToDelete = new KeyValueList();
-                foreach (var item in lbListControl.SelectedItems)
+                if (lbListControl.SelectedItems?.Count > 0)
                 {
-                    itemsToDelete.Add((item as KeyValue));
-
-                }
-
-                TreeNode parentNode = null;
-
-                foreach (var keyValue in itemsToDelete)
-                {                    
-                    TreeNode[] nodes = tvTemplate.SelectedNode.Nodes.Find(keyValue.Value, true);
-
-                    TreeNode node = nodes.First(p => p.Name.Equals(keyValue.Value, StringComparison.OrdinalIgnoreCase));
-
-                    if (!_deletedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                    KeyValueList itemsToDelete = new KeyValueList();
+                    foreach (var item in lbListControl.SelectedItems)
                     {
-                        _deletedNodes.AddKeyValue(node.Name, node.Parent.Name);
+                        itemsToDelete.Add((item as KeyValue));
 
                     }
 
-                    if (_changedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                    TreeNode parentNode = null;
+
+                    foreach (var keyValue in itemsToDelete)
                     {
-                        _changedNodes.RemoveAll(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+                        TreeNode[] nodes = tvTemplate.SelectedNode.Nodes.Find(keyValue.Value, true);
+
+                        TreeNode node = nodes.First(p => p.Name.Equals(keyValue.Value, StringComparison.OrdinalIgnoreCase));
+
+                        if (!_deletedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            _deletedNodes.AddKeyValue(node.Name, node.Parent.Name);
+
+                        }
+
+                        if (_changedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            _changedNodes.RemoveAll(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+
+                        }
+
+                        parentNode = node.Parent;
+
+                        KeyValueList tagList = parentNode.Tag as KeyValueList;
+
+                        tagList.RemoveAll(p => p.Value.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+
+                        node.Remove();
 
                     }
 
-                    parentNode = node.Parent;
+                    if (parentNode != null)
+                    {
+                        PopulateControlList(parentNode.Tag);
 
-                    KeyValueList tagList = parentNode.Tag as KeyValueList;
+                    }
 
-                    tagList.RemoveAll(p => p.Value.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
-
-                    node.Remove();
-                    
-                }
-
-                if (parentNode != null)
-                {
-                    PopulateControlList(parentNode.Tag);
+                    bSave.Visible = true;
 
                 }
-
-                bSave.Visible = true;
 
             }
 
@@ -976,6 +981,7 @@ namespace Karabina.SharePoint.Provisioning
         {
             if (_selectedNode != null)
             {
+                //Check if an item was changed and mark it to be updated when Save button is clicked
                 string tagValue = _selectedNode.Tag.ToString();
                 if (!tagValue.Equals(tbTextControl.Text, StringComparison.Ordinal))
                 {
@@ -986,6 +992,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     _selectedNode.Tag = tbTextControl.Text;
+
                     bSave.Visible = true;
 
                 }
@@ -993,6 +1000,27 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         } //NodeSelecting
+
+        private void ListControlKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                DeleteTemplateItemFromList(sender, e);
+
+            }
+
+        } //ListControlKeyUp
+
+        private void TreeViewKeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode== Keys.Delete)
+            {
+                DeleteTemplateItem(sender, e);
+
+            }
+
+        } //TreeViewKeyUp
+
 
     } //EditWin
 

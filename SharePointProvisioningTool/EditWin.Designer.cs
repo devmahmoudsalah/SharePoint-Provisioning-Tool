@@ -131,6 +131,7 @@
             this.tvTemplate.TabIndex = 3;
             this.tvTemplate.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.NodeSelecting);
             this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
+            this.tvTemplate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeViewKeyUp);
             // 
             // cmsTreeViewPopup
             // 
@@ -862,6 +863,7 @@
             this.lbListControl.Size = new System.Drawing.Size(489, 437);
             this.lbListControl.TabIndex = 2;
             this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
+            this.lbListControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListControlKeyUp);
             // 
             // cmsListControlPopup
             // 
