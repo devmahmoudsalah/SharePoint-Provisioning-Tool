@@ -678,6 +678,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (lvPropertyBagEntries.Items.Count <= 0)
                     {
                         PopulatePropertyBagEntries(node.Tag);
+
                     }
 
                     pPropertyBagEntries.Show();

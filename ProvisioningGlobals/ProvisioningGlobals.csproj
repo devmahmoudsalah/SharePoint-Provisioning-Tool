@@ -50,6 +50,7 @@
     <Compile Include="ProvisioningFields.cs" />
     <Compile Include="ProvisioningOptions.cs" />
     <Compile Include="SortOrder.cs" />
+    <Compile Include="TemplateItems.cs" />
     <Compile Include="TimeFormats.cs" />
     <Compile Include="TimeZones.cs" />
     <Compile Include="WeekDays.cs" />
