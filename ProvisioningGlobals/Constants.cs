@@ -86,7 +86,7 @@ namespace Karabina.SharePoint.Provisioning
         FileList = 15,
         FileItem = 16,
         WebSetting = 17,
-        PropertyBagEntries = 18,
+        PropertyBagEntriesList = 18,
         TermGroupList = 19,
         TermGroupItem = 20,
         TermSetList = 21,
@@ -104,7 +104,12 @@ namespace Karabina.SharePoint.Provisioning
         SiteFeatureList = 33,
         WebFeatureList = 34,
         LocalizationsList = 35,
-        LocalizationsItem = 36
+        LocalizationsItem = 36,
+        PageList = 37,
+        PageItem = 38,
+        PropertiesList = 39,
+        PublishingList = 40,
+        SupportedUILanguagesList = 41
 
     } //TemplateItemType
 

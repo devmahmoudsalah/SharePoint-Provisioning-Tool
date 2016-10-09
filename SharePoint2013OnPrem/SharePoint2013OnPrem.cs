@@ -1311,7 +1311,7 @@ namespace Karabina.SharePoint.Provisioning
                     addInsList.AddKeyValue(addIn.PackagePath, addIn.Source);
                 }
 
-                templateItems.SetContent((int)aiNodes.Tag, addInsList);
+                templateItems.SetContent((string)aiNodes.Tag, addInsList);
 
                 rootNode.Nodes.Add(aiNodes);
                 templateList.AddKeyValue(aiNodes.Text, aiNodes.Name);
@@ -1352,7 +1352,7 @@ namespace Karabina.SharePoint.Provisioning
                     siteCustomActionsList.AddKeyValue(siteCustomAction.Name, siteCustomAction.RegistrationId);
                 }
 
-                templateItems.SetContent((int)scaNodes.Tag, siteCustomActionsList);
+                templateItems.SetContent((string)scaNodes.Tag, siteCustomActionsList);
 
                 rootNode.Nodes.Add(scaNodes);
                 templateList.AddKeyValue(scaNodes.Text, scaNodes.Name);
@@ -1382,7 +1382,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                templateItems.SetContent((int)wcaNodes.Tag, webCustomActionsList);
+                templateItems.SetContent((string)wcaNodes.Tag, webCustomActionsList);
 
                 rootNode.Nodes.Add(wcaNodes);
                 templateList.AddKeyValue(wcaNodes.Text, wcaNodes.Name);
@@ -1398,7 +1398,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 foreach (var siteFeature in template.Features.SiteFeatures)
                 {
-                    siteFeaturesList.AddKeyValue(siteFeature.Id.ToString("N"), siteFeature.Id.ToString("D"));
+                    siteFeaturesList.AddKeyValue(siteFeature.Id.ToString("B"), siteFeature.Id.ToString("B"));
                 }
 
                 sfNodes.Tag = templateItems.AddItem(sfNodes.Name, TemplateControlType.ListBox, 
@@ -1419,7 +1419,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 foreach (var webFeature in template.Features.WebFeatures)
                 {
-                    webFeaturesList.AddKeyValue(webFeature.Id.ToString("N"), webFeature.Id.ToString("N"));
+                    webFeaturesList.AddKeyValue(webFeature.Id.ToString("B"), webFeature.Id.ToString("B"));
                 }
 
                 wfNodes.Tag = templateItems.AddItem(wfNodes.Name, TemplateControlType.ListBox, 
@@ -1448,7 +1448,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (ctgNodes?.Length > 0)
                     {
                         ctgNode = ctgNodes[0];
-                        contentTypeGroup = templateItems.GetContent((int)ctgNode.Tag) as KeyValueList;
+                        contentTypeGroup = templateItems.GetContent((string)ctgNode.Tag) as KeyValueList;
 
                     }
                     else
@@ -1474,12 +1474,12 @@ namespace Karabina.SharePoint.Provisioning
 
                     contentTypeGroup.AddKeyValue(contentType.Name, contentType.Id);
 
-                    templateItems.SetContent((int)ctgNode.Tag, contentTypeGroup);
+                    templateItems.SetContent((string)ctgNode.Tag, contentTypeGroup);
 
                     contentTypeList.AddKeyValue(contentType.Group, contentType.Group);
                 }
 
-                templateItems.SetContent((int)ctNodes.Tag, contentTypeList);
+                templateItems.SetContent((string)ctNodes.Tag, contentTypeList);
 
                 rootNode.Nodes.Add(ctNodes);
 
@@ -1509,7 +1509,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (sfgNodes?.Length > 0)
                     {
                         sfgNode = sfgNodes[0];
-                        siteFieldsGroup = templateItems.GetContent((int)sfgNode.Tag) as KeyValueList;
+                        siteFieldsGroup = templateItems.GetContent((string)sfgNode.Tag) as KeyValueList;
 
                     }
                     else
@@ -1540,13 +1540,13 @@ namespace Karabina.SharePoint.Provisioning
 
                     siteFieldsGroup.AddKeyValue(fieldName, fieldID);
 
-                    templateItems.SetContent((int)sfgNode.Tag, siteFieldsGroup);
+                    templateItems.SetContent((string)sfgNode.Tag, siteFieldsGroup);
 
                     siteFieldsList.AddKeyValue(fieldGroup, fieldGroup);
 
                 }
 
-                templateItems.SetContent((int)sfNodes.Tag, siteFieldsList);
+                templateItems.SetContent((string)sfNodes.Tag, siteFieldsList);
 
                 rootNode.Nodes.Add(sfNodes);
                 templateList.AddKeyValue(sfNodes.Text, sfNodes.Name);
@@ -1576,7 +1576,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                templateItems.SetContent((int)fNodes.Tag, filesList);
+                templateItems.SetContent((string)fNodes.Tag, filesList);
 
                 rootNode.Nodes.Add(fNodes);
                 templateList.AddKeyValue(fNodes.Text, fNodes.Name);
@@ -1631,7 +1631,7 @@ namespace Karabina.SharePoint.Provisioning
 
                         }
 
-                        templateItems.SetContent((int)fNodes.Tag, fieldsList);
+                        templateItems.SetContent((string)fNodes.Tag, fieldsList);
 
                         lNode.Nodes.Add(fNodes);
 
@@ -1669,7 +1669,7 @@ namespace Karabina.SharePoint.Provisioning
 
                         }
 
-                        templateItems.SetContent((int)vNodes.Tag, viewsList);
+                        templateItems.SetContent((string)vNodes.Tag, viewsList);
 
                         lNode.Nodes.Add(vNodes);
 
@@ -1681,7 +1681,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                templateItems.SetContent((int)lNodes.Tag, listsList);
+                templateItems.SetContent((string)lNodes.Tag, listsList);
 
                 rootNode.Nodes.Add(lNodes);
                 templateList.AddKeyValue(lNodes.Text, lNodes.Name);
@@ -1711,7 +1711,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                templateItems.SetContent((int)glNodes.Tag, localizationsList);
+                templateItems.SetContent((string)glNodes.Tag, localizationsList);
 
                 rootNode.Nodes.Add(glNodes);
                 templateList.AddKeyValue(glNodes.Text, glNodes.Name);
@@ -1724,18 +1724,28 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode pNodes = new TreeNode("Pages");
                 pNodes.Name = "Pages";
+                pNodes.Tag = templateItems.AddItem(pNodes.Name, TemplateControlType.ListBox, 
+                                                   TemplateItemType.PageList, null);
+
+                KeyValueList pageList = new KeyValueList();
 
                 foreach (var page in template.Pages)
                 {
                     TreeNode pNode = new TreeNode(page.Url);
                     pNode.Name = page.Url;
-                    pNode.Tag = page.Url;
+                    pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.TextBox, 
+                                                      TemplateItemType.PageItem, 
+                                                      GetPageContent(page));
 
                     pNodes.Nodes.Add(pNode);
+                    pageList.AddKeyValue(page.Url, page.Url);
 
                 }
 
+                templateItems.SetContent((string)pNodes.Tag, pageList);
+
                 rootNode.Nodes.Add(pNodes);
+
                 templateList.AddKeyValue(pNodes.Text, pNodes.Name);
 
             }
@@ -1744,17 +1754,21 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode pNode = new TreeNode("Properties");
                 pNode.Name = "Properties";
+                pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.ListView, 
+                                                  TemplateItemType.PropertiesList, null);
 
                 KeyValueList propertiesList = new KeyValueList();
 
                 foreach (var property in template.Properties)
                 {
                     propertiesList.AddKeyValue(property.Key, property.Value);
+
                 }
 
-                pNode.Tag = propertiesList;
+                templateItems.SetContent((string)pNode.Tag, propertiesList);
 
                 rootNode.Nodes.Add(pNode);
+
                 templateList.AddKeyValue(pNode.Text, pNode.Name);
 
             }
@@ -1763,17 +1777,21 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode pbeNodes = new TreeNode("Property Bag Entries");
                 pbeNodes.Name = "PropertyBagEntries";
+                pbeNodes.Tag = templateItems.AddItem(pbeNodes.Name, TemplateControlType.ListView, 
+                                                     TemplateItemType.PropertyBagEntriesList, null);
 
                 KeyValueList propertyBagEntriesList = new KeyValueList();
 
                 foreach (var propertyBagEntry in template.PropertyBagEntries)
                 {
                     propertyBagEntriesList.AddKeyValue(propertyBagEntry.Key, propertyBagEntry.Value);
+
                 }
 
-                pbeNodes.Tag = propertyBagEntriesList;
+                templateItems.SetContent((string)pbeNodes.Tag, propertyBagEntriesList);
 
                 rootNode.Nodes.Add(pbeNodes);
+
                 templateList.AddKeyValue(pbeNodes.Text, pbeNodes.Name);
 
             }
@@ -1783,9 +1801,12 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode pNode = new TreeNode("Publishing");
                 pNode.Name = "Publishing";
 
-                pNode.Tag = template.Publishing;
+                pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.TextBox,
+                                                  TemplateItemType.PublishingList,
+                                                  GetPublishing(template.Publishing));
 
                 rootNode.Nodes.Add(pNode);
+
                 templateList.AddKeyValue(pNode.Text, pNode.Name);
 
             }
@@ -1794,11 +1815,22 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode suilNode = new TreeNode("Supported UI Languages");
                 suilNode.Name = "SupportedUILanguages";
+                suilNode.Tag = templateItems.AddItem(suilNode.Name, TemplateControlType.ListBox, 
+                                                     TemplateItemType.SupportedUILanguagesList, null);
+
+                KeyValueList supportedUILanguages = new KeyValueList();
+
+                foreach(var suil in template.SupportedUILanguages)
+                {
+                    supportedUILanguages.AddKeyValue(suil.LCID.ToString(), suil.LCID.ToString());
+
+                }
 
 
-                suilNode.Tag = template.SupportedUILanguages;
+                templateItems.SetContent((string)suilNode.Tag, supportedUILanguages);
 
                 rootNode.Nodes.Add(suilNode);
+
                 templateList.AddKeyValue(suilNode.Text, suilNode.Name);
 
             }
@@ -1815,6 +1847,7 @@ namespace Karabina.SharePoint.Provisioning
                     TreeNode tgNode = new TreeNode(termGroup.Name);
                     tgNode.Name = termGroup.Id.ToString("N");
                     tgNode.Tag = termGroup.Id.ToString("D");
+                    
 
                     if (termGroup.TermSets?.Count > 0)
                     {
@@ -1828,6 +1861,8 @@ namespace Karabina.SharePoint.Provisioning
                             TreeNode tsNode = new TreeNode(termSet.Name);
                             tsNode.Name = termSet.Id.ToString("N");
                             tsNode.Tag = termSet.Id.ToString("D");
+
+                            
 
                             tsNodes.Nodes.Add(tsNode);
 
@@ -1858,22 +1893,12 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode wsNode = new TreeNode("Web Settings");
                 wsNode.Name = "WebSettings";
-
-                WebSettings ws = template.WebSettings;
-                wsNode.Tag = new WebSettings()
-                {
-                    AlternateCSS = ws.AlternateCSS,
-                    CustomMasterPageUrl = ws.CustomMasterPageUrl,
-                    Description = ws.Description,
-                    MasterPageUrl = ws.MasterPageUrl,
-                    NoCrawl = ws.NoCrawl,
-                    RequestAccessEmail = ws.RequestAccessEmail,
-                    SiteLogo = ws.SiteLogo,
-                    Title = ws.Title,
-                    WelcomePage = ws.WelcomePage
-                };
+                wsNode.Tag = templateItems.AddItem(wsNode.Name, TemplateControlType.Form, 
+                                                   TemplateItemType.WebSetting, 
+                                                   GetWebSettings(template.WebSettings));
 
                 rootNode.Nodes.Add(wsNode);
+
                 templateList.AddKeyValue(wsNode.Text, wsNode.Name);
 
             }
@@ -1882,6 +1907,8 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode wwdNodes = new TreeNode("Workflow Definitions");
                 wwdNodes.Name = "WorkflowDefinitions";
+                wwdNodes.Tag = templateItems.AddItem(wwdNodes.Name, TemplateControlType.ListBox, 
+                                                     TemplateItemType.WorkflowDefinitionList, null);
 
                 KeyValueList workflowDefinitionsList = new KeyValueList();
 
@@ -1889,7 +1916,9 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode wwdNode = new TreeNode(workflowDefinition.DisplayName);
                     wwdNode.Name = workflowDefinition.Id.ToString("N");
-                    wwdNode.Tag = workflowDefinition.Id.ToString("D"); //do not want curly brackets {}
+                    wwdNode.Tag = templateItems.AddItem(wwdNode.Name, TemplateControlType.TextBox, 
+                                                        TemplateItemType.WorkflowDefinitionItem,  
+                                                        GetWorkflowDefinition(workflowDefinition.Id));
 
                     wwdNodes.Nodes.Add(wwdNode);
 
@@ -1897,9 +1926,10 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                wwdNodes.Tag = workflowDefinitionsList;
+                templateItems.SetContent((string)wwdNodes.Tag, workflowDefinitionsList);
 
                 rootNode.Nodes.Add(wwdNodes);
+
                 templateList.AddKeyValue(wwdNodes.Text, wwdNodes.Name);
 
             }
@@ -1908,6 +1938,8 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode wwsNodes = new TreeNode("Workflow Subscriptions");
                 wwsNodes.Name = "WorkflowSubscriptions";
+                wwsNodes.Tag = templateItems.AddItem(wwsNodes.Name, TemplateControlType.ListBox, 
+                                                     TemplateItemType.WorkflowSubscriptionList, null);
 
                 KeyValueList workflowSubscriptionsList = new KeyValueList();
 
@@ -1915,7 +1947,9 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode wwsNode = new TreeNode(workflowSubscription.Name);
                     wwsNode.Name = workflowSubscription.Name;
-                    wwsNode.Tag = workflowSubscription.Name;
+                    wwsNode.Tag = templateItems.AddItem(wwsNode.Name, TemplateControlType.TextBox, 
+                                                        TemplateItemType.WorkflowSubscriptionItem, 
+                                                        GetWorkflowSubscription(workflowSubscription.Name));
 
                     wwsNodes.Nodes.Add(wwsNode);
 
@@ -1923,14 +1957,14 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                wwsNodes.Tag = workflowSubscriptionsList;
+                templateItems.SetContent((string)wwsNodes.Tag, workflowSubscriptionsList);
 
                 rootNode.Nodes.Add(wwsNodes);
                 templateList.AddKeyValue(wwsNodes.Text, wwsNodes.Name);
 
             }
 
-            templateItems.SetContent((int)rootNode.Tag, templateList);
+            templateItems.SetContent((string)rootNode.Tag, templateList);
 
             rootNode.Expand();
 
@@ -2101,20 +2135,20 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetListInstance
 
-        public string[] GetWebSettings(object webSettings)
+        public string[] GetWebSettings(WebSettings webSettings)
         {
-            WebSettings ws = webSettings as WebSettings;
             string[] result = new string[]
             {
-                ws.AlternateCSS,
-                ws.CustomMasterPageUrl,
-                ws.Description,
-                ws.MasterPageUrl,
-                (ws.NoCrawl ? "1" : "0"),
-                ws.RequestAccessEmail,
-                ws.SiteLogo,
-                ws.Title,
-                ws.WelcomePage
+                webSettings.AlternateCSS,
+                webSettings.CustomMasterPageUrl,
+                webSettings.Description,
+                webSettings.MasterPageUrl,
+                (webSettings.NoCrawl ? "1" : "0"),
+                webSettings.RequestAccessEmail,
+                webSettings.SiteLogo,
+                webSettings.Title,
+                webSettings.WelcomePage
+
             };
 
             //Note: Ensure that the above are added in the order as defined in the WebSettingProperties enum
@@ -2299,6 +2333,109 @@ namespace Karabina.SharePoint.Provisioning
             return result;
 
         } //GetLocalization
+
+        public string GetPageContent(Page page)
+        {
+            string result = string.Empty;
+
+            Page newP = new Page()
+            {
+                Layout = page.Layout,
+                Overwrite = page.Overwrite,
+                Url = page.Url
+
+            };
+
+            if (page.Fields?.Count > 0)
+            {
+                foreach(var field in page.Fields)
+                {
+                    newP.Fields.Add(field.Key, field.Value);
+
+                }
+
+            }
+
+            if (page.WebParts?.Count > 0)
+            {
+                newP.WebParts.AddRange(page.WebParts);
+
+            }
+
+            var serializer = new JavaScriptSerializer();
+            result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
+                                               .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                               .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+
+            return result;
+
+        } //GetPageContent
+
+        public string GetPublishing(Publishing publishing)
+        {
+            string result = string.Empty;
+            Publishing newP = new Publishing()
+            {
+                AutoCheckRequirements = publishing.AutoCheckRequirements
+
+            };
+
+            if (publishing.AvailableWebTemplates?.Count > 0)
+            {
+                newP.AvailableWebTemplates.AddRange(publishing.AvailableWebTemplates);
+
+            }
+
+            if (publishing.DesignPackage != null)
+            {
+                newP.DesignPackage = new DesignPackage()
+                {
+                    DesignPackagePath = publishing.DesignPackage.DesignPackagePath,
+                    MajorVersion = publishing.DesignPackage.MajorVersion,
+                    MinorVersion = publishing.DesignPackage.MinorVersion,
+                    PackageGuid = publishing.DesignPackage.PackageGuid,
+                    PackageName = publishing.DesignPackage.PackageName
+
+                };
+
+            }
+
+            if (publishing.PageLayouts?.Count > 0)
+            {
+                newP.PageLayouts.AddRange(publishing.PageLayouts);
+
+            }
+
+            var serializer = new JavaScriptSerializer();
+            result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
+                                               .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                               .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+
+            return result;
+
+        } //GetPublishing
+
+        public string GetTermGroup(Guid termGroupId)
+        {
+            string result = string.Empty;
+            TermGroup termGroup = _editingTemplate.TermGroups.Find(p => p.Id.CompareTo(termGroupId) == 0);
+            if (termGroup != null)
+            {
+                TermGroup newTG = new TermGroup()
+                {
+                    Description = termGroup.Description,
+                    Id = termGroup.Id,
+                    Name = termGroup.Name,
+                    SiteCollectionTermGroup = termGroup.SiteCollectionTermGroup
+
+                };
+
+                //continue here
+            }
+
+            return result;
+
+        } //GetTermGroup
 
     } //SharePoint2013OnPrem
 

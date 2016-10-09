@@ -8,9 +8,11 @@ namespace Karabina.SharePoint.Provisioning
 {
     public class TemplateItem
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public bool IsChanged { get; set; }
 
         public TemplateControlType ControlType { get; set; }
 
@@ -18,12 +20,17 @@ namespace Karabina.SharePoint.Provisioning
 
         public object Content { get; set; }
 
-        public TemplateItem() { }
+        public TemplateItem()
+        {
+            Id = Guid.NewGuid().ToString("N").ToUpperInvariant();
+            IsChanged = false;
+        }
 
         public TemplateItem(string name, TemplateControlType controlType,
                             TemplateItemType itemType, object content)
         {
-            Id = 0;
+            Id = Guid.NewGuid().ToString("N").ToUpperInvariant();
+            IsChanged = false;
             Name = name;
             ControlType = controlType;
             ItemType = ItemType;
@@ -34,71 +41,8 @@ namespace Karabina.SharePoint.Provisioning
 
     public class TemplateItems : List<TemplateItem>
     {
-        private int GetNextId()
-        {
-            int result = 0;
-            if (Count > 0)
-            {
-                TemplateItem item = this[Count - 1];
-                if (item != null)
-                {
-                    result = item.Id + 1;
 
-                }
-                else
-                {
-                    int loopDown = Count - 1;
-                    while (loopDown >= 0)
-                    {
-                        item = this[loopDown];
-                        if (item != null)
-                        {
-                            result = item.Id + 1;
-                            break;
-
-                        }
-
-                        loopDown--;
-
-                    }
-
-                    if (loopDown < 0)
-                    {
-                        result = 0;
-
-                    }
-
-                }
-
-            }
-
-            return result;
-
-        } //GetNextId
-
-        public new void Add(TemplateItem item)
-        {
-            item.Id = GetNextId();
-
-            base.Add(item);
-
-        } //Add
-
-        public new void AddRange(IEnumerable<TemplateItem> collection)
-        {
-            int newId = GetNextId();
-            foreach (var item in collection)
-            {
-                item.Id = newId;
-                newId++;
-
-            }
-
-            base.AddRange(collection);
-
-        } //AddRange
-
-        public int AddItem(string name, TemplateControlType controlType,
+        public string AddItem(string name, TemplateControlType controlType,
                             TemplateItemType itemType, object content)
         {
             TemplateItem item = new TemplateItem(name, controlType, itemType, content);
@@ -109,17 +53,9 @@ namespace Karabina.SharePoint.Provisioning
 
         } //AddItem
 
-        public TemplateItem GetItem(int id)
+        public TemplateItem GetItem(string id)
         {
-            TemplateItem item = Find(p => p.Id == id);
-
-            return item;
-
-        } //GetItem
-
-        public TemplateItem GetItem(string name)
-        {
-            TemplateItem item = Find(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            TemplateItem item = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
 
             return item;
 
@@ -134,11 +70,11 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetItem
         
-        public object GetContent(int id)
+        public object GetContent(string id)
         {
             object result = null;
 
-            TemplateItem item = Find(p => p.Id == id);
+            TemplateItem item = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
             if (item != null)
             {
                 result = item.Content;
@@ -149,12 +85,23 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetContent
 
-        public void SetContent(int id, object content)
+        public void SetContent(string id, object content)
         {
-            TemplateItem item = Find(p => p.Id == id);
+            TemplateItem item = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
             if (item != null)
             {
+                if (item.Content != null)
+                {
+                    if (!item.Content.Equals(content))
+                    {
+                        item.IsChanged = true;
+
+                    }
+
+                }
+
                 item.Content = content;
+
             }
 
         } //SetContent
