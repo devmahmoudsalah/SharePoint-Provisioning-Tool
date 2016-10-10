@@ -109,7 +109,10 @@ namespace Karabina.SharePoint.Provisioning
         PageItem = 38,
         PropertiesList = 39,
         PublishingList = 40,
-        SupportedUILanguagesList = 41
+        SupportedUILanguagesList = 41,
+        FileWebPartsList = 42,
+        FileWebPartItem = 43,
+        FileWebPartItemContent = 44
 
     } //TemplateItemType
 

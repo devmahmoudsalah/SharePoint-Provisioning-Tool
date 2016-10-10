@@ -95,11 +95,11 @@
             this.label24 = new System.Windows.Forms.Label();
             this.tbWSTitle = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.pPropertyBagEntries = new System.Windows.Forms.Panel();
-            this.lvPropertyBagEntries = new System.Windows.Forms.ListView();
+            this.pViewControl = new System.Windows.Forms.Panel();
+            this.lvViewControl = new System.Windows.Forms.ListView();
             this.pbeKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pbeValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label29 = new System.Windows.Forms.Label();
+            this.lViewControl = new System.Windows.Forms.Label();
             this.pListControl = new System.Windows.Forms.Panel();
             this.lbListControl = new System.Windows.Forms.ListBox();
             this.cmsListControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -111,7 +111,7 @@
             this.pComposedLook.SuspendLayout();
             this.pTextControl.SuspendLayout();
             this.pWebSettings.SuspendLayout();
-            this.pPropertyBagEntries.SuspendLayout();
+            this.pViewControl.SuspendLayout();
             this.pListControl.SuspendLayout();
             this.cmsListControlPopup.SuspendLayout();
             this.SuspendLayout();
@@ -795,32 +795,32 @@
             this.label25.TabIndex = 0;
             this.label25.Text = "Title:";
             // 
-            // pPropertyBagEntries
+            // pViewControl
             // 
-            this.pPropertyBagEntries.Controls.Add(this.lvPropertyBagEntries);
-            this.pPropertyBagEntries.Controls.Add(this.label29);
-            this.pPropertyBagEntries.Location = new System.Drawing.Point(1038, 61);
-            this.pPropertyBagEntries.Name = "pPropertyBagEntries";
-            this.pPropertyBagEntries.Size = new System.Drawing.Size(514, 488);
-            this.pPropertyBagEntries.TabIndex = 15;
-            this.pPropertyBagEntries.Visible = false;
+            this.pViewControl.Controls.Add(this.lvViewControl);
+            this.pViewControl.Controls.Add(this.lViewControl);
+            this.pViewControl.Location = new System.Drawing.Point(438, 61);
+            this.pViewControl.Name = "pViewControl";
+            this.pViewControl.Size = new System.Drawing.Size(514, 488);
+            this.pViewControl.TabIndex = 15;
+            this.pViewControl.Visible = false;
             // 
-            // lvPropertyBagEntries
+            // lvViewControl
             // 
-            this.lvPropertyBagEntries.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.lvPropertyBagEntries.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lvViewControl.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.pbeKey,
             this.pbeValue});
-            this.lvPropertyBagEntries.FullRowSelect = true;
-            this.lvPropertyBagEntries.GridLines = true;
-            this.lvPropertyBagEntries.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvPropertyBagEntries.Location = new System.Drawing.Point(13, 29);
-            this.lvPropertyBagEntries.Name = "lvPropertyBagEntries";
-            this.lvPropertyBagEntries.ShowGroups = false;
-            this.lvPropertyBagEntries.Size = new System.Drawing.Size(489, 443);
-            this.lvPropertyBagEntries.TabIndex = 2;
-            this.lvPropertyBagEntries.UseCompatibleStateImageBehavior = false;
-            this.lvPropertyBagEntries.View = System.Windows.Forms.View.Details;
+            this.lvViewControl.FullRowSelect = true;
+            this.lvViewControl.GridLines = true;
+            this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvViewControl.Location = new System.Drawing.Point(13, 29);
+            this.lvViewControl.Name = "lvViewControl";
+            this.lvViewControl.ShowGroups = false;
+            this.lvViewControl.Size = new System.Drawing.Size(489, 443);
+            this.lvViewControl.TabIndex = 2;
+            this.lvViewControl.UseCompatibleStateImageBehavior = false;
+            this.lvViewControl.View = System.Windows.Forms.View.Details;
             // 
             // pbeKey
             // 
@@ -832,20 +832,20 @@
             this.pbeValue.Text = "Value";
             this.pbeValue.Width = 313;
             // 
-            // label29
+            // lViewControl
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(13, 8);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(116, 15);
-            this.label29.TabIndex = 1;
-            this.label29.Text = "Property bag entries:";
+            this.lViewControl.AutoSize = true;
+            this.lViewControl.Location = new System.Drawing.Point(13, 8);
+            this.lViewControl.Name = "lViewControl";
+            this.lViewControl.Size = new System.Drawing.Size(76, 15);
+            this.lViewControl.TabIndex = 1;
+            this.lViewControl.Text = "View control:";
             // 
             // pListControl
             // 
             this.pListControl.Controls.Add(this.lbListControl);
             this.pListControl.Controls.Add(this.lListControl);
-            this.pListControl.Location = new System.Drawing.Point(438, 61);
+            this.pListControl.Location = new System.Drawing.Point(1038, 61);
             this.pListControl.Name = "pListControl";
             this.pListControl.Size = new System.Drawing.Size(514, 488);
             this.pListControl.TabIndex = 16;
@@ -903,7 +903,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 561);
             this.Controls.Add(this.pListControl);
-            this.Controls.Add(this.pPropertyBagEntries);
+            this.Controls.Add(this.pViewControl);
             this.Controls.Add(this.pWebSettings);
             this.Controls.Add(this.pComposedLook);
             this.Controls.Add(this.bSave);
@@ -930,8 +930,8 @@
             this.pTextControl.PerformLayout();
             this.pWebSettings.ResumeLayout(false);
             this.pWebSettings.PerformLayout();
-            this.pPropertyBagEntries.ResumeLayout(false);
-            this.pPropertyBagEntries.PerformLayout();
+            this.pViewControl.ResumeLayout(false);
+            this.pViewControl.PerformLayout();
             this.pListControl.ResumeLayout(false);
             this.pListControl.PerformLayout();
             this.cmsListControlPopup.ResumeLayout(false);
@@ -1007,11 +1007,11 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ContextMenuStrip cmsTreeViewPopup;
         private System.Windows.Forms.ToolStripMenuItem tsmiDelete;
-        private System.Windows.Forms.Panel pPropertyBagEntries;
-        private System.Windows.Forms.ListView lvPropertyBagEntries;
+        private System.Windows.Forms.Panel pViewControl;
+        private System.Windows.Forms.ListView lvViewControl;
         private System.Windows.Forms.ColumnHeader pbeKey;
         private System.Windows.Forms.ColumnHeader pbeValue;
-        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label lViewControl;
         private System.Windows.Forms.Panel pListControl;
         private System.Windows.Forms.ListBox lbListControl;
         private System.Windows.Forms.Label lListControl;

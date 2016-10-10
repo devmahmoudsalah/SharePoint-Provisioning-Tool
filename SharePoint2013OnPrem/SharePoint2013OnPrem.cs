@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using Newtonsoft.Json;
 
 namespace Karabina.SharePoint.Provisioning
 {
@@ -1266,7 +1267,7 @@ namespace Karabina.SharePoint.Provisioning
             List<ProvisioningTemplate> templates = provider.GetTemplates();
 
             ProvisioningTemplate template = templates[0];
-            _editingTemplate = template;
+            EditingTemplate = template;
 
             treeView.Nodes.Clear();
 
@@ -1274,16 +1275,16 @@ namespace Karabina.SharePoint.Provisioning
 
             TreeNode rootNode = new TreeNode($"Template - ( {templateName} )");
             rootNode.Name = "TemplateNode";
-            rootNode.Tag = templateItems.AddItem(rootNode.Name, TemplateControlType.ListBox, 
-                                                 TemplateItemType.Template, null);
+            rootNode.Tag = templateItems.AddItem(rootNode.Name, TemplateControlType.ListBox,
+                                                 TemplateItemType.Template, null, string.Empty);
 
             if (template.RegionalSettings != null)
             {
                 TreeNode rsNode = new TreeNode("Regional Settings");
                 rsNode.Name = "RegionalSettings";
-                rsNode.Tag = templateItems.AddItem(rsNode.Name, TemplateControlType.Form, 
+                rsNode.Tag = templateItems.AddItem(rsNode.Name, TemplateControlType.Form,
                                                    TemplateItemType.RegionalSetting,
-                                                   GetRegionalSettings());
+                                                   GetRegionalSettings(), (string)rootNode.Tag);
 
                 rootNode.Nodes.Add(rsNode);
                 templateList.AddKeyValue(rsNode.Text, rsNode.Name);
@@ -1295,7 +1296,7 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode aiNodes = new TreeNode("Add-Ins");
                 aiNodes.Name = "AddIns";
                 aiNodes.Tag = templateItems.AddItem(aiNodes.Name, TemplateControlType.ListBox, 
-                                                    TemplateItemType.AddInList, null);
+                                                    TemplateItemType.AddInList, null, (string)rootNode.Tag);
 
                 KeyValueList addInsList = new KeyValueList();
 
@@ -1304,7 +1305,8 @@ namespace Karabina.SharePoint.Provisioning
                     TreeNode aiNode = new TreeNode(addIn.PackagePath);
                     aiNode.Name = addIn.PackagePath;
                     aiNode.Tag = templateItems.AddItem(aiNode.Name, TemplateControlType.TextBox, 
-                                                       TemplateItemType.AddInItem, addIn.Source);
+                                                       TemplateItemType.AddInItem, addIn.Source, 
+                                                       (string)aiNodes.Tag);
 
                     aiNodes.Nodes.Add(aiNode);
                     addInsList.AddKeyValue(addIn.PackagePath, addIn.Source);
@@ -1322,7 +1324,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode clNode = new TreeNode("Composed Look");
                 clNode.Name = "ComposedLook";
                 clNode.Tag = templateItems.AddItem(clNode.Name, TemplateControlType.Form, 
-                                                   TemplateItemType.ComposedLook, GetComposedLook());
+                                                   TemplateItemType.ComposedLook, GetComposedLook(), 
+                                                   (string)rootNode.Tag);
 
                 rootNode.Nodes.Add(clNode);
                 templateList.AddKeyValue(clNode.Text, clNode.Name);
@@ -1334,7 +1337,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode scaNodes = new TreeNode("Site Custom Actions");
                 scaNodes.Name = "SiteCustomActions";
                 scaNodes.Tag = templateItems.AddItem(scaNodes.Name, TemplateControlType.ListBox,
-                                                     TemplateItemType.SiteCustomActionList, null);
+                                                     TemplateItemType.SiteCustomActionList, null, 
+                                                     (string)rootNode.Tag);
 
                 KeyValueList siteCustomActionsList = new KeyValueList();
 
@@ -1343,8 +1347,9 @@ namespace Karabina.SharePoint.Provisioning
                     TreeNode scaNode = new TreeNode(siteCustomAction.Name);
                     scaNode.Name = siteCustomAction.RegistrationId;
                     scaNode.Tag = templateItems.AddItem(scaNode.Name, TemplateControlType.TextBox,
-                                                        TemplateItemType.SiteCustomActionItem, 
-                                                        GetCustomAction(siteCustomAction));
+                                                        TemplateItemType.SiteCustomActionItem,
+                                                        GetCustomAction(siteCustomAction),
+                                                        (string)scaNodes.Tag);
 
                     scaNodes.Nodes.Add(scaNode);
 
@@ -1363,7 +1368,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode wcaNodes = new TreeNode("Web Custom Actions");
                 wcaNodes.Name = "WebCustomActions";
                 wcaNodes.Tag = templateItems.AddItem(wcaNodes.Name, TemplateControlType.ListBox, 
-                                                     TemplateItemType.WebCustomActionList, null);
+                                                     TemplateItemType.WebCustomActionList, null,
+                                                     (string)rootNode.Tag);
 
                 KeyValueList webCustomActionsList = new KeyValueList();
 
@@ -1372,8 +1378,9 @@ namespace Karabina.SharePoint.Provisioning
                     TreeNode wcaNode = new TreeNode(webCustomAction.Name);
                     wcaNode.Name = webCustomAction.RegistrationId;
                     wcaNode.Tag = templateItems.AddItem(wcaNode.Name, TemplateControlType.TextBox,
-                                                        TemplateItemType.WebCustomActionItem, 
-                                                        GetCustomAction(webCustomAction));
+                                                        TemplateItemType.WebCustomActionItem,
+                                                        GetCustomAction(webCustomAction),
+                                                        (string)wcaNodes.Tag);
 
                     wcaNodes.Nodes.Add(wcaNode);
 
@@ -1402,7 +1409,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 sfNodes.Tag = templateItems.AddItem(sfNodes.Name, TemplateControlType.ListBox, 
                                                     TemplateItemType.SiteFeatureList, 
-                                                    siteFeaturesList);
+                                                    siteFeaturesList, 
+                                                    (string)rootNode.Tag);
 
                 rootNode.Nodes.Add(sfNodes);
                 templateList.AddKeyValue(sfNodes.Text, sfNodes.Name);
@@ -1423,7 +1431,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 wfNodes.Tag = templateItems.AddItem(wfNodes.Name, TemplateControlType.ListBox, 
                                                     TemplateItemType.WebFeatureList, 
-                                                    webFeaturesList);
+                                                    webFeaturesList, 
+                                                    (string)rootNode.Tag);
 
                 rootNode.Nodes.Add(wfNodes);
                 templateList.AddKeyValue(wfNodes.Text, wfNodes.Name);
@@ -1435,7 +1444,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode ctNodes = new TreeNode("Content Types");
                 ctNodes.Name = "ContentTypes";
                 ctNodes.Tag = templateItems.AddItem(ctNodes.Name, TemplateControlType.ListBox, 
-                                                    TemplateItemType.ContentTypeList, null);
+                                                    TemplateItemType.ContentTypeList, null, 
+                                                    (string)rootNode.Tag);
 
                 KeyValueList contentTypeList = new KeyValueList();
                 
@@ -1455,19 +1465,21 @@ namespace Karabina.SharePoint.Provisioning
                         ctgNode = new TreeNode(contentType.Group);
                         ctgNode.Name = contentType.Group;
                         ctgNode.Tag = templateItems.AddItem(ctgNode.Name, TemplateControlType.ListBox,
-                                                            TemplateItemType.ContentTypeGroup, null);
+                                                            TemplateItemType.ContentTypeGroup, null,
+                                                            (string)ctNodes.Tag);
 
                         contentTypeGroup = new KeyValueList();
 
                         ctNodes.Nodes.Add(ctgNode);
-                    }
 
+                    }
 
                     TreeNode ctNode = new TreeNode(contentType.Name);
                     ctNode.Name = contentType.Id;
-                    ctNode.Tag = templateItems.AddItem(contentType.Name, TemplateControlType.TextBox, 
-                                                       TemplateItemType.ContentTypeItem, 
-                                                       GetContentType(contentType.Id));
+                    ctNode.Tag = templateItems.AddItem(contentType.Name, TemplateControlType.TextBox,
+                                                       TemplateItemType.ContentTypeItem,
+                                                       GetContentType(contentType.Id),
+                                                       (string)ctgNode.Tag);
 
                     ctgNode.Nodes.Add(ctNode);
 
@@ -1475,7 +1487,13 @@ namespace Karabina.SharePoint.Provisioning
 
                     templateItems.SetContent((string)ctgNode.Tag, contentTypeGroup);
 
-                    contentTypeList.AddKeyValue(contentType.Group, contentType.Group);
+                    if (!contentTypeList.Exists(p => p.Key.Equals(contentType.Group, 
+                                                StringComparison.OrdinalIgnoreCase)))
+                    {
+                        contentTypeList.AddKeyValue(contentType.Group, contentType.Group);
+
+                    }
+
                 }
 
                 templateItems.SetContent((string)ctNodes.Tag, contentTypeList);
@@ -1491,14 +1509,19 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode sfNodes = new TreeNode("Site Fields");
                 sfNodes.Name = "SiteFields";
                 sfNodes.Tag = templateItems.AddItem(sfNodes.Name, TemplateControlType.ListBox, 
-                                                    TemplateItemType.SiteFieldList, null);
+                                                    TemplateItemType.SiteFieldList, null, 
+                                                    (string)rootNode.Tag);
 
                 KeyValueList siteFieldsList = new KeyValueList();
 
                 foreach (var siteField in template.SiteFields)
                 {
                     XElement fieldElement = XElement.Parse(siteField.SchemaXml);
-                    string fieldGroup = fieldElement.Attribute("Group").Value;
+                    string fieldGroup = "Undefined Group";
+                    if (fieldElement.Attribute("Group") != null)
+                    {
+                        fieldGroup = fieldElement.Attribute("Group").Value;
+                    }
                     string fieldID = fieldElement.Attribute("ID").Value;
                     string fieldName = fieldElement.Attribute("Name").Value;
 
@@ -1516,7 +1539,8 @@ namespace Karabina.SharePoint.Provisioning
                         sfgNode = new TreeNode(fieldGroup);
                         sfgNode.Name = fieldGroup;
                         sfgNode.Tag = templateItems.AddItem(fieldGroup, TemplateControlType.ListBox,
-                                                            TemplateItemType.SiteFieldGroup, null);
+                                                            TemplateItemType.SiteFieldGroup, null,
+                                                            (string)sfNodes.Tag);
 
                         siteFieldsGroup = new KeyValueList();
 
@@ -1532,8 +1556,9 @@ namespace Karabina.SharePoint.Provisioning
                                        fieldXml.Substring(gtFirst);
 
                     sfNode.Name = fieldID;
-                    sfNode.Tag = templateItems.AddItem(fieldID, TemplateControlType.TextBox, 
-                                                       TemplateItemType.SiteFieldItem, fieldText);
+                    sfNode.Tag = templateItems.AddItem(fieldID, TemplateControlType.TextBox,
+                                                       TemplateItemType.SiteFieldItem, fieldText,
+                                                       (string)sfgNode.Tag);
 
                     sfgNode.Nodes.Add(sfNode);
 
@@ -1541,7 +1566,12 @@ namespace Karabina.SharePoint.Provisioning
 
                     templateItems.SetContent((string)sfgNode.Tag, siteFieldsGroup);
 
-                    siteFieldsList.AddKeyValue(fieldGroup, fieldGroup);
+                    if (!siteFieldsList.Exists(p => p.Key.Equals(fieldGroup, 
+                                               StringComparison.OrdinalIgnoreCase)))
+                    {
+                        siteFieldsList.AddKeyValue(fieldGroup, fieldGroup);
+
+                    }
 
                 }
 
@@ -1557,7 +1587,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode fNodes = new TreeNode("Files");
                 fNodes.Name = "Files";
                 fNodes.Tag = templateItems.AddItem(fNodes.Name, TemplateControlType.ListBox,
-                                                   TemplateItemType.FileList, null);
+                                                   TemplateItemType.FileList, null, 
+                                                   (string)rootNode.Tag);
 
                 KeyValueList filesList = new KeyValueList();
 
@@ -1567,7 +1598,61 @@ namespace Karabina.SharePoint.Provisioning
                     fNode.Name = file.Src;
                     fNode.Tag = templateItems.AddItem(fNode.Name, TemplateControlType.TextBox,
                                                       TemplateItemType.FileItem,
-                                                      GetPNPFile(file));
+                                                      GetPNPFile(file),
+                                                      (string)fNodes.Tag);
+
+                    if (file.WebParts?.Count > 0)
+                    {
+                        TreeNode fwpNodes = new TreeNode("WebParts");
+                        fwpNodes.Name = fNode.Name + "_WebParts";
+                        fwpNodes.Tag = templateItems.AddItem(fwpNodes.Name, TemplateControlType.ListBox,
+                                                             TemplateItemType.FileWebPartsList, null,
+                                                             (string)fNode.Tag);
+
+                        KeyValueList webPartList = new KeyValueList();
+
+                        foreach (var webPart in file.WebParts)
+                        {
+                            WebPart newWP = new WebPart()
+                            {
+                                Column = webPart.Column,
+                                Order = webPart.Order,
+                                Row = webPart.Row,
+                                Title = webPart.Title,
+                                Zone = webPart.Zone
+
+                            };
+                            TreeNode fwpNode = new TreeNode(newWP.Title);
+                            fwpNode.Name = fwpNodes.Name + "_" + newWP.Title;
+                            fwpNode.Tag = templateItems.AddItem(fwpNode.Name, TemplateControlType.TextBox,
+                                                                TemplateItemType.FileWebPartItem,
+                                                                JsonConvert.SerializeObject(newWP, Newtonsoft.Json.Formatting.Indented),
+                                                                (string)fwpNodes.Tag);
+
+                            webPartList.AddKeyValue(newWP.Title, fwpNode.Name);
+
+                            TreeNode fwpcNode = new TreeNode("Contents");
+                            fwpcNode.Name = fwpNode.Name + "_Contents";
+                            XElement fwpcElement = XElement.Parse(webPart.Contents);
+
+                            string fieldXml = fwpcElement.ToString(SaveOptions.None);
+
+                            fwpcNode.Tag = templateItems.AddItem(fwpcNode.Name, TemplateControlType.TextBox,
+                                                                 TemplateItemType.FileWebPartItemContent,
+                                                                 fieldXml,
+                                                                 (string)fwpNode.Tag);
+
+                            fwpNode.Nodes.Add(fwpcNode);
+
+                            fwpNodes.Nodes.Add(fwpNode);
+
+                        }
+
+                        templateItems.SetContent((string)fwpNodes.Tag, webPartList);
+
+                        fNode.Nodes.Add(fwpNodes);
+
+                    }
 
                     fNodes.Nodes.Add(fNode);
 
@@ -1587,7 +1672,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode lNodes = new TreeNode("Lists");
                 lNodes.Name = "Lists";
                 lNodes.Tag = templateItems.AddItem(lNodes.Name, TemplateControlType.ListBox, 
-                                                   TemplateItemType.ListList, null);
+                                                   TemplateItemType.ListList, null, 
+                                                   (string)rootNode.Tag);
 
                 KeyValueList listsList = new KeyValueList();
 
@@ -1597,14 +1683,16 @@ namespace Karabina.SharePoint.Provisioning
                     lNode.Name = list.Url;
                     lNode.Tag = templateItems.AddItem(lNode.Name, TemplateControlType.TextBox,
                                                       TemplateItemType.ListItem,
-                                                      GetListInstance(list.Url));
+                                                      GetListInstance(list.Url),
+                                                      (string)lNodes.Tag);
 
                     if (list.Fields?.Count > 0)
                     {
                         TreeNode fNodes = new TreeNode("Fields");
                         fNodes.Name = lNode.Name + "_ListFields";
                         fNodes.Tag = templateItems.AddItem(fNodes.Name, TemplateControlType.ListBox, 
-                                                           TemplateItemType.ListFieldList, null);
+                                                           TemplateItemType.ListFieldList, null,
+                                                           (string)lNode.Tag);
 
                         KeyValueList fieldsList = new KeyValueList();
 
@@ -1622,8 +1710,9 @@ namespace Karabina.SharePoint.Provisioning
                                                fieldXml.Substring(gtFirst);
 
                             fNode.Name = fieldID;
-                            fNode.Tag = templateItems.AddItem(fieldID, TemplateControlType.TextBox, 
-                                                              TemplateItemType.ListFieldItem, fieldText);
+                            fNode.Tag = templateItems.AddItem(fieldID, TemplateControlType.TextBox,
+                                                              TemplateItemType.ListFieldItem, fieldText,
+                                                              (string)fNodes.Tag);
 
                             fNodes.Nodes.Add(fNode);
                             fieldsList.AddKeyValue(fieldName, fieldID);
@@ -1640,8 +1729,9 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         TreeNode vNodes = new TreeNode("Views");
                         vNodes.Name = lNode.Name + "_ListViews";
-                        vNodes.Tag = templateItems.AddItem(vNodes.Name, TemplateControlType.ListBox, 
-                                                           TemplateItemType.ListViewList, null);
+                        vNodes.Tag = templateItems.AddItem(vNodes.Name, TemplateControlType.ListBox,
+                                                           TemplateItemType.ListViewList, null,
+                                                           (string)lNode.Tag);
 
                         KeyValueList viewsList = new KeyValueList();
 
@@ -1659,8 +1749,9 @@ namespace Karabina.SharePoint.Provisioning
                                               viewXml.Substring(gtFirst);
 
                             vNode.Name = viewName;
-                            vNode.Tag = templateItems.AddItem(vNode.Name, TemplateControlType.TextBox, 
-                                                              TemplateItemType.ListViewItem, viewText);
+                            vNode.Tag = templateItems.AddItem(vNode.Name, TemplateControlType.TextBox,
+                                                              TemplateItemType.ListViewItem, viewText,
+                                                              (string)vNodes.Tag);
 
                             vNodes.Nodes.Add(vNode);
 
@@ -1692,7 +1783,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode glNodes = new TreeNode("Localizations");
                 glNodes.Name = "Localizations";
                 glNodes.Tag = templateItems.AddItem(glNodes.Name, TemplateControlType.ListBox, 
-                                                    TemplateItemType.LocalizationsList, null);
+                                                    TemplateItemType.LocalizationsList, null, 
+                                                    (string)rootNode.Tag);
 
                 KeyValueList localizationsList = new KeyValueList();
 
@@ -1702,7 +1794,8 @@ namespace Karabina.SharePoint.Provisioning
                     glNode.Name = localization.LCID.ToString();
                     glNode.Tag = templateItems.AddItem(glNode.Name, TemplateControlType.TextBox,
                                                        TemplateItemType.LocalizationsItem,
-                                                       GetLocalization(localization));
+                                                       GetLocalization(localization),
+                                                       (string)glNodes.Tag);
 
                     glNodes.Nodes.Add(glNode);
 
@@ -1724,7 +1817,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode pNodes = new TreeNode("Pages");
                 pNodes.Name = "Pages";
                 pNodes.Tag = templateItems.AddItem(pNodes.Name, TemplateControlType.ListBox, 
-                                                   TemplateItemType.PageList, null);
+                                                   TemplateItemType.PageList, null, 
+                                                   (string)rootNode.Tag);
 
                 KeyValueList pageList = new KeyValueList();
 
@@ -1732,9 +1826,10 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode pNode = new TreeNode(page.Url);
                     pNode.Name = page.Url;
-                    pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.TextBox, 
-                                                      TemplateItemType.PageItem, 
-                                                      GetPageContent(page));
+                    pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.TextBox,
+                                                      TemplateItemType.PageItem,
+                                                      GetPageContent(page),
+                                                      (string)pNodes.Tag);
 
                     pNodes.Nodes.Add(pNode);
                     pageList.AddKeyValue(page.Url, page.Url);
@@ -1754,7 +1849,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode pNode = new TreeNode("Properties");
                 pNode.Name = "Properties";
                 pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.ListView, 
-                                                  TemplateItemType.PropertiesList, null);
+                                                  TemplateItemType.PropertiesList, null, 
+                                                  (string)rootNode.Tag);
 
                 KeyValueList propertiesList = new KeyValueList();
 
@@ -1777,7 +1873,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode pbeNodes = new TreeNode("Property Bag Entries");
                 pbeNodes.Name = "PropertyBagEntries";
                 pbeNodes.Tag = templateItems.AddItem(pbeNodes.Name, TemplateControlType.ListView, 
-                                                     TemplateItemType.PropertyBagEntriesList, null);
+                                                     TemplateItemType.PropertyBagEntriesList, null, 
+                                                     (string)rootNode.Tag);
 
                 KeyValueList propertyBagEntriesList = new KeyValueList();
 
@@ -1802,7 +1899,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.TextBox,
                                                   TemplateItemType.PublishingList,
-                                                  GetPublishing(template.Publishing));
+                                                  GetPublishing(template.Publishing), 
+                                                  (string)rootNode.Tag);
 
                 rootNode.Nodes.Add(pNode);
 
@@ -1815,7 +1913,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode suilNode = new TreeNode("Supported UI Languages");
                 suilNode.Name = "SupportedUILanguages";
                 suilNode.Tag = templateItems.AddItem(suilNode.Name, TemplateControlType.ListBox, 
-                                                     TemplateItemType.SupportedUILanguagesList, null);
+                                                     TemplateItemType.SupportedUILanguagesList, null, 
+                                                     (string)rootNode.Tag);
 
                 KeyValueList supportedUILanguages = new KeyValueList();
 
@@ -1824,7 +1923,6 @@ namespace Karabina.SharePoint.Provisioning
                     supportedUILanguages.AddKeyValue(suil.LCID.ToString(), suil.LCID.ToString());
 
                 }
-
 
                 templateItems.SetContent((string)suilNode.Tag, supportedUILanguages);
 
@@ -1839,7 +1937,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode tgNodes = new TreeNode("Term Groups");
                 tgNodes.Name = "TermGroups";
                 tgNodes.Tag = templateItems.AddItem(tgNodes.Name, TemplateControlType.ListBox, 
-                                                    TemplateItemType.TermGroupList, null);
+                                                    TemplateItemType.TermGroupList, null, 
+                                                    (string)rootNode.Tag);
 
                 KeyValueList termGroupsList = new KeyValueList();
 
@@ -1847,17 +1946,19 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode tgNode = new TreeNode(termGroup.Name);
                     tgNode.Name = termGroup.Id.ToString("N");
-                    tgNode.Tag = templateItems.AddItem(tgNode.Name, TemplateControlType.TextBox, 
-                                                       TemplateItemType.TermGroupItem, 
-                                                       GetTermGroup(termGroup.Id));
+                    tgNode.Tag = templateItems.AddItem(tgNode.Name, TemplateControlType.TextBox,
+                                                       TemplateItemType.TermGroupItem,
+                                                       GetTermGroup(termGroup.Id),
+                                                       (string)tgNodes.Tag);
                     
 
                     if (termGroup.TermSets?.Count > 0)
                     {
                         TreeNode tsNodes = new TreeNode("Term Sets");
                         tsNodes.Name = tgNode.Name + "_TermSets";
-                        tsNodes.Tag = templateItems.AddItem(tsNodes.Name, TemplateControlType.ListBox, 
-                                                            TemplateItemType.TermSetList, null);
+                        tsNodes.Tag = templateItems.AddItem(tsNodes.Name, TemplateControlType.ListBox,
+                                                            TemplateItemType.TermSetList, null,
+                                                            (string)tgNode.Tag);
 
                         KeyValueList termSetsList = new KeyValueList();
 
@@ -1865,9 +1966,10 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             TreeNode tsNode = new TreeNode(termSet.Name);
                             tsNode.Name = termSet.Id.ToString("N");
-                            tsNode.Tag = templateItems.AddItem(tsNode.Name, TemplateControlType.TextBox, 
-                                                               TemplateItemType.TermSetItem, 
-                                                               GetTermSet(termSet));
+                            tsNode.Tag = templateItems.AddItem(tsNode.Name, TemplateControlType.TextBox,
+                                                               TemplateItemType.TermSetItem,
+                                                               GetTermSet(termSet),
+                                                               (string)tsNodes.Tag);
                             
                             tsNodes.Nodes.Add(tsNode);
 
@@ -1900,7 +2002,8 @@ namespace Karabina.SharePoint.Provisioning
                 wsNode.Name = "WebSettings";
                 wsNode.Tag = templateItems.AddItem(wsNode.Name, TemplateControlType.Form, 
                                                    TemplateItemType.WebSetting, 
-                                                   GetWebSettings(template.WebSettings));
+                                                   GetWebSettings(template.WebSettings), 
+                                                   (string)rootNode.Tag);
 
                 rootNode.Nodes.Add(wsNode);
 
@@ -1913,7 +2016,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode wwdNodes = new TreeNode("Workflow Definitions");
                 wwdNodes.Name = "WorkflowDefinitions";
                 wwdNodes.Tag = templateItems.AddItem(wwdNodes.Name, TemplateControlType.ListBox, 
-                                                     TemplateItemType.WorkflowDefinitionList, null);
+                                                     TemplateItemType.WorkflowDefinitionList, null, 
+                                                     (string)rootNode.Tag);
 
                 KeyValueList workflowDefinitionsList = new KeyValueList();
 
@@ -1921,9 +2025,10 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode wwdNode = new TreeNode(workflowDefinition.DisplayName);
                     wwdNode.Name = workflowDefinition.Id.ToString("N");
-                    wwdNode.Tag = templateItems.AddItem(wwdNode.Name, TemplateControlType.TextBox, 
-                                                        TemplateItemType.WorkflowDefinitionItem,  
-                                                        GetWorkflowDefinition(workflowDefinition.Id));
+                    wwdNode.Tag = templateItems.AddItem(wwdNode.Name, TemplateControlType.TextBox,
+                                                        TemplateItemType.WorkflowDefinitionItem,
+                                                        GetWorkflowDefinition(workflowDefinition.Id),
+                                                        (string)wwdNodes.Tag);
 
                     wwdNodes.Nodes.Add(wwdNode);
 
@@ -1944,7 +2049,8 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode wwsNodes = new TreeNode("Workflow Subscriptions");
                 wwsNodes.Name = "WorkflowSubscriptions";
                 wwsNodes.Tag = templateItems.AddItem(wwsNodes.Name, TemplateControlType.ListBox, 
-                                                     TemplateItemType.WorkflowSubscriptionList, null);
+                                                     TemplateItemType.WorkflowSubscriptionList, null, 
+                                                     (string)rootNode.Tag);
 
                 KeyValueList workflowSubscriptionsList = new KeyValueList();
 
@@ -1952,9 +2058,10 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode wwsNode = new TreeNode(workflowSubscription.Name);
                     wwsNode.Name = workflowSubscription.Name;
-                    wwsNode.Tag = templateItems.AddItem(wwsNode.Name, TemplateControlType.TextBox, 
-                                                        TemplateItemType.WorkflowSubscriptionItem, 
-                                                        GetWorkflowSubscription(workflowSubscription.Name));
+                    wwsNode.Tag = templateItems.AddItem(wwsNode.Name, TemplateControlType.TextBox,
+                                                        TemplateItemType.WorkflowSubscriptionItem,
+                                                        GetWorkflowSubscription(workflowSubscription.Name),
+                                                        (string)wwsNodes.Tag);
 
                     wwsNodes.Nodes.Add(wwsNode);
 
@@ -2060,13 +2167,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     }
 
-                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newCT, Newtonsoft.Json.Formatting.Indented);
-                    /*
-                    var serializer = new JavaScriptSerializer();
-                    result = serializer.Serialize(newCT).Replace(",\"ParentTemplate\":null", "")
-                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                    */
+                    result = JsonConvert.SerializeObject(newCT, Newtonsoft.Json.Formatting.Indented);
+
                 }
 
             }
@@ -2167,15 +2269,8 @@ namespace Karabina.SharePoint.Provisioning
                     //ensure views are empty as they are handled elsewhere
                     newLI.Views.Clear();
 
-                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newLI, Newtonsoft.Json.Formatting.Indented);
-                    /*
-                    var serializer = new JavaScriptSerializer();
-                    result = serializer.Serialize(newLI).Replace(",\"ParentTemplate\":null", "")
-                                                        .Replace(",\"Fields\":[]", "")
-                                                        .Replace(",\"Views\":[]", "")
-                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                    */
+                    result = JsonConvert.SerializeObject(newLI, Newtonsoft.Json.Formatting.Indented);
+
                 }
 
             }
@@ -2246,13 +2341,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     }
 
-                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newWD, Newtonsoft.Json.Formatting.Indented);
-                    /*
-                    var serializer = new JavaScriptSerializer();
-                    result = serializer.Serialize(newWD).Replace(",\"ParentTemplate\":null", "")
-                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                    */
+                    result = JsonConvert.SerializeObject(newWD, Newtonsoft.Json.Formatting.Indented);
+
                 }
 
             }
@@ -2295,13 +2385,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     }
 
-                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newWS, Newtonsoft.Json.Formatting.Indented);
-                    /*
-                    var serializer = new JavaScriptSerializer();
-                    result = serializer.Serialize(newWS).Replace(",\"ParentTemplate\":null", "")
-                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                    */
+                    result = JsonConvert.SerializeObject(newWS, Newtonsoft.Json.Formatting.Indented);
+
                 }
 
             }
@@ -2336,13 +2421,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 };
 
-                result = Newtonsoft.Json.JsonConvert.SerializeObject(newCA, Newtonsoft.Json.Formatting.Indented);
-                /*
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newCA).Replace(",\"ParentTemplate\":null", "")
-                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                */
+                result = JsonConvert.SerializeObject(newCA, Newtonsoft.Json.Formatting.Indented);
+
             }
 
             return result;
@@ -2374,19 +2454,16 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
+                /* Webparts handled else where
                 if (file.WebParts?.Count > 0)
                 {
                     newF.WebParts.AddRange(file.WebParts);
 
                 }
-
-                result = Newtonsoft.Json.JsonConvert.SerializeObject(newF, Newtonsoft.Json.Formatting.Indented);
-                /*
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newF).Replace(",\"ParentTemplate\":null", "")
-                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
                 */
+
+                result = JsonConvert.SerializeObject(newF, Newtonsoft.Json.Formatting.Indented);
+
             }
 
             return result;
@@ -2406,13 +2483,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 };
 
-                result = Newtonsoft.Json.JsonConvert.SerializeObject(newL, Newtonsoft.Json.Formatting.Indented);
-                /*
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newL).Replace(",\"ParentTemplate\":null", "")
-                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                */
+                result = JsonConvert.SerializeObject(newL, Newtonsoft.Json.Formatting.Indented);
+
             }
 
             return result;
@@ -2448,13 +2520,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                result = Newtonsoft.Json.JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
-                /*
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
-                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                */
+                result = JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
+
             }
 
             return result;
@@ -2509,13 +2576,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                result = Newtonsoft.Json.JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
-                /*
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
-                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                */
+                result = JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
+
             }
 
             return result;
@@ -2572,14 +2634,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     }
 
-                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newTG, Newtonsoft.Json.Formatting.Indented);
+                    result = JsonConvert.SerializeObject(newTG, Newtonsoft.Json.Formatting.Indented);
 
-                    /*
-                    var serializer = new JavaScriptSerializer();
-                    result = serializer.Serialize(newTG).Replace(",\"ParentTemplate\":null", "")
-                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                    */
                 }
 
             }
@@ -2690,14 +2746,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 SetTermsIn(newTS.Terms, termSet.Terms);
 
-                result = Newtonsoft.Json.JsonConvert.SerializeObject(newTS, Newtonsoft.Json.Formatting.Indented);
-
-                /*
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newTS).Replace(",\"ParentTemplate\":null", "")
-                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
-                */
+                result = JsonConvert.SerializeObject(newTS, Newtonsoft.Json.Formatting.Indented);
 
             }
 

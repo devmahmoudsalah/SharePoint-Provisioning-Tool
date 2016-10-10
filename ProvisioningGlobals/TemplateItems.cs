@@ -12,13 +12,37 @@ namespace Karabina.SharePoint.Provisioning
 
         public string Name { get; set; }
 
+        public string ParentId { get; set; }
+
         public bool IsChanged { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public TemplateControlType ControlType { get; set; }
 
         public TemplateItemType ItemType { get; set; }
 
-        public object Content { get; set; }
+        private object _content = null;
+        public object Content
+        {
+            get { return _content; }
+            set
+            {
+                if (_content != null)
+                {
+                    if (_content.Equals(value))
+                    {
+                        IsChanged = true;
+
+                    }
+
+                }
+
+                _content = value;
+
+            }
+
+        }
 
         public TemplateItem()
         {
@@ -27,13 +51,14 @@ namespace Karabina.SharePoint.Provisioning
         }
 
         public TemplateItem(string name, TemplateControlType controlType,
-                            TemplateItemType itemType, object content)
+                            TemplateItemType itemType, object content, string parentId)
         {
             Id = Guid.NewGuid().ToString("N").ToUpperInvariant();
             IsChanged = false;
             Name = name;
+            ParentId = parentId;
             ControlType = controlType;
-            ItemType = ItemType;
+            ItemType = itemType;
             Content = content;
         }
 
@@ -43,9 +68,9 @@ namespace Karabina.SharePoint.Provisioning
     {
 
         public string AddItem(string name, TemplateControlType controlType,
-                            TemplateItemType itemType, object content)
+                            TemplateItemType itemType, object content, string parentId)
         {
-            TemplateItem item = new TemplateItem(name, controlType, itemType, content);
+            TemplateItem item = new TemplateItem(name, controlType, itemType, content, parentId);
 
             Add(item);
 
@@ -55,21 +80,28 @@ namespace Karabina.SharePoint.Provisioning
 
         public TemplateItem GetItem(string id)
         {
-            TemplateItem item = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
-
-            return item;
+            return Find(p => p.Id.Equals(id, StringComparison.Ordinal));
 
         } //GetItem
 
-        public TemplateItem GetItem(string name, TemplateItemType itemType)
+        public TemplateItem GetItem(string id, TemplateItemType itemType)
         {
-            TemplateItem item = Find(p => (p.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && 
-                                          (p.ItemType == itemType)));
-
-            return item;
+            return Find(p => (p.Id.Equals(id, StringComparison.Ordinal) && (p.ItemType == itemType)));
 
         } //GetItem
-        
+
+        public List<TemplateItem> GetItems(TemplateItemType itemType)
+        {
+            return FindAll(p => p.ItemType == itemType);
+
+        } //GetItems
+
+        public List<TemplateItem> GetChildren(string parentId)
+        {
+            return FindAll(p => p.ParentId.Equals(parentId, StringComparison.Ordinal));
+
+        } //GetChildren
+
         public object GetContent(string id)
         {
             object result = null;
@@ -90,16 +122,6 @@ namespace Karabina.SharePoint.Provisioning
             TemplateItem item = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
             if (item != null)
             {
-                if (item.Content != null)
-                {
-                    if (!item.Content.Equals(content))
-                    {
-                        item.IsChanged = true;
-
-                    }
-
-                }
-
                 item.Content = content;
 
             }
