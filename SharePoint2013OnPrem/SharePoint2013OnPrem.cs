@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using System.Web.Script.Serialization;
 
 namespace Karabina.SharePoint.Provisioning
 {
@@ -1839,6 +1838,8 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode tgNodes = new TreeNode("Term Groups");
                 tgNodes.Name = "TermGroups";
+                tgNodes.Tag = templateItems.AddItem(tgNodes.Name, TemplateControlType.ListBox, 
+                                                    TemplateItemType.TermGroupList, null);
 
                 KeyValueList termGroupsList = new KeyValueList();
 
@@ -1846,13 +1847,17 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     TreeNode tgNode = new TreeNode(termGroup.Name);
                     tgNode.Name = termGroup.Id.ToString("N");
-                    tgNode.Tag = termGroup.Id.ToString("D");
+                    tgNode.Tag = templateItems.AddItem(tgNode.Name, TemplateControlType.TextBox, 
+                                                       TemplateItemType.TermGroupItem, 
+                                                       GetTermGroup(termGroup.Id));
                     
 
                     if (termGroup.TermSets?.Count > 0)
                     {
                         TreeNode tsNodes = new TreeNode("Term Sets");
                         tsNodes.Name = tgNode.Name + "_TermSets";
+                        tsNodes.Tag = templateItems.AddItem(tsNodes.Name, TemplateControlType.ListBox, 
+                                                            TemplateItemType.TermSetList, null);
 
                         KeyValueList termSetsList = new KeyValueList();
 
@@ -1860,17 +1865,17 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             TreeNode tsNode = new TreeNode(termSet.Name);
                             tsNode.Name = termSet.Id.ToString("N");
-                            tsNode.Tag = termSet.Id.ToString("D");
-
+                            tsNode.Tag = templateItems.AddItem(tsNode.Name, TemplateControlType.TextBox, 
+                                                               TemplateItemType.TermSetItem, 
+                                                               GetTermSet(termSet));
                             
-
                             tsNodes.Nodes.Add(tsNode);
 
                             termSetsList.AddKeyValue(termSet.Name, tsNodes.Name);
 
                         }
 
-                        tsNodes.Tag = termSetsList;
+                        templateItems.SetContent((string)tsNodes.Tag, termSetsList);
 
                         tgNode.Nodes.Add(tsNodes);
 
@@ -1882,7 +1887,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                tgNodes.Tag = termGroupsList;
+                templateItems.SetContent((string)tgNodes.Tag, termGroupsList);
 
                 rootNode.Nodes.Add(tgNodes);
                 templateList.AddKeyValue(tgNodes.Text, tgNodes.Name);
@@ -1976,24 +1981,27 @@ namespace Karabina.SharePoint.Provisioning
 
         public int[] GetRegionalSettings()
         {
-            int[] result = new int[]
+            int[] result = null;
+            if (EditingTemplate?.RegionalSettings != null)
             {
-                EditingTemplate.RegionalSettings.AdjustHijriDays,
-                (int)EditingTemplate.RegionalSettings.AlternateCalendarType,
-                (int)EditingTemplate.RegionalSettings.CalendarType,
-                EditingTemplate.RegionalSettings.Collation,
-                (int)EditingTemplate.RegionalSettings.FirstDayOfWeek,
-                EditingTemplate.RegionalSettings.FirstWeekOfYear,
-                EditingTemplate.RegionalSettings.LocaleId,
-                (EditingTemplate.RegionalSettings.ShowWeeks ? 1 : 0),
-                (EditingTemplate.RegionalSettings.Time24 ? 1 : 0),
-                EditingTemplate.RegionalSettings.TimeZone,
-                (int)EditingTemplate.RegionalSettings.WorkDayEndHour / 60,
-                EditingTemplate.RegionalSettings.WorkDays,
-                (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
-            };
-
-            //Note: Ensure that the above array is populated in the order of the RegionalSettingProperties enum
+                result = new int[]
+                {
+                    EditingTemplate.RegionalSettings.AdjustHijriDays,
+                    (int)EditingTemplate.RegionalSettings.AlternateCalendarType,
+                    (int)EditingTemplate.RegionalSettings.CalendarType,
+                    EditingTemplate.RegionalSettings.Collation,
+                    (int)EditingTemplate.RegionalSettings.FirstDayOfWeek,
+                    EditingTemplate.RegionalSettings.FirstWeekOfYear,
+                    EditingTemplate.RegionalSettings.LocaleId,
+                    (EditingTemplate.RegionalSettings.ShowWeeks ? 1 : 0),
+                    (EditingTemplate.RegionalSettings.Time24 ? 1 : 0),
+                    EditingTemplate.RegionalSettings.TimeZone,
+                    (int)EditingTemplate.RegionalSettings.WorkDayEndHour / 60,
+                    EditingTemplate.RegionalSettings.WorkDays,
+                    (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
+                };
+                //Note: Ensure that the above array is populated in the order of the RegionalSettingProperties enum
+            }
 
             return result;
 
@@ -2001,16 +2009,19 @@ namespace Karabina.SharePoint.Provisioning
 
         public string[] GetComposedLook()
         {
-            string[] result = new string[]
+            string[] result = null;
+            if (EditingTemplate?.ComposedLook != null)
             {
-                EditingTemplate.ComposedLook.Name,
-                EditingTemplate.ComposedLook.BackgroundFile,
-                EditingTemplate.ComposedLook.ColorFile,
-                EditingTemplate.ComposedLook.FontFile,
-                EditingTemplate.ComposedLook.Version.ToString()
-            };
-
-            //Note: Ensure that the above array is populated in the order of the ComposedLookProperties enum
+                result = new string[]
+                {
+                    EditingTemplate.ComposedLook.Name,
+                    EditingTemplate.ComposedLook.BackgroundFile,
+                    EditingTemplate.ComposedLook.ColorFile,
+                    EditingTemplate.ComposedLook.FontFile,
+                    EditingTemplate.ComposedLook.Version.ToString()
+                };
+                //Note: Ensure that the above array is populated in the order of the ComposedLookProperties enum
+            }
 
             return result;
 
@@ -2019,35 +2030,47 @@ namespace Karabina.SharePoint.Provisioning
         public string GetContentType(string contentTypeId)
         {
             string result = string.Empty;
-            PnPModel.ContentType contentType = EditingTemplate.ContentTypes.Find(p => p.Id.Equals(contentTypeId, StringComparison.OrdinalIgnoreCase));
-            if (contentType != null)
+            if (EditingTemplate?.ContentTypes != null)
             {
-                PnPModel.ContentType newCT = new PnPModel.ContentType()
+                PnPModel.ContentType contentType = EditingTemplate.ContentTypes.Find(p => p.Id.Equals(contentTypeId, 
+                                                                                     StringComparison.OrdinalIgnoreCase));
+                if (contentType != null)
                 {
-                    Id = contentType.Id,
-                    Description = contentType.Description,
-                    DisplayFormUrl = contentType.DisplayFormUrl,
-                    DocumentSetTemplate = contentType.DocumentSetTemplate,
-                    DocumentTemplate = contentType.DocumentTemplate,
-                    EditFormUrl = contentType.EditFormUrl,
-                    Group = contentType.Group,
-                    Hidden = contentType.Hidden,
-                    Name = contentType.Name,
-                    NewFormUrl = contentType.NewFormUrl,
-                    Overwrite = contentType.Overwrite,
-                    ReadOnly = contentType.ReadOnly,
-                    Sealed = contentType.Sealed
-                };
-                if (contentType.FieldRefs?.Count > 0)
-                {
-                    newCT.FieldRefs.AddRange(contentType.FieldRefs);
+                    PnPModel.ContentType newCT = new PnPModel.ContentType()
+                    {
+                        Id = contentType.Id,
+                        Description = contentType.Description,
+                        DisplayFormUrl = contentType.DisplayFormUrl,
+                        DocumentSetTemplate = contentType.DocumentSetTemplate,
+                        DocumentTemplate = contentType.DocumentTemplate,
+                        EditFormUrl = contentType.EditFormUrl,
+                        Group = contentType.Group,
+                        Hidden = contentType.Hidden,
+                        Name = contentType.Name,
+                        NewFormUrl = contentType.NewFormUrl,
+                        Overwrite = contentType.Overwrite,
+                        ReadOnly = contentType.ReadOnly,
+                        Sealed = contentType.Sealed
+
+                    };
+
+                    if (contentType.FieldRefs?.Count > 0)
+                    {
+                        newCT.FieldRefs.AddRange(contentType.FieldRefs);
+
+                    }
+
+                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newCT, Newtonsoft.Json.Formatting.Indented);
+                    /*
+                    var serializer = new JavaScriptSerializer();
+                    result = serializer.Serialize(newCT).Replace(",\"ParentTemplate\":null", "")
+                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                    */
                 }
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newCT).Replace(",\"ParentTemplate\":null", "")
-                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             }
+
             return result;
 
         } //GetContentType
@@ -2055,103 +2078,132 @@ namespace Karabina.SharePoint.Provisioning
         public string GetListInstance(string url)
         {
             string result = string.Empty;
-            ListInstance listInstance = EditingTemplate.Lists.Find(p => p.Url.Equals(url, StringComparison.OrdinalIgnoreCase));
-            if (listInstance != null)
+            if (EditingTemplate?.Lists != null)
             {
-                ListInstance newLI = new ListInstance()
+                ListInstance listInstance = EditingTemplate.Lists.Find(p => p.Url.Equals(url,
+                                                                       StringComparison.OrdinalIgnoreCase));
+                if (listInstance != null)
                 {
-                    ContentTypesEnabled = listInstance.ContentTypesEnabled,
-                    Description = listInstance.Description,
-                    DocumentTemplate = listInstance.DocumentTemplate,
-                    DraftVersionVisibility = listInstance.DraftVersionVisibility,
-                    EnableAttachments = listInstance.EnableAttachments,
-                    EnableFolderCreation = listInstance.EnableFolderCreation,
-                    EnableMinorVersions = listInstance.EnableMinorVersions,
-                    EnableModeration = listInstance.EnableModeration,
-                    EnableVersioning = listInstance.EnableVersioning,
-                    ForceCheckout = listInstance.ForceCheckout,
-                    Hidden = listInstance.Hidden,
-                    MaxVersionLimit = listInstance.MaxVersionLimit,
-                    MinorVersionLimit = listInstance.MinorVersionLimit,
-                    OnQuickLaunch = listInstance.OnQuickLaunch,
-                    RemoveExistingContentTypes = listInstance.RemoveExistingContentTypes,
-                    RemoveExistingViews = listInstance.RemoveExistingViews,
-                    TemplateFeatureID = listInstance.TemplateFeatureID,
-                    TemplateType = listInstance.TemplateType,
-                    Title = listInstance.Title,
-                    Url = listInstance.Url
-                };
-                if (listInstance.ContentTypeBindings?.Count > 0)
-                {
-                    newLI.ContentTypeBindings.AddRange(listInstance.ContentTypeBindings);
-                }
-                if (listInstance.DataRows?.Count > 0)
-                {
-                    newLI.DataRows.AddRange(listInstance.DataRows);
-                }
-                if (listInstance.FieldDefaults?.Count > 0)
-                {
-                    foreach (var kvp in listInstance.FieldDefaults)
+                    ListInstance newLI = new ListInstance()
                     {
-                        newLI.FieldDefaults.Add(kvp.Key, kvp.Value);
-                    }
-                }
-                if (listInstance.FieldRefs?.Count > 0)
-                {
-                    newLI.FieldRefs.AddRange(listInstance.FieldRefs);
-                }
-                if (listInstance.Folders?.Count > 0)
-                {
-                    newLI.Folders.AddRange(listInstance.Folders);
-                }
-                if (listInstance.Security != null)
-                {
-                    newLI.Security = new ObjectSecurity()
-                    {
-                        ClearSubscopes = listInstance.Security.ClearSubscopes,
-                        CopyRoleAssignments = listInstance.Security.CopyRoleAssignments
+                        ContentTypesEnabled = listInstance.ContentTypesEnabled,
+                        Description = listInstance.Description,
+                        DocumentTemplate = listInstance.DocumentTemplate,
+                        DraftVersionVisibility = listInstance.DraftVersionVisibility,
+                        EnableAttachments = listInstance.EnableAttachments,
+                        EnableFolderCreation = listInstance.EnableFolderCreation,
+                        EnableMinorVersions = listInstance.EnableMinorVersions,
+                        EnableModeration = listInstance.EnableModeration,
+                        EnableVersioning = listInstance.EnableVersioning,
+                        ForceCheckout = listInstance.ForceCheckout,
+                        Hidden = listInstance.Hidden,
+                        MaxVersionLimit = listInstance.MaxVersionLimit,
+                        MinorVersionLimit = listInstance.MinorVersionLimit,
+                        OnQuickLaunch = listInstance.OnQuickLaunch,
+                        RemoveExistingContentTypes = listInstance.RemoveExistingContentTypes,
+                        RemoveExistingViews = listInstance.RemoveExistingViews,
+                        TemplateFeatureID = listInstance.TemplateFeatureID,
+                        TemplateType = listInstance.TemplateType,
+                        Title = listInstance.Title,
+                        Url = listInstance.Url
+
                     };
-                    newLI.Security.RoleAssignments.AddRange(listInstance.Security.RoleAssignments);
-                }
-                if (listInstance.UserCustomActions?.Count > 0)
-                {
-                    newLI.UserCustomActions.AddRange(listInstance.UserCustomActions);
-                }
 
-                //ensure fields are empty as they are handled elsewhere
-                newLI.Fields.Clear();
-                //ensure views are empty as they are handled elsewhere
-                newLI.Views.Clear();
+                    if (listInstance.ContentTypeBindings?.Count > 0)
+                    {
+                        newLI.ContentTypeBindings.AddRange(listInstance.ContentTypeBindings);
 
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newLI).Replace(",\"ParentTemplate\":null", "")
-                                                    .Replace(",\"Fields\":[]", "")
-                                                    .Replace(",\"Views\":[]", "")
-                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                    }
+
+                    if (listInstance.DataRows?.Count > 0)
+                    {
+                        newLI.DataRows.AddRange(listInstance.DataRows);
+
+                    }
+
+                    if (listInstance.FieldDefaults?.Count > 0)
+                    {
+                        foreach (var kvp in listInstance.FieldDefaults)
+                        {
+                            newLI.FieldDefaults.Add(kvp.Key, kvp.Value);
+
+                        }
+
+                    }
+
+                    if (listInstance.FieldRefs?.Count > 0)
+                    {
+                        newLI.FieldRefs.AddRange(listInstance.FieldRefs);
+
+                    }
+
+                    if (listInstance.Folders?.Count > 0)
+                    {
+                        newLI.Folders.AddRange(listInstance.Folders);
+
+                    }
+
+                    if (listInstance.Security != null)
+                    {
+                        newLI.Security = new ObjectSecurity()
+                        {
+                            ClearSubscopes = listInstance.Security.ClearSubscopes,
+                            CopyRoleAssignments = listInstance.Security.CopyRoleAssignments
+
+                        };
+
+                        newLI.Security.RoleAssignments.AddRange(listInstance.Security.RoleAssignments);
+
+                    }
+
+                    if (listInstance.UserCustomActions?.Count > 0)
+                    {
+                        newLI.UserCustomActions.AddRange(listInstance.UserCustomActions);
+
+                    }
+
+                    //ensure fields are empty as they are handled elsewhere
+                    newLI.Fields.Clear();
+                    //ensure views are empty as they are handled elsewhere
+                    newLI.Views.Clear();
+
+                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newLI, Newtonsoft.Json.Formatting.Indented);
+                    /*
+                    var serializer = new JavaScriptSerializer();
+                    result = serializer.Serialize(newLI).Replace(",\"ParentTemplate\":null", "")
+                                                        .Replace(",\"Fields\":[]", "")
+                                                        .Replace(",\"Views\":[]", "")
+                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                    */
+                }
 
             }
+
             return result;
 
         } //GetListInstance
 
         public string[] GetWebSettings(WebSettings webSettings)
         {
-            string[] result = new string[]
+            string[] result = null;
+            if (webSettings != null)
             {
-                webSettings.AlternateCSS,
-                webSettings.CustomMasterPageUrl,
-                webSettings.Description,
-                webSettings.MasterPageUrl,
-                (webSettings.NoCrawl ? "1" : "0"),
-                webSettings.RequestAccessEmail,
-                webSettings.SiteLogo,
-                webSettings.Title,
-                webSettings.WelcomePage
+                result = new string[]
+               {
+                   webSettings.AlternateCSS,
+                   webSettings.CustomMasterPageUrl,
+                   webSettings.Description,
+                   webSettings.MasterPageUrl,
+                   (webSettings.NoCrawl ? "1" : "0"),
+                   webSettings.RequestAccessEmail,
+                   webSettings.SiteLogo,
+                   webSettings.Title,
+                   webSettings.WelcomePage
 
-            };
-
-            //Note: Ensure that the above are added in the order as defined in the WebSettingProperties enum
+               };
+                //Note: Ensure that the above are added in the order as defined in the WebSettingProperties enum
+            }
 
             return result;
 
@@ -2160,41 +2212,48 @@ namespace Karabina.SharePoint.Provisioning
         public string GetWorkflowDefinition(Guid WorkflowDefinitionId)
         {
             string result = string.Empty;
-
-            WorkflowDefinition workflowDefinition = EditingTemplate.Workflows.WorkflowDefinitions.Find(p => p.Id.Equals(WorkflowDefinitionId));
-
-            if (workflowDefinition != null)
+            if (EditingTemplate?.Workflows?.WorkflowDefinitions != null)
             {
-                WorkflowDefinition newWD = new WorkflowDefinition()
-                {
-                    AssociationUrl = workflowDefinition.AssociationUrl,
-                    Description = workflowDefinition.Description,
-                    DisplayName = workflowDefinition.DisplayName,
-                    DraftVersion = workflowDefinition.DraftVersion,
-                    FormField = workflowDefinition.FormField,
-                    Id = workflowDefinition.Id,
-                    InitiationUrl = workflowDefinition.InitiationUrl,
-                    Published = workflowDefinition.Published,
-                    RequiresAssociationForm = workflowDefinition.RequiresAssociationForm,
-                    RequiresInitiationForm = workflowDefinition.RequiresInitiationForm,
-                    RestrictToScope = workflowDefinition.RestrictToScope,
-                    RestrictToType = workflowDefinition.RestrictToType,
-                    XamlPath = workflowDefinition.XamlPath
-                };
+                WorkflowDefinition workflowDefinition = EditingTemplate.Workflows.WorkflowDefinitions.Find(p => 
+                                                        p.Id.Equals(WorkflowDefinitionId));
 
-                if (workflowDefinition.Properties?.Count > 0)
+                if (workflowDefinition != null)
                 {
-                    foreach (var property in workflowDefinition.Properties)
+                    WorkflowDefinition newWD = new WorkflowDefinition()
                     {
-                        newWD.Properties.Add(property.Key, property.Value);
+                        AssociationUrl = workflowDefinition.AssociationUrl,
+                        Description = workflowDefinition.Description,
+                        DisplayName = workflowDefinition.DisplayName,
+                        DraftVersion = workflowDefinition.DraftVersion,
+                        FormField = workflowDefinition.FormField,
+                        Id = workflowDefinition.Id,
+                        InitiationUrl = workflowDefinition.InitiationUrl,
+                        Published = workflowDefinition.Published,
+                        RequiresAssociationForm = workflowDefinition.RequiresAssociationForm,
+                        RequiresInitiationForm = workflowDefinition.RequiresInitiationForm,
+                        RestrictToScope = workflowDefinition.RestrictToScope,
+                        RestrictToType = workflowDefinition.RestrictToType,
+                        XamlPath = workflowDefinition.XamlPath
+
+                    };
+
+                    if (workflowDefinition.Properties?.Count > 0)
+                    {
+                        foreach (var property in workflowDefinition.Properties)
+                        {
+                            newWD.Properties.Add(property.Key, property.Value);
+                        }
+
                     }
 
+                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newWD, Newtonsoft.Json.Formatting.Indented);
+                    /*
+                    var serializer = new JavaScriptSerializer();
+                    result = serializer.Serialize(newWD).Replace(",\"ParentTemplate\":null", "")
+                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                    */
                 }
-
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newWD).Replace(",\"ParentTemplate\":null", "")
-                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             }
 
@@ -2205,38 +2264,45 @@ namespace Karabina.SharePoint.Provisioning
         public string GetWorkflowSubscription(string workflowSubscriptionName)
         {
             string result = string.Empty;
-
-            WorkflowSubscription workflowSubscription = EditingTemplate.Workflows.WorkflowSubscriptions
-                                                                       .Find(p => p.Name.Equals(workflowSubscriptionName,
-                                                                                                StringComparison.OrdinalIgnoreCase));
-            if (workflowSubscription != null)
+            if (EditingTemplate?.Workflows?.WorkflowSubscriptions != null)
             {
-                WorkflowSubscription newWS = new WorkflowSubscription()
+                WorkflowSubscription workflowSubscription = EditingTemplate.Workflows.WorkflowSubscriptions
+                                                                           .Find(p => p.Name.Equals(workflowSubscriptionName,
+                                                                           StringComparison.OrdinalIgnoreCase));
+                if (workflowSubscription != null)
                 {
-                    DefinitionId = workflowSubscription.DefinitionId,
-                    Enabled = workflowSubscription.Enabled,
-                    EventSourceId = workflowSubscription.EventSourceId,
-                    EventTypes = workflowSubscription.EventTypes,
-                    ListId = workflowSubscription.ListId,
-                    ManualStartBypassesActivationLimit = workflowSubscription.ManualStartBypassesActivationLimit,
-                    Name = workflowSubscription.Name,
-                    ParentContentTypeId = workflowSubscription.ParentContentTypeId,
-                    StatusFieldName = workflowSubscription.StatusFieldName
-                };
-
-                if (workflowSubscription.PropertyDefinitions?.Count > 0)
-                {
-                    foreach (var propertyDefinition in workflowSubscription.PropertyDefinitions)
+                    WorkflowSubscription newWS = new WorkflowSubscription()
                     {
-                        newWS.PropertyDefinitions.Add(propertyDefinition.Key, propertyDefinition.Value);
+                        DefinitionId = workflowSubscription.DefinitionId,
+                        Enabled = workflowSubscription.Enabled,
+                        EventSourceId = workflowSubscription.EventSourceId,
+                        EventTypes = workflowSubscription.EventTypes,
+                        ListId = workflowSubscription.ListId,
+                        ManualStartBypassesActivationLimit = workflowSubscription.ManualStartBypassesActivationLimit,
+                        Name = workflowSubscription.Name,
+                        ParentContentTypeId = workflowSubscription.ParentContentTypeId,
+                        StatusFieldName = workflowSubscription.StatusFieldName
+
+                    };
+
+                    if (workflowSubscription.PropertyDefinitions?.Count > 0)
+                    {
+                        foreach (var propertyDefinition in workflowSubscription.PropertyDefinitions)
+                        {
+                            newWS.PropertyDefinitions.Add(propertyDefinition.Key, propertyDefinition.Value);
+
+                        }
+
                     }
 
+                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newWS, Newtonsoft.Json.Formatting.Indented);
+                    /*
+                    var serializer = new JavaScriptSerializer();
+                    result = serializer.Serialize(newWS).Replace(",\"ParentTemplate\":null", "")
+                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                    */
                 }
-
-                var serializer = new JavaScriptSerializer();
-                result = serializer.Serialize(newWS).Replace(",\"ParentTemplate\":null", "")
-                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             }
 
@@ -2247,30 +2313,37 @@ namespace Karabina.SharePoint.Provisioning
         public string GetCustomAction(CustomAction customAction)
         {
             string result = string.Empty;
-            CustomAction newCA = new CustomAction()
+            if (customAction != null)
             {
-                CommandUIExtension = customAction.CommandUIExtension,
-                Description = customAction.Description,
-                Enabled = customAction.Enabled,
-                Group = customAction.Group,
-                ImageUrl = customAction.ImageUrl,
-                Location = customAction.Location,
-                Name = customAction.Name,
-                RegistrationId = customAction.RegistrationId,
-                RegistrationType = customAction.RegistrationType,
-                Remove = customAction.Remove,
-                Rights = customAction.Rights,
-                ScriptBlock = customAction.ScriptBlock,
-                ScriptSrc = customAction.ScriptSrc,
-                Sequence = customAction.Sequence,
-                Title = customAction.Title,
-                Url = customAction.Url
-            };
+                CustomAction newCA = new CustomAction()
+                {
+                    CommandUIExtension = customAction.CommandUIExtension,
+                    Description = customAction.Description,
+                    Enabled = customAction.Enabled,
+                    Group = customAction.Group,
+                    ImageUrl = customAction.ImageUrl,
+                    Location = customAction.Location,
+                    Name = customAction.Name,
+                    RegistrationId = customAction.RegistrationId,
+                    RegistrationType = customAction.RegistrationType,
+                    Remove = customAction.Remove,
+                    Rights = customAction.Rights,
+                    ScriptBlock = customAction.ScriptBlock,
+                    ScriptSrc = customAction.ScriptSrc,
+                    Sequence = customAction.Sequence,
+                    Title = customAction.Title,
+                    Url = customAction.Url
 
-            var serializer = new JavaScriptSerializer();
-            result = serializer.Serialize(newCA).Replace(",\"ParentTemplate\":null", "")
-                                                .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                                .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                };
+
+                result = Newtonsoft.Json.JsonConvert.SerializeObject(newCA, Newtonsoft.Json.Formatting.Indented);
+                /*
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newCA).Replace(",\"ParentTemplate\":null", "")
+                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                */
+            }
 
             return result;
 
@@ -2279,36 +2352,42 @@ namespace Karabina.SharePoint.Provisioning
         public string GetPNPFile(PnPModel.File file)
         {
             string result = string.Empty;
-            PnPModel.File newF = new PnPModel.File()
+            if (file != null)
             {
-                Folder = file.Folder,
-                Level = file.Level,
-                Overwrite = file.Overwrite,
-                Security = file.Security,
-                Src = file.Src
-
-            };
-
-            if (file.Properties?.Count > 0)
-            {
-                foreach(var property in file.Properties)
+                PnPModel.File newF = new PnPModel.File()
                 {
-                    newF.Properties.Add(property.Key, property.Value);
+                    Folder = file.Folder,
+                    Level = file.Level,
+                    Overwrite = file.Overwrite,
+                    Security = file.Security,
+                    Src = file.Src
+
+                };
+
+                if (file.Properties?.Count > 0)
+                {
+                    foreach (var property in file.Properties)
+                    {
+                        newF.Properties.Add(property.Key, property.Value);
+
+                    }
 
                 }
 
+                if (file.WebParts?.Count > 0)
+                {
+                    newF.WebParts.AddRange(file.WebParts);
+
+                }
+
+                result = Newtonsoft.Json.JsonConvert.SerializeObject(newF, Newtonsoft.Json.Formatting.Indented);
+                /*
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newF).Replace(",\"ParentTemplate\":null", "")
+                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                */
             }
-
-            if (file.WebParts?.Count > 0)
-            {
-                newF.WebParts.AddRange(file.WebParts);
-
-            }
-
-            var serializer = new JavaScriptSerializer();
-            result = serializer.Serialize(newF).Replace(",\"ParentTemplate\":null", "")
-                                               .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                               .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             return result;
 
@@ -2317,18 +2396,24 @@ namespace Karabina.SharePoint.Provisioning
         public string GetLocalization(Localization localization)
         {
             string result = string.Empty;
-            Localization newL = new Localization()
+            if (localization != null)
             {
-                LCID = localization.LCID,
-                Name = localization.Name,
-                ResourceFile = localization.ResourceFile
+                Localization newL = new Localization()
+                {
+                    LCID = localization.LCID,
+                    Name = localization.Name,
+                    ResourceFile = localization.ResourceFile
 
-            };
+                };
 
-            var serializer = new JavaScriptSerializer();
-            result = serializer.Serialize(newL).Replace(",\"ParentTemplate\":null", "")
-                                               .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                               .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                result = Newtonsoft.Json.JsonConvert.SerializeObject(newL, Newtonsoft.Json.Formatting.Indented);
+                /*
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newL).Replace(",\"ParentTemplate\":null", "")
+                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                */
+            }
 
             return result;
 
@@ -2337,35 +2422,40 @@ namespace Karabina.SharePoint.Provisioning
         public string GetPageContent(Page page)
         {
             string result = string.Empty;
-
-            Page newP = new Page()
+            if (page != null)
             {
-                Layout = page.Layout,
-                Overwrite = page.Overwrite,
-                Url = page.Url
-
-            };
-
-            if (page.Fields?.Count > 0)
-            {
-                foreach(var field in page.Fields)
+                Page newP = new Page()
                 {
-                    newP.Fields.Add(field.Key, field.Value);
+                    Layout = page.Layout,
+                    Overwrite = page.Overwrite,
+                    Url = page.Url
+
+                };
+
+                if (page.Fields?.Count > 0)
+                {
+                    foreach (var field in page.Fields)
+                    {
+                        newP.Fields.Add(field.Key, field.Value);
+
+                    }
 
                 }
 
+                if (page.WebParts?.Count > 0)
+                {
+                    newP.WebParts.AddRange(page.WebParts);
+
+                }
+
+                result = Newtonsoft.Json.JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
+                /*
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
+                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                */
             }
-
-            if (page.WebParts?.Count > 0)
-            {
-                newP.WebParts.AddRange(page.WebParts);
-
-            }
-
-            var serializer = new JavaScriptSerializer();
-            result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
-                                               .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                               .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             return result;
 
@@ -2374,42 +2464,59 @@ namespace Karabina.SharePoint.Provisioning
         public string GetPublishing(Publishing publishing)
         {
             string result = string.Empty;
-            Publishing newP = new Publishing()
+            if (publishing != null)
             {
-                AutoCheckRequirements = publishing.AutoCheckRequirements
-
-            };
-
-            if (publishing.AvailableWebTemplates?.Count > 0)
-            {
-                newP.AvailableWebTemplates.AddRange(publishing.AvailableWebTemplates);
-
-            }
-
-            if (publishing.DesignPackage != null)
-            {
-                newP.DesignPackage = new DesignPackage()
+                Publishing newP = new Publishing()
                 {
-                    DesignPackagePath = publishing.DesignPackage.DesignPackagePath,
-                    MajorVersion = publishing.DesignPackage.MajorVersion,
-                    MinorVersion = publishing.DesignPackage.MinorVersion,
-                    PackageGuid = publishing.DesignPackage.PackageGuid,
-                    PackageName = publishing.DesignPackage.PackageName
+                    AutoCheckRequirements = publishing.AutoCheckRequirements
 
                 };
 
+                if (publishing.AvailableWebTemplates?.Count > 0)
+                {
+                    newP.AvailableWebTemplates.AddRange(publishing.AvailableWebTemplates);
+
+                }
+
+                if (publishing.DesignPackage != null)
+                {
+                    newP.DesignPackage = new DesignPackage()
+                    {
+                        DesignPackagePath = publishing.DesignPackage.DesignPackagePath,
+                        MajorVersion = publishing.DesignPackage.MajorVersion,
+                        MinorVersion = publishing.DesignPackage.MinorVersion,
+                        PackageGuid = publishing.DesignPackage.PackageGuid,
+                        PackageName = publishing.DesignPackage.PackageName
+
+                    };
+
+                }
+
+                if (publishing.PageLayouts?.Count > 0)
+                {
+                    foreach (var pageLayout in publishing.PageLayouts)
+                    {
+                        PageLayout newPL = new PageLayout()
+                        {
+                            IsDefault = pageLayout.IsDefault,
+                            Path = pageLayout.Path
+
+                        };
+
+                        newP.PageLayouts.Add(newPL);
+
+                    }
+
+                }
+
+                result = Newtonsoft.Json.JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
+                /*
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
+                                                   .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                   .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                */
             }
-
-            if (publishing.PageLayouts?.Count > 0)
-            {
-                newP.PageLayouts.AddRange(publishing.PageLayouts);
-
-            }
-
-            var serializer = new JavaScriptSerializer();
-            result = serializer.Serialize(newP).Replace(",\"ParentTemplate\":null", "")
-                                               .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
-                                               .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
 
             return result;
 
@@ -2418,24 +2525,185 @@ namespace Karabina.SharePoint.Provisioning
         public string GetTermGroup(Guid termGroupId)
         {
             string result = string.Empty;
-            TermGroup termGroup = _editingTemplate.TermGroups.Find(p => p.Id.CompareTo(termGroupId) == 0);
-            if (termGroup != null)
+            if (EditingTemplate?.TermGroups != null)
             {
-                TermGroup newTG = new TermGroup()
+                TermGroup termGroup = EditingTemplate.TermGroups.Find(p => p.Id.CompareTo(termGroupId) == 0);
+                if (termGroup != null)
                 {
-                    Description = termGroup.Description,
-                    Id = termGroup.Id,
-                    Name = termGroup.Name,
-                    SiteCollectionTermGroup = termGroup.SiteCollectionTermGroup
+                    TermGroup newTG = new TermGroup()
+                    {
+                        Description = termGroup.Description,
+                        Id = termGroup.Id,
+                        Name = termGroup.Name,
+                        SiteCollectionTermGroup = termGroup.SiteCollectionTermGroup
 
-                };
+                    };
 
-                //continue here
+                    if (termGroup.Contributors?.Count > 0)
+                    {
+                        foreach (var user in termGroup.Contributors)
+                        {
+                            PnPModel.User newU = new PnPModel.User()
+                            {
+                                Name = user.Name
+
+                            };
+
+                            newTG.Contributors.Add(newU);
+
+                        }
+
+                    }
+
+                    if (termGroup.Managers?.Count > 0)
+                    {
+
+                        foreach (var user in termGroup.Managers)
+                        {
+                            PnPModel.User newU = new PnPModel.User()
+                            {
+                                Name = user.Name
+
+                            };
+
+                            newTG.Managers.Add(newU);
+
+                        }
+
+                    }
+
+                    result = Newtonsoft.Json.JsonConvert.SerializeObject(newTG, Newtonsoft.Json.Formatting.Indented);
+
+                    /*
+                    var serializer = new JavaScriptSerializer();
+                    result = serializer.Serialize(newTG).Replace(",\"ParentTemplate\":null", "")
+                                                        .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                        .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                    */
+                }
+
             }
 
             return result;
 
         } //GetTermGroup
+
+        private void SetTermsIn(TermCollection here, TermCollection terms)
+        {
+            if (terms?.Count > 0)
+            {
+                foreach(var term in terms)
+                {
+                    Term newT = new Term()
+                    {
+                        CustomSortOrder = term.CustomSortOrder,
+                        Description = term.Description,
+                        Id = term.Id,
+                        IsAvailableForTagging = term.IsAvailableForTagging,
+                        IsDeprecated = term.IsDeprecated,
+                        IsReused = term.IsReused,
+                        IsSourceTerm = term.IsSourceTerm,
+                        Language = term.Language,
+                        Name = term.Name,
+                        Owner = term.Owner,
+                        SourceTermId = term.SourceTermId
+
+                    };
+
+                    if (term.Labels?.Count > 0)
+                    {
+                        foreach(var label in term.Labels)
+                        {
+                            TermLabel newL = new TermLabel()
+                            {
+                                IsDefaultForLanguage = label.IsDefaultForLanguage,
+                                Language = label.Language,
+                                Value = label.Value
+
+                            };
+
+                            newT.Labels.Add(newL);
+
+                        }
+
+                    }
+
+                    if (term.LocalProperties?.Count > 0)
+                    {
+                        foreach(var localProperty in term.LocalProperties)
+                        {
+                            newT.LocalProperties.Add(localProperty.Key, localProperty.Value);
+
+                        }
+
+                    }
+
+                    if (term.Properties?.Count > 0)
+                    {
+                        foreach(var property in term.Properties)
+                        {
+                            newT.Properties.Add(property.Key, property.Value);
+
+                        }
+
+                    }
+
+                    if (term.Terms?.Count > 0)
+                    {
+                        SetTermsIn(newT.Terms, term.Terms);
+
+                    }
+
+                    here.Add(newT);
+                }
+
+            }
+
+        }
+
+        public string GetTermSet(TermSet termSet)
+        {
+            string result = string.Empty;
+            if (termSet != null)
+            {
+                TermSet newTS = new TermSet()
+                {
+                    Description = termSet.Description,
+                    Id = termSet.Id,
+                    IsAvailableForTagging = termSet.IsAvailableForTagging,
+                    IsOpenForTermCreation = termSet.IsOpenForTermCreation,
+                    Language = termSet.Language,
+                    Name = termSet.Name,
+                    Owner = termSet.Owner
+
+                };
+
+                if (termSet.Properties?.Count > 0)
+                {
+                    foreach(var keyValue in termSet.Properties)
+                    {
+                        newTS.Properties.Add(keyValue.Key, keyValue.Value);
+
+                    }
+
+                }
+
+                SetTermsIn(newTS.Terms, termSet.Terms);
+
+                result = Newtonsoft.Json.JsonConvert.SerializeObject(newTS, Newtonsoft.Json.Formatting.Indented);
+
+                /*
+                var serializer = new JavaScriptSerializer();
+                result = serializer.Serialize(newTS).Replace(",\"ParentTemplate\":null", "")
+                                                    .Replace("{", "{\r\n").Replace(":{", ":\r\n{").Replace(",", ",\r\n")
+                                                    .Replace("[", "[\r\n").Replace("]", "\r\n]").Replace("}", "\r\n}");
+                */
+
+            }
+
+            return result;
+
+        } //GetTermSet
 
     } //SharePoint2013OnPrem
 
