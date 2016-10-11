@@ -37,42 +37,42 @@
             this.lTemplate = new System.Windows.Forms.Label();
             this.bBrowse = new System.Windows.Forms.Button();
             this.pRegionalSettings = new System.Windows.Forms.Panel();
-            this.cbAdjustHijriDate = new System.Windows.Forms.ComboBox();
+            this.cbRSAdjustHijriDate = new System.Windows.Forms.ComboBox();
             this.lAdjustHijriDate = new System.Windows.Forms.Label();
-            this.cbTimeFormat = new System.Windows.Forms.ComboBox();
+            this.cbRSTimeFormat = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.cbWorkDayEndTime = new System.Windows.Forms.ComboBox();
+            this.cbRSWorkDayEndTime = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.cbFirstWeekOfYear = new System.Windows.Forms.ComboBox();
+            this.cbRSFirstWeekOfYear = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.cbWorkDayStartTime = new System.Windows.Forms.ComboBox();
+            this.cbRSWorkDayStartTime = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.cbFirstDayOfWeek = new System.Windows.Forms.ComboBox();
+            this.cbRSFirstDayOfWeek = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.clbWorkDays = new System.Windows.Forms.CheckedListBox();
+            this.clbRSWorkDays = new System.Windows.Forms.CheckedListBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.cbAlternateCalendar = new System.Windows.Forms.ComboBox();
-            this.cbShowWeekNumbers = new System.Windows.Forms.CheckBox();
+            this.cbRSAlternateCalendar = new System.Windows.Forms.ComboBox();
+            this.cbRSShowWeekNumbers = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.cbCalendar = new System.Windows.Forms.ComboBox();
+            this.cbRSCalendar = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbSortOrder = new System.Windows.Forms.ComboBox();
+            this.cbRSSortOrder = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbLocale = new System.Windows.Forms.ComboBox();
+            this.cbRSLocale = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.cbTimeZone = new System.Windows.Forms.ComboBox();
+            this.cbRSTimeZone = new System.Windows.Forms.ComboBox();
             this.bSave = new System.Windows.Forms.Button();
             this.pComposedLook = new System.Windows.Forms.Panel();
-            this.tbComposedLookVersion = new System.Windows.Forms.TextBox();
+            this.tbCLVersion = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.tbFontFile = new System.Windows.Forms.TextBox();
+            this.tbCLFontFile = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.tbColorFile = new System.Windows.Forms.TextBox();
+            this.tbCLColorFile = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.tbBackgroundFile = new System.Windows.Forms.TextBox();
+            this.tbCLBackgroundFile = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.tbComposedLookName = new System.Windows.Forms.TextBox();
+            this.tbCLName = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.pTextControl = new System.Windows.Forms.Panel();
             this.lTextControl = new System.Windows.Forms.Label();
@@ -129,7 +129,6 @@
             this.tvTemplate.ShowLines = false;
             this.tvTemplate.Size = new System.Drawing.Size(418, 488);
             this.tvTemplate.TabIndex = 3;
-            this.tvTemplate.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.NodeSelecting);
             this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
             this.tvTemplate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeViewKeyUp);
             // 
@@ -180,53 +179,54 @@
             // 
             // pRegionalSettings
             // 
-            this.pRegionalSettings.Controls.Add(this.cbAdjustHijriDate);
+            this.pRegionalSettings.Controls.Add(this.cbRSAdjustHijriDate);
             this.pRegionalSettings.Controls.Add(this.lAdjustHijriDate);
-            this.pRegionalSettings.Controls.Add(this.cbTimeFormat);
+            this.pRegionalSettings.Controls.Add(this.cbRSTimeFormat);
             this.pRegionalSettings.Controls.Add(this.label11);
-            this.pRegionalSettings.Controls.Add(this.cbWorkDayEndTime);
+            this.pRegionalSettings.Controls.Add(this.cbRSWorkDayEndTime);
             this.pRegionalSettings.Controls.Add(this.label9);
-            this.pRegionalSettings.Controls.Add(this.cbFirstWeekOfYear);
+            this.pRegionalSettings.Controls.Add(this.cbRSFirstWeekOfYear);
             this.pRegionalSettings.Controls.Add(this.label10);
-            this.pRegionalSettings.Controls.Add(this.cbWorkDayStartTime);
+            this.pRegionalSettings.Controls.Add(this.cbRSWorkDayStartTime);
             this.pRegionalSettings.Controls.Add(this.label8);
-            this.pRegionalSettings.Controls.Add(this.cbFirstDayOfWeek);
+            this.pRegionalSettings.Controls.Add(this.cbRSFirstDayOfWeek);
             this.pRegionalSettings.Controls.Add(this.label7);
-            this.pRegionalSettings.Controls.Add(this.clbWorkDays);
+            this.pRegionalSettings.Controls.Add(this.clbRSWorkDays);
             this.pRegionalSettings.Controls.Add(this.label6);
             this.pRegionalSettings.Controls.Add(this.label5);
-            this.pRegionalSettings.Controls.Add(this.cbAlternateCalendar);
-            this.pRegionalSettings.Controls.Add(this.cbShowWeekNumbers);
+            this.pRegionalSettings.Controls.Add(this.cbRSAlternateCalendar);
+            this.pRegionalSettings.Controls.Add(this.cbRSShowWeekNumbers);
             this.pRegionalSettings.Controls.Add(this.label4);
-            this.pRegionalSettings.Controls.Add(this.cbCalendar);
+            this.pRegionalSettings.Controls.Add(this.cbRSCalendar);
             this.pRegionalSettings.Controls.Add(this.label3);
-            this.pRegionalSettings.Controls.Add(this.cbSortOrder);
+            this.pRegionalSettings.Controls.Add(this.cbRSSortOrder);
             this.pRegionalSettings.Controls.Add(this.label2);
-            this.pRegionalSettings.Controls.Add(this.cbLocale);
+            this.pRegionalSettings.Controls.Add(this.cbRSLocale);
             this.pRegionalSettings.Controls.Add(this.label1);
-            this.pRegionalSettings.Controls.Add(this.cbTimeZone);
+            this.pRegionalSettings.Controls.Add(this.cbRSTimeZone);
             this.pRegionalSettings.Location = new System.Drawing.Point(1038, 61);
             this.pRegionalSettings.Name = "pRegionalSettings";
             this.pRegionalSettings.Size = new System.Drawing.Size(514, 488);
             this.pRegionalSettings.TabIndex = 4;
             this.pRegionalSettings.Visible = false;
             // 
-            // cbAdjustHijriDate
+            // cbRSAdjustHijriDate
             // 
-            this.cbAdjustHijriDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAdjustHijriDate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbAdjustHijriDate.FormattingEnabled = true;
-            this.cbAdjustHijriDate.Items.AddRange(new object[] {
+            this.cbRSAdjustHijriDate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSAdjustHijriDate.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSAdjustHijriDate.FormattingEnabled = true;
+            this.cbRSAdjustHijriDate.Items.AddRange(new object[] {
             "-2",
             "-1",
             "0",
             "+1",
             "+2"});
-            this.cbAdjustHijriDate.Location = new System.Drawing.Point(217, 237);
-            this.cbAdjustHijriDate.Name = "cbAdjustHijriDate";
-            this.cbAdjustHijriDate.Size = new System.Drawing.Size(52, 23);
-            this.cbAdjustHijriDate.TabIndex = 24;
-            this.cbAdjustHijriDate.Visible = false;
+            this.cbRSAdjustHijriDate.Location = new System.Drawing.Point(217, 237);
+            this.cbRSAdjustHijriDate.Name = "cbRSAdjustHijriDate";
+            this.cbRSAdjustHijriDate.Size = new System.Drawing.Size(52, 23);
+            this.cbRSAdjustHijriDate.TabIndex = 24;
+            this.cbRSAdjustHijriDate.Visible = false;
+            this.cbRSAdjustHijriDate.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // lAdjustHijriDate
             // 
@@ -239,15 +239,16 @@
             this.lAdjustHijriDate.Text = "Adjust Hijri date by number of days:";
             this.lAdjustHijriDate.Visible = false;
             // 
-            // cbTimeFormat
+            // cbRSTimeFormat
             // 
-            this.cbTimeFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTimeFormat.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbTimeFormat.FormattingEnabled = true;
-            this.cbTimeFormat.Location = new System.Drawing.Point(104, 441);
-            this.cbTimeFormat.Name = "cbTimeFormat";
-            this.cbTimeFormat.Size = new System.Drawing.Size(91, 23);
-            this.cbTimeFormat.TabIndex = 22;
+            this.cbRSTimeFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSTimeFormat.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSTimeFormat.FormattingEnabled = true;
+            this.cbRSTimeFormat.Location = new System.Drawing.Point(104, 441);
+            this.cbRSTimeFormat.Name = "cbRSTimeFormat";
+            this.cbRSTimeFormat.Size = new System.Drawing.Size(91, 23);
+            this.cbRSTimeFormat.TabIndex = 22;
+            this.cbRSTimeFormat.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label11
             // 
@@ -259,15 +260,16 @@
             this.label11.TabIndex = 21;
             this.label11.Text = "Time format:";
             // 
-            // cbWorkDayEndTime
+            // cbRSWorkDayEndTime
             // 
-            this.cbWorkDayEndTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbWorkDayEndTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbWorkDayEndTime.FormattingEnabled = true;
-            this.cbWorkDayEndTime.Location = new System.Drawing.Point(404, 402);
-            this.cbWorkDayEndTime.Name = "cbWorkDayEndTime";
-            this.cbWorkDayEndTime.Size = new System.Drawing.Size(81, 23);
-            this.cbWorkDayEndTime.TabIndex = 20;
+            this.cbRSWorkDayEndTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSWorkDayEndTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSWorkDayEndTime.FormattingEnabled = true;
+            this.cbRSWorkDayEndTime.Location = new System.Drawing.Point(404, 402);
+            this.cbRSWorkDayEndTime.Name = "cbRSWorkDayEndTime";
+            this.cbRSWorkDayEndTime.Size = new System.Drawing.Size(81, 23);
+            this.cbRSWorkDayEndTime.TabIndex = 20;
+            this.cbRSWorkDayEndTime.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label9
             // 
@@ -279,15 +281,16 @@
             this.label9.TabIndex = 19;
             this.label9.Text = "End time:";
             // 
-            // cbFirstWeekOfYear
+            // cbRSFirstWeekOfYear
             // 
-            this.cbFirstWeekOfYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFirstWeekOfYear.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbFirstWeekOfYear.FormattingEnabled = true;
-            this.cbFirstWeekOfYear.Location = new System.Drawing.Point(124, 402);
-            this.cbFirstWeekOfYear.Name = "cbFirstWeekOfYear";
-            this.cbFirstWeekOfYear.Size = new System.Drawing.Size(158, 23);
-            this.cbFirstWeekOfYear.TabIndex = 18;
+            this.cbRSFirstWeekOfYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSFirstWeekOfYear.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSFirstWeekOfYear.FormattingEnabled = true;
+            this.cbRSFirstWeekOfYear.Location = new System.Drawing.Point(124, 402);
+            this.cbRSFirstWeekOfYear.Name = "cbRSFirstWeekOfYear";
+            this.cbRSFirstWeekOfYear.Size = new System.Drawing.Size(158, 23);
+            this.cbRSFirstWeekOfYear.TabIndex = 18;
+            this.cbRSFirstWeekOfYear.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label10
             // 
@@ -299,15 +302,16 @@
             this.label10.TabIndex = 17;
             this.label10.Text = "First week of year:";
             // 
-            // cbWorkDayStartTime
+            // cbRSWorkDayStartTime
             // 
-            this.cbWorkDayStartTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbWorkDayStartTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbWorkDayStartTime.FormattingEnabled = true;
-            this.cbWorkDayStartTime.Location = new System.Drawing.Point(404, 372);
-            this.cbWorkDayStartTime.Name = "cbWorkDayStartTime";
-            this.cbWorkDayStartTime.Size = new System.Drawing.Size(81, 23);
-            this.cbWorkDayStartTime.TabIndex = 16;
+            this.cbRSWorkDayStartTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSWorkDayStartTime.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSWorkDayStartTime.FormattingEnabled = true;
+            this.cbRSWorkDayStartTime.Location = new System.Drawing.Point(404, 372);
+            this.cbRSWorkDayStartTime.Name = "cbRSWorkDayStartTime";
+            this.cbRSWorkDayStartTime.Size = new System.Drawing.Size(81, 23);
+            this.cbRSWorkDayStartTime.TabIndex = 16;
+            this.cbRSWorkDayStartTime.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label8
             // 
@@ -319,15 +323,16 @@
             this.label8.TabIndex = 15;
             this.label8.Text = "Start time:";
             // 
-            // cbFirstDayOfWeek
+            // cbRSFirstDayOfWeek
             // 
-            this.cbFirstDayOfWeek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFirstDayOfWeek.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbFirstDayOfWeek.FormattingEnabled = true;
-            this.cbFirstDayOfWeek.Location = new System.Drawing.Point(124, 372);
-            this.cbFirstDayOfWeek.Name = "cbFirstDayOfWeek";
-            this.cbFirstDayOfWeek.Size = new System.Drawing.Size(121, 23);
-            this.cbFirstDayOfWeek.TabIndex = 14;
+            this.cbRSFirstDayOfWeek.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSFirstDayOfWeek.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSFirstDayOfWeek.FormattingEnabled = true;
+            this.cbRSFirstDayOfWeek.Location = new System.Drawing.Point(124, 372);
+            this.cbRSFirstDayOfWeek.Name = "cbRSFirstDayOfWeek";
+            this.cbRSFirstDayOfWeek.Size = new System.Drawing.Size(121, 23);
+            this.cbRSFirstDayOfWeek.TabIndex = 14;
+            this.cbRSFirstDayOfWeek.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label7
             // 
@@ -339,17 +344,18 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "First day of week:";
             // 
-            // clbWorkDays
+            // clbRSWorkDays
             // 
-            this.clbWorkDays.BackColor = System.Drawing.SystemColors.Control;
-            this.clbWorkDays.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clbWorkDays.ColumnWidth = 60;
-            this.clbWorkDays.FormattingEnabled = true;
-            this.clbWorkDays.Location = new System.Drawing.Point(16, 342);
-            this.clbWorkDays.MultiColumn = true;
-            this.clbWorkDays.Name = "clbWorkDays";
-            this.clbWorkDays.Size = new System.Drawing.Size(469, 18);
-            this.clbWorkDays.TabIndex = 12;
+            this.clbRSWorkDays.BackColor = System.Drawing.SystemColors.Control;
+            this.clbRSWorkDays.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.clbRSWorkDays.ColumnWidth = 60;
+            this.clbRSWorkDays.FormattingEnabled = true;
+            this.clbRSWorkDays.Location = new System.Drawing.Point(16, 342);
+            this.clbRSWorkDays.MultiColumn = true;
+            this.clbRSWorkDays.Name = "clbRSWorkDays";
+            this.clbRSWorkDays.Size = new System.Drawing.Size(469, 18);
+            this.clbRSWorkDays.TabIndex = 12;
+            this.clbRSWorkDays.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label6
             // 
@@ -371,25 +377,27 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "Alternate Calendar:";
             // 
-            // cbAlternateCalendar
+            // cbRSAlternateCalendar
             // 
-            this.cbAlternateCalendar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAlternateCalendar.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbAlternateCalendar.FormattingEnabled = true;
-            this.cbAlternateCalendar.Location = new System.Drawing.Point(13, 289);
-            this.cbAlternateCalendar.Name = "cbAlternateCalendar";
-            this.cbAlternateCalendar.Size = new System.Drawing.Size(472, 23);
-            this.cbAlternateCalendar.TabIndex = 9;
+            this.cbRSAlternateCalendar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSAlternateCalendar.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSAlternateCalendar.FormattingEnabled = true;
+            this.cbRSAlternateCalendar.Location = new System.Drawing.Point(13, 289);
+            this.cbRSAlternateCalendar.Name = "cbRSAlternateCalendar";
+            this.cbRSAlternateCalendar.Size = new System.Drawing.Size(472, 23);
+            this.cbRSAlternateCalendar.TabIndex = 9;
+            this.cbRSAlternateCalendar.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
-            // cbShowWeekNumbers
+            // cbRSShowWeekNumbers
             // 
-            this.cbShowWeekNumbers.AutoSize = true;
-            this.cbShowWeekNumbers.Location = new System.Drawing.Point(13, 213);
-            this.cbShowWeekNumbers.Name = "cbShowWeekNumbers";
-            this.cbShowWeekNumbers.Size = new System.Drawing.Size(256, 19);
-            this.cbShowWeekNumbers.TabIndex = 8;
-            this.cbShowWeekNumbers.Text = " Show week numbers in the Date Navigator ";
-            this.cbShowWeekNumbers.UseVisualStyleBackColor = true;
+            this.cbRSShowWeekNumbers.AutoSize = true;
+            this.cbRSShowWeekNumbers.Location = new System.Drawing.Point(13, 213);
+            this.cbRSShowWeekNumbers.Name = "cbRSShowWeekNumbers";
+            this.cbRSShowWeekNumbers.Size = new System.Drawing.Size(256, 19);
+            this.cbRSShowWeekNumbers.TabIndex = 8;
+            this.cbRSShowWeekNumbers.Text = " Show week numbers in the Date Navigator ";
+            this.cbRSShowWeekNumbers.UseVisualStyleBackColor = true;
+            this.cbRSShowWeekNumbers.CheckedChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label4
             // 
@@ -401,16 +409,16 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Calendar:";
             // 
-            // cbCalendar
+            // cbRSCalendar
             // 
-            this.cbCalendar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCalendar.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbCalendar.FormattingEnabled = true;
-            this.cbCalendar.Location = new System.Drawing.Point(13, 184);
-            this.cbCalendar.Name = "cbCalendar";
-            this.cbCalendar.Size = new System.Drawing.Size(472, 23);
-            this.cbCalendar.TabIndex = 6;
-            this.cbCalendar.SelectedIndexChanged += new System.EventHandler(this.CalendarItemSelected);
+            this.cbRSCalendar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSCalendar.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSCalendar.FormattingEnabled = true;
+            this.cbRSCalendar.Location = new System.Drawing.Point(13, 184);
+            this.cbRSCalendar.Name = "cbRSCalendar";
+            this.cbRSCalendar.Size = new System.Drawing.Size(472, 23);
+            this.cbRSCalendar.TabIndex = 6;
+            this.cbRSCalendar.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label3
             // 
@@ -422,15 +430,16 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "Sort order:";
             // 
-            // cbSortOrder
+            // cbRSSortOrder
             // 
-            this.cbSortOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSortOrder.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbSortOrder.FormattingEnabled = true;
-            this.cbSortOrder.Location = new System.Drawing.Point(13, 131);
-            this.cbSortOrder.Name = "cbSortOrder";
-            this.cbSortOrder.Size = new System.Drawing.Size(472, 23);
-            this.cbSortOrder.TabIndex = 4;
+            this.cbRSSortOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSSortOrder.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSSortOrder.FormattingEnabled = true;
+            this.cbRSSortOrder.Location = new System.Drawing.Point(13, 131);
+            this.cbRSSortOrder.Name = "cbRSSortOrder";
+            this.cbRSSortOrder.Size = new System.Drawing.Size(472, 23);
+            this.cbRSSortOrder.TabIndex = 4;
+            this.cbRSSortOrder.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label2
             // 
@@ -442,15 +451,16 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Locale:";
             // 
-            // cbLocale
+            // cbRSLocale
             // 
-            this.cbLocale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLocale.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbLocale.FormattingEnabled = true;
-            this.cbLocale.Location = new System.Drawing.Point(13, 77);
-            this.cbLocale.Name = "cbLocale";
-            this.cbLocale.Size = new System.Drawing.Size(472, 23);
-            this.cbLocale.TabIndex = 2;
+            this.cbRSLocale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSLocale.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSLocale.FormattingEnabled = true;
+            this.cbRSLocale.Location = new System.Drawing.Point(13, 77);
+            this.cbRSLocale.Name = "cbRSLocale";
+            this.cbRSLocale.Size = new System.Drawing.Size(472, 23);
+            this.cbRSLocale.TabIndex = 2;
+            this.cbRSLocale.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // label1
             // 
@@ -462,15 +472,16 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Time zone: ";
             // 
-            // cbTimeZone
+            // cbRSTimeZone
             // 
-            this.cbTimeZone.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTimeZone.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbTimeZone.FormattingEnabled = true;
-            this.cbTimeZone.Location = new System.Drawing.Point(13, 27);
-            this.cbTimeZone.Name = "cbTimeZone";
-            this.cbTimeZone.Size = new System.Drawing.Size(472, 23);
-            this.cbTimeZone.TabIndex = 0;
+            this.cbRSTimeZone.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRSTimeZone.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRSTimeZone.FormattingEnabled = true;
+            this.cbRSTimeZone.Location = new System.Drawing.Point(13, 27);
+            this.cbRSTimeZone.Name = "cbRSTimeZone";
+            this.cbRSTimeZone.Size = new System.Drawing.Size(472, 23);
+            this.cbRSTimeZone.TabIndex = 0;
+            this.cbRSTimeZone.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
             // bSave
             // 
@@ -487,15 +498,15 @@
             // 
             // pComposedLook
             // 
-            this.pComposedLook.Controls.Add(this.tbComposedLookVersion);
+            this.pComposedLook.Controls.Add(this.tbCLVersion);
             this.pComposedLook.Controls.Add(this.label16);
-            this.pComposedLook.Controls.Add(this.tbFontFile);
+            this.pComposedLook.Controls.Add(this.tbCLFontFile);
             this.pComposedLook.Controls.Add(this.label15);
-            this.pComposedLook.Controls.Add(this.tbColorFile);
+            this.pComposedLook.Controls.Add(this.tbCLColorFile);
             this.pComposedLook.Controls.Add(this.label14);
-            this.pComposedLook.Controls.Add(this.tbBackgroundFile);
+            this.pComposedLook.Controls.Add(this.tbCLBackgroundFile);
             this.pComposedLook.Controls.Add(this.label13);
-            this.pComposedLook.Controls.Add(this.tbComposedLookName);
+            this.pComposedLook.Controls.Add(this.tbCLName);
             this.pComposedLook.Controls.Add(this.label12);
             this.pComposedLook.Location = new System.Drawing.Point(1038, 61);
             this.pComposedLook.Name = "pComposedLook";
@@ -503,12 +514,13 @@
             this.pComposedLook.TabIndex = 6;
             this.pComposedLook.Visible = false;
             // 
-            // tbComposedLookVersion
+            // tbCLVersion
             // 
-            this.tbComposedLookVersion.Location = new System.Drawing.Point(13, 302);
-            this.tbComposedLookVersion.Name = "tbComposedLookVersion";
-            this.tbComposedLookVersion.Size = new System.Drawing.Size(463, 23);
-            this.tbComposedLookVersion.TabIndex = 9;
+            this.tbCLVersion.Location = new System.Drawing.Point(13, 302);
+            this.tbCLVersion.Name = "tbCLVersion";
+            this.tbCLVersion.Size = new System.Drawing.Size(463, 23);
+            this.tbCLVersion.TabIndex = 9;
+            this.tbCLVersion.TextChanged += new System.EventHandler(this.ComposedLookChanged);
             // 
             // label16
             // 
@@ -520,12 +532,13 @@
             this.label16.TabIndex = 8;
             this.label16.Text = "Version:";
             // 
-            // tbFontFile
+            // tbCLFontFile
             // 
-            this.tbFontFile.Location = new System.Drawing.Point(13, 232);
-            this.tbFontFile.Name = "tbFontFile";
-            this.tbFontFile.Size = new System.Drawing.Size(463, 23);
-            this.tbFontFile.TabIndex = 7;
+            this.tbCLFontFile.Location = new System.Drawing.Point(13, 232);
+            this.tbCLFontFile.Name = "tbCLFontFile";
+            this.tbCLFontFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLFontFile.TabIndex = 7;
+            this.tbCLFontFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
             // 
             // label15
             // 
@@ -537,12 +550,13 @@
             this.label15.TabIndex = 6;
             this.label15.Text = "Font file:";
             // 
-            // tbColorFile
+            // tbCLColorFile
             // 
-            this.tbColorFile.Location = new System.Drawing.Point(13, 157);
-            this.tbColorFile.Name = "tbColorFile";
-            this.tbColorFile.Size = new System.Drawing.Size(463, 23);
-            this.tbColorFile.TabIndex = 5;
+            this.tbCLColorFile.Location = new System.Drawing.Point(13, 157);
+            this.tbCLColorFile.Name = "tbCLColorFile";
+            this.tbCLColorFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLColorFile.TabIndex = 5;
+            this.tbCLColorFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
             // 
             // label14
             // 
@@ -554,12 +568,13 @@
             this.label14.TabIndex = 4;
             this.label14.Text = "Color file:";
             // 
-            // tbBackgroundFile
+            // tbCLBackgroundFile
             // 
-            this.tbBackgroundFile.Location = new System.Drawing.Point(13, 89);
-            this.tbBackgroundFile.Name = "tbBackgroundFile";
-            this.tbBackgroundFile.Size = new System.Drawing.Size(463, 23);
-            this.tbBackgroundFile.TabIndex = 3;
+            this.tbCLBackgroundFile.Location = new System.Drawing.Point(13, 89);
+            this.tbCLBackgroundFile.Name = "tbCLBackgroundFile";
+            this.tbCLBackgroundFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLBackgroundFile.TabIndex = 3;
+            this.tbCLBackgroundFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
             // 
             // label13
             // 
@@ -571,12 +586,13 @@
             this.label13.TabIndex = 2;
             this.label13.Text = "Background file:";
             // 
-            // tbComposedLookName
+            // tbCLName
             // 
-            this.tbComposedLookName.Location = new System.Drawing.Point(13, 27);
-            this.tbComposedLookName.Name = "tbComposedLookName";
-            this.tbComposedLookName.Size = new System.Drawing.Size(463, 23);
-            this.tbComposedLookName.TabIndex = 1;
+            this.tbCLName.Location = new System.Drawing.Point(13, 27);
+            this.tbCLName.Name = "tbCLName";
+            this.tbCLName.Size = new System.Drawing.Size(463, 23);
+            this.tbCLName.TabIndex = 1;
+            this.tbCLName.TextChanged += new System.EventHandler(this.ComposedLookChanged);
             // 
             // label12
             // 
@@ -621,6 +637,7 @@
             this.tbTextControl.Size = new System.Drawing.Size(489, 443);
             this.tbTextControl.TabIndex = 0;
             this.tbTextControl.WordWrap = false;
+            this.tbTextControl.TextChanged += new System.EventHandler(this.ControlTextChanged);
             // 
             // pWebSettings
             // 
@@ -656,6 +673,7 @@
             this.cbWSNoCrawl.TabIndex = 16;
             this.cbWSNoCrawl.Text = " No Crawl ";
             this.cbWSNoCrawl.UseVisualStyleBackColor = true;
+            this.cbWSNoCrawl.CheckedChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // tbWSRequestAccessEmail
             // 
@@ -663,6 +681,7 @@
             this.tbWSRequestAccessEmail.Name = "tbWSRequestAccessEmail";
             this.tbWSRequestAccessEmail.Size = new System.Drawing.Size(463, 23);
             this.tbWSRequestAccessEmail.TabIndex = 15;
+            this.tbWSRequestAccessEmail.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label28
             // 
@@ -680,6 +699,7 @@
             this.tbWSWelcomePage.Name = "tbWSWelcomePage";
             this.tbWSWelcomePage.Size = new System.Drawing.Size(463, 23);
             this.tbWSWelcomePage.TabIndex = 13;
+            this.tbWSWelcomePage.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label27
             // 
@@ -697,6 +717,7 @@
             this.tbWSAlternateCSS.Name = "tbWSAlternateCSS";
             this.tbWSAlternateCSS.Size = new System.Drawing.Size(463, 23);
             this.tbWSAlternateCSS.TabIndex = 11;
+            this.tbWSAlternateCSS.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label26
             // 
@@ -714,6 +735,7 @@
             this.tbWSCustomMasterPageUrl.Name = "tbWSCustomMasterPageUrl";
             this.tbWSCustomMasterPageUrl.Size = new System.Drawing.Size(463, 23);
             this.tbWSCustomMasterPageUrl.TabIndex = 9;
+            this.tbWSCustomMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label21
             // 
@@ -731,6 +753,7 @@
             this.tbWSMasterPageUrl.Name = "tbWSMasterPageUrl";
             this.tbWSMasterPageUrl.Size = new System.Drawing.Size(463, 23);
             this.tbWSMasterPageUrl.TabIndex = 7;
+            this.tbWSMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label22
             // 
@@ -748,6 +771,7 @@
             this.tbWSSiteLogo.Name = "tbWSSiteLogo";
             this.tbWSSiteLogo.Size = new System.Drawing.Size(463, 23);
             this.tbWSSiteLogo.TabIndex = 5;
+            this.tbWSSiteLogo.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label23
             // 
@@ -767,6 +791,7 @@
             this.tbWSDescription.ShortcutsEnabled = false;
             this.tbWSDescription.Size = new System.Drawing.Size(463, 56);
             this.tbWSDescription.TabIndex = 3;
+            this.tbWSDescription.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label24
             // 
@@ -784,6 +809,7 @@
             this.tbWSTitle.Name = "tbWSTitle";
             this.tbWSTitle.Size = new System.Drawing.Size(463, 23);
             this.tbWSTitle.TabIndex = 1;
+            this.tbWSTitle.TextChanged += new System.EventHandler(this.WebSettingChanged);
             // 
             // label25
             // 
@@ -821,6 +847,7 @@
             this.lvViewControl.TabIndex = 2;
             this.lvViewControl.UseCompatibleStateImageBehavior = false;
             this.lvViewControl.View = System.Windows.Forms.View.Details;
+            this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
             // 
             // pbeKey
             // 
@@ -947,42 +974,42 @@
         private System.Windows.Forms.Label lTemplate;
         private System.Windows.Forms.Button bBrowse;
         private System.Windows.Forms.Panel pRegionalSettings;
-        private System.Windows.Forms.ComboBox cbTimeZone;
+        private System.Windows.Forms.ComboBox cbRSTimeZone;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cbLocale;
+        private System.Windows.Forms.ComboBox cbRSLocale;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cbSortOrder;
-        private System.Windows.Forms.CheckBox cbShowWeekNumbers;
+        private System.Windows.Forms.ComboBox cbRSSortOrder;
+        private System.Windows.Forms.CheckBox cbRSShowWeekNumbers;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cbCalendar;
+        private System.Windows.Forms.ComboBox cbRSCalendar;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox cbAlternateCalendar;
-        private System.Windows.Forms.ComboBox cbTimeFormat;
+        private System.Windows.Forms.ComboBox cbRSAlternateCalendar;
+        private System.Windows.Forms.ComboBox cbRSTimeFormat;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox cbWorkDayEndTime;
+        private System.Windows.Forms.ComboBox cbRSWorkDayEndTime;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cbFirstWeekOfYear;
+        private System.Windows.Forms.ComboBox cbRSFirstWeekOfYear;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox cbWorkDayStartTime;
+        private System.Windows.Forms.ComboBox cbRSWorkDayStartTime;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox cbFirstDayOfWeek;
+        private System.Windows.Forms.ComboBox cbRSFirstDayOfWeek;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckedListBox clbWorkDays;
+        private System.Windows.Forms.CheckedListBox clbRSWorkDays;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox cbAdjustHijriDate;
+        private System.Windows.Forms.ComboBox cbRSAdjustHijriDate;
         private System.Windows.Forms.Label lAdjustHijriDate;
         private System.Windows.Forms.Button bSave;
         private System.Windows.Forms.Panel pComposedLook;
-        private System.Windows.Forms.TextBox tbBackgroundFile;
+        private System.Windows.Forms.TextBox tbCLBackgroundFile;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox tbComposedLookName;
+        private System.Windows.Forms.TextBox tbCLName;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox tbFontFile;
+        private System.Windows.Forms.TextBox tbCLFontFile;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox tbColorFile;
+        private System.Windows.Forms.TextBox tbCLColorFile;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox tbComposedLookVersion;
+        private System.Windows.Forms.TextBox tbCLVersion;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Panel pTextControl;
         private System.Windows.Forms.Label lTextControl;

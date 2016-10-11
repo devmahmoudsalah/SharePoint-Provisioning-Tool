@@ -30,7 +30,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 if (_content != null)
                 {
-                    if (_content.Equals(value))
+                    if (!_content.Equals(value))
                     {
                         IsChanged = true;
 

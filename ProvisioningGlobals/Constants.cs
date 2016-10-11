@@ -132,6 +132,7 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly string Edit0 = "Edit0";
         public static readonly string Target0 = "Target0";
         public static readonly string Progress0 = "Progress0";
+        public static readonly int Hijri_CalendarId = 6;
 
     } //Constants
 

@@ -28,7 +28,14 @@ namespace Karabina.SharePoint.Provisioning
         public void AddKeyValue(string key, string value)
         {
             Add(new KeyValue(key, value));
-        }
+
+        } //AddKeyValue
+
+        public int ItemIndex(string key)
+        {
+            return FindIndex(p => p.Key.Equals(key, StringComparison.OrdinalIgnoreCase));
+
+        } //ItemIndex
 
     } //KeyValueList
 

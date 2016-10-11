@@ -16,35 +16,21 @@ namespace Karabina.SharePoint.Provisioning
 
         public string WeekDayShortName { get; set; }
 
-        public string FirstTwoCharacters
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(WeekDayLongName))
-                {
-                    return WeekDayLongName.Substring(0, 2).ToLowerInvariant();
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-            private set { }
-        }
-
         public WeekDay() { }
-    }
 
-    public class WeekDayCollletion
+    } //WeekDay
+
+    public class WeekDayColllection
     {
         private List<WeekDay> _weekDays = null;
+
         public List<WeekDay> WeekDays
         {
             get { return _weekDays; }
             private set { _weekDays = value; }
         }
 
-        public WeekDayCollletion()
+        public WeekDayColllection()
         {
             _weekDays = new List<WeekDay>();
             _weekDays.Add(new WeekDay() { WeekDayId = 0, WeekDayBit = 64, WeekDayLongName = "Sunday", WeekDayShortName = "Sun" });
@@ -56,6 +42,7 @@ namespace Karabina.SharePoint.Provisioning
             _weekDays.Add(new WeekDay() { WeekDayId = 6, WeekDayBit = 1, WeekDayLongName = "Saterday", WeekDayShortName = "Sat" });
 
         }
-    }
+
+    } //WeekDayColllection
 
 }
