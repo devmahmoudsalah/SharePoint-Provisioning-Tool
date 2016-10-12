@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.gbOtherTemplateOptions = new System.Windows.Forms.GroupBox();
-            this.cbIncludeSearchConfiguration = new System.Windows.Forms.CheckBox();
-            this.cbIncludeSiteGroups = new System.Windows.Forms.CheckBox();
-            this.cbIncludeTermGroupsSecurity = new System.Windows.Forms.CheckBox();
-            this.cbIncludeSiteCollectionTermGroup = new System.Windows.Forms.CheckBox();
-            this.cbIncludeAllTermGroups = new System.Windows.Forms.CheckBox();
-            this.cbIncludeNativePublishingFiles = new System.Windows.Forms.CheckBox();
-            this.cbPersistMultiLanguageResources = new System.Windows.Forms.CheckBox();
-            this.cbPersistPublishingFiles = new System.Windows.Forms.CheckBox();
-            this.cbPersistBrandingFiles = new System.Windows.Forms.CheckBox();
+            this.cbSearchConfiguration = new System.Windows.Forms.CheckBox();
+            this.cbSiteGroups = new System.Windows.Forms.CheckBox();
+            this.cbTermGroupsSecurity = new System.Windows.Forms.CheckBox();
+            this.cbSiteCollectionTermGroup = new System.Windows.Forms.CheckBox();
+            this.cbAllTermGroups = new System.Windows.Forms.CheckBox();
+            this.cbNativePublishingFiles = new System.Windows.Forms.CheckBox();
+            this.cbMultiLanguageResources = new System.Windows.Forms.CheckBox();
+            this.cbPublishingFiles = new System.Windows.Forms.CheckBox();
+            this.cbBrandingFiles = new System.Windows.Forms.CheckBox();
             this.gbContentOptions = new System.Windows.Forms.GroupBox();
-            this.cbIncludeLookupListItems = new System.Windows.Forms.CheckBox();
-            this.cbIncludeImageFiles = new System.Windows.Forms.CheckBox();
+            this.cbLookupListItems = new System.Windows.Forms.CheckBox();
+            this.cbImageFiles = new System.Windows.Forms.CheckBox();
             this.cbXSLStyleSheetFiles = new System.Windows.Forms.CheckBox();
             this.cbPublishingPages = new System.Windows.Forms.CheckBox();
             this.cbJavaScriptFiles = new System.Windows.Forms.CheckBox();
@@ -49,24 +49,24 @@
             this.bCancel = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
             this.gbTemplateOptions = new System.Windows.Forms.GroupBox();
-            this.cbIncludeNavigation = new System.Windows.Forms.CheckBox();
-            this.cbIncludeWebSettings = new System.Windows.Forms.CheckBox();
-            this.cbIncludeWorkflows = new System.Windows.Forms.CheckBox();
-            this.cbIncludePublishing = new System.Windows.Forms.CheckBox();
-            this.cbIncludePropertyBagEntries = new System.Windows.Forms.CheckBox();
-            this.cbIncludePageContents = new System.Windows.Forms.CheckBox();
-            this.cbIncludeComposedLook = new System.Windows.Forms.CheckBox();
-            this.cbIncludeFeatures = new System.Windows.Forms.CheckBox();
+            this.cbNavigation = new System.Windows.Forms.CheckBox();
+            this.cbWebSettings = new System.Windows.Forms.CheckBox();
+            this.cbWorkflows = new System.Windows.Forms.CheckBox();
+            this.cbPublishing = new System.Windows.Forms.CheckBox();
+            this.cbPropertyBagEntries = new System.Windows.Forms.CheckBox();
+            this.cbPageContents = new System.Windows.Forms.CheckBox();
+            this.cbComposedLook = new System.Windows.Forms.CheckBox();
+            this.cbFeatures = new System.Windows.Forms.CheckBox();
             this.cbExcludeBaseTemplate = new System.Windows.Forms.CheckBox();
-            this.cbIncludeCustomActions = new System.Windows.Forms.CheckBox();
-            this.cbIncludeListInstances = new System.Windows.Forms.CheckBox();
-            this.cbIncludeContentTypes = new System.Windows.Forms.CheckBox();
-            this.cbIncludeFields = new System.Windows.Forms.CheckBox();
-            this.cbIncludeSiteSecurity = new System.Windows.Forms.CheckBox();
-            this.cbIncludeSitePolicy = new System.Windows.Forms.CheckBox();
-            this.cbIncludeAuditSettings = new System.Windows.Forms.CheckBox();
-            this.cbIncludeSupportedUILanguages = new System.Windows.Forms.CheckBox();
-            this.cbIncludeRegionalSettings = new System.Windows.Forms.CheckBox();
+            this.cbCustomActions = new System.Windows.Forms.CheckBox();
+            this.cbListInstances = new System.Windows.Forms.CheckBox();
+            this.cbContentTypes = new System.Windows.Forms.CheckBox();
+            this.cbFields = new System.Windows.Forms.CheckBox();
+            this.cbSiteSecurity = new System.Windows.Forms.CheckBox();
+            this.cbSitePolicy = new System.Windows.Forms.CheckBox();
+            this.cbAuditSettings = new System.Windows.Forms.CheckBox();
+            this.cbSupportedUILanguages = new System.Windows.Forms.CheckBox();
+            this.cbRegionalSettings = new System.Windows.Forms.CheckBox();
             this.lToolTip = new System.Windows.Forms.Label();
             this.gbOtherTemplateOptions.SuspendLayout();
             this.gbContentOptions.SuspendLayout();
@@ -75,15 +75,15 @@
             // 
             // gbOtherTemplateOptions
             // 
-            this.gbOtherTemplateOptions.Controls.Add(this.cbIncludeSearchConfiguration);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbIncludeSiteGroups);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbIncludeTermGroupsSecurity);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbIncludeSiteCollectionTermGroup);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbIncludeAllTermGroups);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbIncludeNativePublishingFiles);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbPersistMultiLanguageResources);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbPersistPublishingFiles);
-            this.gbOtherTemplateOptions.Controls.Add(this.cbPersistBrandingFiles);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbSearchConfiguration);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbSiteGroups);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbTermGroupsSecurity);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbSiteCollectionTermGroup);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbAllTermGroups);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbNativePublishingFiles);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbMultiLanguageResources);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbPublishingFiles);
+            this.gbOtherTemplateOptions.Controls.Add(this.cbBrandingFiles);
             this.gbOtherTemplateOptions.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.gbOtherTemplateOptions.Location = new System.Drawing.Point(476, 12);
             this.gbOtherTemplateOptions.Name = "gbOtherTemplateOptions";
@@ -92,136 +92,136 @@
             this.gbOtherTemplateOptions.TabStop = false;
             this.gbOtherTemplateOptions.Text = " Other Options ";
             // 
-            // cbIncludeSearchConfiguration
+            // cbSearchConfiguration
             // 
-            this.cbIncludeSearchConfiguration.AutoSize = true;
-            this.cbIncludeSearchConfiguration.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeSearchConfiguration.Location = new System.Drawing.Point(14, 230);
-            this.cbIncludeSearchConfiguration.Name = "cbIncludeSearchConfiguration";
-            this.cbIncludeSearchConfiguration.Size = new System.Drawing.Size(189, 20);
-            this.cbIncludeSearchConfiguration.TabIndex = 8;
-            this.cbIncludeSearchConfiguration.Tag = "27";
-            this.cbIncludeSearchConfiguration.Text = " Include search configuration ";
-            this.cbIncludeSearchConfiguration.UseVisualStyleBackColor = true;
-            this.cbIncludeSearchConfiguration.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeSearchConfiguration.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbSearchConfiguration.AutoSize = true;
+            this.cbSearchConfiguration.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbSearchConfiguration.Location = new System.Drawing.Point(14, 230);
+            this.cbSearchConfiguration.Name = "cbSearchConfiguration";
+            this.cbSearchConfiguration.Size = new System.Drawing.Size(189, 20);
+            this.cbSearchConfiguration.TabIndex = 8;
+            this.cbSearchConfiguration.Tag = "27";
+            this.cbSearchConfiguration.Text = " # search configuration ";
+            this.cbSearchConfiguration.UseVisualStyleBackColor = true;
+            this.cbSearchConfiguration.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbSearchConfiguration.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeSiteGroups
+            // cbSiteGroups
             // 
-            this.cbIncludeSiteGroups.AutoSize = true;
-            this.cbIncludeSiteGroups.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeSiteGroups.Location = new System.Drawing.Point(14, 204);
-            this.cbIncludeSiteGroups.Name = "cbIncludeSiteGroups";
-            this.cbIncludeSiteGroups.Size = new System.Drawing.Size(138, 20);
-            this.cbIncludeSiteGroups.TabIndex = 7;
-            this.cbIncludeSiteGroups.Tag = "26";
-            this.cbIncludeSiteGroups.Text = " Include site groups ";
-            this.cbIncludeSiteGroups.UseVisualStyleBackColor = true;
-            this.cbIncludeSiteGroups.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeSiteGroups.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbSiteGroups.AutoSize = true;
+            this.cbSiteGroups.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbSiteGroups.Location = new System.Drawing.Point(14, 204);
+            this.cbSiteGroups.Name = "cbSiteGroups";
+            this.cbSiteGroups.Size = new System.Drawing.Size(138, 20);
+            this.cbSiteGroups.TabIndex = 7;
+            this.cbSiteGroups.Tag = "26";
+            this.cbSiteGroups.Text = " # site groups ";
+            this.cbSiteGroups.UseVisualStyleBackColor = true;
+            this.cbSiteGroups.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbSiteGroups.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeTermGroupsSecurity
+            // cbTermGroupsSecurity
             // 
-            this.cbIncludeTermGroupsSecurity.AutoSize = true;
-            this.cbIncludeTermGroupsSecurity.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeTermGroupsSecurity.Location = new System.Drawing.Point(14, 178);
-            this.cbIncludeTermGroupsSecurity.Name = "cbIncludeTermGroupsSecurity";
-            this.cbIncludeTermGroupsSecurity.Size = new System.Drawing.Size(189, 20);
-            this.cbIncludeTermGroupsSecurity.TabIndex = 6;
-            this.cbIncludeTermGroupsSecurity.Tag = "25";
-            this.cbIncludeTermGroupsSecurity.Text = " Include term groups security ";
-            this.cbIncludeTermGroupsSecurity.UseVisualStyleBackColor = true;
-            this.cbIncludeTermGroupsSecurity.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeTermGroupsSecurity.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbTermGroupsSecurity.AutoSize = true;
+            this.cbTermGroupsSecurity.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbTermGroupsSecurity.Location = new System.Drawing.Point(14, 178);
+            this.cbTermGroupsSecurity.Name = "cbTermGroupsSecurity";
+            this.cbTermGroupsSecurity.Size = new System.Drawing.Size(189, 20);
+            this.cbTermGroupsSecurity.TabIndex = 6;
+            this.cbTermGroupsSecurity.Tag = "25";
+            this.cbTermGroupsSecurity.Text = " # term groups security ";
+            this.cbTermGroupsSecurity.UseVisualStyleBackColor = true;
+            this.cbTermGroupsSecurity.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbTermGroupsSecurity.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeSiteCollectionTermGroup
+            // cbSiteCollectionTermGroup
             // 
-            this.cbIncludeSiteCollectionTermGroup.AutoSize = true;
-            this.cbIncludeSiteCollectionTermGroup.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeSiteCollectionTermGroup.Location = new System.Drawing.Point(14, 152);
-            this.cbIncludeSiteCollectionTermGroup.Name = "cbIncludeSiteCollectionTermGroup";
-            this.cbIncludeSiteCollectionTermGroup.Size = new System.Drawing.Size(216, 20);
-            this.cbIncludeSiteCollectionTermGroup.TabIndex = 5;
-            this.cbIncludeSiteCollectionTermGroup.Tag = "24";
-            this.cbIncludeSiteCollectionTermGroup.Text = " Include site collection term group ";
-            this.cbIncludeSiteCollectionTermGroup.UseVisualStyleBackColor = true;
-            this.cbIncludeSiteCollectionTermGroup.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeSiteCollectionTermGroup.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbSiteCollectionTermGroup.AutoSize = true;
+            this.cbSiteCollectionTermGroup.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbSiteCollectionTermGroup.Location = new System.Drawing.Point(14, 152);
+            this.cbSiteCollectionTermGroup.Name = "cbSiteCollectionTermGroup";
+            this.cbSiteCollectionTermGroup.Size = new System.Drawing.Size(216, 20);
+            this.cbSiteCollectionTermGroup.TabIndex = 5;
+            this.cbSiteCollectionTermGroup.Tag = "24";
+            this.cbSiteCollectionTermGroup.Text = " # site collection term group ";
+            this.cbSiteCollectionTermGroup.UseVisualStyleBackColor = true;
+            this.cbSiteCollectionTermGroup.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbSiteCollectionTermGroup.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeAllTermGroups
+            // cbAllTermGroups
             // 
-            this.cbIncludeAllTermGroups.AutoSize = true;
-            this.cbIncludeAllTermGroups.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeAllTermGroups.Location = new System.Drawing.Point(14, 126);
-            this.cbIncludeAllTermGroups.Name = "cbIncludeAllTermGroups";
-            this.cbIncludeAllTermGroups.Size = new System.Drawing.Size(160, 20);
-            this.cbIncludeAllTermGroups.TabIndex = 4;
-            this.cbIncludeAllTermGroups.Tag = "23";
-            this.cbIncludeAllTermGroups.Text = " Include all term groups ";
-            this.cbIncludeAllTermGroups.UseVisualStyleBackColor = true;
-            this.cbIncludeAllTermGroups.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeAllTermGroups.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbAllTermGroups.AutoSize = true;
+            this.cbAllTermGroups.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbAllTermGroups.Location = new System.Drawing.Point(14, 126);
+            this.cbAllTermGroups.Name = "cbAllTermGroups";
+            this.cbAllTermGroups.Size = new System.Drawing.Size(160, 20);
+            this.cbAllTermGroups.TabIndex = 4;
+            this.cbAllTermGroups.Tag = "23";
+            this.cbAllTermGroups.Text = " # all term groups ";
+            this.cbAllTermGroups.UseVisualStyleBackColor = true;
+            this.cbAllTermGroups.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbAllTermGroups.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeNativePublishingFiles
+            // cbNativePublishingFiles
             // 
-            this.cbIncludeNativePublishingFiles.AutoSize = true;
-            this.cbIncludeNativePublishingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeNativePublishingFiles.Location = new System.Drawing.Point(14, 100);
-            this.cbIncludeNativePublishingFiles.Name = "cbIncludeNativePublishingFiles";
-            this.cbIncludeNativePublishingFiles.Size = new System.Drawing.Size(195, 20);
-            this.cbIncludeNativePublishingFiles.TabIndex = 3;
-            this.cbIncludeNativePublishingFiles.Tag = "22";
-            this.cbIncludeNativePublishingFiles.Text = " Include native publishing files ";
-            this.cbIncludeNativePublishingFiles.UseVisualStyleBackColor = true;
-            this.cbIncludeNativePublishingFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeNativePublishingFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbNativePublishingFiles.AutoSize = true;
+            this.cbNativePublishingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbNativePublishingFiles.Location = new System.Drawing.Point(14, 100);
+            this.cbNativePublishingFiles.Name = "cbNativePublishingFiles";
+            this.cbNativePublishingFiles.Size = new System.Drawing.Size(195, 20);
+            this.cbNativePublishingFiles.TabIndex = 3;
+            this.cbNativePublishingFiles.Tag = "22";
+            this.cbNativePublishingFiles.Text = " # native publishing files ";
+            this.cbNativePublishingFiles.UseVisualStyleBackColor = true;
+            this.cbNativePublishingFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbNativePublishingFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbPersistMultiLanguageResources
+            // cbMultiLanguageResources
             // 
-            this.cbPersistMultiLanguageResources.AutoSize = true;
-            this.cbPersistMultiLanguageResources.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbPersistMultiLanguageResources.Location = new System.Drawing.Point(14, 74);
-            this.cbPersistMultiLanguageResources.Name = "cbPersistMultiLanguageResources";
-            this.cbPersistMultiLanguageResources.Size = new System.Drawing.Size(208, 20);
-            this.cbPersistMultiLanguageResources.TabIndex = 2;
-            this.cbPersistMultiLanguageResources.Tag = "21";
-            this.cbPersistMultiLanguageResources.Text = " Persist multi language resources ";
-            this.cbPersistMultiLanguageResources.UseVisualStyleBackColor = true;
-            this.cbPersistMultiLanguageResources.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbPersistMultiLanguageResources.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbMultiLanguageResources.AutoSize = true;
+            this.cbMultiLanguageResources.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbMultiLanguageResources.Location = new System.Drawing.Point(14, 74);
+            this.cbMultiLanguageResources.Name = "cbMultiLanguageResources";
+            this.cbMultiLanguageResources.Size = new System.Drawing.Size(208, 20);
+            this.cbMultiLanguageResources.TabIndex = 2;
+            this.cbMultiLanguageResources.Tag = "21";
+            this.cbMultiLanguageResources.Text = " @ multi language resources ";
+            this.cbMultiLanguageResources.UseVisualStyleBackColor = true;
+            this.cbMultiLanguageResources.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbMultiLanguageResources.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbPersistPublishingFiles
+            // cbPublishingFiles
             // 
-            this.cbPersistPublishingFiles.AutoSize = true;
-            this.cbPersistPublishingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbPersistPublishingFiles.Location = new System.Drawing.Point(14, 48);
-            this.cbPersistPublishingFiles.Name = "cbPersistPublishingFiles";
-            this.cbPersistPublishingFiles.Size = new System.Drawing.Size(155, 20);
-            this.cbPersistPublishingFiles.TabIndex = 1;
-            this.cbPersistPublishingFiles.Tag = "20";
-            this.cbPersistPublishingFiles.Text = " Persist publishing files ";
-            this.cbPersistPublishingFiles.UseVisualStyleBackColor = true;
-            this.cbPersistPublishingFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbPersistPublishingFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbPublishingFiles.AutoSize = true;
+            this.cbPublishingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbPublishingFiles.Location = new System.Drawing.Point(14, 48);
+            this.cbPublishingFiles.Name = "cbPublishingFiles";
+            this.cbPublishingFiles.Size = new System.Drawing.Size(155, 20);
+            this.cbPublishingFiles.TabIndex = 1;
+            this.cbPublishingFiles.Tag = "20";
+            this.cbPublishingFiles.Text = " @ publishing files ";
+            this.cbPublishingFiles.UseVisualStyleBackColor = true;
+            this.cbPublishingFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbPublishingFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbPersistBrandingFiles
+            // cbBrandingFiles
             // 
-            this.cbPersistBrandingFiles.AutoSize = true;
-            this.cbPersistBrandingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbPersistBrandingFiles.Location = new System.Drawing.Point(14, 22);
-            this.cbPersistBrandingFiles.Name = "cbPersistBrandingFiles";
-            this.cbPersistBrandingFiles.Size = new System.Drawing.Size(147, 20);
-            this.cbPersistBrandingFiles.TabIndex = 0;
-            this.cbPersistBrandingFiles.Tag = "19";
-            this.cbPersistBrandingFiles.Text = " Persist branding files ";
-            this.cbPersistBrandingFiles.UseVisualStyleBackColor = true;
-            this.cbPersistBrandingFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbPersistBrandingFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbBrandingFiles.AutoSize = true;
+            this.cbBrandingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbBrandingFiles.Location = new System.Drawing.Point(14, 22);
+            this.cbBrandingFiles.Name = "cbBrandingFiles";
+            this.cbBrandingFiles.Size = new System.Drawing.Size(147, 20);
+            this.cbBrandingFiles.TabIndex = 0;
+            this.cbBrandingFiles.Tag = "19";
+            this.cbBrandingFiles.Text = " @ branding files ";
+            this.cbBrandingFiles.UseVisualStyleBackColor = true;
+            this.cbBrandingFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbBrandingFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
             // gbContentOptions
             // 
-            this.gbContentOptions.Controls.Add(this.cbIncludeLookupListItems);
-            this.gbContentOptions.Controls.Add(this.cbIncludeImageFiles);
+            this.gbContentOptions.Controls.Add(this.cbLookupListItems);
+            this.gbContentOptions.Controls.Add(this.cbImageFiles);
             this.gbContentOptions.Controls.Add(this.cbXSLStyleSheetFiles);
             this.gbContentOptions.Controls.Add(this.cbPublishingPages);
             this.gbContentOptions.Controls.Add(this.cbJavaScriptFiles);
@@ -235,31 +235,31 @@
             this.gbContentOptions.TabStop = false;
             this.gbContentOptions.Text = " Content Options ";
             // 
-            // cbIncludeLookupListItems
+            // cbLookupListItems
             // 
-            this.cbIncludeLookupListItems.AutoSize = true;
-            this.cbIncludeLookupListItems.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeLookupListItems.Location = new System.Drawing.Point(14, 22);
-            this.cbIncludeLookupListItems.Name = "cbIncludeLookupListItems";
-            this.cbIncludeLookupListItems.Size = new System.Drawing.Size(167, 20);
-            this.cbIncludeLookupListItems.TabIndex = 0;
-            this.cbIncludeLookupListItems.Tag = "28";
-            this.cbIncludeLookupListItems.Text = " Include lookup list items ";
-            this.cbIncludeLookupListItems.UseVisualStyleBackColor = true;
+            this.cbLookupListItems.AutoSize = true;
+            this.cbLookupListItems.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbLookupListItems.Location = new System.Drawing.Point(14, 22);
+            this.cbLookupListItems.Name = "cbLookupListItems";
+            this.cbLookupListItems.Size = new System.Drawing.Size(167, 20);
+            this.cbLookupListItems.TabIndex = 0;
+            this.cbLookupListItems.Tag = "28";
+            this.cbLookupListItems.Text = " # lookup list items ";
+            this.cbLookupListItems.UseVisualStyleBackColor = true;
             // 
-            // cbIncludeImageFiles
+            // cbImageFiles
             // 
-            this.cbIncludeImageFiles.AutoSize = true;
-            this.cbIncludeImageFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeImageFiles.Location = new System.Drawing.Point(14, 178);
-            this.cbIncludeImageFiles.Name = "cbIncludeImageFiles";
-            this.cbIncludeImageFiles.Size = new System.Drawing.Size(134, 20);
-            this.cbIncludeImageFiles.TabIndex = 6;
-            this.cbIncludeImageFiles.Tag = "34";
-            this.cbIncludeImageFiles.Text = " Include image files";
-            this.cbIncludeImageFiles.UseVisualStyleBackColor = true;
-            this.cbIncludeImageFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeImageFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbImageFiles.AutoSize = true;
+            this.cbImageFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbImageFiles.Location = new System.Drawing.Point(14, 178);
+            this.cbImageFiles.Name = "cbImageFiles";
+            this.cbImageFiles.Size = new System.Drawing.Size(134, 20);
+            this.cbImageFiles.TabIndex = 6;
+            this.cbImageFiles.Tag = "34";
+            this.cbImageFiles.Text = " # image files";
+            this.cbImageFiles.UseVisualStyleBackColor = true;
+            this.cbImageFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbImageFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
             // cbXSLStyleSheetFiles
             // 
@@ -270,7 +270,7 @@
             this.cbXSLStyleSheetFiles.Size = new System.Drawing.Size(201, 20);
             this.cbXSLStyleSheetFiles.TabIndex = 5;
             this.cbXSLStyleSheetFiles.Tag = "33";
-            this.cbXSLStyleSheetFiles.Text = " Include XSL and style sheet files";
+            this.cbXSLStyleSheetFiles.Text = " # XSL and style sheet files";
             this.cbXSLStyleSheetFiles.UseVisualStyleBackColor = true;
             this.cbXSLStyleSheetFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
             this.cbXSLStyleSheetFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
@@ -284,7 +284,7 @@
             this.cbPublishingPages.Size = new System.Drawing.Size(170, 20);
             this.cbPublishingPages.TabIndex = 4;
             this.cbPublishingPages.Tag = "32";
-            this.cbPublishingPages.Text = " Include publishing pages ";
+            this.cbPublishingPages.Text = " # publishing pages ";
             this.cbPublishingPages.UseVisualStyleBackColor = true;
             this.cbPublishingPages.MouseEnter += new System.EventHandler(this.ShowToolTip);
             this.cbPublishingPages.MouseLeave += new System.EventHandler(this.HideToolTip);
@@ -298,7 +298,7 @@
             this.cbJavaScriptFiles.Size = new System.Drawing.Size(157, 20);
             this.cbJavaScriptFiles.TabIndex = 3;
             this.cbJavaScriptFiles.Tag = "31";
-            this.cbJavaScriptFiles.Text = " Include java script files ";
+            this.cbJavaScriptFiles.Text = " # java script files ";
             this.cbJavaScriptFiles.UseVisualStyleBackColor = true;
             this.cbJavaScriptFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
             this.cbJavaScriptFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
@@ -312,7 +312,7 @@
             this.cbDocumentLibraryFiles.Size = new System.Drawing.Size(195, 20);
             this.cbDocumentLibraryFiles.TabIndex = 2;
             this.cbDocumentLibraryFiles.Tag = "30";
-            this.cbDocumentLibraryFiles.Text = " Include document library files ";
+            this.cbDocumentLibraryFiles.Text = " # document library files ";
             this.cbDocumentLibraryFiles.UseVisualStyleBackColor = true;
             this.cbDocumentLibraryFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
             this.cbDocumentLibraryFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
@@ -326,7 +326,7 @@
             this.cbGenericListItems.Size = new System.Drawing.Size(169, 20);
             this.cbGenericListItems.TabIndex = 1;
             this.cbGenericListItems.Tag = "29";
-            this.cbGenericListItems.Text = " Include generic list items ";
+            this.cbGenericListItems.Text = " # generic list items ";
             this.cbGenericListItems.UseVisualStyleBackColor = true;
             this.cbGenericListItems.MouseEnter += new System.EventHandler(this.ShowToolTip);
             this.cbGenericListItems.MouseLeave += new System.EventHandler(this.HideToolTip);
@@ -356,24 +356,24 @@
             // 
             // gbTemplateOptions
             // 
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeNavigation);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeWebSettings);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeWorkflows);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludePublishing);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludePropertyBagEntries);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludePageContents);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeComposedLook);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeFeatures);
+            this.gbTemplateOptions.Controls.Add(this.cbNavigation);
+            this.gbTemplateOptions.Controls.Add(this.cbWebSettings);
+            this.gbTemplateOptions.Controls.Add(this.cbWorkflows);
+            this.gbTemplateOptions.Controls.Add(this.cbPublishing);
+            this.gbTemplateOptions.Controls.Add(this.cbPropertyBagEntries);
+            this.gbTemplateOptions.Controls.Add(this.cbPageContents);
+            this.gbTemplateOptions.Controls.Add(this.cbComposedLook);
+            this.gbTemplateOptions.Controls.Add(this.cbFeatures);
             this.gbTemplateOptions.Controls.Add(this.cbExcludeBaseTemplate);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeCustomActions);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeListInstances);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeContentTypes);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeFields);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeSiteSecurity);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeSitePolicy);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeAuditSettings);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeSupportedUILanguages);
-            this.gbTemplateOptions.Controls.Add(this.cbIncludeRegionalSettings);
+            this.gbTemplateOptions.Controls.Add(this.cbCustomActions);
+            this.gbTemplateOptions.Controls.Add(this.cbListInstances);
+            this.gbTemplateOptions.Controls.Add(this.cbContentTypes);
+            this.gbTemplateOptions.Controls.Add(this.cbFields);
+            this.gbTemplateOptions.Controls.Add(this.cbSiteSecurity);
+            this.gbTemplateOptions.Controls.Add(this.cbSitePolicy);
+            this.gbTemplateOptions.Controls.Add(this.cbAuditSettings);
+            this.gbTemplateOptions.Controls.Add(this.cbSupportedUILanguages);
+            this.gbTemplateOptions.Controls.Add(this.cbRegionalSettings);
             this.gbTemplateOptions.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.gbTemplateOptions.Location = new System.Drawing.Point(12, 12);
             this.gbTemplateOptions.Name = "gbTemplateOptions";
@@ -382,117 +382,117 @@
             this.gbTemplateOptions.TabStop = false;
             this.gbTemplateOptions.Text = " Template Options ";
             // 
-            // cbIncludeNavigation
+            // cbNavigation
             // 
-            this.cbIncludeNavigation.AutoSize = true;
-            this.cbIncludeNavigation.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeNavigation.Location = new System.Drawing.Point(244, 204);
-            this.cbIncludeNavigation.Name = "cbIncludeNavigation";
-            this.cbIncludeNavigation.Size = new System.Drawing.Size(136, 20);
-            this.cbIncludeNavigation.TabIndex = 21;
-            this.cbIncludeNavigation.Tag = "17";
-            this.cbIncludeNavigation.Text = " Include navigation ";
-            this.cbIncludeNavigation.UseVisualStyleBackColor = true;
-            this.cbIncludeNavigation.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeNavigation.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbNavigation.AutoSize = true;
+            this.cbNavigation.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbNavigation.Location = new System.Drawing.Point(244, 204);
+            this.cbNavigation.Name = "cbNavigation";
+            this.cbNavigation.Size = new System.Drawing.Size(136, 20);
+            this.cbNavigation.TabIndex = 21;
+            this.cbNavigation.Tag = "17";
+            this.cbNavigation.Text = " # navigation ";
+            this.cbNavigation.UseVisualStyleBackColor = true;
+            this.cbNavigation.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbNavigation.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeWebSettings
+            // cbWebSettings
             // 
-            this.cbIncludeWebSettings.AutoSize = true;
-            this.cbIncludeWebSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeWebSettings.Location = new System.Drawing.Point(244, 178);
-            this.cbIncludeWebSettings.Name = "cbIncludeWebSettings";
-            this.cbIncludeWebSettings.Size = new System.Drawing.Size(146, 20);
-            this.cbIncludeWebSettings.TabIndex = 20;
-            this.cbIncludeWebSettings.Tag = "16";
-            this.cbIncludeWebSettings.Text = " Include web settings ";
-            this.cbIncludeWebSettings.UseVisualStyleBackColor = true;
-            this.cbIncludeWebSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeWebSettings.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbWebSettings.AutoSize = true;
+            this.cbWebSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbWebSettings.Location = new System.Drawing.Point(244, 178);
+            this.cbWebSettings.Name = "cbWebSettings";
+            this.cbWebSettings.Size = new System.Drawing.Size(146, 20);
+            this.cbWebSettings.TabIndex = 20;
+            this.cbWebSettings.Tag = "16";
+            this.cbWebSettings.Text = " # web settings ";
+            this.cbWebSettings.UseVisualStyleBackColor = true;
+            this.cbWebSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbWebSettings.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeWorkflows
+            // cbWorkflows
             // 
-            this.cbIncludeWorkflows.AutoSize = true;
-            this.cbIncludeWorkflows.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeWorkflows.Location = new System.Drawing.Point(244, 152);
-            this.cbIncludeWorkflows.Name = "cbIncludeWorkflows";
-            this.cbIncludeWorkflows.Size = new System.Drawing.Size(134, 20);
-            this.cbIncludeWorkflows.TabIndex = 19;
-            this.cbIncludeWorkflows.Tag = "15";
-            this.cbIncludeWorkflows.Text = " Include workflows ";
-            this.cbIncludeWorkflows.UseVisualStyleBackColor = true;
-            this.cbIncludeWorkflows.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeWorkflows.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbWorkflows.AutoSize = true;
+            this.cbWorkflows.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbWorkflows.Location = new System.Drawing.Point(244, 152);
+            this.cbWorkflows.Name = "cbWorkflows";
+            this.cbWorkflows.Size = new System.Drawing.Size(134, 20);
+            this.cbWorkflows.TabIndex = 19;
+            this.cbWorkflows.Tag = "15";
+            this.cbWorkflows.Text = " # workflows ";
+            this.cbWorkflows.UseVisualStyleBackColor = true;
+            this.cbWorkflows.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbWorkflows.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludePublishing
+            // cbPublishing
             // 
-            this.cbIncludePublishing.AutoSize = true;
-            this.cbIncludePublishing.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludePublishing.Location = new System.Drawing.Point(244, 126);
-            this.cbIncludePublishing.Name = "cbIncludePublishing";
-            this.cbIncludePublishing.Size = new System.Drawing.Size(136, 20);
-            this.cbIncludePublishing.TabIndex = 18;
-            this.cbIncludePublishing.Tag = "14";
-            this.cbIncludePublishing.Text = " Include publishing ";
-            this.cbIncludePublishing.UseVisualStyleBackColor = true;
-            this.cbIncludePublishing.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludePublishing.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbPublishing.AutoSize = true;
+            this.cbPublishing.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbPublishing.Location = new System.Drawing.Point(244, 126);
+            this.cbPublishing.Name = "cbPublishing";
+            this.cbPublishing.Size = new System.Drawing.Size(136, 20);
+            this.cbPublishing.TabIndex = 18;
+            this.cbPublishing.Tag = "14";
+            this.cbPublishing.Text = " # publishing ";
+            this.cbPublishing.UseVisualStyleBackColor = true;
+            this.cbPublishing.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbPublishing.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludePropertyBagEntries
+            // cbPropertyBagEntries
             // 
-            this.cbIncludePropertyBagEntries.AutoSize = true;
-            this.cbIncludePropertyBagEntries.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludePropertyBagEntries.Location = new System.Drawing.Point(244, 100);
-            this.cbIncludePropertyBagEntries.Name = "cbIncludePropertyBagEntries";
-            this.cbIncludePropertyBagEntries.Size = new System.Drawing.Size(186, 20);
-            this.cbIncludePropertyBagEntries.TabIndex = 17;
-            this.cbIncludePropertyBagEntries.Tag = "13";
-            this.cbIncludePropertyBagEntries.Text = " Include property bag entries ";
-            this.cbIncludePropertyBagEntries.UseVisualStyleBackColor = true;
-            this.cbIncludePropertyBagEntries.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludePropertyBagEntries.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbPropertyBagEntries.AutoSize = true;
+            this.cbPropertyBagEntries.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbPropertyBagEntries.Location = new System.Drawing.Point(244, 100);
+            this.cbPropertyBagEntries.Name = "cbPropertyBagEntries";
+            this.cbPropertyBagEntries.Size = new System.Drawing.Size(186, 20);
+            this.cbPropertyBagEntries.TabIndex = 17;
+            this.cbPropertyBagEntries.Tag = "13";
+            this.cbPropertyBagEntries.Text = " # property bag entries ";
+            this.cbPropertyBagEntries.UseVisualStyleBackColor = true;
+            this.cbPropertyBagEntries.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbPropertyBagEntries.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludePageContents
+            // cbPageContents
             // 
-            this.cbIncludePageContents.AutoSize = true;
-            this.cbIncludePageContents.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludePageContents.Location = new System.Drawing.Point(244, 74);
-            this.cbIncludePageContents.Name = "cbIncludePageContents";
-            this.cbIncludePageContents.Size = new System.Drawing.Size(155, 20);
-            this.cbIncludePageContents.TabIndex = 16;
-            this.cbIncludePageContents.Tag = "12";
-            this.cbIncludePageContents.Text = " Include page contents ";
-            this.cbIncludePageContents.UseVisualStyleBackColor = true;
-            this.cbIncludePageContents.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludePageContents.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbPageContents.AutoSize = true;
+            this.cbPageContents.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbPageContents.Location = new System.Drawing.Point(244, 74);
+            this.cbPageContents.Name = "cbPageContents";
+            this.cbPageContents.Size = new System.Drawing.Size(155, 20);
+            this.cbPageContents.TabIndex = 16;
+            this.cbPageContents.Tag = "12";
+            this.cbPageContents.Text = " # page contents ";
+            this.cbPageContents.UseVisualStyleBackColor = true;
+            this.cbPageContents.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbPageContents.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeComposedLook
+            // cbComposedLook
             // 
-            this.cbIncludeComposedLook.AutoSize = true;
-            this.cbIncludeComposedLook.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeComposedLook.Location = new System.Drawing.Point(244, 48);
-            this.cbIncludeComposedLook.Name = "cbIncludeComposedLook";
-            this.cbIncludeComposedLook.Size = new System.Drawing.Size(162, 20);
-            this.cbIncludeComposedLook.TabIndex = 15;
-            this.cbIncludeComposedLook.Tag = "11";
-            this.cbIncludeComposedLook.Text = " Include composed look ";
-            this.cbIncludeComposedLook.UseVisualStyleBackColor = true;
-            this.cbIncludeComposedLook.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeComposedLook.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbComposedLook.AutoSize = true;
+            this.cbComposedLook.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbComposedLook.Location = new System.Drawing.Point(244, 48);
+            this.cbComposedLook.Name = "cbComposedLook";
+            this.cbComposedLook.Size = new System.Drawing.Size(162, 20);
+            this.cbComposedLook.TabIndex = 15;
+            this.cbComposedLook.Tag = "11";
+            this.cbComposedLook.Text = " # composed look ";
+            this.cbComposedLook.UseVisualStyleBackColor = true;
+            this.cbComposedLook.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbComposedLook.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeFeatures
+            // cbFeatures
             // 
-            this.cbIncludeFeatures.AutoSize = true;
-            this.cbIncludeFeatures.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeFeatures.Location = new System.Drawing.Point(244, 22);
-            this.cbIncludeFeatures.Name = "cbIncludeFeatures";
-            this.cbIncludeFeatures.Size = new System.Drawing.Size(122, 20);
-            this.cbIncludeFeatures.TabIndex = 14;
-            this.cbIncludeFeatures.Tag = "10";
-            this.cbIncludeFeatures.Text = " Include features ";
-            this.cbIncludeFeatures.UseVisualStyleBackColor = true;
-            this.cbIncludeFeatures.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeFeatures.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbFeatures.AutoSize = true;
+            this.cbFeatures.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbFeatures.Location = new System.Drawing.Point(244, 22);
+            this.cbFeatures.Name = "cbFeatures";
+            this.cbFeatures.Size = new System.Drawing.Size(122, 20);
+            this.cbFeatures.TabIndex = 14;
+            this.cbFeatures.Tag = "10";
+            this.cbFeatures.Text = " # features ";
+            this.cbFeatures.UseVisualStyleBackColor = true;
+            this.cbFeatures.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbFeatures.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
             // cbExcludeBaseTemplate
             // 
@@ -508,131 +508,131 @@
             this.cbExcludeBaseTemplate.MouseEnter += new System.EventHandler(this.ShowToolTip);
             this.cbExcludeBaseTemplate.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeCustomActions
+            // cbCustomActions
             // 
-            this.cbIncludeCustomActions.AutoSize = true;
-            this.cbIncludeCustomActions.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeCustomActions.Location = new System.Drawing.Point(14, 230);
-            this.cbIncludeCustomActions.Name = "cbIncludeCustomActions";
-            this.cbIncludeCustomActions.Size = new System.Drawing.Size(161, 20);
-            this.cbIncludeCustomActions.TabIndex = 8;
-            this.cbIncludeCustomActions.Tag = "9";
-            this.cbIncludeCustomActions.Text = " Include custom actions ";
-            this.cbIncludeCustomActions.UseVisualStyleBackColor = true;
-            this.cbIncludeCustomActions.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeCustomActions.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbCustomActions.AutoSize = true;
+            this.cbCustomActions.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbCustomActions.Location = new System.Drawing.Point(14, 230);
+            this.cbCustomActions.Name = "cbCustomActions";
+            this.cbCustomActions.Size = new System.Drawing.Size(161, 20);
+            this.cbCustomActions.TabIndex = 8;
+            this.cbCustomActions.Tag = "9";
+            this.cbCustomActions.Text = " # custom actions ";
+            this.cbCustomActions.UseVisualStyleBackColor = true;
+            this.cbCustomActions.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbCustomActions.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeListInstances
+            // cbListInstances
             // 
-            this.cbIncludeListInstances.AutoSize = true;
-            this.cbIncludeListInstances.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeListInstances.Location = new System.Drawing.Point(14, 204);
-            this.cbIncludeListInstances.Name = "cbIncludeListInstances";
-            this.cbIncludeListInstances.Size = new System.Drawing.Size(147, 20);
-            this.cbIncludeListInstances.TabIndex = 7;
-            this.cbIncludeListInstances.Tag = "8";
-            this.cbIncludeListInstances.Text = " Include list instances ";
-            this.cbIncludeListInstances.UseVisualStyleBackColor = true;
-            this.cbIncludeListInstances.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeListInstances.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbListInstances.AutoSize = true;
+            this.cbListInstances.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbListInstances.Location = new System.Drawing.Point(14, 204);
+            this.cbListInstances.Name = "cbListInstances";
+            this.cbListInstances.Size = new System.Drawing.Size(147, 20);
+            this.cbListInstances.TabIndex = 7;
+            this.cbListInstances.Tag = "8";
+            this.cbListInstances.Text = " # list instances ";
+            this.cbListInstances.UseVisualStyleBackColor = true;
+            this.cbListInstances.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbListInstances.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeContentTypes
+            // cbContentTypes
             // 
-            this.cbIncludeContentTypes.AutoSize = true;
-            this.cbIncludeContentTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeContentTypes.Location = new System.Drawing.Point(14, 178);
-            this.cbIncludeContentTypes.Name = "cbIncludeContentTypes";
-            this.cbIncludeContentTypes.Size = new System.Drawing.Size(152, 20);
-            this.cbIncludeContentTypes.TabIndex = 6;
-            this.cbIncludeContentTypes.Tag = "7";
-            this.cbIncludeContentTypes.Text = " Include content types ";
-            this.cbIncludeContentTypes.UseVisualStyleBackColor = true;
-            this.cbIncludeContentTypes.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeContentTypes.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbContentTypes.AutoSize = true;
+            this.cbContentTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbContentTypes.Location = new System.Drawing.Point(14, 178);
+            this.cbContentTypes.Name = "cbContentTypes";
+            this.cbContentTypes.Size = new System.Drawing.Size(152, 20);
+            this.cbContentTypes.TabIndex = 6;
+            this.cbContentTypes.Tag = "7";
+            this.cbContentTypes.Text = " # content types ";
+            this.cbContentTypes.UseVisualStyleBackColor = true;
+            this.cbContentTypes.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbContentTypes.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeFields
+            // cbFields
             // 
-            this.cbIncludeFields.AutoSize = true;
-            this.cbIncludeFields.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeFields.Location = new System.Drawing.Point(14, 152);
-            this.cbIncludeFields.Name = "cbIncludeFields";
-            this.cbIncludeFields.Size = new System.Drawing.Size(108, 20);
-            this.cbIncludeFields.TabIndex = 5;
-            this.cbIncludeFields.Tag = "6";
-            this.cbIncludeFields.Text = " Include fields ";
-            this.cbIncludeFields.UseVisualStyleBackColor = true;
-            this.cbIncludeFields.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeFields.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbFields.AutoSize = true;
+            this.cbFields.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbFields.Location = new System.Drawing.Point(14, 152);
+            this.cbFields.Name = "cbFields";
+            this.cbFields.Size = new System.Drawing.Size(108, 20);
+            this.cbFields.TabIndex = 5;
+            this.cbFields.Tag = "6";
+            this.cbFields.Text = " # fields ";
+            this.cbFields.UseVisualStyleBackColor = true;
+            this.cbFields.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbFields.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeSiteSecurity
+            // cbSiteSecurity
             // 
-            this.cbIncludeSiteSecurity.AutoSize = true;
-            this.cbIncludeSiteSecurity.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeSiteSecurity.Location = new System.Drawing.Point(14, 126);
-            this.cbIncludeSiteSecurity.Name = "cbIncludeSiteSecurity";
-            this.cbIncludeSiteSecurity.Size = new System.Drawing.Size(142, 20);
-            this.cbIncludeSiteSecurity.TabIndex = 4;
-            this.cbIncludeSiteSecurity.Tag = "5";
-            this.cbIncludeSiteSecurity.Text = " Include site security ";
-            this.cbIncludeSiteSecurity.UseVisualStyleBackColor = true;
-            this.cbIncludeSiteSecurity.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeSiteSecurity.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbSiteSecurity.AutoSize = true;
+            this.cbSiteSecurity.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbSiteSecurity.Location = new System.Drawing.Point(14, 126);
+            this.cbSiteSecurity.Name = "cbSiteSecurity";
+            this.cbSiteSecurity.Size = new System.Drawing.Size(142, 20);
+            this.cbSiteSecurity.TabIndex = 4;
+            this.cbSiteSecurity.Tag = "5";
+            this.cbSiteSecurity.Text = " # site security ";
+            this.cbSiteSecurity.UseVisualStyleBackColor = true;
+            this.cbSiteSecurity.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbSiteSecurity.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeSitePolicy
+            // cbSitePolicy
             // 
-            this.cbIncludeSitePolicy.AutoSize = true;
-            this.cbIncludeSitePolicy.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeSitePolicy.Location = new System.Drawing.Point(14, 100);
-            this.cbIncludeSitePolicy.Name = "cbIncludeSitePolicy";
-            this.cbIncludeSitePolicy.Size = new System.Drawing.Size(133, 20);
-            this.cbIncludeSitePolicy.TabIndex = 3;
-            this.cbIncludeSitePolicy.Tag = "4";
-            this.cbIncludeSitePolicy.Text = " Include site policy ";
-            this.cbIncludeSitePolicy.UseVisualStyleBackColor = true;
-            this.cbIncludeSitePolicy.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeSitePolicy.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbSitePolicy.AutoSize = true;
+            this.cbSitePolicy.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbSitePolicy.Location = new System.Drawing.Point(14, 100);
+            this.cbSitePolicy.Name = "cbSitePolicy";
+            this.cbSitePolicy.Size = new System.Drawing.Size(133, 20);
+            this.cbSitePolicy.TabIndex = 3;
+            this.cbSitePolicy.Tag = "4";
+            this.cbSitePolicy.Text = " # site policy ";
+            this.cbSitePolicy.UseVisualStyleBackColor = true;
+            this.cbSitePolicy.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbSitePolicy.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeAuditSettings
+            // cbAuditSettings
             // 
-            this.cbIncludeAuditSettings.AutoSize = true;
-            this.cbIncludeAuditSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeAuditSettings.Location = new System.Drawing.Point(14, 74);
-            this.cbIncludeAuditSettings.Name = "cbIncludeAuditSettings";
-            this.cbIncludeAuditSettings.Size = new System.Drawing.Size(151, 20);
-            this.cbIncludeAuditSettings.TabIndex = 2;
-            this.cbIncludeAuditSettings.Tag = "3";
-            this.cbIncludeAuditSettings.Text = " Include audit settings ";
-            this.cbIncludeAuditSettings.UseVisualStyleBackColor = true;
-            this.cbIncludeAuditSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeAuditSettings.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbAuditSettings.AutoSize = true;
+            this.cbAuditSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbAuditSettings.Location = new System.Drawing.Point(14, 74);
+            this.cbAuditSettings.Name = "cbAuditSettings";
+            this.cbAuditSettings.Size = new System.Drawing.Size(151, 20);
+            this.cbAuditSettings.TabIndex = 2;
+            this.cbAuditSettings.Tag = "3";
+            this.cbAuditSettings.Text = " # audit settings ";
+            this.cbAuditSettings.UseVisualStyleBackColor = true;
+            this.cbAuditSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbAuditSettings.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeSupportedUILanguages
+            // cbSupportedUILanguages
             // 
-            this.cbIncludeSupportedUILanguages.AutoSize = true;
-            this.cbIncludeSupportedUILanguages.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeSupportedUILanguages.Location = new System.Drawing.Point(14, 48);
-            this.cbIncludeSupportedUILanguages.Name = "cbIncludeSupportedUILanguages";
-            this.cbIncludeSupportedUILanguages.Size = new System.Drawing.Size(205, 20);
-            this.cbIncludeSupportedUILanguages.TabIndex = 1;
-            this.cbIncludeSupportedUILanguages.Tag = "2";
-            this.cbIncludeSupportedUILanguages.Text = " Include supported UI languages ";
-            this.cbIncludeSupportedUILanguages.UseVisualStyleBackColor = true;
-            this.cbIncludeSupportedUILanguages.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeSupportedUILanguages.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbSupportedUILanguages.AutoSize = true;
+            this.cbSupportedUILanguages.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbSupportedUILanguages.Location = new System.Drawing.Point(14, 48);
+            this.cbSupportedUILanguages.Name = "cbSupportedUILanguages";
+            this.cbSupportedUILanguages.Size = new System.Drawing.Size(205, 20);
+            this.cbSupportedUILanguages.TabIndex = 1;
+            this.cbSupportedUILanguages.Tag = "2";
+            this.cbSupportedUILanguages.Text = " # supported UI languages ";
+            this.cbSupportedUILanguages.UseVisualStyleBackColor = true;
+            this.cbSupportedUILanguages.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbSupportedUILanguages.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
-            // cbIncludeRegionalSettings
+            // cbRegionalSettings
             // 
-            this.cbIncludeRegionalSettings.AutoSize = true;
-            this.cbIncludeRegionalSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbIncludeRegionalSettings.Location = new System.Drawing.Point(14, 22);
-            this.cbIncludeRegionalSettings.Name = "cbIncludeRegionalSettings";
-            this.cbIncludeRegionalSettings.Size = new System.Drawing.Size(167, 20);
-            this.cbIncludeRegionalSettings.TabIndex = 0;
-            this.cbIncludeRegionalSettings.Tag = "1";
-            this.cbIncludeRegionalSettings.Text = " Include regional settings ";
-            this.cbIncludeRegionalSettings.UseVisualStyleBackColor = true;
-            this.cbIncludeRegionalSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbIncludeRegionalSettings.MouseLeave += new System.EventHandler(this.HideToolTip);
+            this.cbRegionalSettings.AutoSize = true;
+            this.cbRegionalSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cbRegionalSettings.Location = new System.Drawing.Point(14, 22);
+            this.cbRegionalSettings.Name = "cbRegionalSettings";
+            this.cbRegionalSettings.Size = new System.Drawing.Size(167, 20);
+            this.cbRegionalSettings.TabIndex = 0;
+            this.cbRegionalSettings.Tag = "1";
+            this.cbRegionalSettings.Text = " # regional settings ";
+            this.cbRegionalSettings.UseVisualStyleBackColor = true;
+            this.cbRegionalSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.cbRegionalSettings.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
             // lToolTip
             // 
@@ -679,15 +679,15 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gbOtherTemplateOptions;
-        private System.Windows.Forms.CheckBox cbPersistPublishingFiles;
-        private System.Windows.Forms.CheckBox cbPersistBrandingFiles;
-        private System.Windows.Forms.CheckBox cbIncludeSearchConfiguration;
-        private System.Windows.Forms.CheckBox cbIncludeSiteGroups;
-        private System.Windows.Forms.CheckBox cbIncludeTermGroupsSecurity;
-        private System.Windows.Forms.CheckBox cbIncludeSiteCollectionTermGroup;
-        private System.Windows.Forms.CheckBox cbIncludeAllTermGroups;
-        private System.Windows.Forms.CheckBox cbIncludeNativePublishingFiles;
-        private System.Windows.Forms.CheckBox cbPersistMultiLanguageResources;
+        private System.Windows.Forms.CheckBox cbPublishingFiles;
+        private System.Windows.Forms.CheckBox cbBrandingFiles;
+        private System.Windows.Forms.CheckBox cbSearchConfiguration;
+        private System.Windows.Forms.CheckBox cbSiteGroups;
+        private System.Windows.Forms.CheckBox cbTermGroupsSecurity;
+        private System.Windows.Forms.CheckBox cbSiteCollectionTermGroup;
+        private System.Windows.Forms.CheckBox cbAllTermGroups;
+        private System.Windows.Forms.CheckBox cbNativePublishingFiles;
+        private System.Windows.Forms.CheckBox cbMultiLanguageResources;
         private System.Windows.Forms.GroupBox gbContentOptions;
         private System.Windows.Forms.CheckBox cbPublishingPages;
         private System.Windows.Forms.CheckBox cbJavaScriptFiles;
@@ -696,27 +696,27 @@
         private System.Windows.Forms.Button bCancel;
         private System.Windows.Forms.Button bSave;
         private System.Windows.Forms.CheckBox cbXSLStyleSheetFiles;
-        private System.Windows.Forms.CheckBox cbIncludeImageFiles;
+        private System.Windows.Forms.CheckBox cbImageFiles;
         private System.Windows.Forms.GroupBox gbTemplateOptions;
         private System.Windows.Forms.CheckBox cbExcludeBaseTemplate;
-        private System.Windows.Forms.CheckBox cbIncludeCustomActions;
-        private System.Windows.Forms.CheckBox cbIncludeListInstances;
-        private System.Windows.Forms.CheckBox cbIncludeContentTypes;
-        private System.Windows.Forms.CheckBox cbIncludeFields;
-        private System.Windows.Forms.CheckBox cbIncludeSiteSecurity;
-        private System.Windows.Forms.CheckBox cbIncludeSitePolicy;
-        private System.Windows.Forms.CheckBox cbIncludeAuditSettings;
-        private System.Windows.Forms.CheckBox cbIncludeSupportedUILanguages;
-        private System.Windows.Forms.CheckBox cbIncludeRegionalSettings;
-        private System.Windows.Forms.CheckBox cbIncludeNavigation;
-        private System.Windows.Forms.CheckBox cbIncludeWebSettings;
-        private System.Windows.Forms.CheckBox cbIncludeWorkflows;
-        private System.Windows.Forms.CheckBox cbIncludePublishing;
-        private System.Windows.Forms.CheckBox cbIncludePropertyBagEntries;
-        private System.Windows.Forms.CheckBox cbIncludePageContents;
-        private System.Windows.Forms.CheckBox cbIncludeComposedLook;
-        private System.Windows.Forms.CheckBox cbIncludeFeatures;
+        private System.Windows.Forms.CheckBox cbCustomActions;
+        private System.Windows.Forms.CheckBox cbListInstances;
+        private System.Windows.Forms.CheckBox cbContentTypes;
+        private System.Windows.Forms.CheckBox cbFields;
+        private System.Windows.Forms.CheckBox cbSiteSecurity;
+        private System.Windows.Forms.CheckBox cbSitePolicy;
+        private System.Windows.Forms.CheckBox cbAuditSettings;
+        private System.Windows.Forms.CheckBox cbSupportedUILanguages;
+        private System.Windows.Forms.CheckBox cbRegionalSettings;
+        private System.Windows.Forms.CheckBox cbNavigation;
+        private System.Windows.Forms.CheckBox cbWebSettings;
+        private System.Windows.Forms.CheckBox cbWorkflows;
+        private System.Windows.Forms.CheckBox cbPublishing;
+        private System.Windows.Forms.CheckBox cbPropertyBagEntries;
+        private System.Windows.Forms.CheckBox cbPageContents;
+        private System.Windows.Forms.CheckBox cbComposedLook;
+        private System.Windows.Forms.CheckBox cbFeatures;
         private System.Windows.Forms.Label lToolTip;
-        private System.Windows.Forms.CheckBox cbIncludeLookupListItems;
+        private System.Windows.Forms.CheckBox cbLookupListItems;
     }
 }

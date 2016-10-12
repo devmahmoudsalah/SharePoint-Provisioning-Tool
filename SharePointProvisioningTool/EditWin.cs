@@ -531,43 +531,33 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode node = tvTemplate.SelectedNode;
                 if (!node.Name.Equals("TemplateNode"))
                 {
-                    /*
-                    if (!_deletedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
+                    TemplateItem templateItem = _templateItems.GetItem((string)node.Tag);
+
+                    if (templateItem != null)
                     {
-                        _deletedNodes.AddKeyValue(node.Name, node.Parent.Name);
+                        _templateItems.SetChildrenDeleted(templateItem.Id);
+                        templateItem.IsDeleted = true;
 
                     }
 
-                    if (_changedNodes.Exists(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        _changedNodes.RemoveAll(p => p.Key.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
-
-                    }
-                    */
-
-                    /*
                     TreeNode prevNode = node.PrevNode;
                     TreeNode parentNode = node.Parent;
 
-                    KeyValueList tagList = parentNode.Tag as KeyValueList;
-
-                    tagList.RemoveAll(p => p.Value.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
-
-                    _selectedNode = null; //ensure NodeSelecting will not throw an exception
+                    _selectedNode = null;
 
                     node.Remove();
 
                     tvTemplate.SelectedNode = prevNode != null ? prevNode : parentNode;
 
                     bSave.Visible = true;
-                    */
 
                 }
                 else
                 {
-                    MessageBox.Show("It will be easier to delete the provisioning file\r\n than to delete all the nodes.",
-                                    "Delete Information",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("You are not serious.", "Delete Seriously",
+                                    MessageBoxButtons.AbortRetryIgnore,
+                                    MessageBoxIcon.Stop,
+                                    MessageBoxDefaultButton.Button3);
 
                 }
 
@@ -898,6 +888,59 @@ namespace Karabina.SharePoint.Provisioning
             } //if _selectedNode
 
         } //ShowViewItem
+
+        private void ViewControlSelectAll(object sender, EventArgs e)
+        {
+            var topItem = lvViewControl.TopItem;
+            lvViewControl.BeginUpdate();
+            for (var i = 0; i < lvViewControl.Items.Count; i++)
+            {
+                lvViewControl.Items[i].Selected = true;
+            }
+            lvViewControl.EndUpdate();
+            lvViewControl.TopItem = topItem;
+
+        } //ViewControlSelectAll
+
+        private void DeleteTemplateItemFromView(object sender, EventArgs e)
+        {
+            if (_selectedNode != null)
+            {
+                TemplateItem templateItem = _templateItems.GetItem((string)_selectedNode.Tag);
+                if (templateItem != null)
+                {
+                    KeyValueList keyValues = new KeyValueList();
+                    keyValues.AddRange(templateItem.Content as KeyValueList);
+                    foreach(ListViewItem item in lvViewControl.SelectedItems)
+                    {
+                        keyValues.RemoveAll(p => p.Key.Equals(item.Text, StringComparison.OrdinalIgnoreCase));
+                        lvViewControl.Items.Remove(item);
+
+                    }
+
+                    templateItem.Content = keyValues;
+
+                    if (templateItem.IsChanged)
+                    {
+                        bSave.Visible = true;
+
+                    }
+
+                }
+
+            }
+
+        } //DeleteTemplateItemFromView
+
+        private void ViewControlKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                DeleteTemplateItemFromView(sender, e);
+
+            }
+
+        } //ViewControlKeyUp
 
     } //EditWin
 

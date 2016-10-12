@@ -162,6 +162,22 @@ namespace Karabina.SharePoint.Provisioning
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Target0));
         }
 
+        private void bOptions_Click(object sender, EventArgs e)
+        {
+            if (_options == null)
+            {
+                _options = new ProvisioningOptions();
+            }
+            TemplateOptions templateOptions = new TemplateOptions("Template Apply Options", false);
+            templateOptions.ProvisioningOptions = _options;
+            DialogResult result = templateOptions.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                _options = templateOptions.ProvisioningOptions;
+            }
+
+        }
+
     }
 
 }

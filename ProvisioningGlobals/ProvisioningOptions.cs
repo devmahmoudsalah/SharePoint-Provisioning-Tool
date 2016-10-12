@@ -5,45 +5,45 @@ namespace Karabina.SharePoint.Provisioning
 {
     public class ProvisioningOptions
     {
-        private bool _includeRegionalSettings = true;
-        private bool _includeSupportedUILanguages = false;
-        private bool _includeAuditSettings = true;
-        private bool _includeSitePolicy = true;
-        private bool _includeSiteSecurity = true;
-        //private bool _includeTermGroups = false; //value set by _includeSiteCollectionTermGroup || _includeAllTermGroups
-        private bool _includeFields = true;
-        private bool _includeContentTypes = true;
-        private bool _includeListInstances = true;
-        private bool _includeCustomActions = true;
-        private bool _includeFeatures = true;
-        private bool _includeComposedLook = true;
-        //private bool _includeSearchSettings = false; //value set by _includeSearchConfiguration
-        //private bool _includeFiles = false; //value from _includeDocumentLibraryFiles || _includeImageFiles || _includeJavaScriptFiles || _includePublishingPages || _includeXSLStyleSheetFiles
-        //private bool _includePages = false; //value from _includePublishingPages || _includeXSLStyleSheetFiles;
-        private bool _includePageContents = true; //home page only
-        private bool _includePropertyBagEntries = false;
-        private bool _includePublishing = true;
-        private bool _includeWorkflows = true;
-        private bool _includeWebSettings = true;
-        private bool _includeNavigation = false;
+        private bool _regionalSettings = true;
+        private bool _supportedUILanguages = false;
+        private bool _auditSettings = true;
+        private bool _sitePolicy = true;
+        private bool _siteSecurity = true;
+        //private bool _TermGroups = false; //value set by _SiteCollectionTermGroup || _AllTermGroups
+        private bool _fields = true;
+        private bool _contentTypes = true;
+        private bool _listInstances = true;
+        private bool _customActions = true;
+        private bool _features = true;
+        private bool _composedLook = true;
+        //private bool _searchSettings = false; //value set by _searchConfiguration
+        //private bool _files = false; //value from _documentLibraryFiles || _imageFiles || _javaScriptFiles || _publishingPages || _xslStyleSheetFiles
+        //private bool _pages = false; //value from _publishingPages || _xslStyleSheetFiles;
+        private bool _pageContents = true; //home page only
+        private bool _propertyBagEntries = false;
+        private bool _publishing = true;
+        private bool _workflows = true;
+        private bool _webSettings = true;
+        private bool _navigation = false;
 
-        private bool _persistBrandingFiles = true;
-        private bool _persistMultiLanguageResourceFiles = false;
-        private bool _includeAllTermGroups = false;
-        private bool _includeSiteCollectionTermGroup = false;
-        private bool _includeSiteGroups = false;
-        private bool _includeTermGroupsSecurity = false;
-        private bool _includeSearchConfiguration = false;
-        private bool _persistPublishingFiles = true;
-        private bool _includeNativePublishingFiles = false;
-        private bool _includeLookupListItems = false;
-        private bool _includeGenericListItems = false;
-        private bool _includeDocumentLibraryFiles = false;
-        private bool _includeJavaScriptFiles = false;
-        private bool _includePublishingPages = false;
+        private bool _brandingFiles = true;
+        private bool _multiLanguageResourceFiles = false;
+        private bool _allTermGroups = false;
+        private bool _siteCollectionTermGroup = false;
+        private bool _siteGroups = false;
+        private bool _termGroupsSecurity = false;
+        private bool _searchConfiguration = false;
+        private bool _publishingFiles = true;
+        private bool _nativePublishingFiles = false;
+        private bool _lookupListItems = false;
+        private bool _genericListItems = false;
+        private bool _documentLibraryFiles = false;
+        private bool _javaScriptFiles = false;
+        private bool _publishingPages = false;
         private bool _excludeBaseTemplate = false;
-        private bool _includeXSLStyleSheetFiles = false;
-        private bool _includeImageFiles = false;
+        private bool _xslStyleSheetFiles = false;
+        private bool _imageFiles = false;
 
         private bool _authenticationRequired = true;
         private string _userNameOrEmail = string.Empty;
@@ -60,129 +60,129 @@ namespace Karabina.SharePoint.Provisioning
             //nothing currently
         }
 
-        public bool IncludeRegionalSettings
+        public bool RegionalSettings
         {
-            get { return _includeRegionalSettings; }
-            set { _includeRegionalSettings = value; }
+            get { return _regionalSettings; }
+            set { _regionalSettings = value; }
         }
 
-        public bool IncludeSupportedUILanguages
+        public bool SupportedUILanguages
         {
-            get { return _includeSupportedUILanguages; }
-            set { _includeSupportedUILanguages = value; }
+            get { return _supportedUILanguages; }
+            set { _supportedUILanguages = value; }
         }
 
-        public bool IncludeAuditSettings
+        public bool AuditSettings
         {
-            get { return _includeAuditSettings; }
-            set { _includeAuditSettings = value; }
+            get { return _auditSettings; }
+            set { _auditSettings = value; }
         }
 
-        public bool IncludeSitePolicy
+        public bool SitePolicy
         {
-            get { return _includeSitePolicy; }
-            set { _includeSitePolicy = value; }
+            get { return _sitePolicy; }
+            set { _sitePolicy = value; }
         }
 
-        public bool IncludeSiteSecurity
+        public bool SiteSecurity
         {
-            get { return _includeSiteSecurity; }
-            set { _includeSiteSecurity = value; }
+            get { return _siteSecurity; }
+            set { _siteSecurity = value; }
         }
 
-        public bool IncludeTermGroups
+        public bool TermGroups
         {
             get
             {
-                return _includeSiteCollectionTermGroup || _includeAllTermGroups;
+                return _siteCollectionTermGroup || _allTermGroups;
             }
         }
 
-        public bool IncludeFields
+        public bool Fields
         {
-            get { return _includeFields; }
-            set { _includeFields = value; }
+            get { return _fields; }
+            set { _fields = value; }
         }
 
-        public bool IncludeContentTypes
+        public bool ContentTypes
         {
-            get { return _includeContentTypes; }
-            set { _includeContentTypes = value; }
+            get { return _contentTypes; }
+            set { _contentTypes = value; }
         }
 
-        public bool IncludeListInstances
+        public bool ListInstances
         {
-            get { return _includeListInstances; }
-            set { _includeListInstances = value; }
+            get { return _listInstances; }
+            set { _listInstances = value; }
         }
 
-        public bool IncludeCustomActions
+        public bool CustomActions
         {
-            get { return _includeCustomActions; }
-            set { _includeCustomActions = value; }
+            get { return _customActions; }
+            set { _customActions = value; }
         }
 
-        public bool IncludeFeatures
+        public bool Features
         {
-            get { return _includeFeatures; }
-            set { _includeFeatures = value; }
+            get { return _features; }
+            set { _features = value; }
         }
 
-        public bool IncludeComposedLook
+        public bool ComposedLook
         {
-            get { return _includeComposedLook; }
-            set { _includeComposedLook = value; }
+            get { return _composedLook; }
+            set { _composedLook = value; }
         }
 
-        public bool IncludeSearchSettings
+        public bool SearchSettings
         {
-            get { return _includeSearchConfiguration; }
+            get { return _searchConfiguration; }
         }
 
-        public bool IncludeFiles
+        public bool Files
         {
-            get { return _includeDocumentLibraryFiles || _includeImageFiles || _includeJavaScriptFiles || _includePublishingPages || _includeXSLStyleSheetFiles; }
+            get { return _documentLibraryFiles || _imageFiles || _javaScriptFiles || _publishingPages || _xslStyleSheetFiles; }
         }
 
-        public bool IncludePages
+        public bool Pages
         {
-            get { return _includePublishingPages || _includeXSLStyleSheetFiles; }
+            get { return _publishingPages || _xslStyleSheetFiles; }
         }
 
-        public bool IncludePageContents
+        public bool PageContents
         {
-            get { return _includePageContents; }
-            set { _includePageContents = value; }
+            get { return _pageContents; }
+            set { _pageContents = value; }
         }
 
-        public bool IncludePropertyBagEntries
+        public bool PropertyBagEntries
         {
-            get { return _includePropertyBagEntries; }
-            set { _includePropertyBagEntries = value; }
+            get { return _propertyBagEntries; }
+            set { _propertyBagEntries = value; }
         }
 
-        public bool IncludePublishing
+        public bool Publishing
         {
-            get { return _includePublishing; }
-            set { _includePublishing = value; }
+            get { return _publishing; }
+            set { _publishing = value; }
         }
 
-        public bool IncludeWorkflows
+        public bool Workflows
         {
-            get { return _includeWorkflows; }
-            set { _includeWorkflows = value; }
+            get { return _workflows; }
+            set { _workflows = value; }
         }
 
-        public bool IncludeWebSettings
+        public bool WebSettings
         {
-            get { return _includeWebSettings; }
-            set { _includeWebSettings = value; }
+            get { return _webSettings; }
+            set { _webSettings = value; }
         }
 
-        public bool IncludeNavigation
+        public bool Navigation
         {
-            get { return _includeNavigation; }
-            set { _includeNavigation = value; }
+            get { return _navigation; }
+            set { _navigation = value; }
         }
 
         public bool ExtensibilityProviders
@@ -193,97 +193,97 @@ namespace Karabina.SharePoint.Provisioning
         /// <summary>
         /// Will create resource files named "PnP_Resource_[LCID].resx for every supported language.
         /// </summary>
-        public bool PersistMultiLanguageResources
+        public bool MultiLanguageResources
         {
-            get { return _persistMultiLanguageResourceFiles; }
-            set { _persistMultiLanguageResourceFiles = value; }
+            get { return _multiLanguageResourceFiles; }
+            set { _multiLanguageResourceFiles = value; }
         }
 
         /// <summary>
         /// Do composed look files (theme files, site logo, alternate css)
         /// </summary>
-        public bool PersistBrandingFiles
+        public bool BrandingFiles
         {
-            get { return _persistBrandingFiles; }
-            set { _persistBrandingFiles = value; }
+            get { return _brandingFiles; }
+            set { _brandingFiles = value; }
         }
 
         /// <summary>
-        /// Defines whether to persist publishing files (MasterPages and PageLayouts)
+        /// Defines whether to extract or apply publishing files (MasterPages and PageLayouts)
         /// </summary>
-        public bool PersistPublishingFiles
+        public bool PublishingFiles
         {
-            get { return _persistPublishingFiles; }
-            set { _persistPublishingFiles = value; }
+            get { return _publishingFiles; }
+            set { _publishingFiles = value; }
         }
 
         /// <summary>
-        /// Defines whether to extract native publishing files (MasterPages and PageLayouts)
+        /// Defines whether to extract or applay native publishing files (MasterPages and PageLayouts)
         /// </summary>
-        public bool IncludeNativePublishingFiles
+        public bool NativePublishingFiles
         {
-            get { return _includeNativePublishingFiles; }
-            set { _includeNativePublishingFiles = value; }
+            get { return _nativePublishingFiles; }
+            set { _nativePublishingFiles = value; }
         }
 
-        public bool IncludeAllTermGroups
+        public bool AllTermGroups
         {
-            get { return _includeAllTermGroups; }
-            set { _includeAllTermGroups = value; }
+            get { return _allTermGroups; }
+            set { _allTermGroups = value; }
         }
 
-        public bool IncludeSiteCollectionTermGroup
+        public bool SiteCollectionTermGroup
         {
-            get { return _includeSiteCollectionTermGroup; }
-            set { _includeSiteCollectionTermGroup = value; }
+            get { return _siteCollectionTermGroup; }
+            set { _siteCollectionTermGroup = value; }
         }
 
-        public bool IncludeTermGroupsSecurity
+        public bool TermGroupsSecurity
         {
-            get { return _includeTermGroupsSecurity; }
-            set { _includeTermGroupsSecurity = value; }
+            get { return _termGroupsSecurity; }
+            set { _termGroupsSecurity = value; }
         }
 
-        public bool IncludeSiteGroups
+        public bool SiteGroups
         {
-            get { return _includeSiteGroups; }
-            set { _includeSiteGroups = value; }
+            get { return _siteGroups; }
+            set { _siteGroups = value; }
         }
 
-        public bool IncludeSearchConfiguration
+        public bool SearchConfiguration
         {
-            get { return _includeSearchConfiguration; }
-            set { _includeSearchConfiguration = value; }
+            get { return _searchConfiguration; }
+            set { _searchConfiguration = value; }
         }
 
-        public bool IncludeLookupListItems
+        public bool LookupListItems
         {
-            get { return _includeLookupListItems; }
-            set { _includeLookupListItems = value; }
+            get { return _lookupListItems; }
+            set { _lookupListItems = value; }
         }
 
-        public bool IncludeGenericListItems
+        public bool GenericListItems
         {
-            get { return _includeGenericListItems; }
-            set { _includeGenericListItems = value; }
+            get { return _genericListItems; }
+            set { _genericListItems = value; }
         }
 
-        public bool IncludeDocumentLibraryFiles
+        public bool DocumentLibraryFiles
         {
-            get { return _includeDocumentLibraryFiles; }
-            set { _includeDocumentLibraryFiles = value; }
+            get { return _documentLibraryFiles; }
+            set { _documentLibraryFiles = value; }
         }
 
-        public bool IncludeJavaScriptFiles
+        public bool JavaScriptFiles
         {
-            get { return _includeJavaScriptFiles; }
-            set { _includeJavaScriptFiles = value; }
+            get { return _javaScriptFiles; }
+            set { _javaScriptFiles = value; }
         }
 
-        public bool IncludePublishingPages
+        public bool PublishingPages
         {
-            get { return _includePublishingPages; }
-            set { _includePublishingPages = value; }
+            get { return _publishingPages; }
+            set { _publishingPages = value; }
         }
 
         public bool ExcludeBaseTemplate
@@ -292,16 +292,16 @@ namespace Karabina.SharePoint.Provisioning
             set { _excludeBaseTemplate = value; }
         }
 
-        public bool IncludeXSLStyleSheetFiles
+        public bool XSLStyleSheetFiles
         {
-            get { return _includeXSLStyleSheetFiles; }
-            set { _includeXSLStyleSheetFiles = value; }
+            get { return _xslStyleSheetFiles; }
+            set { _xslStyleSheetFiles = value; }
         }
 
-        public bool IncludeImageFiles
+        public bool ImageFiles
         {
-            get { return _includeImageFiles; }
-            set { _includeImageFiles = value; }
+            get { return _imageFiles; }
+            set { _imageFiles = value; }
         }
 
         public bool AuthenticationRequired
@@ -359,23 +359,23 @@ namespace Karabina.SharePoint.Provisioning
         {
             get
             {
-                if (_includeRegionalSettings) { return true; }
-                if (_includeSupportedUILanguages) { return true; }
-                if (_includeAuditSettings) { return true; }
-                if (_includeSitePolicy) { return true; }
-                if (_includeSiteSecurity) { return true; }
-                if (_includeFields) { return true; }
-                if (_includeContentTypes) { return true; }
-                if (_includeListInstances) { return true; }
-                if (_includeCustomActions) { return true; }
-                if (_includeFeatures) { return true; }
-                if (_includeComposedLook) { return true; }
-                if (_includePageContents) { return true; }
-                if (_includePropertyBagEntries) { return true; }
-                if (_includePublishing) { return true; }
-                if (_includeWorkflows) { return true; }
-                if (_includeWebSettings) { return true; }
-                if (_includeNavigation) { return true; }
+                if (_regionalSettings) { return true; }
+                if (_supportedUILanguages) { return true; }
+                if (_auditSettings) { return true; }
+                if (_sitePolicy) { return true; }
+                if (_siteSecurity) { return true; }
+                if (_fields) { return true; }
+                if (_contentTypes) { return true; }
+                if (_listInstances) { return true; }
+                if (_customActions) { return true; }
+                if (_features) { return true; }
+                if (_composedLook) { return true; }
+                if (_pageContents) { return true; }
+                if (_propertyBagEntries) { return true; }
+                if (_publishing) { return true; }
+                if (_workflows) { return true; }
+                if (_webSettings) { return true; }
+                if (_navigation) { return true; }
                 return false;
             }
         }
@@ -384,40 +384,40 @@ namespace Karabina.SharePoint.Provisioning
         {
             get
             {
-                if (_includeRegionalSettings) { return true; }
-                if (_includeSupportedUILanguages) { return true; }
-                if (_includeAuditSettings) { return true; }
-                if (_includeSitePolicy) { return true; }
-                if (_includeSiteSecurity) { return true; }
-                if (_includeFields) { return true; }
-                if (_includeContentTypes) { return true; }
-                if (_includeListInstances) { return true; }
-                if (_includeCustomActions) { return true; }
-                if (_includeFeatures) { return true; }
-                if (_includeComposedLook) { return true; }
-                if (_includePageContents) { return true; }
-                if (_includePropertyBagEntries) { return true; }
-                if (_includePublishing) { return true; }
-                if (_includeWorkflows) { return true; }
-                if (_includeWebSettings) { return true; }
-                if (_includeNavigation) { return true; }
-                if (_persistBrandingFiles) { return true; }
-                if (_persistMultiLanguageResourceFiles) { return true; }
-                if (_includeAllTermGroups) { return true; }
-                if (_includeSiteCollectionTermGroup) { return true; }
-                if (_includeSiteGroups) { return true; }
-                if (_includeTermGroupsSecurity) { return true; }
-                if (_includeSearchConfiguration) { return true; }
-                if (_persistPublishingFiles) { return true; }
-                if (_includeNativePublishingFiles) { return true; }
-                if (_includeLookupListItems) { return true; }
-                if (_includeGenericListItems) { return true; }
-                if (_includeDocumentLibraryFiles) { return true; }
-                if (_includeJavaScriptFiles) { return true; }
-                if (_includePublishingPages) { return true; }
+                if (_regionalSettings) { return true; }
+                if (_supportedUILanguages) { return true; }
+                if (_auditSettings) { return true; }
+                if (_sitePolicy) { return true; }
+                if (_siteSecurity) { return true; }
+                if (_fields) { return true; }
+                if (_contentTypes) { return true; }
+                if (_listInstances) { return true; }
+                if (_customActions) { return true; }
+                if (_features) { return true; }
+                if (_composedLook) { return true; }
+                if (_pageContents) { return true; }
+                if (_propertyBagEntries) { return true; }
+                if (_publishing) { return true; }
+                if (_workflows) { return true; }
+                if (_webSettings) { return true; }
+                if (_navigation) { return true; }
+                if (_brandingFiles) { return true; }
+                if (_multiLanguageResourceFiles) { return true; }
+                if (_allTermGroups) { return true; }
+                if (_siteCollectionTermGroup) { return true; }
+                if (_siteGroups) { return true; }
+                if (_termGroupsSecurity) { return true; }
+                if (_searchConfiguration) { return true; }
+                if (_publishingFiles) { return true; }
+                if (_nativePublishingFiles) { return true; }
+                if (_lookupListItems) { return true; }
+                if (_genericListItems) { return true; }
+                if (_documentLibraryFiles) { return true; }
+                if (_javaScriptFiles) { return true; }
+                if (_publishingPages) { return true; }
                 if (_excludeBaseTemplate) { return true; }
-                if (_includeXSLStyleSheetFiles) { return true; }
-                if (_includeImageFiles) { return true; }
+                if (_xslStyleSheetFiles) { return true; }
+                if (_imageFiles) { return true; }
 
                 return false;
             }
@@ -429,23 +429,23 @@ namespace Karabina.SharePoint.Provisioning
             {
                 int count = 0;
 
-                if (_includeRegionalSettings) { count++; }
-                if (_includeSupportedUILanguages) { count++; }
-                if (_includeAuditSettings) { count++; }
-                if (_includeSitePolicy) { count++; }
-                if (_includeSiteSecurity) { count++; }
-                if (_includeFields) { count++; }
-                if (_includeContentTypes) { count++; }
-                if (_includeListInstances) { count++; }
-                if (_includeCustomActions) { count++; }
-                if (_includeFeatures) { count++; }
-                if (_includeComposedLook) { count++; }
-                if (_includePageContents) { count++; }
-                if (_includePropertyBagEntries) { count++; } 
-                if (_includePublishing) { count++; }
-                if (_includeWorkflows) { count++; }
-                if (_includeWebSettings) { count++; }
-                if (_includeNavigation) { count++; }
+                if (_regionalSettings) { count++; }
+                if (_supportedUILanguages) { count++; }
+                if (_auditSettings) { count++; }
+                if (_sitePolicy) { count++; }
+                if (_siteSecurity) { count++; }
+                if (_fields) { count++; }
+                if (_contentTypes) { count++; }
+                if (_listInstances) { count++; }
+                if (_customActions) { count++; }
+                if (_features) { count++; }
+                if (_composedLook) { count++; }
+                if (_pageContents) { count++; }
+                if (_propertyBagEntries) { count++; } 
+                if (_publishing) { count++; }
+                if (_workflows) { count++; }
+                if (_webSettings) { count++; }
+                if (_navigation) { count++; }
 
                 return count > 1;
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Security;
 
@@ -6,6 +7,8 @@ namespace Karabina.SharePoint.Provisioning
 {
     public partial class SharePointProvisioningTool : Form
     {
+        private Color KarabinaRed = Color.FromArgb(Constants.Karabina_Red, Constants.Karabina_Green, Constants.Karabina_Blue);
+
         private SharePoint2013OnPrem _sp2013OnPrem = null;
         private SharePoint2016OnPrem _sp2016OnPrem = null;
         private SharePoint2016Online _sp2016Online = null;
@@ -15,6 +18,7 @@ namespace Karabina.SharePoint.Provisioning
         public SharePointProvisioningTool()
         {
             InitializeComponent();
+
         }
 
         private string OpenFile()
@@ -25,10 +29,12 @@ namespace Karabina.SharePoint.Provisioning
             if (!string.IsNullOrWhiteSpace(lastFolder))
             {
                 openFileDialog.InitialDirectory = lastFolder;
+
             }
             else
             {
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
             }
 
             openFileDialog.Filter = Constants.File_Dialog_Filter;
@@ -37,6 +43,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 lastFolder = openFileDialog.FileName.Substring(0, openFileDialog.FileName.LastIndexOf('\\'));
                 fileName = openFileDialog.FileName;
+
             }
 
             return fileName;
@@ -50,10 +57,12 @@ namespace Karabina.SharePoint.Provisioning
             if (!string.IsNullOrWhiteSpace(lastFolder))
             {
                 saveFileDialog.InitialDirectory = lastFolder;
+
             }
             else
             {
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
             }
 
             saveFileDialog.Filter = Constants.File_Dialog_Filter;
@@ -62,9 +71,11 @@ namespace Karabina.SharePoint.Provisioning
             {
                 lastFolder = saveFileDialog.FileName.Substring(0, saveFileDialog.FileName.LastIndexOf('\\'));
                 fileName = saveFileDialog.FileName;
+
             }
 
             return fileName;
+
         }
 
         private void DestroyForm(object sender, FormClosedEventArgs e)
@@ -74,8 +85,10 @@ namespace Karabina.SharePoint.Provisioning
                 Form closedForm = sender as Form;
                 closedForm.Dispose();
                 closedForm = null;
+
             }
             catch { }
+
         }
 
         private ProgressWin StartProgressWin(bool isCreating, string sharePointVersion)
@@ -87,16 +100,20 @@ namespace Karabina.SharePoint.Provisioning
             if (isCreating)
             {
                 progressWin.Text = "Creating provisioning template from " + sharePointVersion;
+
             }
             else
             {
                 progressWin.Text = "Applying provisioning template to " + sharePointVersion;
+
             }
+
             progressWin.SetStatusBarText = SetStatusBarText;
             progressWin.SetButtonState(false);
             progressWin.Show();
             Application.DoEvents();
             return progressWin;
+
         }
 
         private void FinishProgressWin(ProgressWin progressWin)
@@ -104,6 +121,7 @@ namespace Karabina.SharePoint.Provisioning
             progressWin.SetButtonState(true);
             progressWin.BringToFront();
             progressWin.SetButtonFocus();
+
         }
 
         private bool CreateSPTemplate(Form callee, ProvisioningOptions provisioningOptions)
@@ -119,24 +137,34 @@ namespace Karabina.SharePoint.Provisioning
                     if (_sp2013OnPrem == null)
                     {
                         _sp2013OnPrem = new SharePoint2013OnPrem();
+
                     }
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_On_Premise:
                     spVerionTitle = Constants.SharePoint_2016_On_Premise;
                     if (_sp2016OnPrem == null)
                     {
                         _sp2016OnPrem = new SharePoint2016OnPrem();
+
                     }
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_OnLine:
                     spVerionTitle = Constants.SharePoint_2016_Online;
                     if (_sp2016Online == null)
                     {
                         _sp2016Online = new SharePoint2016Online();
+
                     }
+
                     break;
+
                 default:
                     break;
+
             }
 
             ProgressWin progressWin = StartProgressWin(true, spVerionTitle);
@@ -145,21 +173,29 @@ namespace Karabina.SharePoint.Provisioning
             {
                 case SharePointVersion.SharePoint_2013_On_Premise:
                     result = _sp2013OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_On_Premise:
                     result = _sp2016OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_OnLine:
                     result = _sp2016Online.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+
                     break;
+
                 default:
                     break;
+
             }
 
             callForm.Visible = true;
 
             FinishProgressWin(progressWin);
             return result;
+
         }
 
         private bool ApplySPTemplate(Form callee, ProvisioningOptions provisioningOptions)
@@ -176,22 +212,31 @@ namespace Karabina.SharePoint.Provisioning
                     if (_sp2013OnPrem == null)
                     {
                         _sp2013OnPrem = new SharePoint2013OnPrem();
+
                     }
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_On_Premise:
                     spVerionTitle = Constants.SharePoint_2016_On_Premise;
                     if (_sp2016OnPrem == null)
                     {
                         _sp2016OnPrem = new SharePoint2016OnPrem();
+
                     }
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_OnLine:
                     spVerionTitle = Constants.SharePoint_2016_Online;
                     if (_sp2016Online == null)
                     {
                         _sp2016Online = new SharePoint2016Online();
+
                     }
+
                     break;
+
             }
 
             ProgressWin progressWin = StartProgressWin(false, spVerionTitle);
@@ -200,12 +245,17 @@ namespace Karabina.SharePoint.Provisioning
             {
                 case SharePointVersion.SharePoint_2013_On_Premise:
                     result = _sp2013OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_On_Premise:
                     result = _sp2016OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+
                     break;
+
                 case SharePointVersion.SharePoint_2016_OnLine:
                     result = _sp2016Online.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+
                     break;
 
             }
@@ -213,6 +263,7 @@ namespace Karabina.SharePoint.Provisioning
             callForm.Visible = true;
             FinishProgressWin(progressWin);
             return result;
+
         }
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
@@ -220,37 +271,48 @@ namespace Karabina.SharePoint.Provisioning
             if (_sp2016Online != null)
             {
                 _sp2016Online = null;
+
             }
+
             if (_sp2016OnPrem != null)
             {
                 _sp2016OnPrem = null;
+
             }
+
             if (_sp2013OnPrem != null)
             {
                 _sp2013OnPrem = null;
+
             }
+
             Close();
+
         }
 
 
         private void CascadeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.Cascade);
+
         }
 
         private void TileVerticalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.TileVertical);
+
         }
 
         private void TileHorizontalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.TileHorizontal);
+
         }
 
         private void ArrangeIconsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.ArrangeIcons);
+
         }
 
         private void ShowApplyForm(object sender, EventArgs e)
@@ -276,15 +338,22 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     case SharePointVersion.SharePoint_2013_On_Premise:
                         applyForm.Text += Constants.SharePoint_2013_On_Premise;
+
                         break;
+
                     case SharePointVersion.SharePoint_2016_On_Premise:
                         applyForm.Text += Constants.SharePoint_2016_On_Premise;
+
                         break;
+
                     case SharePointVersion.SharePoint_2016_OnLine:
                         applyForm.Text += Constants.SharePoint_2016_Online;
+
                         break;
+
                     default:
                         break;
+
                 }
 
                 applyForm.ApplyTemplate = ApplySPTemplate;
@@ -298,7 +367,9 @@ namespace Karabina.SharePoint.Provisioning
                 applyForm.MdiParent = this;
 
                 applyForm.Show();
+
             }
+
         }
 
         private void ShowCreateForm(object sender, EventArgs e)
@@ -324,15 +395,22 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     case SharePointVersion.SharePoint_2013_On_Premise:
                         createForm.Text += Constants.SharePoint_2013_On_Premise;
+
                         break;
+
                     case SharePointVersion.SharePoint_2016_On_Premise:
                         createForm.Text += Constants.SharePoint_2016_On_Premise;
+
                         break;
+
                     case SharePointVersion.SharePoint_2016_OnLine:
                         createForm.Text += Constants.SharePoint_2016_Online;
+
                         break;
+
                     default:
                         break;
+
                 }
 
                 createForm.CreateTemplate = CreateSPTemplate;
@@ -346,6 +424,7 @@ namespace Karabina.SharePoint.Provisioning
                 createForm.MdiParent = this;
 
                 createForm.Show();
+
             }
 
         }
@@ -378,24 +457,35 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             _sp2013OnPrem = new SharePoint2013OnPrem();
                         }
+
                         editForm.SP2013OP = _sp2013OnPrem;
+
                         break;
+
                     case SharePointVersion.SharePoint_2016_On_Premise:
                         editForm.Text += Constants.SharePoint_2016_On_Premise;
                         if (_sp2016OnPrem == null)
                         {
                             _sp2016OnPrem = new SharePoint2016OnPrem();
+
                         }
+
                         editForm.SP2016OP = _sp2016OnPrem;
+
                         break;
+
                     case SharePointVersion.SharePoint_2016_OnLine:
                         editForm.Text += Constants.SharePoint_2016_Online;
                         if (_sp2016Online == null)
                         {
                             _sp2016Online = new SharePoint2016Online();
+
                         }
+
                         editForm.SP2016OL = _sp2016Online;
+
                         break;
+
                     default:
                         break;
                 }
@@ -407,6 +497,7 @@ namespace Karabina.SharePoint.Provisioning
                 editForm.MdiParent = this;
 
                 editForm.Show();
+
             }
 
         }
@@ -414,6 +505,7 @@ namespace Karabina.SharePoint.Provisioning
         private void SetStatusBarText(string message)
         {
             toolStripStatusLabel.Text = message;
+
         }
 
         private void SetStatusText(object sender, EventArgs e)
@@ -421,12 +513,15 @@ namespace Karabina.SharePoint.Provisioning
             string tag = Constants.String0;
             tag = (sender as ToolStripItem).Tag.ToString();
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+
         }
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.String0));
+
         }
+
     }
 
 }

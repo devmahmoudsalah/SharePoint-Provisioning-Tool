@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditWin));
             this.tvTemplate = new System.Windows.Forms.TreeView();
             this.cmsTreeViewPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTVDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.tbTemplate = new System.Windows.Forms.TextBox();
             this.lTemplate = new System.Windows.Forms.Label();
             this.bBrowse = new System.Windows.Forms.Button();
@@ -103,9 +103,12 @@
             this.pListControl = new System.Windows.Forms.Panel();
             this.lbListControl = new System.Windows.Forms.ListBox();
             this.cmsListControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lListControl = new System.Windows.Forms.Label();
+            this.cmsViewControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiVCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiVCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsTreeViewPopup.SuspendLayout();
             this.pRegionalSettings.SuspendLayout();
             this.pComposedLook.SuspendLayout();
@@ -114,6 +117,7 @@
             this.pViewControl.SuspendLayout();
             this.pListControl.SuspendLayout();
             this.cmsListControlPopup.SuspendLayout();
+            this.cmsViewControlPopup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvTemplate
@@ -135,16 +139,16 @@
             // cmsTreeViewPopup
             // 
             this.cmsTreeViewPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiDelete});
+            this.tsmiTVDelete});
             this.cmsTreeViewPopup.Name = "cmsTreeViewPopup";
             this.cmsTreeViewPopup.Size = new System.Drawing.Size(182, 26);
             // 
-            // tsmiDelete
+            // tsmiTVDelete
             // 
-            this.tsmiDelete.Name = "tsmiDelete";
-            this.tsmiDelete.Size = new System.Drawing.Size(181, 22);
-            this.tsmiDelete.Text = "Delete Selected Item";
-            this.tsmiDelete.Click += new System.EventHandler(this.DeleteTemplateItem);
+            this.tsmiTVDelete.Name = "tsmiTVDelete";
+            this.tsmiTVDelete.Size = new System.Drawing.Size(181, 22);
+            this.tsmiTVDelete.Text = "Delete Selected Item";
+            this.tsmiTVDelete.Click += new System.EventHandler(this.DeleteTemplateItem);
             // 
             // tbTemplate
             // 
@@ -837,9 +841,11 @@
             this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.pbeKey,
             this.pbeValue});
+            this.lvViewControl.ContextMenuStrip = this.cmsViewControlPopup;
             this.lvViewControl.FullRowSelect = true;
             this.lvViewControl.GridLines = true;
             this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvViewControl.HideSelection = false;
             this.lvViewControl.Location = new System.Drawing.Point(13, 29);
             this.lvViewControl.Name = "lvViewControl";
             this.lvViewControl.ShowGroups = false;
@@ -848,6 +854,7 @@
             this.lvViewControl.UseCompatibleStateImageBehavior = false;
             this.lvViewControl.View = System.Windows.Forms.View.Details;
             this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
+            this.lvViewControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ViewControlKeyUp);
             // 
             // pbeKey
             // 
@@ -895,24 +902,24 @@
             // cmsListControlPopup
             // 
             this.cmsListControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiSelectAll,
-            this.tsmiDeleteItem});
+            this.tsmiLCSelectAll,
+            this.tsmiLCDeleteItem});
             this.cmsListControlPopup.Name = "cmsListControlPopup";
             this.cmsListControlPopup.Size = new System.Drawing.Size(195, 48);
             // 
-            // tsmiSelectAll
+            // tsmiLCSelectAll
             // 
-            this.tsmiSelectAll.Name = "tsmiSelectAll";
-            this.tsmiSelectAll.Size = new System.Drawing.Size(194, 22);
-            this.tsmiSelectAll.Text = "Select All";
-            this.tsmiSelectAll.Click += new System.EventHandler(this.ListControlSelectAll);
+            this.tsmiLCSelectAll.Name = "tsmiLCSelectAll";
+            this.tsmiLCSelectAll.Size = new System.Drawing.Size(194, 22);
+            this.tsmiLCSelectAll.Text = "Select All";
+            this.tsmiLCSelectAll.Click += new System.EventHandler(this.ListControlSelectAll);
             // 
-            // tsmiDeleteItem
+            // tsmiLCDeleteItem
             // 
-            this.tsmiDeleteItem.Name = "tsmiDeleteItem";
-            this.tsmiDeleteItem.Size = new System.Drawing.Size(194, 22);
-            this.tsmiDeleteItem.Text = "Delete Selected Item(s)";
-            this.tsmiDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromList);
+            this.tsmiLCDeleteItem.Name = "tsmiLCDeleteItem";
+            this.tsmiLCDeleteItem.Size = new System.Drawing.Size(194, 22);
+            this.tsmiLCDeleteItem.Text = "Delete Selected Item(s)";
+            this.tsmiLCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromList);
             // 
             // lListControl
             // 
@@ -923,6 +930,28 @@
             this.lListControl.Size = new System.Drawing.Size(69, 15);
             this.lListControl.TabIndex = 1;
             this.lListControl.Text = "List control:";
+            // 
+            // cmsViewControlPopup
+            // 
+            this.cmsViewControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiVCSelectAll,
+            this.tsmiVCDeleteItem});
+            this.cmsViewControlPopup.Name = "cmsViewControlPopup";
+            this.cmsViewControlPopup.Size = new System.Drawing.Size(195, 48);
+            // 
+            // tsmiVCSelectAll
+            // 
+            this.tsmiVCSelectAll.Name = "tsmiVCSelectAll";
+            this.tsmiVCSelectAll.Size = new System.Drawing.Size(194, 22);
+            this.tsmiVCSelectAll.Text = "Select All";
+            this.tsmiVCSelectAll.Click += new System.EventHandler(this.ViewControlSelectAll);
+            // 
+            // tsmiVCDeleteItem
+            // 
+            this.tsmiVCDeleteItem.Name = "tsmiVCDeleteItem";
+            this.tsmiVCDeleteItem.Size = new System.Drawing.Size(194, 22);
+            this.tsmiVCDeleteItem.Text = "Delete Selected Item(s)";
+            this.tsmiVCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromView);
             // 
             // EditWin
             // 
@@ -962,6 +991,7 @@
             this.pListControl.ResumeLayout(false);
             this.pListControl.PerformLayout();
             this.cmsListControlPopup.ResumeLayout(false);
+            this.cmsViewControlPopup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1033,7 +1063,7 @@
         private System.Windows.Forms.TextBox tbWSTitle;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ContextMenuStrip cmsTreeViewPopup;
-        private System.Windows.Forms.ToolStripMenuItem tsmiDelete;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTVDelete;
         private System.Windows.Forms.Panel pViewControl;
         private System.Windows.Forms.ListView lvViewControl;
         private System.Windows.Forms.ColumnHeader pbeKey;
@@ -1043,7 +1073,10 @@
         private System.Windows.Forms.ListBox lbListControl;
         private System.Windows.Forms.Label lListControl;
         private System.Windows.Forms.ContextMenuStrip cmsListControlPopup;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSelectAll;
-        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLCSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLCDeleteItem;
+        private System.Windows.Forms.ContextMenuStrip cmsViewControlPopup;
+        private System.Windows.Forms.ToolStripMenuItem tsmiVCSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem tsmiVCDeleteItem;
     }
 }

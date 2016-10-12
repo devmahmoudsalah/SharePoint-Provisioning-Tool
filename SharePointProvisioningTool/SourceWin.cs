@@ -156,7 +156,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 _options = new ProvisioningOptions();
             }
-            TemplateOptions templateOptions = new TemplateOptions();
+            TemplateOptions templateOptions = new TemplateOptions("Template Creation Options", true);
             templateOptions.ProvisioningOptions = _options;
             DialogResult result = templateOptions.ShowDialog(this);
             if(result== DialogResult.OK)

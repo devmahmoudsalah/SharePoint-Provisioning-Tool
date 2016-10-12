@@ -102,6 +102,17 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetChildren
 
+        public void SetChildrenDeleted(string parentId)
+        {
+            FindAll(p => p.ParentId.Equals(parentId, StringComparison.Ordinal)).ForEach(
+                delegate (TemplateItem item)
+                {
+                    item.IsDeleted = true;
+
+                });
+
+        } //SetChildrenDeleted
+
         public object GetContent(string id)
         {
             object result = null;

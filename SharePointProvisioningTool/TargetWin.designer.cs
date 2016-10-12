@@ -235,6 +235,7 @@
             this.bOptions.Tag = "Target7";
             this.bOptions.Text = "Options";
             this.bOptions.UseVisualStyleBackColor = true;
+            this.bOptions.Click += new System.EventHandler(this.bOptions_Click);
             this.bOptions.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.bOptions.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 

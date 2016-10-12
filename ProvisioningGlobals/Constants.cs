@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Karabina.SharePoint.Provisioning
 {
     public enum SharePointVersion
@@ -133,6 +128,9 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly string Target0 = "Target0";
         public static readonly string Progress0 = "Progress0";
         public static readonly int Hijri_CalendarId = 6;
+        public static readonly int Karabina_Red = 204;
+        public static readonly int Karabina_Green = 0;
+        public static readonly int Karabina_Blue = Karabina_Green;
 
     } //Constants
 

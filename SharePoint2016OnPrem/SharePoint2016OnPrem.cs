@@ -354,7 +354,7 @@ namespace Karabina.SharePoint.Provisioning
             int total = 0;
             WriteMessage($"Info: Start performing {baseTemplate.BaseSiteTemplate} template clean up");
 
-            if (provisioningOptions.IncludeCustomActions)
+            if (provisioningOptions.CustomActions)
             {
                 if ((baseTemplate.CustomActions != null) &&
                     (template.CustomActions != null))
@@ -392,7 +392,7 @@ namespace Karabina.SharePoint.Provisioning
                 }
 
             }
-            if (provisioningOptions.IncludeFeatures)
+            if (provisioningOptions.Features)
             {
                 if ((baseTemplate.Features != null) &&
                     (template.Features != null))
@@ -426,7 +426,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
                 }
             }
-            if (provisioningOptions.IncludeFields)
+            if (provisioningOptions.Fields)
             {
                 if ((baseTemplate.SiteFields != null) &&
                     (template.SiteFields != null))
@@ -479,7 +479,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludeFiles)
+            if (provisioningOptions.Files)
             {
                 if ((baseTemplate.Files != null) &&
                     (template.Files != null))
@@ -497,7 +497,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludeListInstances)
+            if (provisioningOptions.ListInstances)
             {
                 if ((baseTemplate.Lists != null) &&
                     (template.Lists != null))
@@ -515,7 +515,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludePages)
+            if (provisioningOptions.Pages)
             {
                 if ((baseTemplate.Pages != null) &&
                     (template.Pages != null))
@@ -534,7 +534,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludePublishing)
+            if (provisioningOptions.Publishing)
             {
                 if ((baseTemplate.Publishing != null) &&
                     (template.Publishing != null))
@@ -573,7 +573,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludeSupportedUILanguages)
+            if (provisioningOptions.SupportedUILanguages)
             {
                 if ((baseTemplate.SupportedUILanguages != null) &&
                     (template.SupportedUILanguages != null))
@@ -592,7 +592,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludeTermGroups)
+            if (provisioningOptions.TermGroups)
             {
                 if ((baseTemplate.TermGroups != null) &&
                     (template.TermGroups != null))
@@ -611,7 +611,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludeWorkflows)
+            if (provisioningOptions.Workflows)
             {
                 if ((baseTemplate.Workflows != null) &&
                     (template.Workflows != null))
@@ -653,7 +653,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludeContentTypes)
+            if (provisioningOptions.ContentTypes)
             {
                 if ((baseTemplate.ContentTypes != null) &&
                     (template.ContentTypes != null))
@@ -672,7 +672,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (provisioningOptions.IncludePropertyBagEntries)
+            if (provisioningOptions.PropertyBagEntries)
             {
                 if ((baseTemplate.PropertyBagEntries != null) &&
                     (template.PropertyBagEntries != null))
@@ -908,38 +908,38 @@ namespace Karabina.SharePoint.Provisioning
 
                     ProvisioningTemplateCreationInformation ptci = new ProvisioningTemplateCreationInformation(web);
 
-                    ptci.IncludeAllTermGroups = provisioningOptions.IncludeAllTermGroups;
-                    ptci.IncludeNativePublishingFiles = provisioningOptions.IncludeNativePublishingFiles;
-                    ptci.IncludeSearchConfiguration = provisioningOptions.IncludeSearchConfiguration;
-                    ptci.IncludeSiteCollectionTermGroup = provisioningOptions.IncludeSiteCollectionTermGroup;
-                    ptci.IncludeSiteGroups = provisioningOptions.IncludeSiteGroups;
-                    ptci.IncludeTermGroupsSecurity = provisioningOptions.IncludeTermGroupsSecurity;
-                    ptci.PersistBrandingFiles = provisioningOptions.PersistBrandingFiles;
-                    ptci.PersistMultiLanguageResources = provisioningOptions.PersistMultiLanguageResources;
-                    ptci.PersistPublishingFiles = provisioningOptions.PersistPublishingFiles;
+                    ptci.IncludeAllTermGroups = provisioningOptions.AllTermGroups;
+                    ptci.IncludeNativePublishingFiles = provisioningOptions.NativePublishingFiles;
+                    ptci.IncludeSearchConfiguration = provisioningOptions.SearchConfiguration;
+                    ptci.IncludeSiteCollectionTermGroup = provisioningOptions.SiteCollectionTermGroup;
+                    ptci.IncludeSiteGroups = provisioningOptions.SiteGroups;
+                    ptci.IncludeTermGroupsSecurity = provisioningOptions.TermGroupsSecurity;
+                    ptci.PersistBrandingFiles = provisioningOptions.BrandingFiles;
+                    ptci.PersistMultiLanguageResources = provisioningOptions.MultiLanguageResources;
+                    ptci.PersistPublishingFiles = provisioningOptions.PublishingFiles;
 
-                    ptci.HandlersToProcess = (provisioningOptions.IncludeAuditSettings ? Handlers.AuditSettings : 0) |
-                                             (provisioningOptions.IncludeComposedLook ? Handlers.ComposedLook : 0) |
-                                             (provisioningOptions.IncludeCustomActions ? Handlers.CustomActions : 0) |
+                    ptci.HandlersToProcess = (provisioningOptions.AuditSettings ? Handlers.AuditSettings : 0) |
+                                             (provisioningOptions.ComposedLook ? Handlers.ComposedLook : 0) |
+                                             (provisioningOptions.CustomActions ? Handlers.CustomActions : 0) |
                                              (provisioningOptions.ExtensibilityProviders ? Handlers.ExtensibilityProviders : 0) |
-                                             (provisioningOptions.IncludeFeatures ? Handlers.Features : 0) |
-                                             (provisioningOptions.IncludeFields ? Handlers.Fields : 0) |
-                                             (provisioningOptions.IncludeFiles ? Handlers.Files : 0) |
-                                             (provisioningOptions.IncludeListInstances ? Handlers.Lists : 0) |
-                                             (provisioningOptions.IncludePages ? Handlers.Pages : 0) |
-                                             (provisioningOptions.IncludePublishing ? Handlers.Publishing : 0) |
-                                             (provisioningOptions.IncludeRegionalSettings ? Handlers.RegionalSettings : 0) |
-                                             (provisioningOptions.IncludeSearchSettings ? Handlers.SearchSettings : 0) |
-                                             (provisioningOptions.IncludeSitePolicy ? Handlers.SitePolicy : 0) |
-                                             (provisioningOptions.IncludeSupportedUILanguages ? Handlers.SupportedUILanguages : 0) |
-                                             (provisioningOptions.IncludeTermGroups ? Handlers.TermGroups : 0) |
-                                             (provisioningOptions.IncludeWorkflows ? Handlers.Workflows : 0) |
-                                             (provisioningOptions.IncludeSiteSecurity ? Handlers.SiteSecurity : 0) |
-                                             (provisioningOptions.IncludeContentTypes ? Handlers.ContentTypes : 0) |
-                                             (provisioningOptions.IncludePropertyBagEntries ? Handlers.PropertyBagEntries : 0) |
-                                             (provisioningOptions.IncludePageContents ? Handlers.PageContents : 0) |
-                                             (provisioningOptions.IncludeWebSettings ? Handlers.WebSettings : 0) |
-                                             (provisioningOptions.IncludeNavigation ? Handlers.Navigation : 0);
+                                             (provisioningOptions.Features ? Handlers.Features : 0) |
+                                             (provisioningOptions.Fields ? Handlers.Fields : 0) |
+                                             (provisioningOptions.Files ? Handlers.Files : 0) |
+                                             (provisioningOptions.ListInstances ? Handlers.Lists : 0) |
+                                             (provisioningOptions.Pages ? Handlers.Pages : 0) |
+                                             (provisioningOptions.Publishing ? Handlers.Publishing : 0) |
+                                             (provisioningOptions.RegionalSettings ? Handlers.RegionalSettings : 0) |
+                                             (provisioningOptions.SearchSettings ? Handlers.SearchSettings : 0) |
+                                             (provisioningOptions.SitePolicy ? Handlers.SitePolicy : 0) |
+                                             (provisioningOptions.SupportedUILanguages ? Handlers.SupportedUILanguages : 0) |
+                                             (provisioningOptions.TermGroups ? Handlers.TermGroups : 0) |
+                                             (provisioningOptions.Workflows ? Handlers.Workflows : 0) |
+                                             (provisioningOptions.SiteSecurity ? Handlers.SiteSecurity : 0) |
+                                             (provisioningOptions.ContentTypes ? Handlers.ContentTypes : 0) |
+                                             (provisioningOptions.PropertyBagEntries ? Handlers.PropertyBagEntries : 0) |
+                                             (provisioningOptions.PageContents ? Handlers.PageContents : 0) |
+                                             (provisioningOptions.WebSettings ? Handlers.WebSettings : 0) |
+                                             (provisioningOptions.Navigation ? Handlers.Navigation : 0);
 
                     ptci.MessagesDelegate = delegate (string message, ProvisioningMessageType messageType)
                     {
@@ -984,7 +984,7 @@ namespace Karabina.SharePoint.Provisioning
                     //List to hold all the lookup list names
                     List<string> lookupListTitles = new List<string>();
 
-                    if (provisioningOptions.IncludeFields)
+                    if (provisioningOptions.Fields)
                     {
                         //fix fields with default, formula or defaultformula elements so that the referenced fields have 
                         //a lower index than the fields that reference them in the SiteFields collection
@@ -993,13 +993,13 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     //Check if we should do any content operations
-                    if (provisioningOptions.IncludeDocumentLibraryFiles ||
-                        provisioningOptions.IncludeLookupListItems ||
-                        provisioningOptions.IncludeGenericListItems ||
-                        provisioningOptions.IncludeJavaScriptFiles ||
-                        provisioningOptions.IncludePublishingPages ||
-                        provisioningOptions.IncludeXSLStyleSheetFiles ||
-                        provisioningOptions.IncludeImageFiles)
+                    if (provisioningOptions.DocumentLibraryFiles ||
+                        provisioningOptions.LookupListItems ||
+                        provisioningOptions.GenericListItems ||
+                        provisioningOptions.JavaScriptFiles ||
+                        provisioningOptions.PublishingPages ||
+                        provisioningOptions.XSLStyleSheetFiles ||
+                        provisioningOptions.ImageFiles)
                     {
                         ctx.Load(web.Lists);
                         ctx.ExecuteQuery();
@@ -1011,36 +1011,36 @@ namespace Karabina.SharePoint.Provisioning
                             {
                                 case "documents":
                                 case "site collection documents":
-                                    if (provisioningOptions.IncludeDocumentLibraryFiles)
+                                    if (provisioningOptions.DocumentLibraryFiles)
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
                                     break;
                                 case "images":
                                 case "site collection images":
-                                    if (provisioningOptions.IncludeImageFiles)
+                                    if (provisioningOptions.ImageFiles)
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
                                     break;
                                 case "pages":
                                 case "site pages":
-                                    if (provisioningOptions.IncludePages)
+                                    if (provisioningOptions.Pages)
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
                                     break;
                                 case "site assets":
-                                    if ((provisioningOptions.IncludeDocumentLibraryFiles) ||
-                                        (provisioningOptions.IncludeImageFiles) ||
-                                        (provisioningOptions.IncludeJavaScriptFiles))
+                                    if ((provisioningOptions.DocumentLibraryFiles) ||
+                                        (provisioningOptions.ImageFiles) ||
+                                        (provisioningOptions.JavaScriptFiles))
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
                                     break;
                                 case "style library":
-                                    if ((provisioningOptions.IncludeJavaScriptFiles) ||
-                                        (provisioningOptions.IncludeXSLStyleSheetFiles))
+                                    if ((provisioningOptions.JavaScriptFiles) ||
+                                        (provisioningOptions.XSLStyleSheetFiles))
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
@@ -1048,11 +1048,11 @@ namespace Karabina.SharePoint.Provisioning
                                 default:
                                     if (listInstance.TemplateType == 100) //100 = Custom list
                                     {
-                                        if (provisioningOptions.IncludeGenericListItems)
+                                        if (provisioningOptions.GenericListItems)
                                         {
                                             SaveListItemsToTemplate(ctx, web.Lists, listInstance);
                                         }
-                                        else if (provisioningOptions.IncludeLookupListItems)
+                                        else if (provisioningOptions.LookupListItems)
                                         {
                                             if (lookupListTitles.IndexOf(listInstance.Title) >= 0)
                                             {
@@ -1061,7 +1061,7 @@ namespace Karabina.SharePoint.Provisioning
                                         }
                                     }
                                     else if ((listInstance.TemplateType == 101) && //101 = Document Library
-                                             (provisioningOptions.IncludeDocumentLibraryFiles))
+                                             (provisioningOptions.DocumentLibraryFiles))
                                     {
                                         SaveFilesToTemplate(ctx, web, listInstance, template);
                                     }
