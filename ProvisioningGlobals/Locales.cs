@@ -24,6 +24,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _locales = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "LocaleName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "LocaleId"; }
+
+        } //ValueMember
+
         public LocaleCollection()
         {
             _locales = new List<Locale>();

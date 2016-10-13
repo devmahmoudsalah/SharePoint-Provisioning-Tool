@@ -131,6 +131,7 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly int Karabina_Red = 204;
         public static readonly int Karabina_Green = 0;
         public static readonly int Karabina_Blue = Karabina_Green;
+        public static readonly string Add_New = "<Add New>";
 
     } //Constants
 

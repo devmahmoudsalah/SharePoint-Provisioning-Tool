@@ -50,7 +50,6 @@
             // 
             this.tbKey.Location = new System.Drawing.Point(14, 32);
             this.tbKey.Name = "tbKey";
-            this.tbKey.ReadOnly = true;
             this.tbKey.Size = new System.Drawing.Size(395, 23);
             this.tbKey.TabIndex = 1;
             // 
@@ -74,6 +73,7 @@
             // 
             // bCancel
             // 
+            this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.bCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.bCancel.Location = new System.Drawing.Point(334, 207);
             this.bCancel.Name = "bCancel";

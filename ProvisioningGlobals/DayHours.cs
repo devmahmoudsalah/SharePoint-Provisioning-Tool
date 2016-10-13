@@ -32,6 +32,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _dayHours = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "DayHourName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "DayHourId"; }
+
+        } //ValueMember
+
         public DayHourCollection()
         {
             _dayHours = new List<DayHour>();

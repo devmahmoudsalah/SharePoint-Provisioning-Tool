@@ -26,6 +26,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _firstWeeks = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "FirstWeekName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "FirstWeekId"; }
+
+        } //ValueMember
+
         public FirstWeekCollection()
         {
             _firstWeeks = new List<FirstWeek>();

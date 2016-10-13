@@ -118,8 +118,8 @@ namespace Karabina.SharePoint.Provisioning
                 cbRSTimeZone.DataSource = null;
                 cbRSTimeZone.Items.Clear();
                 TimeZoneCollection timeZoneCollection = new TimeZoneCollection();
-                cbRSTimeZone.DisplayMember = "TimeZoneName";
-                cbRSTimeZone.ValueMember = "TimeZoneId";
+                cbRSTimeZone.DisplayMember = timeZoneCollection.DisplayMember;
+                cbRSTimeZone.ValueMember = timeZoneCollection.ValueMember;
                 cbRSTimeZone.DataSource = timeZoneCollection.TimeZones;
 
                 int selectedIdx = -1;
@@ -141,8 +141,8 @@ namespace Karabina.SharePoint.Provisioning
                 cbRSLocale.DataSource = null;
                 cbRSLocale.Items.Clear();
                 LocaleCollection localeCollection = new LocaleCollection();
-                cbRSLocale.DisplayMember = "LocaleName";
-                cbRSLocale.ValueMember = "LocaleId";
+                cbRSLocale.DisplayMember = localeCollection.DisplayMember;
+                cbRSLocale.ValueMember = localeCollection.ValueMember;
                 cbRSLocale.DataSource = localeCollection.Locales;
 
                 selectedIdx = -1;
@@ -164,8 +164,8 @@ namespace Karabina.SharePoint.Provisioning
                 cbRSSortOrder.DataSource = null;
                 cbRSSortOrder.Items.Clear();
                 SortOrderCollection sortOrderCollection = new SortOrderCollection();
-                cbRSSortOrder.DisplayMember = "SortOrderName";
-                cbRSSortOrder.ValueMember = "SortOrderId";
+                cbRSSortOrder.DisplayMember = sortOrderCollection.DisplayMember;
+                cbRSSortOrder.ValueMember = sortOrderCollection.ValueMember;
                 cbRSSortOrder.DataSource = sortOrderCollection.SortOrders;
 
                 selectedIdx = -1;
@@ -187,8 +187,8 @@ namespace Karabina.SharePoint.Provisioning
                 cbRSCalendar.DataSource = null;
                 cbRSCalendar.Items.Clear();
                 CalendarCollection calendarCollection = new CalendarCollection();
-                cbRSCalendar.DisplayMember = "CalendarName";
-                cbRSCalendar.ValueMember = "CalendarId";
+                cbRSCalendar.DisplayMember = calendarCollection.DisplayMember;
+                cbRSCalendar.ValueMember = calendarCollection.ValueMember;
                 cbRSCalendar.DataSource = calendarCollection.Calendars.Where(p => p.CalendarId > 0).ToList();
 
                 selectedIdx = -1;
@@ -238,8 +238,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 cbRSAlternateCalendar.DataSource = null;
                 cbRSAlternateCalendar.Items.Clear();
-                cbRSAlternateCalendar.DisplayMember = "CalendarName";
-                cbRSAlternateCalendar.ValueMember = "CalendarId";
+                cbRSAlternateCalendar.DisplayMember = calendarCollection.DisplayMember;
+                cbRSAlternateCalendar.ValueMember = calendarCollection.ValueMember;
                 cbRSAlternateCalendar.DataSource = calendarCollection.Calendars.ToList();
 
                 selectedIdx = -1;
@@ -269,39 +269,44 @@ namespace Karabina.SharePoint.Provisioning
 
                 cbRSFirstDayOfWeek.DataSource = null;
                 cbRSFirstDayOfWeek.Items.Clear();
-                cbRSFirstDayOfWeek.DisplayMember = "WeekDayLongName";
-                cbRSFirstDayOfWeek.ValueMember = "WeekDayId";
+
+                cbRSFirstDayOfWeek.DisplayMember = weekDayCollection.DisplayMember;
+                cbRSFirstDayOfWeek.ValueMember = weekDayCollection.ValueMember;
                 cbRSFirstDayOfWeek.DataSource = weekDayCollection.WeekDays;
                 cbRSFirstDayOfWeek.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.FirstDayOfWeek];
 
                 cbRSFirstWeekOfYear.DataSource = null;
                 cbRSFirstWeekOfYear.Items.Clear();
+
                 FirstWeekCollection firstWeekCollection = new FirstWeekCollection();
-                cbRSFirstWeekOfYear.DisplayMember = "FirstWeekName";
-                cbRSFirstWeekOfYear.ValueMember = "FirstWeekId";
+                cbRSFirstWeekOfYear.DisplayMember = firstWeekCollection.DisplayMember;
+                cbRSFirstWeekOfYear.ValueMember = firstWeekCollection.ValueMember;
                 cbRSFirstWeekOfYear.DataSource = firstWeekCollection.FirstWeeks;
                 cbRSFirstWeekOfYear.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.FirstWeekOfYear];
 
                 cbRSWorkDayStartTime.DataSource = null;
                 cbRSWorkDayStartTime.Items.Clear();
+
                 DayHourCollection dayHourCollection = new DayHourCollection();
-                cbRSWorkDayStartTime.DisplayMember = "DayHourName";
-                cbRSWorkDayStartTime.ValueMember = "DayHourId";
+                cbRSWorkDayStartTime.DisplayMember = dayHourCollection.DisplayMember;
+                cbRSWorkDayStartTime.ValueMember = dayHourCollection.ValueMember;
                 cbRSWorkDayStartTime.DataSource = dayHourCollection.DayHours.ToList();
                 cbRSWorkDayStartTime.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.WorkDayStartHour];
 
                 cbRSWorkDayEndTime.DataSource = null;
                 cbRSWorkDayEndTime.Items.Clear();
-                cbRSWorkDayEndTime.DisplayMember = "DayHourName";
-                cbRSWorkDayEndTime.ValueMember = "DayHourId";
+
+                cbRSWorkDayEndTime.DisplayMember = dayHourCollection.DisplayMember;
+                cbRSWorkDayEndTime.ValueMember = dayHourCollection.ValueMember;
                 cbRSWorkDayEndTime.DataSource = dayHourCollection.DayHours.ToList();
                 cbRSWorkDayEndTime.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.WorkDayEndHour];
 
                 cbRSTimeFormat.DataSource = null;
                 cbRSTimeFormat.Items.Clear();
+
                 TimeFormatCollection timeFormatCollection = new TimeFormatCollection();
-                cbRSTimeFormat.DisplayMember = "TimeFormatName";
-                cbRSTimeFormat.ValueMember = "TimeFormatId";
+                cbRSTimeFormat.DisplayMember = timeZoneCollection.DisplayMember;
+                cbRSTimeFormat.ValueMember = timeZoneCollection.ValueMember;
                 cbRSTimeFormat.DataSource = timeFormatCollection.TimeFormats;
                 cbRSTimeFormat.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.Time24];
 
@@ -364,6 +369,7 @@ namespace Karabina.SharePoint.Provisioning
                     listViewItem.SubItems.Add(keyValue.Value);
 
                 }
+                lvViewControl.Items.Add(Constants.Add_New);
             }
 
         } //PopulatePropertyBagEntries
@@ -377,8 +383,8 @@ namespace Karabina.SharePoint.Provisioning
 
             if (keyValueList?.Count > 0)
             {
-                lbListControl.DisplayMember = "Key";
-                lbListControl.ValueMember = "Value";
+                lbListControl.DisplayMember = keyValueList.DisplayMember;
+                lbListControl.ValueMember = keyValueList.ValueMember;
                 lbListControl.DataSource = keyValueList;
 
             }
@@ -608,6 +614,74 @@ namespace Karabina.SharePoint.Provisioning
 
         private void DeleteTemplateItemFromList(object sender, EventArgs e)
         {
+            if (_selectedNode != null)
+            {
+                TemplateItem templateItem = _templateItems.GetItem((string)_selectedNode.Tag);
+                if (templateItem != null)
+                {
+                    switch (templateItem.ItemType)
+                    {
+                        case TemplateItemType.SiteFeatureList:
+                        case TemplateItemType.SupportedUILanguagesList:
+                        case TemplateItemType.WebFeatureList:
+                            KeyValueList keyValueList = new KeyValueList();
+                            keyValueList.AddRange(templateItem.Content as KeyValueList);
+                            foreach(var item in lbListControl.SelectedItems)
+                            {
+                                KeyValue keyValue = item as KeyValue;
+                                keyValueList.RemoveAll(p => p.KeyEquals(keyValue.Value));
+
+                                lbListControl.Items.Remove(item);
+
+                            }
+
+                            if (keyValueList.Count > 0)
+                            {
+                                templateItem.Content = keyValueList;
+
+                                if (templateItem.IsChanged)
+                                {
+                                    bSave.Visible = true;
+
+                                }
+
+                            }
+                            else
+                            {
+                                TreeNode prevNode = _selectedNode.PrevNode;
+                                TreeNode parentNode = _selectedNode.Parent;
+
+                                templateItem.IsDeleted = true;
+                                bSave.Visible = true;
+
+                                tvTemplate.Nodes.Remove(_selectedNode);
+                                _selectedNode = null;
+
+                                if (prevNode != null)
+                                {
+                                    tvTemplate.SelectedNode = prevNode;
+
+                                }
+                                else
+                                {
+                                    tvTemplate.SelectedNode = parentNode;
+
+                                }
+
+                            }
+
+                            break;
+
+                        default:
+                            // to do
+                            break;
+
+                    }
+
+                }
+
+            }
+
             /*
             TreeNode selectedNode = tvTemplate.SelectedNode;
             if (!selectedNode.Name.Equals("TemplateNode"))
@@ -843,37 +917,73 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         ListViewItem viewItem = lvViewControl.SelectedItems[0];
 
-                        string key = viewItem.Text;
-                        string value = viewItem.SubItems[1].Text;
+                        KeyValue keyValue = new KeyValue(viewItem.Text, string.Empty);
+
+                        bool addNew = keyValue.KeyEquals(Constants.Add_New);
+
+                        if (!addNew)
+                        {
+                            keyValue.Value = viewItem.SubItems[1].Text;
+
+                        }
+                        else
+                        {
+                            keyValue.Key = string.Empty;
+
+                        }
 
                         ViewItem dialog = new ViewItem();
 
                         dialog.SetTitle(_selectedNode.Text);
 
-                        dialog.SetKeyValue(key, value);
+                        dialog.SetKeyValue(keyValue);
 
                         DialogResult result = dialog.ShowDialog(this);
 
                         if (result == DialogResult.OK)
                         {
-                            string newVal = dialog.GetValue();
-                            if (!value.Equals(newVal, StringComparison.Ordinal))
+                            KeyValue newKV = dialog.GetKeyValue();
+                            if (!newKV.KeyIsEmpty())
                             {
-                                viewItem.SubItems[1].Text = newVal;
-
-                                KeyValueList keyValues = new KeyValueList();
-
-                                foreach (ListViewItem item in lvViewControl.Items)
+                                if (!newKV.Equals(keyValue))
                                 {
-                                    keyValues.AddKeyValue(item.SubItems[0].Text, item.SubItems[1].Text);
+                                    viewItem.Text = newKV.Key;
+                                    if (addNew)
+                                    {
+                                        viewItem.SubItems.Add(newKV.Value);
 
-                                }
+                                    }
+                                    else
+                                    {
+                                        viewItem.SubItems[1].Text = newKV.Value;
 
-                                templateItem.Content = keyValues;
+                                    }
 
-                                if (templateItem.IsChanged)
-                                {
-                                    bSave.Visible = true;
+                                    KeyValueList keyValues = new KeyValueList();
+
+                                    foreach (ListViewItem item in lvViewControl.Items)
+                                    {
+                                        if (item.SubItems.Count > 1)
+                                        {
+                                            keyValues.AddKeyValue(item.SubItems[0].Text, item.SubItems[1].Text);
+
+                                        }
+
+                                    }
+
+                                    templateItem.Content = keyValues;
+
+                                    if (templateItem.IsChanged)
+                                    {
+                                        bSave.Visible = true;
+
+                                    }
+
+                                    if (addNew)
+                                    {
+                                        lvViewControl.Items.Add(Constants.Add_New);
+
+                                    }
 
                                 }
 
@@ -909,20 +1019,56 @@ namespace Karabina.SharePoint.Provisioning
                 TemplateItem templateItem = _templateItems.GetItem((string)_selectedNode.Tag);
                 if (templateItem != null)
                 {
+                    int removeCount = 0;
                     KeyValueList keyValues = new KeyValueList();
                     keyValues.AddRange(templateItem.Content as KeyValueList);
-                    foreach(ListViewItem item in lvViewControl.SelectedItems)
+                    foreach (ListViewItem item in lvViewControl.SelectedItems)
                     {
-                        keyValues.RemoveAll(p => p.Key.Equals(item.Text, StringComparison.OrdinalIgnoreCase));
-                        lvViewControl.Items.Remove(item);
+                        if (!item.Text.Equals(Constants.Add_New, StringComparison.OrdinalIgnoreCase))
+                        {
+                            keyValues.RemoveAll(p => p.KeyEquals(item.Text));
+                            lvViewControl.Items.Remove(item);
+                            removeCount++;
+
+                        }
 
                     }
 
-                    templateItem.Content = keyValues;
-
-                    if (templateItem.IsChanged)
+                    if (removeCount > 0)
                     {
-                        bSave.Visible = true;
+                        if (lvViewControl.Items.Count > 0)
+                        {
+                            templateItem.Content = keyValues;
+                            if (templateItem.IsChanged)
+                            {
+                                bSave.Visible = true;
+
+                            }
+
+                        }
+                        else
+                        {
+                            templateItem.IsDeleted = true;
+                            bSave.Visible = true;
+
+                            TreeNode prevNode = _selectedNode.PrevNode;
+                            TreeNode parentNode = _selectedNode.Parent;
+
+                            tvTemplate.Nodes.Remove(_selectedNode);
+                            _selectedNode = null;
+
+                            if (prevNode != null)
+                            {
+                                tvTemplate.SelectedNode = prevNode;
+
+                            }
+                            else
+                            {
+                                tvTemplate.SelectedNode = parentNode;
+
+                            }
+
+                        }
 
                     }
 
@@ -937,6 +1083,11 @@ namespace Karabina.SharePoint.Provisioning
             if (e.KeyCode == Keys.Delete)
             {
                 DeleteTemplateItemFromView(sender, e);
+
+            }
+            else if (e.KeyCode == Keys.Insert)
+            {
+                ShowViewItem(sender, e);
 
             }
 

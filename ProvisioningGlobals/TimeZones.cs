@@ -24,6 +24,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _timeZones = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "TimeZoneName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "TimeZoneId"; }
+
+        } //ValueMember
+
         public TimeZoneCollection()
         {
             _timeZones = new List<TimeZone>();

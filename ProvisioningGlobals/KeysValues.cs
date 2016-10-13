@@ -19,12 +19,76 @@ namespace Karabina.SharePoint.Provisioning
         {
             Key = key;
             Value = value;
+
         }
+
+        public bool KeyIsEmpty()
+        {
+            return string.IsNullOrWhiteSpace(Key);
+
+        } //KeyIsEmpty
+
+        public bool ValueIsEmpty()
+        {
+            return string.IsNullOrWhiteSpace(Value);
+
+        } //ValueIsEmpty
+
+        public bool Equals(KeyValue keyValue)
+        {
+            bool result = KeyEquals(keyValue.Key);
+            if (result)
+            {
+                result = ValueEquals(keyValue.Value);
+
+            }
+
+            return result;
+
+        }
+
+        public bool KeyEquals(string key)
+        {
+            bool result = false;
+            if (!string.IsNullOrWhiteSpace(Key))
+            {
+                result = Key.Equals(key, StringComparison.OrdinalIgnoreCase);
+
+            }
+
+            return result;
+
+        } //KeyEquals
+
+        public bool ValueEquals(string value)
+        {
+            bool result = false;
+            if (!string.IsNullOrWhiteSpace(Value))
+            {
+                result = Value.Equals(value, StringComparison.OrdinalIgnoreCase);
+
+            }
+
+            return result;
+
+        } //ValueEquals
 
     } //KeyValue
 
     public class KeyValueList : List<KeyValue>
     {
+        public string DisplayMember
+        {
+            get { return "Key"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "Value"; }
+
+        } //ValueMember
+
         public void AddKeyValue(string key, string value)
         {
             Add(new KeyValue(key, value));

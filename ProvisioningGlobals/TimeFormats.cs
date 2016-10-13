@@ -25,6 +25,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _timeFormats = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "TimeFormatName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "TimeFormatId"; }
+
+        } //ValueMember
+
         public TimeFormatCollection()
         {
             _timeFormats = new List<TimeFormat>();

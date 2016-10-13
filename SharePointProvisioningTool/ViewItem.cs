@@ -22,16 +22,16 @@ namespace Karabina.SharePoint.Provisioning
             Text = title;
         }
 
-        public void SetKeyValue(string key, string value)
+        public void SetKeyValue(KeyValue keyValue)
         {
-            tbKey.Text = key;
-            tbValue.Text = value;
+            tbKey.Text = keyValue.Key;
+            tbValue.Text = keyValue.Value;
 
         } //SetKeyValue
 
-        public string GetValue()
+        public KeyValue GetKeyValue()
         {
-            return tbValue.Text;
+            return new KeyValue(tbKey.Text, tbValue.Text);
         }
 
         private void bOK_Click(object sender, EventArgs e)

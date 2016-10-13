@@ -24,6 +24,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _calendars = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "CalendarName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "CalendarId"; }
+
+        } //ValueMember
+
         public CalendarCollection()
         {
             _calendars = new List<Calendar>();

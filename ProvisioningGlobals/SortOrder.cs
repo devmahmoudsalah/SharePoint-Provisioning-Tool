@@ -24,6 +24,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _sortOrders = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "SortOrderName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "SortOrderId"; }
+
+        } //ValueMember
+
         public SortOrderCollection()
         {
             _sortOrders = new List<SortOrder>();

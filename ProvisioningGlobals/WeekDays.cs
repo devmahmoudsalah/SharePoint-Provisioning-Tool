@@ -30,6 +30,18 @@ namespace Karabina.SharePoint.Provisioning
             private set { _weekDays = value; }
         }
 
+        public string DisplayMember
+        {
+            get { return "WeekDayLongName"; }
+
+        } //DisplayMember
+
+        public string ValueMember
+        {
+            get { return "WeekDayId"; }
+
+        } //ValueMember
+
         public WeekDayColllection()
         {
             _weekDays = new List<WeekDay>();
