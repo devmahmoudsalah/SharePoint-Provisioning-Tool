@@ -813,7 +813,8 @@ namespace Karabina.SharePoint.Provisioning
                                             Title = webPartDefinition.WebPart.Title,
                                             Row = (uint)webPartDefinition.WebPart.ZoneIndex,
                                             Order = (uint)webPartDefinition.WebPart.ZoneIndex,
-                                            Contents = webPartxml
+                                            Contents = webPartxml,
+                                            Zone = webPartDefinition.ZoneId
                                         };
 
                                         pnpFile.WebParts.Add(webPart);
@@ -2753,6 +2754,101 @@ namespace Karabina.SharePoint.Provisioning
             return result;
 
         } //GetTermSet
+
+        public void SaveTemplateForEdit(TemplateItems templateItems)
+        {
+            if (EditingTemplate != null)
+            {
+                ProvisioningTemplate template = EditingTemplate;
+                if (template.AddIns?.Count > 0)
+                {
+                    List<TemplateItem> addInItems = templateItems.GetItems(TemplateItemType.AddInItem);
+                    if (addInItems?.Count > 0)
+                    {
+                        foreach (var addInItem in addInItems)
+                        {
+                            if (addInItem.IsDeleted)
+                            {
+                                template.AddIns.RemoveAll(p => p.PackagePath.Equals(addInItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                            }
+                            else if (addInItem.IsChanged)
+                            {
+                                AddIn addIn = template.AddIns.Find(p => p.PackagePath.Equals(addInItem.Name, StringComparison.OrdinalIgnoreCase));
+                                if (addIn != null)
+                                {
+                                    addIn.Source = addInItem.Content as string;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                } //if AddIns
+
+                if (template.ComposedLook != null)
+                {
+                    List<TemplateItem> composedLookItems = templateItems.GetItems(TemplateItemType.ComposedLook);
+                    if (composedLookItems?.Count > 0)
+                    {
+                        foreach(var composedLookItem in composedLookItems)
+                        {
+                            if (composedLookItem.IsDeleted)
+                            {
+                                template.ComposedLook = null;
+
+                            }
+                            else if (composedLookItem.IsChanged)
+                            {
+                                string[] values = composedLookItem.Content as string[];
+                                template.ComposedLook.Name = values[(int)ComposedLookProperties.Name];
+                                template.ComposedLook.BackgroundFile = values[(int)ComposedLookProperties.BackgroundFile];
+                                template.ComposedLook.ColorFile = values[(int)ComposedLookProperties.ColorFile];
+                                template.ComposedLook.FontFile = values[(int)ComposedLookProperties.FontFile];
+                                template.ComposedLook.Version = Convert.ToInt32(values[(int)ComposedLookProperties.Version]);
+
+                            }
+
+                        }
+
+                    }
+
+                } //if ComposedLook
+
+                if (template.ContentTypes?.Count > 0)
+                {
+                    List<TemplateItem> contentTypeItems = templateItems.GetItems(TemplateItemType.ContentTypeItem);
+                    if (contentTypeItems?.Count > 0)
+                    {
+                        foreach (var contentTypeItem in contentTypeItems)
+                        {
+                            if (contentTypeItem.IsDeleted)
+
+                            {
+                                template.ContentTypes.RemoveAll(p => p.Id.Equals(contentTypeItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                            }
+                            else if (contentTypeItem.IsChanged)
+                            {
+                                string contentType = contentTypeItem.Content as string;
+                                PnPModel.ContentType ct = JsonConvert.DeserializeObject(contentType) as PnPModel.ContentType;
+
+
+                            }
+
+                        }
+
+                    }
+
+                } //if ContentTypes
+
+            }
+
+
+        } //SaveTemplateForEdit
 
     } //SharePoint2013OnPrem
 

@@ -532,40 +532,53 @@ namespace Karabina.SharePoint.Provisioning
 
         private void DeleteTemplateItem(object sender, EventArgs e)
         {
-            if (tvTemplate.SelectedNode != null)
+            if (_selectedNode != null)
             {
-                TreeNode node = tvTemplate.SelectedNode;
-                if (!node.Name.Equals("TemplateNode"))
-                {
-                    TemplateItem templateItem = _templateItems.GetItem((string)node.Tag);
+                TemplateItem templateItem = _templateItems.GetItem((string)_selectedNode.Tag);
 
-                    if (templateItem != null)
+                if (templateItem != null)
+                {
+                    _templateItems.SetChildrenDeleted(templateItem.Id);
+                    templateItem.IsDeleted = true;
+
+                    if (!string.IsNullOrWhiteSpace(templateItem.ParentId))
                     {
-                        _templateItems.SetChildrenDeleted(templateItem.Id);
-                        templateItem.IsDeleted = true;
+                        TemplateItem parentItem = _templateItems.GetItem(templateItem.ParentId);
+                        if(parentItem.ControlType== TemplateControlType.ListBox)
+                        {
+                            KeyValueList keyValueList = parentItem.Content as KeyValueList;
+                            keyValueList.RemoveAll(p => p.ValueEquals(templateItem.Name));
+
+                        }
 
                     }
 
-                    TreeNode prevNode = node.PrevNode;
-                    TreeNode parentNode = node.Parent;
+                }
 
-                    _selectedNode = null;
+                TreeNode prevNode = _selectedNode.PrevNode;
+                TreeNode parentNode = _selectedNode.Parent;
 
-                    node.Remove();
+                _selectedNode.Remove();
 
-                    tvTemplate.SelectedNode = prevNode != null ? prevNode : parentNode;
+                _selectedNode = null;
 
-                    bSave.Visible = true;
+                if (prevNode != null)
+                {
+                    tvTemplate.SelectedNode = prevNode;
+
+                }
+                else if (parentNode != null)
+                {
+                    tvTemplate.SelectedNode = parentNode;
 
                 }
                 else
                 {
-                    MessageBox.Show("You are not serious.", "Delete Seriously",
-                                    MessageBoxButtons.AbortRetryIgnore,
-                                    MessageBoxIcon.Stop,
-                                    MessageBoxDefaultButton.Button3);
+                    HidePanels();
 
                 }
+
+                bSave.Visible = true;
 
             }
 
@@ -573,17 +586,20 @@ namespace Karabina.SharePoint.Provisioning
 
         private void DisplayActiveNode(object sender, EventArgs e)
         {
-            ListBox listBox = sender as ListBox;
-            if (listBox.SelectedItem != null)
+            if (_selectedNode != null)
             {
-                KeyValue listItem = listBox.SelectedItem as KeyValue;
-                TreeNode node = tvTemplate.SelectedNode;
-                if (node?.Nodes?.Count > 0)
+                ListBox listBox = sender as ListBox;
+                if (listBox.SelectedItem != null)
                 {
-                    TreeNode[] nodes = node.Nodes.Find(listItem.Value, true);
-                    if (nodes?.Length > 0)
+                    KeyValue listItem = listBox.SelectedItem as KeyValue;
+                    if (_selectedNode.Nodes?.Count > 0)
                     {
-                        tvTemplate.SelectedNode = nodes.First(p => p.Name.Equals(listItem.Value, StringComparison.OrdinalIgnoreCase));
+                        TreeNode[] nodes = _selectedNode.Nodes.Find(listItem.Value, true);
+                        if (nodes?.Length > 0)
+                        {
+                            tvTemplate.SelectedNode = nodes.First(p => p.Name.Equals(listItem.Value, StringComparison.OrdinalIgnoreCase));
+
+                        }
 
                     }
 
@@ -619,119 +635,105 @@ namespace Karabina.SharePoint.Provisioning
                 TemplateItem templateItem = _templateItems.GetItem((string)_selectedNode.Tag);
                 if (templateItem != null)
                 {
-                    switch (templateItem.ItemType)
-                    {
-                        case TemplateItemType.SiteFeatureList:
-                        case TemplateItemType.SupportedUILanguagesList:
-                        case TemplateItemType.WebFeatureList:
-                            KeyValueList keyValueList = new KeyValueList();
-                            keyValueList.AddRange(templateItem.Content as KeyValueList);
-                            foreach(var item in lbListControl.SelectedItems)
-                            {
-                                KeyValue keyValue = item as KeyValue;
-                                keyValueList.RemoveAll(p => p.KeyEquals(keyValue.Value));
+                    KeyValueList keyValueList = new KeyValueList();
+                    keyValueList.AddRange(templateItem.Content as KeyValueList);
 
-                                lbListControl.Items.Remove(item);
-
-                            }
-
-                            if (keyValueList.Count > 0)
-                            {
-                                templateItem.Content = keyValueList;
-
-                                if (templateItem.IsChanged)
-                                {
-                                    bSave.Visible = true;
-
-                                }
-
-                            }
-                            else
-                            {
-                                TreeNode prevNode = _selectedNode.PrevNode;
-                                TreeNode parentNode = _selectedNode.Parent;
-
-                                templateItem.IsDeleted = true;
-                                bSave.Visible = true;
-
-                                tvTemplate.Nodes.Remove(_selectedNode);
-                                _selectedNode = null;
-
-                                if (prevNode != null)
-                                {
-                                    tvTemplate.SelectedNode = prevNode;
-
-                                }
-                                else
-                                {
-                                    tvTemplate.SelectedNode = parentNode;
-
-                                }
-
-                            }
-
-                            break;
-
-                        default:
-                            // to do
-                            break;
-
-                    }
-
-                }
-
-            }
-
-            /*
-            TreeNode selectedNode = tvTemplate.SelectedNode;
-            if (!selectedNode.Name.Equals("TemplateNode"))
-            {
-                if (lbListControl.SelectedItems?.Count > 0)
-                {
-                    KeyValueList itemsToDelete = new KeyValueList();
                     foreach (var item in lbListControl.SelectedItems)
                     {
-                        itemsToDelete.Add((item as KeyValue));
+                        KeyValue keyValue = item as KeyValue;
 
-                    }
-
-                    TreeNode parentNode = null;
-
-                    foreach (var keyValue in itemsToDelete)
-                    {
-                        TreeNode[] nodes = selectedNode.Nodes.Find(keyValue.Value, true);
-
-                        TreeNode node = nodes.First(p => p.Name.Equals(keyValue.Value, StringComparison.OrdinalIgnoreCase));
-
-
-                        parentNode = node.Parent;
-
-                        if (parentNode != null)
+                        switch (templateItem.ItemType)
                         {
-                            KeyValueList tagList = parentNode.Tag as KeyValueList;
+                            case TemplateItemType.SiteFeatureList:
+                            case TemplateItemType.SupportedUILanguagesList:
+                            case TemplateItemType.WebFeatureList:
+                                //An item in these lists contain properties and not pointers to nodes
+                                //do nothing as the item will be removed from the list in below code
 
-                            tagList.RemoveAll(p => p.Value.Equals(node.Name, StringComparison.OrdinalIgnoreCase));
+                                break;
+
+                            default:
+                                //Item is a pointer to a tree node.
+                                //Delete it from the tree view
+                                TreeNode[] nodes = _selectedNode.Nodes.Find(keyValue.Value, false);
+                                if (nodes?.Length > 0)
+                                {
+                                    TreeNode node = nodes.First(p => p.Name.Equals(keyValue.Value, StringComparison.Ordinal));
+                                    if (node != null)
+                                    {
+                                        TemplateItem nodeItem = _templateItems.GetItem((string)node.Tag);
+                                        if (nodeItem != null)
+                                        {
+                                            if (node.Nodes?.Count > 0)
+                                            {
+                                                _templateItems.SetChildrenDeleted(nodeItem.Id);
+                                                _templateItems.SetDeleted(nodeItem);
+
+                                            }
+
+                                        }
+
+                                        tvTemplate.Nodes.Remove(node);
+
+                                    }
+
+                                }
+
+                                break;
 
                         }
 
-                        node.Remove();
+                        keyValueList.RemoveAll(p => p.KeyEquals(keyValue.Key));
+
+                        //lbListControl.Items.Remove(item);
 
                     }
 
-                    if (parentNode != null)
+                    if (keyValueList.Count > 0)
                     {
-                        TemplateItem item = _templateItems.GetItem((string)parentNode.Tag);
+                        templateItem.Content = keyValueList;
 
-                        PopulateControlList(item);
+                        if (templateItem.IsChanged)
+                        {
+                            bSave.Visible = true;
+
+                            PopulateControlList(templateItem);
+
+                        }
 
                     }
+                    else
+                    {
+                        TreeNode prevNode = _selectedNode.PrevNode;
+                        TreeNode parentNode = _selectedNode.Parent;
 
-                    bSave.Visible = true;
+                        templateItem.IsDeleted = true;
+                        bSave.Visible = true;
+
+                        tvTemplate.Nodes.Remove(_selectedNode);
+                        _selectedNode = null;
+
+                        if (prevNode != null)
+                        {
+                            tvTemplate.SelectedNode = prevNode;
+
+                        }
+                        else if (parentNode != null)
+                        {
+                            tvTemplate.SelectedNode = parentNode;
+
+                        }
+                        else
+                        {
+                            HidePanels();
+
+                        }
+
+                    }
 
                 }
 
             }
-            */
 
         } //DeleteTemplateItemFromList
 
@@ -1001,14 +1003,20 @@ namespace Karabina.SharePoint.Provisioning
 
         private void ViewControlSelectAll(object sender, EventArgs e)
         {
-            var topItem = lvViewControl.TopItem;
-            lvViewControl.BeginUpdate();
-            for (var i = 0; i < lvViewControl.Items.Count; i++)
+            if (lvViewControl.Items?.Count > 0)
             {
-                lvViewControl.Items[i].Selected = true;
+                var topItem = lvViewControl.TopItem;
+                lvViewControl.BeginUpdate();
+                for (var i = 0; i < lvViewControl.Items.Count; i++)
+                {
+                    lvViewControl.Items[i].Selected = true;
+
+                }
+
+                lvViewControl.EndUpdate();
+                lvViewControl.TopItem = topItem;
+
             }
-            lvViewControl.EndUpdate();
-            lvViewControl.TopItem = topItem;
 
         } //ViewControlSelectAll
 
@@ -1062,9 +1070,14 @@ namespace Karabina.SharePoint.Provisioning
                                 tvTemplate.SelectedNode = prevNode;
 
                             }
-                            else
+                            else if (parentNode != null)
                             {
                                 tvTemplate.SelectedNode = parentNode;
+
+                            }
+                            else
+                            {
+                                HidePanels();
 
                             }
 
@@ -1080,14 +1093,18 @@ namespace Karabina.SharePoint.Provisioning
 
         private void ViewControlKeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
+            if (lvViewControl.Items?.Count > 0)
             {
-                DeleteTemplateItemFromView(sender, e);
+                if (e.KeyCode == Keys.Delete)
+                {
+                    DeleteTemplateItemFromView(sender, e);
 
-            }
-            else if (e.KeyCode == Keys.Insert)
-            {
-                ShowViewItem(sender, e);
+                }
+                else if (e.KeyCode == Keys.Insert)
+                {
+                    ShowViewItem(sender, e);
+
+                }
 
             }
 

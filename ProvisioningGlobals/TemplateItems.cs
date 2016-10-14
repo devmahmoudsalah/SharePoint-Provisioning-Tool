@@ -102,11 +102,36 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetChildren
 
+        public void SetDeleted(string id)
+        {
+            TemplateItem templateItem = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
+            if (templateItem != null)
+            {
+                templateItem.IsChanged = false;
+                templateItem.IsDeleted = true;
+
+            }
+
+        } //SetChildrenDeleted
+
+        public void SetDeleted(TemplateItem templateItem)
+        {
+            if (templateItem != null)
+            {
+                templateItem.IsChanged = false;
+                templateItem.IsDeleted = true;
+
+            }
+
+        } //SetChildrenDeleted
+
         public void SetChildrenDeleted(string parentId)
         {
             FindAll(p => p.ParentId.Equals(parentId, StringComparison.Ordinal)).ForEach(
                 delegate (TemplateItem item)
                 {
+                    SetChildrenDeleted(item.Id);
+                    item.IsChanged = false;
                     item.IsDeleted = true;
 
                 });
