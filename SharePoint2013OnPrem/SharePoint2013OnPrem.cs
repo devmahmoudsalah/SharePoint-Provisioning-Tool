@@ -85,9 +85,9 @@ namespace Karabina.SharePoint.Provisioning
                                         {
                                             if (i > 0)
                                             {
-                                                sb.Append("#;");
+                                                sb.Append(";#");
                                             }
-                                            sb.Append($"{lookupValues[i].LookupId}#;{lookupValues[i].LookupValue}");
+                                            sb.Append($"{lookupValues[i].LookupId};#{lookupValues[i].LookupValue}");
                                         }
                                         data.Add(field.Name, sb.ToString());
                                     }
@@ -95,7 +95,7 @@ namespace Karabina.SharePoint.Provisioning
                                     {
                                         //No, get the field id and value
                                         FieldLookupValue lookupValue = value as FieldLookupValue;
-                                        data.Add(field.Name, $"{lookupValue.LookupId}#;{lookupValue.LookupValue}");
+                                        data.Add(field.Name, $"{lookupValue.LookupId};#{lookupValue.LookupValue}");
                                     }
                                 }
                                 break;
@@ -113,9 +113,9 @@ namespace Karabina.SharePoint.Provisioning
                                         {
                                             if (i > 0)
                                             {
-                                                sb.Append("#;");
+                                                sb.Append(";#");
                                             }
-                                            sb.Append($"{userValues[i].LookupId}#;{userValues[i].LookupValue}");
+                                            sb.Append($"{userValues[i].LookupId};#{userValues[i].LookupValue}");
                                         }
                                         data.Add(field.Name, sb.ToString());
                                     }
@@ -123,7 +123,7 @@ namespace Karabina.SharePoint.Provisioning
                                     {
                                         //No, get the user id and value
                                         FieldUserValue userValue = value as FieldUserValue;
-                                        data.Add(field.Name, $"{userValue.LookupId}#;{userValue.LookupValue}");
+                                        data.Add(field.Name, $"{userValue.LookupId};#{userValue.LookupValue}");
                                     }
                                 }
                                 break;
@@ -135,12 +135,12 @@ namespace Karabina.SharePoint.Provisioning
                             case ProvisioningFieldType.Guid:
                                 //Field is GUID, save full guid format.
                                 Guid guid = Guid.Parse(value.ToString());
-                                data.Add(field.Name, guid.ToString("N"));
+                                data.Add(field.Name, guid.ToString("B"));
                                 break;
                             case ProvisioningFieldType.DateTime:
                                 //Field is date time, save in ISO format
                                 DateTime dateTime = Convert.ToDateTime(value);
-                                data.Add(field.Name, dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+                                data.Add(field.Name, dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")); //ISO format
                                 break;
                             default:
                                 //Field is text, number or one of the other types not checked above.
@@ -984,7 +984,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         //fix fields with default, formula or defaultformula elements so that the referenced fields have 
                         //a lower index than the fields that reference them in the SiteFields collection
-                        //This prevents the "Invalid field found" error from occuring
+                        //This prevents the "Invalid field found" error from occuring when applying the template to a site
                         FixReferenceFields(template, lookupListTitles);
                     }
 
@@ -1266,8 +1266,10 @@ namespace Karabina.SharePoint.Provisioning
             XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(new OpenXMLConnector(fileNamePNP, fileConnector));
 
             List<ProvisioningTemplate> templates = provider.GetTemplates();
-
             ProvisioningTemplate template = templates[0];
+
+            template.Connector = provider.Connector; //needed when we save back to the template
+
             EditingTemplate = template;
 
             treeView.Nodes.Clear();
@@ -1405,7 +1407,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 foreach (var siteFeature in template.Features.SiteFeatures)
                 {
-                    siteFeaturesList.AddKeyValue(siteFeature.Id.ToString("B"), siteFeature.Id.ToString("B"));
+                    siteFeaturesList.AddKeyValue(siteFeature.Id.ToString("B"), siteFeature.Id.ToString("B")); //B = {} format
                 }
 
                 sfNodes.Tag = templateItems.AddItem(sfNodes.Name, TemplateControlType.ListBox, 
@@ -1623,6 +1625,7 @@ namespace Karabina.SharePoint.Provisioning
                                 Zone = webPart.Zone
 
                             };
+
                             TreeNode fwpNode = new TreeNode(newWP.Title);
                             fwpNode.Name = fwpNodes.Name + "_" + newWP.Title;
                             fwpNode.Tag = templateItems.AddItem(fwpNode.Name, TemplateControlType.TextBox,
@@ -2087,7 +2090,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //OpenTemplateForEdit
 
-        public int[] GetRegionalSettings()
+        private int[] GetRegionalSettings()
         {
             int[] result = null;
             if (EditingTemplate?.RegionalSettings != null)
@@ -2115,7 +2118,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetRegionalSettingProperty
 
-        public string[] GetComposedLook()
+        private string[] GetComposedLook()
         {
             string[] result = null;
             if (EditingTemplate?.ComposedLook != null)
@@ -2135,7 +2138,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetComposedLook
 
-        public string GetContentType(string contentTypeId)
+        private string GetContentType(string contentTypeId)
         {
             string result = string.Empty;
             if (EditingTemplate?.ContentTypes != null)
@@ -2178,7 +2181,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetContentType
 
-        public string GetListInstance(string url)
+        private string GetListInstance(string url)
         {
             string result = string.Empty;
             if (EditingTemplate?.Lists != null)
@@ -2280,7 +2283,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetListInstance
 
-        public string[] GetWebSettings(WebSettings webSettings)
+        private string[] GetWebSettings(WebSettings webSettings)
         {
             string[] result = null;
             if (webSettings != null)
@@ -2305,7 +2308,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetWebSettings
 
-        public string GetWorkflowDefinition(Guid WorkflowDefinitionId)
+        private string GetWorkflowDefinition(Guid WorkflowDefinitionId)
         {
             string result = string.Empty;
             if (EditingTemplate?.Workflows?.WorkflowDefinitions != null)
@@ -2352,7 +2355,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetWorkflowDefinition
 
-        public string GetWorkflowSubscription(string workflowSubscriptionName)
+        private string GetWorkflowSubscription(string workflowSubscriptionName)
         {
             string result = string.Empty;
             if (EditingTemplate?.Workflows?.WorkflowSubscriptions != null)
@@ -2396,7 +2399,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetWorkflowSubscription
 
-        public string GetCustomAction(CustomAction customAction)
+        private string GetCustomAction(CustomAction customAction)
         {
             string result = string.Empty;
             if (customAction != null)
@@ -2430,7 +2433,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetCustomAction
 
-        public string GetPNPFile(PnPModel.File file)
+        private string GetPNPFile(PnPModel.File file)
         {
             string result = string.Empty;
             if (file != null)
@@ -2471,7 +2474,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetPNPFile
 
-        public string GetLocalization(Localization localization)
+        private string GetLocalization(Localization localization)
         {
             string result = string.Empty;
             if (localization != null)
@@ -2492,7 +2495,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetLocalization
 
-        public string GetPageContent(Page page)
+        private string GetPageContent(Page page)
         {
             string result = string.Empty;
             if (page != null)
@@ -2529,7 +2532,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetPageContent
 
-        public string GetPublishing(Publishing publishing)
+        private string GetPublishing(Publishing publishing)
         {
             string result = string.Empty;
             if (publishing != null)
@@ -2585,7 +2588,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetPublishing
 
-        public string GetTermGroup(Guid termGroupId)
+        private string GetTermGroup(Guid termGroupId)
         {
             string result = string.Empty;
             if (EditingTemplate?.TermGroups != null)
@@ -2718,7 +2721,7 @@ namespace Karabina.SharePoint.Provisioning
 
         }
 
-        public string GetTermSet(TermSet termSet)
+        private string GetTermSet(TermSet termSet)
         {
             string result = string.Empty;
             if (termSet != null)
@@ -2760,26 +2763,30 @@ namespace Karabina.SharePoint.Provisioning
             if (EditingTemplate != null)
             {
                 ProvisioningTemplate template = EditingTemplate;
+
                 if (template.AddIns?.Count > 0)
                 {
-                    List<TemplateItem> addInItems = templateItems.GetItems(TemplateItemType.AddInItem);
-                    if (addInItems?.Count > 0)
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.AddInItem);
+                    if (deletedItems?.Count > 0)
                     {
-                        foreach (var addInItem in addInItems)
+                        foreach (var templateItem in deletedItems)
                         {
-                            if (addInItem.IsDeleted)
-                            {
-                                template.AddIns.RemoveAll(p => p.PackagePath.Equals(addInItem.Name, StringComparison.OrdinalIgnoreCase));
+                            template.AddIns.RemoveAll(p => p.PackagePath.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
 
-                            }
-                            else if (addInItem.IsChanged)
-                            {
-                                AddIn addIn = template.AddIns.Find(p => p.PackagePath.Equals(addInItem.Name, StringComparison.OrdinalIgnoreCase));
-                                if (addIn != null)
-                                {
-                                    addIn.Source = addInItem.Content as string;
+                            templateItems.RemoveItem(templateItem);
+                        }
 
-                                }
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.AddInItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            AddIn addIn = template.AddIns.Find(p => p.PackagePath.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (addIn != null)
+                            {
+                                addIn.Source = templateItem.Content as string;
 
                             }
 
@@ -2791,19 +2798,21 @@ namespace Karabina.SharePoint.Provisioning
 
                 if (template.ComposedLook != null)
                 {
-                    List<TemplateItem> composedLookItems = templateItems.GetItems(TemplateItemType.ComposedLook);
-                    if (composedLookItems?.Count > 0)
+                    List<TemplateItem> composedLookTemplateItems = templateItems.GetItems(TemplateItemType.ComposedLook);
+                    if (composedLookTemplateItems?.Count > 0)
                     {
-                        foreach(var composedLookItem in composedLookItems)
+                        foreach (var templateItem in composedLookTemplateItems)
                         {
-                            if (composedLookItem.IsDeleted)
+                            if (templateItem.IsDeleted)
                             {
                                 template.ComposedLook = null;
 
+                                templateItems.RemoveItem(templateItem);
+
                             }
-                            else if (composedLookItem.IsChanged)
+                            else if (templateItem.IsChanged)
                             {
-                                string[] values = composedLookItem.Content as string[];
+                                string[] values = templateItem.Content as string[];
                                 template.ComposedLook.Name = values[(int)ComposedLookProperties.Name];
                                 template.ComposedLook.BackgroundFile = values[(int)ComposedLookProperties.BackgroundFile];
                                 template.ComposedLook.ColorFile = values[(int)ComposedLookProperties.ColorFile];
@@ -2820,22 +2829,31 @@ namespace Karabina.SharePoint.Provisioning
 
                 if (template.ContentTypes?.Count > 0)
                 {
-                    List<TemplateItem> contentTypeItems = templateItems.GetItems(TemplateItemType.ContentTypeItem);
-                    if (contentTypeItems?.Count > 0)
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.ContentTypeItem);
+                    if (deletedItems?.Count > 0)
                     {
-                        foreach (var contentTypeItem in contentTypeItems)
+                        foreach (var templateItem in deletedItems)
                         {
-                            if (contentTypeItem.IsDeleted)
+                            template.ContentTypes.RemoveAll(p => p.Id.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
 
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.ContentTypeItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            PnPModel.ContentType oldCT = template.ContentTypes.Find(p => p.Id.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldCT != null)
                             {
-                                template.ContentTypes.RemoveAll(p => p.Id.Equals(contentTypeItem.Name, StringComparison.OrdinalIgnoreCase));
-
-                            }
-                            else if (contentTypeItem.IsChanged)
-                            {
-                                string contentType = contentTypeItem.Content as string;
-                                PnPModel.ContentType ct = JsonConvert.DeserializeObject(contentType) as PnPModel.ContentType;
-
+                                string contentType = templateItem.Content as string;
+                                PnPModel.ContentType newCT = JsonConvert.DeserializeObject<PnPModel.ContentType>(contentType);
+                                template.ContentTypes.Remove(oldCT);
+                                template.ContentTypes.Add(newCT);
 
                             }
 
@@ -2845,10 +2863,175 @@ namespace Karabina.SharePoint.Provisioning
 
                 } //if ContentTypes
 
-            }
+                if (template.CustomActions?.SiteCustomActions?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.SiteCustomActionItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach(var templateItem in deletedItems)
+                        {
+                            template.CustomActions.SiteCustomActions.RemoveAll(p => p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
 
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.SiteCustomActionItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach(var templateItem in changedItems)
+                        {
+                            CustomAction oldCA = template.CustomActions.SiteCustomActions.Find(p => p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldCA != null)
+                            {
+                                string customAction = templateItem.Content as string;
+                                CustomAction newCA = JsonConvert.DeserializeObject<CustomAction>(customAction);
+                                template.CustomActions.SiteCustomActions.Remove(oldCA);
+                                template.CustomActions.SiteCustomActions.Add(newCA);
+
+                            }
+
+                        }
+
+                    }
+
+                } //if SiteCustomActions
+
+                if (template.CustomActions?.WebCustomActions?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.WebCustomActionItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            template.CustomActions.WebCustomActions.RemoveAll(p => p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.WebCustomActionItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            CustomAction oldCA = template.CustomActions.WebCustomActions.Find(p => p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldCA != null)
+                            {
+                                string customAction = templateItem.Content as string;
+                                CustomAction newCA = JsonConvert.DeserializeObject<CustomAction>(customAction);
+                                template.CustomActions.WebCustomActions.Remove(oldCA);
+                                template.CustomActions.WebCustomActions.Add(newCA);
+
+                            }
+
+                        }
+
+                    }
+
+                } //if WebCustomActions
+
+                if (template.Features?.SiteFeatures?.Count > 0)
+                {
+                    List<TemplateItem> siteFeatureTemplateItems = templateItems.GetItems(TemplateItemType.SiteFeatureList);
+                    if (siteFeatureTemplateItems?.Count > 0)
+                    {
+                        foreach (var templateItem in siteFeatureTemplateItems)
+                        {
+                            if (templateItem.IsDeleted)
+                            {
+                                template.Features.SiteFeatures.Clear();
+
+                                templateItems.RemoveItem(templateItem);
+
+                            }
+                            else if (templateItem.IsChanged)
+                            {
+                                KeyValueList keyValueList = templateItem.Content as KeyValueList;
+                                template.Features.SiteFeatures.Clear();
+                                foreach(var keyValue in keyValueList)
+                                {
+                                    PnPModel.Feature feature = new PnPModel.Feature();
+                                    feature.Id = new Guid(keyValue.Value);
+                                    template.Features.SiteFeatures.Add(feature);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                } //if SiteFeatures
+
+                if (template.Features?.WebFeatures?.Count > 0)
+                {
+                    List<TemplateItem> webFeatureTemplateItems = templateItems.GetItems(TemplateItemType.WebFeatureList);
+                    if (webFeatureTemplateItems?.Count > 0)
+                    {
+                        foreach (var templateItem in webFeatureTemplateItems)
+                        {
+                            if (templateItem.IsDeleted)
+                            {
+                                template.Features.WebFeatures.Clear();
+
+                                templateItems.RemoveItem(templateItem);
+
+                            }
+                            else if (templateItem.IsChanged)
+                            {
+                                template.Features.WebFeatures.Clear();
+                                KeyValueList keyValueList = templateItem.Content as KeyValueList;
+                                foreach (var keyValue in keyValueList)
+                                {
+                                    PnPModel.Feature feature = new PnPModel.Feature();
+                                    feature.Id = new Guid(keyValue.Value);
+                                    template.Features.WebFeatures.Add(feature);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                } //if SiteFeatures
+
+                if (template.Files?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach(var templateItem in deletedItems)
+                        {
+                            PnPModel.File file = template.Files.Find(p => p.Src.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            template.Connector.DeleteFile(file.Src);
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.FileItem);
+                    if (changedItems?.Count > 0)
+                    {
+
+                    }
+
+                } //if Files
+
+
+            } //if EditingTemplate
 
         } //SaveTemplateForEdit
+
 
     } //SharePoint2013OnPrem
 

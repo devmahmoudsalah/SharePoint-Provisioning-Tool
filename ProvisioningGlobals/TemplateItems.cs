@@ -112,7 +112,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        } //SetChildrenDeleted
+        } //SetDeleted
 
         public void SetDeleted(TemplateItem templateItem)
         {
@@ -123,7 +123,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        } //SetChildrenDeleted
+        } //SetDeleted
 
         public void SetChildrenDeleted(string parentId)
         {
@@ -163,6 +163,53 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         } //SetContent
+
+        public List<TemplateItem> GetDeletedItems()
+        {
+            return FindAll(p => p.IsDeleted);
+
+        } //GetDeletedItems
+
+        public List<TemplateItem> GetDeletedItems(TemplateItemType itemType)
+        {
+            return FindAll(p => ((p.IsDeleted) && (p.ItemType == itemType)));
+
+        } //GetDeletedItems
+
+        public List<TemplateItem> GetChangedItems()
+        {
+            return FindAll(p => p.IsChanged);
+
+        } //GetChangedItems
+
+        public List<TemplateItem> GetChangedItems(TemplateItemType itemType)
+        {
+            return FindAll(p => ((p.IsChanged) && (p.ItemType == itemType)));
+
+        } //GetChangedItems
+
+        public void RemoveItem(TemplateItem templateItem)
+        {
+            if (templateItem != null)
+            {
+                List<TemplateItem> items = GetChildren(templateItem.Id);
+                if (items?.Count > 0)
+                {
+                    foreach (var item in items)
+                    {
+                        RemoveItem(item);
+                        Remove(item);
+
+                    }
+
+                }
+
+                Remove(templateItem);
+
+            }
+
+        } //RemoveItem
+
 
     } //TemplateItems
 
