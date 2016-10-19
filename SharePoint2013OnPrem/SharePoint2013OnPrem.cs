@@ -3005,6 +3005,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 if (template.Files?.Count > 0)
                 {
+                    
                     List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileItem);
                     if (deletedItems?.Count > 0)
                     {
@@ -3014,6 +3015,69 @@ namespace Karabina.SharePoint.Provisioning
                             template.Connector.DeleteFile(file.Src);
 
                             templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileWebPartItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.FileItem);
+                            if (parentItem != null)
+                            {
+                                PnPModel.File file = template.Files.Find(p => p.Src.Equals(parentItem.Name, StringComparison.OrdinalIgnoreCase));
+                                if (file != null)
+                                {
+                                    string[] titles = templateItem.Name.Split(new char[] { '_' });
+                                    string webPartTitle = titles[titles.Length - 1];
+                                    WebPart webPart = file.WebParts.Find(p => p.Title.Equals(webPartTitle, StringComparison.OrdinalIgnoreCase));
+                                    if (webPart != null)
+                                    {
+                                        file.WebParts.Remove(webPart);
+                                        templateItems.RemoveItem(templateItem);
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileWebPartItemContent);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.FileItem);
+                            if (parentItem != null)
+                            {
+                                PnPModel.File file = template.Files.Find(p => p.Src.Equals(parentItem.Name, StringComparison.OrdinalIgnoreCase));
+                                if (file != null)
+                                {
+                                    parentItem = templateItems.GetParent(templateItem);
+                                    if (parentItem != null)
+                                    {
+                                        string[] titles = parentItem.Name.Split(new char[] { '_' });
+                                        string webPartTitle = titles[titles.Length - 1];
+                                        WebPart webPart = file.WebParts.Find(p => p.Title.Equals(webPartTitle, StringComparison.OrdinalIgnoreCase));
+                                        if (webPart != null)
+                                        {
+                                            file.WebParts.Remove(webPart);
+                                            templateItems.RemoveItem(parentItem);
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
 
                         }
 

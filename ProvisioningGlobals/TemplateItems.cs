@@ -96,9 +96,127 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetItems
 
+        public TemplateItem GetParent(string id)
+        {
+            TemplateItem templateItem = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
+            if (templateItem != null)
+            {
+                if (!string.IsNullOrWhiteSpace(templateItem.ParentId))
+                {
+                    templateItem = Find(p => p.Id.Equals(templateItem.ParentId, StringComparison.Ordinal));
+
+                }
+                else
+                {
+                    templateItem = null;
+
+                }
+
+            }
+
+            return templateItem;
+
+        } //GetParent
+
+        public TemplateItem GetParent(TemplateItem templateItem)
+        {
+            TemplateItem result = null;
+            if (templateItem != null)
+            {
+                if (!string.IsNullOrWhiteSpace(templateItem.ParentId))
+                {
+                    result = Find(p => p.Id.Equals(templateItem.ParentId, StringComparison.Ordinal));
+
+                }
+
+            }
+
+            return result;
+
+        } //GetParent
+
+        public TemplateItem GetParent(string id, TemplateItemType upToItemType)
+        {
+            TemplateItem templateItem = Find(p => p.Id.Equals(id, StringComparison.Ordinal));
+
+            while (templateItem?.ItemType != upToItemType)
+            {
+                if (!string.IsNullOrWhiteSpace(templateItem.ParentId))
+                {
+                    templateItem = Find(p => p.Id.Equals(templateItem.ParentId, StringComparison.Ordinal));
+
+                }
+                else
+                {
+                    templateItem = null;
+                    break;
+
+                }
+
+            }
+
+            return templateItem;
+
+        } //GetParent
+
+        public TemplateItem GetParent(TemplateItem templateItem, TemplateItemType upToItemType)
+        {
+            TemplateItem result = null;
+            if ((templateItem != null) && (!string.IsNullOrWhiteSpace(templateItem.ParentId)))
+            {
+                result = Find(p => p.Id.Equals(templateItem.ParentId, StringComparison.Ordinal));
+
+                while (result?.ItemType != upToItemType)
+                {
+                    if (!string.IsNullOrWhiteSpace(result.ParentId))
+                    {
+                        result = Find(p => p.Id.Equals(result.ParentId, StringComparison.Ordinal));
+
+                    }
+                    else
+                    {
+                        templateItem = null;
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            return result;
+
+        } //GetParent
+
         public List<TemplateItem> GetChildren(string parentId)
         {
             return FindAll(p => p.ParentId.Equals(parentId, StringComparison.Ordinal));
+
+        } //GetChildren
+
+        public List<TemplateItem> GetChildren(string parentId, bool allGenerations)
+        {
+            List<TemplateItem> children = FindAll(p => p.ParentId.Equals(parentId, StringComparison.Ordinal));
+            if (allGenerations)
+            {
+                if (children?.Count > 0)
+                {
+                    foreach (var item in children)
+                    {
+                        List<TemplateItem> grandChildren = GetChildren(item.Id, true);
+                        if (grandChildren?.Count > 0)
+                        {
+                            children.AddRange(grandChildren);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return children;
 
         } //GetChildren
 
@@ -176,6 +294,12 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetDeletedItems
 
+        public List<TemplateItem> GetDeletedItems(TemplateItemType[] itemTypes)
+        {
+            return FindAll(p => ((p.IsDeleted) && (Array.IndexOf(itemTypes, p.ItemType) >= 0)));
+
+        } //GetDeletedItems
+
         public List<TemplateItem> GetChangedItems()
         {
             return FindAll(p => p.IsChanged);
@@ -185,6 +309,34 @@ namespace Karabina.SharePoint.Provisioning
         public List<TemplateItem> GetChangedItems(TemplateItemType itemType)
         {
             return FindAll(p => ((p.IsChanged) && (p.ItemType == itemType)));
+
+        } //GetChangedItems
+
+        public List<TemplateItem> GetChangedItems(TemplateItemType itemType, bool returnChildren)
+        {
+            List<TemplateItem> changedItems = FindAll(p => ((p.IsChanged) && (p.ItemType == itemType)));
+            if (returnChildren)
+            {
+                foreach(var item in changedItems)
+                {
+                    List<TemplateItem> children = GetChildren(item.Id, true);
+                    if (children?.Count > 0)
+                    {
+                        changedItems.AddRange(children);
+
+                    }
+
+                }
+
+            }
+
+            return changedItems;
+
+        } //GetChangedItems
+
+        public List<TemplateItem> GetChangedItems(TemplateItemType[] itemTypes)
+        {
+            return FindAll(p => ((p.IsChanged) && (Array.IndexOf(itemTypes, p.ItemType) >= 0)));
 
         } //GetChangedItems
 

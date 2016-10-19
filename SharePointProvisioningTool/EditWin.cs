@@ -539,15 +539,31 @@ namespace Karabina.SharePoint.Provisioning
                 if (templateItem != null)
                 {
                     _templateItems.SetChildrenDeleted(templateItem.Id);
-                    templateItem.IsDeleted = true;
+                    _templateItems.SetDeleted(templateItem);
 
                     if (!string.IsNullOrWhiteSpace(templateItem.ParentId))
                     {
                         TemplateItem parentItem = _templateItems.GetItem(templateItem.ParentId);
-                        if(parentItem.ControlType== TemplateControlType.ListBox)
+                        if (parentItem.ControlType == TemplateControlType.ListBox)
                         {
                             KeyValueList keyValueList = parentItem.Content as KeyValueList;
                             keyValueList.RemoveAll(p => p.ValueEquals(templateItem.Name));
+
+                        }
+                        else if (parentItem.ItemType == TemplateItemType.FileWebPartItem)
+                        {
+                            //Contents of webpart is deleted, delete the webpart
+                            _selectedNode = _selectedNode.Parent;
+                            _templateItems.SetChildrenDeleted(parentItem.Id);
+                            _templateItems.SetDeleted(parentItem);
+                            string webPartTitle = parentItem.Name;
+                            parentItem = _templateItems.GetItem(parentItem.ParentId);
+                            if (parentItem.ControlType == TemplateControlType.ListBox)
+                            {
+                                KeyValueList keyValueList = parentItem.Content as KeyValueList;
+                                keyValueList.RemoveAll(p => p.ValueEquals(webPartTitle));
+
+                            }
 
                         }
 
