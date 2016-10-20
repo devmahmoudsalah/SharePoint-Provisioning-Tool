@@ -362,6 +362,27 @@ namespace Karabina.SharePoint.Provisioning
 
         } //RemoveItem
 
+        public void CommitItem(TemplateItem templateItem)
+        {
+            if (templateItem != null)
+            {
+                List<TemplateItem> items = GetChildren(templateItem.Id);
+                if (items?.Count > 0)
+                {
+                    foreach (var item in items)
+                    {
+                        CommitItem(item);                        
+
+                    }
+
+                }
+
+                templateItem.IsChanged = false;
+
+            }
+
+        } //CommitItem
+
 
     } //TemplateItems
 
