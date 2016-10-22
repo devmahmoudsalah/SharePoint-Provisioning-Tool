@@ -90,6 +90,12 @@ namespace Karabina.SharePoint.Provisioning
 
         } //GetItem
 
+        public TemplateItem GetItemByName(string name)
+        {
+            return Find(p => p.Name.Equals(name, StringComparison.Ordinal));
+
+        } //GetItem
+
         public List<TemplateItem> GetItems(TemplateItemType itemType)
         {
             return FindAll(p => p.ItemType == itemType);

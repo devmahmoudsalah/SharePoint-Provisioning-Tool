@@ -77,6 +77,9 @@
             this.pTextControl = new System.Windows.Forms.Panel();
             this.lTextControl = new System.Windows.Forms.Label();
             this.tbTextControl = new System.Windows.Forms.TextBox();
+            this.cmsTextControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiTCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTCCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.pWebSettings = new System.Windows.Forms.Panel();
             this.cbWSNoCrawl = new System.Windows.Forms.CheckBox();
             this.tbWSRequestAccessEmail = new System.Windows.Forms.TextBox();
@@ -113,6 +116,7 @@
             this.pRegionalSettings.SuspendLayout();
             this.pComposedLook.SuspendLayout();
             this.pTextControl.SuspendLayout();
+            this.cmsTextControlPopup.SuspendLayout();
             this.pWebSettings.SuspendLayout();
             this.pViewControl.SuspendLayout();
             this.cmsViewControlPopup.SuspendLayout();
@@ -141,12 +145,13 @@
             this.cmsTreeViewPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiTVDelete});
             this.cmsTreeViewPopup.Name = "cmsTreeViewPopup";
-            this.cmsTreeViewPopup.Size = new System.Drawing.Size(182, 26);
+            this.cmsTreeViewPopup.ShowImageMargin = false;
+            this.cmsTreeViewPopup.Size = new System.Drawing.Size(157, 26);
             // 
             // tsmiTVDelete
             // 
             this.tsmiTVDelete.Name = "tsmiTVDelete";
-            this.tsmiTVDelete.Size = new System.Drawing.Size(181, 22);
+            this.tsmiTVDelete.Size = new System.Drawing.Size(156, 22);
             this.tsmiTVDelete.Text = "Delete Selected Item";
             this.tsmiTVDelete.Click += new System.EventHandler(this.DeleteTemplateItem);
             // 
@@ -632,6 +637,7 @@
             this.tbTextControl.AcceptsReturn = true;
             this.tbTextControl.AcceptsTab = true;
             this.tbTextControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbTextControl.ContextMenuStrip = this.cmsTextControlPopup;
             this.tbTextControl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTextControl.Location = new System.Drawing.Point(13, 29);
             this.tbTextControl.Multiline = true;
@@ -642,6 +648,29 @@
             this.tbTextControl.TabIndex = 0;
             this.tbTextControl.WordWrap = false;
             this.tbTextControl.TextChanged += new System.EventHandler(this.ControlTextChanged);
+            // 
+            // cmsTextControlPopup
+            // 
+            this.cmsTextControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiTCSelectAll,
+            this.tsmiTCCopy});
+            this.cmsTextControlPopup.Name = "cmsTextControlPopup";
+            this.cmsTextControlPopup.ShowImageMargin = false;
+            this.cmsTextControlPopup.Size = new System.Drawing.Size(98, 48);
+            // 
+            // tsmiTCSelectAll
+            // 
+            this.tsmiTCSelectAll.Name = "tsmiTCSelectAll";
+            this.tsmiTCSelectAll.Size = new System.Drawing.Size(97, 22);
+            this.tsmiTCSelectAll.Text = "Select All";
+            this.tsmiTCSelectAll.Click += new System.EventHandler(this.TextControlSelectAll);
+            // 
+            // tsmiTCCopy
+            // 
+            this.tsmiTCCopy.Name = "tsmiTCCopy";
+            this.tsmiTCCopy.Size = new System.Drawing.Size(97, 22);
+            this.tsmiTCCopy.Text = "Copy";
+            this.tsmiTCCopy.Click += new System.EventHandler(this.TextControlCopy);
             // 
             // pWebSettings
             // 
@@ -872,19 +901,20 @@
             this.tsmiVCSelectAll,
             this.tsmiVCDeleteItem});
             this.cmsViewControlPopup.Name = "cmsViewControlPopup";
-            this.cmsViewControlPopup.Size = new System.Drawing.Size(195, 48);
+            this.cmsViewControlPopup.ShowImageMargin = false;
+            this.cmsViewControlPopup.Size = new System.Drawing.Size(170, 48);
             // 
             // tsmiVCSelectAll
             // 
             this.tsmiVCSelectAll.Name = "tsmiVCSelectAll";
-            this.tsmiVCSelectAll.Size = new System.Drawing.Size(194, 22);
+            this.tsmiVCSelectAll.Size = new System.Drawing.Size(169, 22);
             this.tsmiVCSelectAll.Text = "Select All";
             this.tsmiVCSelectAll.Click += new System.EventHandler(this.ViewControlSelectAll);
             // 
             // tsmiVCDeleteItem
             // 
             this.tsmiVCDeleteItem.Name = "tsmiVCDeleteItem";
-            this.tsmiVCDeleteItem.Size = new System.Drawing.Size(194, 22);
+            this.tsmiVCDeleteItem.Size = new System.Drawing.Size(169, 22);
             this.tsmiVCDeleteItem.Text = "Delete Selected Item(s)";
             this.tsmiVCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromView);
             // 
@@ -901,7 +931,7 @@
             // 
             this.pListControl.Controls.Add(this.lbListControl);
             this.pListControl.Controls.Add(this.lListControl);
-            this.pListControl.Location = new System.Drawing.Point(438, 61);
+            this.pListControl.Location = new System.Drawing.Point(1038, 61);
             this.pListControl.Name = "pListControl";
             this.pListControl.Size = new System.Drawing.Size(514, 488);
             this.pListControl.TabIndex = 16;
@@ -927,19 +957,20 @@
             this.tsmiLCSelectAll,
             this.tsmiLCDeleteItem});
             this.cmsListControlPopup.Name = "cmsListControlPopup";
-            this.cmsListControlPopup.Size = new System.Drawing.Size(195, 48);
+            this.cmsListControlPopup.ShowImageMargin = false;
+            this.cmsListControlPopup.Size = new System.Drawing.Size(170, 48);
             // 
             // tsmiLCSelectAll
             // 
             this.tsmiLCSelectAll.Name = "tsmiLCSelectAll";
-            this.tsmiLCSelectAll.Size = new System.Drawing.Size(194, 22);
+            this.tsmiLCSelectAll.Size = new System.Drawing.Size(169, 22);
             this.tsmiLCSelectAll.Text = "Select All";
             this.tsmiLCSelectAll.Click += new System.EventHandler(this.ListControlSelectAll);
             // 
             // tsmiLCDeleteItem
             // 
             this.tsmiLCDeleteItem.Name = "tsmiLCDeleteItem";
-            this.tsmiLCDeleteItem.Size = new System.Drawing.Size(194, 22);
+            this.tsmiLCDeleteItem.Size = new System.Drawing.Size(169, 22);
             this.tsmiLCDeleteItem.Text = "Delete Selected Item(s)";
             this.tsmiLCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromList);
             // 
@@ -984,6 +1015,7 @@
             this.pComposedLook.PerformLayout();
             this.pTextControl.ResumeLayout(false);
             this.pTextControl.PerformLayout();
+            this.cmsTextControlPopup.ResumeLayout(false);
             this.pWebSettings.ResumeLayout(false);
             this.pWebSettings.PerformLayout();
             this.pViewControl.ResumeLayout(false);
@@ -1078,5 +1110,8 @@
         private System.Windows.Forms.ContextMenuStrip cmsViewControlPopup;
         private System.Windows.Forms.ToolStripMenuItem tsmiVCSelectAll;
         private System.Windows.Forms.ToolStripMenuItem tsmiVCDeleteItem;
+        private System.Windows.Forms.ContextMenuStrip cmsTextControlPopup;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTCSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTCCopy;
     }
 }

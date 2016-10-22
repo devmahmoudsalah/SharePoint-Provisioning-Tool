@@ -43,6 +43,7 @@
     <Compile Include="Calendars.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DayHours.cs" />
+    <Compile Include="Extentions.cs" />
     <Compile Include="FirstWeekYear.cs" />
     <Compile Include="KeysValues.cs" />
     <Compile Include="Locales.cs" />

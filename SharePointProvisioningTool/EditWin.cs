@@ -62,7 +62,7 @@ namespace Karabina.SharePoint.Provisioning
                 try
                 {
                     Cursor = Cursors.WaitCursor;
-
+                                        
                     int slashPosition = tbTemplate.Text.LastIndexOf('\\');
                     string path = tbTemplate.Text.Substring(0, slashPosition);
                     slashPosition++;
@@ -72,11 +72,17 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         case SharePointVersion.SharePoint_2013_On_Premise:
                             _templateItems = SP2013OP.OpenTemplateForEdit(path, name, tvTemplate);
+
                             break;
+
                         case SharePointVersion.SharePoint_2016_On_Premise:
+
                             break;
+
                         case SharePointVersion.SharePoint_2016_OnLine:
+
                             break;
+
                     } // switch
 
                 } // try
@@ -305,8 +311,8 @@ namespace Karabina.SharePoint.Provisioning
                 cbRSTimeFormat.Items.Clear();
 
                 TimeFormatCollection timeFormatCollection = new TimeFormatCollection();
-                cbRSTimeFormat.DisplayMember = timeZoneCollection.DisplayMember;
-                cbRSTimeFormat.ValueMember = timeZoneCollection.ValueMember;
+                cbRSTimeFormat.DisplayMember = timeFormatCollection.DisplayMember;
+                cbRSTimeFormat.ValueMember = timeFormatCollection.ValueMember;
                 cbRSTimeFormat.DataSource = timeFormatCollection.TimeFormats;
                 cbRSTimeFormat.SelectedIndex = regionalSettings[(int)RegionalSettingProperties.Time24];
 
@@ -627,7 +633,34 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SaveChanges(object sender, EventArgs e)
         {
-            //to do
+            try
+            {
+                switch (_selectedVersion)
+                {
+                    case SharePointVersion.SharePoint_2013_On_Premise:
+                        SP2013OP.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
+
+                        break;
+
+                    case SharePointVersion.SharePoint_2016_On_Premise:
+
+                        break;
+
+                    case SharePointVersion.SharePoint_2016_OnLine:
+
+                        break;
+
+                } // switch
+
+                bSave.Visible = false;
+                MessageBox.Show("Template saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
 
         } //SaveChanges
 
@@ -683,9 +716,10 @@ namespace Karabina.SharePoint.Provisioning
                                             if (node.Nodes?.Count > 0)
                                             {
                                                 _templateItems.SetChildrenDeleted(nodeItem.Id);
-                                                _templateItems.SetDeleted(nodeItem);
 
                                             }
+
+                                            _templateItems.SetDeleted(nodeItem);
 
                                         }
 
@@ -915,6 +949,33 @@ namespace Karabina.SharePoint.Provisioning
                     if (templateItem.IsChanged)
                     {
                         bSave.Visible = true;
+                        if (string.IsNullOrWhiteSpace(tbTextControl.Text))
+                        {
+                            _templateItems.SetDeleted(templateItem);
+
+                            TreeNode prevNode = _selectedNode.PrevNode;
+                            TreeNode parentNode = _selectedNode.Parent;
+
+                            tvTemplate.Nodes.Remove(_selectedNode);
+                            _selectedNode = null;
+
+                            if (prevNode != null)
+                            {
+                                tvTemplate.SelectedNode = prevNode;
+
+                            }
+                            else if (parentNode != null)
+                            {
+                                tvTemplate.SelectedNode = parentNode;
+
+                            }
+                            else
+                            {
+                                HidePanels();
+
+                            }
+
+                        }
 
                     }
 
@@ -1125,6 +1186,18 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         } //ViewControlKeyUp
+
+        private void TextControlSelectAll(object sender, EventArgs e)
+        {
+            tbTextControl.SelectAll();
+
+        } // TextControlSelectAll
+
+        private void TextControlCopy(object sender, EventArgs e)
+        {
+            tbTextControl.Copy();
+
+        } //TextControlCopy
 
     } //EditWin
 

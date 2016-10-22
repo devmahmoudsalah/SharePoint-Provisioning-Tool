@@ -163,13 +163,13 @@
   <data name="TemplateEditRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EditRed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ViewCascadeRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CascadeRed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ViewCascadeNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CascadeNew.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ViewHorizontalRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HorizontalRed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ViewHorizontalNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HorizontalNew.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ViewVerticalRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\VerticalRed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ViewVerticalNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VerticalNew.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
