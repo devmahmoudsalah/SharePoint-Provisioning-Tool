@@ -41,14 +41,6 @@ namespace Karabina.SharePoint.Provisioning
         public EditWin()
         {
             InitializeComponent();
-            //panels are moved offscreen during design, now move them back to where they will appear.
-            int left = 438;
-            pComposedLook.Left = left;
-            pTextControl.Left = left;
-            pViewControl.Left = left;
-            pRegionalSettings.Left = left;
-            pWebSettings.Left = left;
-            pListControl.Left = left;
 
         }
 
@@ -76,10 +68,12 @@ namespace Karabina.SharePoint.Provisioning
                             break;
 
                         case SharePointVersion.SharePoint_2016_On_Premise:
+                            _templateItems = SP2016OP.OpenTemplateForEdit(path, name, tvTemplate);
 
                             break;
 
                         case SharePointVersion.SharePoint_2016_OnLine:
+                            _templateItems = SP2016OL.OpenTemplateForEdit(path, name, tvTemplate);
 
                             break;
 
@@ -96,6 +90,7 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     if (tvTemplate.Nodes?.Count > 0)
                     {
+                        tvTemplate.Visible = true;
                         tvTemplate.SelectedNode = tvTemplate.Nodes["TemplateNode"];
                         bSave.Visible = false;
 
@@ -108,14 +103,7 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         } //BrowseForTemplate
-
-        private void bClose_Click(object sender, EventArgs e)
-        {
-            Close();
-
-        } //bClose_Click
-
-
+               
         private void PopulateRegionalSettings(TemplateItem templateItem)
         {
             int[] regionalSettings = (int[])templateItem.Content;
@@ -453,21 +441,18 @@ namespace Karabina.SharePoint.Provisioning
                             break;
 
                         case TemplateControlType.ListBox:
-                            lListControl.Text = node.Text;
                             PopulateControlList(templateItem);
                             pListControl.Show();
 
                             break;
 
                         case TemplateControlType.ListView:
-                            lViewControl.Text = node.Text;
                             PopulateControlListView(templateItem);
                             pViewControl.Show();
 
                             break;
 
                         case TemplateControlType.TextBox:
-                            lTextControl.Text = node.Text;
                             PopulateControlText(templateItem);
                             pTextControl.Show();
 
@@ -506,33 +491,14 @@ namespace Karabina.SharePoint.Provisioning
 
         private void ResizeControls(object sender, EventArgs e)
         {
-            int newPanelHeight = (Height - 61 - 51);
+            int splitterWidth = scEditTemplate.SplitterDistance;
+            int newHeight = (Height - 69 - 51);
+            int newWidth = (Width - 48);
 
-            int newControlHeight = (newPanelHeight - 48);
+            Size newSize = new Size(newWidth, newHeight);
 
-            int newPanelWidth = (Width - 438 - 36);
-
-            int newControlWidth = (newPanelWidth - 24);
-
-            tvTemplate.Height = newPanelHeight;
-
-            Size panelSize = new Size(newPanelWidth, newPanelHeight);
-            Size controlSize = new Size(newControlWidth, newControlHeight);
-
-            pRegionalSettings.Size = panelSize;
-
-            pComposedLook.Size = panelSize;
-
-            pTextControl.Size = panelSize;
-            tbTextControl.Size = controlSize;
-
-            pWebSettings.Size = panelSize;
-
-            pViewControl.Size = panelSize;
-            lvViewControl.Size = controlSize;
-
-            pListControl.Size = panelSize;
-            lbListControl.Size = controlSize;
+            scEditTemplate.Size = newSize;
+            scEditTemplate.SplitterDistance = splitterWidth;
 
         } //ResizeControls
 
@@ -643,10 +609,12 @@ namespace Karabina.SharePoint.Provisioning
                         break;
 
                     case SharePointVersion.SharePoint_2016_On_Premise:
+                        SP2016OP.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
 
                         break;
 
                     case SharePointVersion.SharePoint_2016_OnLine:
+                        SP2016OL.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
 
                         break;
 
@@ -1186,18 +1154,6 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         } //ViewControlKeyUp
-
-        private void TextControlSelectAll(object sender, EventArgs e)
-        {
-            tbTextControl.SelectAll();
-
-        } // TextControlSelectAll
-
-        private void TextControlCopy(object sender, EventArgs e)
-        {
-            tbTextControl.Copy();
-
-        } //TextControlCopy
 
     } //EditWin
 

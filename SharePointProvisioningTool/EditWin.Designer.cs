@@ -30,12 +30,33 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditWin));
-            this.tvTemplate = new System.Windows.Forms.TreeView();
             this.cmsTreeViewPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiTVDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.tbTemplate = new System.Windows.Forms.TextBox();
             this.lTemplate = new System.Windows.Forms.Label();
             this.bBrowse = new System.Windows.Forms.Button();
+            this.bSave = new System.Windows.Forms.Button();
+            this.cmsViewControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiVCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiVCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsListControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiLCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scEditTemplate = new System.Windows.Forms.SplitContainer();
+            this.tvTemplate = new System.Windows.Forms.TreeView();
+            this.pComposedLook = new System.Windows.Forms.Panel();
+            this.tbCLVersion = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.tbCLFontFile = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.tbCLColorFile = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tbCLBackgroundFile = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.tbCLName = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.pListControl = new System.Windows.Forms.Panel();
+            this.lbListControl = new System.Windows.Forms.ListBox();
             this.pRegionalSettings = new System.Windows.Forms.Panel();
             this.cbRSAdjustHijriDate = new System.Windows.Forms.ComboBox();
             this.lAdjustHijriDate = new System.Windows.Forms.Label();
@@ -62,24 +83,12 @@
             this.cbRSLocale = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbRSTimeZone = new System.Windows.Forms.ComboBox();
-            this.bSave = new System.Windows.Forms.Button();
-            this.pComposedLook = new System.Windows.Forms.Panel();
-            this.tbCLVersion = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.tbCLFontFile = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.tbCLColorFile = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.tbCLBackgroundFile = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.tbCLName = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.pTextControl = new System.Windows.Forms.Panel();
-            this.lTextControl = new System.Windows.Forms.Label();
             this.tbTextControl = new System.Windows.Forms.TextBox();
-            this.cmsTextControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiTCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiTCCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.pViewControl = new System.Windows.Forms.Panel();
+            this.lvViewControl = new System.Windows.Forms.ListView();
+            this.pbeKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pbeValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pWebSettings = new System.Windows.Forms.Panel();
             this.cbWSNoCrawl = new System.Windows.Forms.CheckBox();
             this.tbWSRequestAccessEmail = new System.Windows.Forms.TextBox();
@@ -98,47 +107,20 @@
             this.label24 = new System.Windows.Forms.Label();
             this.tbWSTitle = new System.Windows.Forms.TextBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.pViewControl = new System.Windows.Forms.Panel();
-            this.lvViewControl = new System.Windows.Forms.ListView();
-            this.pbeKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pbeValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cmsViewControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiVCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiVCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lViewControl = new System.Windows.Forms.Label();
-            this.pListControl = new System.Windows.Forms.Panel();
-            this.lbListControl = new System.Windows.Forms.ListBox();
-            this.cmsListControlPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiLCSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiLCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lListControl = new System.Windows.Forms.Label();
             this.cmsTreeViewPopup.SuspendLayout();
-            this.pRegionalSettings.SuspendLayout();
-            this.pComposedLook.SuspendLayout();
-            this.pTextControl.SuspendLayout();
-            this.cmsTextControlPopup.SuspendLayout();
-            this.pWebSettings.SuspendLayout();
-            this.pViewControl.SuspendLayout();
             this.cmsViewControlPopup.SuspendLayout();
-            this.pListControl.SuspendLayout();
             this.cmsListControlPopup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scEditTemplate)).BeginInit();
+            this.scEditTemplate.Panel1.SuspendLayout();
+            this.scEditTemplate.Panel2.SuspendLayout();
+            this.scEditTemplate.SuspendLayout();
+            this.pComposedLook.SuspendLayout();
+            this.pListControl.SuspendLayout();
+            this.pRegionalSettings.SuspendLayout();
+            this.pTextControl.SuspendLayout();
+            this.pViewControl.SuspendLayout();
+            this.pWebSettings.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tvTemplate
-            // 
-            this.tvTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tvTemplate.ContextMenuStrip = this.cmsTreeViewPopup;
-            this.tvTemplate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tvTemplate.FullRowSelect = true;
-            this.tvTemplate.HideSelection = false;
-            this.tvTemplate.HotTracking = true;
-            this.tvTemplate.Location = new System.Drawing.Point(14, 61);
-            this.tvTemplate.Name = "tvTemplate";
-            this.tvTemplate.ShowLines = false;
-            this.tvTemplate.Size = new System.Drawing.Size(418, 488);
-            this.tvTemplate.TabIndex = 3;
-            this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
-            this.tvTemplate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeViewKeyUp);
             // 
             // cmsTreeViewPopup
             // 
@@ -186,6 +168,239 @@
             this.bBrowse.UseVisualStyleBackColor = true;
             this.bBrowse.Click += new System.EventHandler(this.BrowseForTemplate);
             // 
+            // bSave
+            // 
+            this.bSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.bSave.Location = new System.Drawing.Point(538, 32);
+            this.bSave.Name = "bSave";
+            this.bSave.Size = new System.Drawing.Size(75, 23);
+            this.bSave.TabIndex = 5;
+            this.bSave.Tag = "";
+            this.bSave.Text = "Save";
+            this.bSave.UseVisualStyleBackColor = true;
+            this.bSave.Visible = false;
+            this.bSave.Click += new System.EventHandler(this.SaveChanges);
+            // 
+            // cmsViewControlPopup
+            // 
+            this.cmsViewControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiVCSelectAll,
+            this.tsmiVCDeleteItem});
+            this.cmsViewControlPopup.Name = "cmsViewControlPopup";
+            this.cmsViewControlPopup.ShowImageMargin = false;
+            this.cmsViewControlPopup.Size = new System.Drawing.Size(170, 48);
+            // 
+            // tsmiVCSelectAll
+            // 
+            this.tsmiVCSelectAll.Name = "tsmiVCSelectAll";
+            this.tsmiVCSelectAll.Size = new System.Drawing.Size(169, 22);
+            this.tsmiVCSelectAll.Text = "Select All";
+            this.tsmiVCSelectAll.Click += new System.EventHandler(this.ViewControlSelectAll);
+            // 
+            // tsmiVCDeleteItem
+            // 
+            this.tsmiVCDeleteItem.Name = "tsmiVCDeleteItem";
+            this.tsmiVCDeleteItem.Size = new System.Drawing.Size(169, 22);
+            this.tsmiVCDeleteItem.Text = "Delete Selected Item(s)";
+            this.tsmiVCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromView);
+            // 
+            // cmsListControlPopup
+            // 
+            this.cmsListControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiLCSelectAll,
+            this.tsmiLCDeleteItem});
+            this.cmsListControlPopup.Name = "cmsListControlPopup";
+            this.cmsListControlPopup.ShowImageMargin = false;
+            this.cmsListControlPopup.Size = new System.Drawing.Size(170, 48);
+            // 
+            // tsmiLCSelectAll
+            // 
+            this.tsmiLCSelectAll.Name = "tsmiLCSelectAll";
+            this.tsmiLCSelectAll.Size = new System.Drawing.Size(169, 22);
+            this.tsmiLCSelectAll.Text = "Select All";
+            this.tsmiLCSelectAll.Click += new System.EventHandler(this.ListControlSelectAll);
+            // 
+            // tsmiLCDeleteItem
+            // 
+            this.tsmiLCDeleteItem.Name = "tsmiLCDeleteItem";
+            this.tsmiLCDeleteItem.Size = new System.Drawing.Size(169, 22);
+            this.tsmiLCDeleteItem.Text = "Delete Selected Item(s)";
+            this.tsmiLCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromList);
+            // 
+            // scEditTemplate
+            // 
+            this.scEditTemplate.Location = new System.Drawing.Point(14, 69);
+            this.scEditTemplate.Name = "scEditTemplate";
+            // 
+            // scEditTemplate.Panel1
+            // 
+            this.scEditTemplate.Panel1.Controls.Add(this.tvTemplate);
+            this.scEditTemplate.Panel1MinSize = 200;
+            // 
+            // scEditTemplate.Panel2
+            // 
+            this.scEditTemplate.Panel2.Controls.Add(this.pListControl);
+            this.scEditTemplate.Panel2.Controls.Add(this.pComposedLook);
+            this.scEditTemplate.Panel2.Controls.Add(this.pWebSettings);
+            this.scEditTemplate.Panel2.Controls.Add(this.pViewControl);
+            this.scEditTemplate.Panel2.Controls.Add(this.pTextControl);
+            this.scEditTemplate.Panel2.Controls.Add(this.pRegionalSettings);
+            this.scEditTemplate.Panel2MinSize = 514;
+            this.scEditTemplate.Size = new System.Drawing.Size(946, 480);
+            this.scEditTemplate.SplitterDistance = 292;
+            this.scEditTemplate.TabIndex = 17;
+            // 
+            // tvTemplate
+            // 
+            this.tvTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tvTemplate.ContextMenuStrip = this.cmsTreeViewPopup;
+            this.tvTemplate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.tvTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvTemplate.FullRowSelect = true;
+            this.tvTemplate.HideSelection = false;
+            this.tvTemplate.HotTracking = true;
+            this.tvTemplate.Location = new System.Drawing.Point(0, 0);
+            this.tvTemplate.Name = "tvTemplate";
+            this.tvTemplate.ShowLines = false;
+            this.tvTemplate.Size = new System.Drawing.Size(292, 480);
+            this.tvTemplate.TabIndex = 4;
+            this.tvTemplate.Visible = false;
+            this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
+            this.tvTemplate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeViewKeyUp);
+            // 
+            // pComposedLook
+            // 
+            this.pComposedLook.AutoSize = true;
+            this.pComposedLook.Controls.Add(this.tbCLVersion);
+            this.pComposedLook.Controls.Add(this.label16);
+            this.pComposedLook.Controls.Add(this.tbCLFontFile);
+            this.pComposedLook.Controls.Add(this.label15);
+            this.pComposedLook.Controls.Add(this.tbCLColorFile);
+            this.pComposedLook.Controls.Add(this.label14);
+            this.pComposedLook.Controls.Add(this.tbCLBackgroundFile);
+            this.pComposedLook.Controls.Add(this.label13);
+            this.pComposedLook.Controls.Add(this.tbCLName);
+            this.pComposedLook.Controls.Add(this.label12);
+            this.pComposedLook.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pComposedLook.Location = new System.Drawing.Point(0, 0);
+            this.pComposedLook.Name = "pComposedLook";
+            this.pComposedLook.Size = new System.Drawing.Size(650, 480);
+            this.pComposedLook.TabIndex = 7;
+            this.pComposedLook.Visible = false;
+            // 
+            // tbCLVersion
+            // 
+            this.tbCLVersion.Location = new System.Drawing.Point(13, 302);
+            this.tbCLVersion.Name = "tbCLVersion";
+            this.tbCLVersion.Size = new System.Drawing.Size(463, 23);
+            this.tbCLVersion.TabIndex = 9;
+            this.tbCLVersion.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label16.Location = new System.Drawing.Point(13, 283);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(49, 15);
+            this.label16.TabIndex = 8;
+            this.label16.Text = "Version:";
+            // 
+            // tbCLFontFile
+            // 
+            this.tbCLFontFile.Location = new System.Drawing.Point(13, 232);
+            this.tbCLFontFile.Name = "tbCLFontFile";
+            this.tbCLFontFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLFontFile.TabIndex = 7;
+            this.tbCLFontFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label15.Location = new System.Drawing.Point(13, 213);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(53, 15);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Font file:";
+            // 
+            // tbCLColorFile
+            // 
+            this.tbCLColorFile.Location = new System.Drawing.Point(13, 157);
+            this.tbCLColorFile.Name = "tbCLColorFile";
+            this.tbCLColorFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLColorFile.TabIndex = 5;
+            this.tbCLColorFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label14.Location = new System.Drawing.Point(13, 138);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(58, 15);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Color file:";
+            // 
+            // tbCLBackgroundFile
+            // 
+            this.tbCLBackgroundFile.Location = new System.Drawing.Point(13, 89);
+            this.tbCLBackgroundFile.Name = "tbCLBackgroundFile";
+            this.tbCLBackgroundFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLBackgroundFile.TabIndex = 3;
+            this.tbCLBackgroundFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label13.Location = new System.Drawing.Point(13, 70);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(93, 15);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Background file:";
+            // 
+            // tbCLName
+            // 
+            this.tbCLName.Location = new System.Drawing.Point(13, 27);
+            this.tbCLName.Name = "tbCLName";
+            this.tbCLName.Size = new System.Drawing.Size(463, 23);
+            this.tbCLName.TabIndex = 1;
+            this.tbCLName.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label12.Location = new System.Drawing.Point(13, 8);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(42, 15);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Name:";
+            // 
+            // pListControl
+            // 
+            this.pListControl.Controls.Add(this.lbListControl);
+            this.pListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pListControl.Location = new System.Drawing.Point(0, 0);
+            this.pListControl.Name = "pListControl";
+            this.pListControl.Size = new System.Drawing.Size(650, 480);
+            this.pListControl.TabIndex = 17;
+            this.pListControl.Visible = false;
+            // 
+            // lbListControl
+            // 
+            this.lbListControl.ContextMenuStrip = this.cmsListControlPopup;
+            this.lbListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbListControl.ItemHeight = 15;
+            this.lbListControl.Location = new System.Drawing.Point(0, 0);
+            this.lbListControl.Name = "lbListControl";
+            this.lbListControl.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbListControl.Size = new System.Drawing.Size(650, 480);
+            this.lbListControl.TabIndex = 2;
+            this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
+            this.lbListControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListControlKeyUp);
+            // 
             // pRegionalSettings
             // 
             this.pRegionalSettings.Controls.Add(this.cbRSAdjustHijriDate);
@@ -213,10 +428,11 @@
             this.pRegionalSettings.Controls.Add(this.cbRSLocale);
             this.pRegionalSettings.Controls.Add(this.label1);
             this.pRegionalSettings.Controls.Add(this.cbRSTimeZone);
-            this.pRegionalSettings.Location = new System.Drawing.Point(1038, 61);
+            this.pRegionalSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pRegionalSettings.Location = new System.Drawing.Point(0, 0);
             this.pRegionalSettings.Name = "pRegionalSettings";
-            this.pRegionalSettings.Size = new System.Drawing.Size(514, 488);
-            this.pRegionalSettings.TabIndex = 4;
+            this.pRegionalSettings.Size = new System.Drawing.Size(650, 480);
+            this.pRegionalSettings.TabIndex = 18;
             this.pRegionalSettings.Visible = false;
             // 
             // cbRSAdjustHijriDate
@@ -492,185 +708,73 @@
             this.cbRSTimeZone.TabIndex = 0;
             this.cbRSTimeZone.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
-            // bSave
-            // 
-            this.bSave.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.bSave.Location = new System.Drawing.Point(538, 32);
-            this.bSave.Name = "bSave";
-            this.bSave.Size = new System.Drawing.Size(75, 23);
-            this.bSave.TabIndex = 5;
-            this.bSave.Tag = "";
-            this.bSave.Text = "Save";
-            this.bSave.UseVisualStyleBackColor = true;
-            this.bSave.Visible = false;
-            this.bSave.Click += new System.EventHandler(this.SaveChanges);
-            // 
-            // pComposedLook
-            // 
-            this.pComposedLook.Controls.Add(this.tbCLVersion);
-            this.pComposedLook.Controls.Add(this.label16);
-            this.pComposedLook.Controls.Add(this.tbCLFontFile);
-            this.pComposedLook.Controls.Add(this.label15);
-            this.pComposedLook.Controls.Add(this.tbCLColorFile);
-            this.pComposedLook.Controls.Add(this.label14);
-            this.pComposedLook.Controls.Add(this.tbCLBackgroundFile);
-            this.pComposedLook.Controls.Add(this.label13);
-            this.pComposedLook.Controls.Add(this.tbCLName);
-            this.pComposedLook.Controls.Add(this.label12);
-            this.pComposedLook.Location = new System.Drawing.Point(1038, 61);
-            this.pComposedLook.Name = "pComposedLook";
-            this.pComposedLook.Size = new System.Drawing.Size(514, 488);
-            this.pComposedLook.TabIndex = 6;
-            this.pComposedLook.Visible = false;
-            // 
-            // tbCLVersion
-            // 
-            this.tbCLVersion.Location = new System.Drawing.Point(13, 302);
-            this.tbCLVersion.Name = "tbCLVersion";
-            this.tbCLVersion.Size = new System.Drawing.Size(463, 23);
-            this.tbCLVersion.TabIndex = 9;
-            this.tbCLVersion.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label16.Location = new System.Drawing.Point(13, 283);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(49, 15);
-            this.label16.TabIndex = 8;
-            this.label16.Text = "Version:";
-            // 
-            // tbCLFontFile
-            // 
-            this.tbCLFontFile.Location = new System.Drawing.Point(13, 232);
-            this.tbCLFontFile.Name = "tbCLFontFile";
-            this.tbCLFontFile.Size = new System.Drawing.Size(463, 23);
-            this.tbCLFontFile.TabIndex = 7;
-            this.tbCLFontFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label15.Location = new System.Drawing.Point(13, 213);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(53, 15);
-            this.label15.TabIndex = 6;
-            this.label15.Text = "Font file:";
-            // 
-            // tbCLColorFile
-            // 
-            this.tbCLColorFile.Location = new System.Drawing.Point(13, 157);
-            this.tbCLColorFile.Name = "tbCLColorFile";
-            this.tbCLColorFile.Size = new System.Drawing.Size(463, 23);
-            this.tbCLColorFile.TabIndex = 5;
-            this.tbCLColorFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label14.Location = new System.Drawing.Point(13, 138);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(58, 15);
-            this.label14.TabIndex = 4;
-            this.label14.Text = "Color file:";
-            // 
-            // tbCLBackgroundFile
-            // 
-            this.tbCLBackgroundFile.Location = new System.Drawing.Point(13, 89);
-            this.tbCLBackgroundFile.Name = "tbCLBackgroundFile";
-            this.tbCLBackgroundFile.Size = new System.Drawing.Size(463, 23);
-            this.tbCLBackgroundFile.TabIndex = 3;
-            this.tbCLBackgroundFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label13.Location = new System.Drawing.Point(13, 70);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(93, 15);
-            this.label13.TabIndex = 2;
-            this.label13.Text = "Background file:";
-            // 
-            // tbCLName
-            // 
-            this.tbCLName.Location = new System.Drawing.Point(13, 27);
-            this.tbCLName.Name = "tbCLName";
-            this.tbCLName.Size = new System.Drawing.Size(463, 23);
-            this.tbCLName.TabIndex = 1;
-            this.tbCLName.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label12.Location = new System.Drawing.Point(13, 8);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(42, 15);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Name:";
-            // 
             // pTextControl
             // 
-            this.pTextControl.Controls.Add(this.lTextControl);
             this.pTextControl.Controls.Add(this.tbTextControl);
-            this.pTextControl.Location = new System.Drawing.Point(1038, 61);
+            this.pTextControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pTextControl.Location = new System.Drawing.Point(0, 0);
             this.pTextControl.Name = "pTextControl";
-            this.pTextControl.Size = new System.Drawing.Size(514, 488);
-            this.pTextControl.TabIndex = 7;
+            this.pTextControl.Size = new System.Drawing.Size(650, 480);
+            this.pTextControl.TabIndex = 19;
             this.pTextControl.Visible = false;
-            // 
-            // lTextControl
-            // 
-            this.lTextControl.AutoSize = true;
-            this.lTextControl.Location = new System.Drawing.Point(13, 8);
-            this.lTextControl.Name = "lTextControl";
-            this.lTextControl.Size = new System.Drawing.Size(73, 15);
-            this.lTextControl.TabIndex = 1;
-            this.lTextControl.Text = "Text control:";
             // 
             // tbTextControl
             // 
             this.tbTextControl.AcceptsReturn = true;
             this.tbTextControl.AcceptsTab = true;
-            this.tbTextControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbTextControl.ContextMenuStrip = this.cmsTextControlPopup;
+            this.tbTextControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbTextControl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTextControl.Location = new System.Drawing.Point(13, 29);
+            this.tbTextControl.HideSelection = false;
+            this.tbTextControl.Location = new System.Drawing.Point(0, 0);
             this.tbTextControl.Multiline = true;
             this.tbTextControl.Name = "tbTextControl";
             this.tbTextControl.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbTextControl.ShortcutsEnabled = false;
-            this.tbTextControl.Size = new System.Drawing.Size(489, 443);
+            this.tbTextControl.Size = new System.Drawing.Size(650, 480);
             this.tbTextControl.TabIndex = 0;
             this.tbTextControl.WordWrap = false;
             this.tbTextControl.TextChanged += new System.EventHandler(this.ControlTextChanged);
             // 
-            // cmsTextControlPopup
+            // pViewControl
             // 
-            this.cmsTextControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiTCSelectAll,
-            this.tsmiTCCopy});
-            this.cmsTextControlPopup.Name = "cmsTextControlPopup";
-            this.cmsTextControlPopup.ShowImageMargin = false;
-            this.cmsTextControlPopup.Size = new System.Drawing.Size(98, 48);
+            this.pViewControl.Controls.Add(this.lvViewControl);
+            this.pViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pViewControl.Location = new System.Drawing.Point(0, 0);
+            this.pViewControl.Name = "pViewControl";
+            this.pViewControl.Size = new System.Drawing.Size(650, 480);
+            this.pViewControl.TabIndex = 20;
+            this.pViewControl.Visible = false;
             // 
-            // tsmiTCSelectAll
+            // lvViewControl
             // 
-            this.tsmiTCSelectAll.Name = "tsmiTCSelectAll";
-            this.tsmiTCSelectAll.Size = new System.Drawing.Size(97, 22);
-            this.tsmiTCSelectAll.Text = "Select All";
-            this.tsmiTCSelectAll.Click += new System.EventHandler(this.TextControlSelectAll);
+            this.lvViewControl.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.pbeKey,
+            this.pbeValue});
+            this.lvViewControl.ContextMenuStrip = this.cmsViewControlPopup;
+            this.lvViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvViewControl.FullRowSelect = true;
+            this.lvViewControl.GridLines = true;
+            this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvViewControl.HideSelection = false;
+            this.lvViewControl.Location = new System.Drawing.Point(0, 0);
+            this.lvViewControl.Name = "lvViewControl";
+            this.lvViewControl.ShowGroups = false;
+            this.lvViewControl.Size = new System.Drawing.Size(650, 480);
+            this.lvViewControl.TabIndex = 2;
+            this.lvViewControl.UseCompatibleStateImageBehavior = false;
+            this.lvViewControl.View = System.Windows.Forms.View.Details;
+            this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
+            this.lvViewControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ViewControlKeyUp);
             // 
-            // tsmiTCCopy
+            // pbeKey
             // 
-            this.tsmiTCCopy.Name = "tsmiTCCopy";
-            this.tsmiTCCopy.Size = new System.Drawing.Size(97, 22);
-            this.tsmiTCCopy.Text = "Copy";
-            this.tsmiTCCopy.Click += new System.EventHandler(this.TextControlCopy);
+            this.pbeKey.Text = "Key";
+            this.pbeKey.Width = 169;
+            // 
+            // pbeValue
+            // 
+            this.pbeValue.Text = "Value";
+            this.pbeValue.Width = 368;
             // 
             // pWebSettings
             // 
@@ -691,10 +795,11 @@
             this.pWebSettings.Controls.Add(this.label24);
             this.pWebSettings.Controls.Add(this.tbWSTitle);
             this.pWebSettings.Controls.Add(this.label25);
-            this.pWebSettings.Location = new System.Drawing.Point(1038, 61);
+            this.pWebSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pWebSettings.Location = new System.Drawing.Point(0, 0);
             this.pWebSettings.Name = "pWebSettings";
-            this.pWebSettings.Size = new System.Drawing.Size(514, 488);
-            this.pWebSettings.TabIndex = 11;
+            this.pWebSettings.Size = new System.Drawing.Size(650, 480);
+            this.pWebSettings.TabIndex = 22;
             this.pWebSettings.Visible = false;
             // 
             // cbWSNoCrawl
@@ -854,152 +959,16 @@
             this.label25.TabIndex = 0;
             this.label25.Text = "Title:";
             // 
-            // pViewControl
-            // 
-            this.pViewControl.Controls.Add(this.lvViewControl);
-            this.pViewControl.Controls.Add(this.lViewControl);
-            this.pViewControl.Location = new System.Drawing.Point(1038, 61);
-            this.pViewControl.Name = "pViewControl";
-            this.pViewControl.Size = new System.Drawing.Size(514, 488);
-            this.pViewControl.TabIndex = 15;
-            this.pViewControl.Visible = false;
-            // 
-            // lvViewControl
-            // 
-            this.lvViewControl.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.pbeKey,
-            this.pbeValue});
-            this.lvViewControl.ContextMenuStrip = this.cmsViewControlPopup;
-            this.lvViewControl.FullRowSelect = true;
-            this.lvViewControl.GridLines = true;
-            this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvViewControl.HideSelection = false;
-            this.lvViewControl.Location = new System.Drawing.Point(13, 29);
-            this.lvViewControl.Name = "lvViewControl";
-            this.lvViewControl.ShowGroups = false;
-            this.lvViewControl.Size = new System.Drawing.Size(489, 443);
-            this.lvViewControl.TabIndex = 2;
-            this.lvViewControl.UseCompatibleStateImageBehavior = false;
-            this.lvViewControl.View = System.Windows.Forms.View.Details;
-            this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
-            this.lvViewControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ViewControlKeyUp);
-            // 
-            // pbeKey
-            // 
-            this.pbeKey.Text = "Key";
-            this.pbeKey.Width = 150;
-            // 
-            // pbeValue
-            // 
-            this.pbeValue.Text = "Value";
-            this.pbeValue.Width = 400;
-            // 
-            // cmsViewControlPopup
-            // 
-            this.cmsViewControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiVCSelectAll,
-            this.tsmiVCDeleteItem});
-            this.cmsViewControlPopup.Name = "cmsViewControlPopup";
-            this.cmsViewControlPopup.ShowImageMargin = false;
-            this.cmsViewControlPopup.Size = new System.Drawing.Size(170, 48);
-            // 
-            // tsmiVCSelectAll
-            // 
-            this.tsmiVCSelectAll.Name = "tsmiVCSelectAll";
-            this.tsmiVCSelectAll.Size = new System.Drawing.Size(169, 22);
-            this.tsmiVCSelectAll.Text = "Select All";
-            this.tsmiVCSelectAll.Click += new System.EventHandler(this.ViewControlSelectAll);
-            // 
-            // tsmiVCDeleteItem
-            // 
-            this.tsmiVCDeleteItem.Name = "tsmiVCDeleteItem";
-            this.tsmiVCDeleteItem.Size = new System.Drawing.Size(169, 22);
-            this.tsmiVCDeleteItem.Text = "Delete Selected Item(s)";
-            this.tsmiVCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromView);
-            // 
-            // lViewControl
-            // 
-            this.lViewControl.AutoSize = true;
-            this.lViewControl.Location = new System.Drawing.Point(13, 8);
-            this.lViewControl.Name = "lViewControl";
-            this.lViewControl.Size = new System.Drawing.Size(76, 15);
-            this.lViewControl.TabIndex = 1;
-            this.lViewControl.Text = "View control:";
-            // 
-            // pListControl
-            // 
-            this.pListControl.Controls.Add(this.lbListControl);
-            this.pListControl.Controls.Add(this.lListControl);
-            this.pListControl.Location = new System.Drawing.Point(1038, 61);
-            this.pListControl.Name = "pListControl";
-            this.pListControl.Size = new System.Drawing.Size(514, 488);
-            this.pListControl.TabIndex = 16;
-            this.pListControl.Visible = false;
-            // 
-            // lbListControl
-            // 
-            this.lbListControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbListControl.ContextMenuStrip = this.cmsListControlPopup;
-            this.lbListControl.FormattingEnabled = true;
-            this.lbListControl.ItemHeight = 15;
-            this.lbListControl.Location = new System.Drawing.Point(13, 29);
-            this.lbListControl.Name = "lbListControl";
-            this.lbListControl.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbListControl.Size = new System.Drawing.Size(489, 437);
-            this.lbListControl.TabIndex = 2;
-            this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
-            this.lbListControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListControlKeyUp);
-            // 
-            // cmsListControlPopup
-            // 
-            this.cmsListControlPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiLCSelectAll,
-            this.tsmiLCDeleteItem});
-            this.cmsListControlPopup.Name = "cmsListControlPopup";
-            this.cmsListControlPopup.ShowImageMargin = false;
-            this.cmsListControlPopup.Size = new System.Drawing.Size(170, 48);
-            // 
-            // tsmiLCSelectAll
-            // 
-            this.tsmiLCSelectAll.Name = "tsmiLCSelectAll";
-            this.tsmiLCSelectAll.Size = new System.Drawing.Size(169, 22);
-            this.tsmiLCSelectAll.Text = "Select All";
-            this.tsmiLCSelectAll.Click += new System.EventHandler(this.ListControlSelectAll);
-            // 
-            // tsmiLCDeleteItem
-            // 
-            this.tsmiLCDeleteItem.Name = "tsmiLCDeleteItem";
-            this.tsmiLCDeleteItem.Size = new System.Drawing.Size(169, 22);
-            this.tsmiLCDeleteItem.Text = "Delete Selected Item(s)";
-            this.tsmiLCDeleteItem.Click += new System.EventHandler(this.DeleteTemplateItemFromList);
-            // 
-            // lListControl
-            // 
-            this.lListControl.AutoSize = true;
-            this.lListControl.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lListControl.Location = new System.Drawing.Point(13, 8);
-            this.lListControl.Name = "lListControl";
-            this.lListControl.Size = new System.Drawing.Size(69, 15);
-            this.lListControl.TabIndex = 1;
-            this.lListControl.Text = "List control:";
-            // 
             // EditWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(972, 561);
-            this.Controls.Add(this.pListControl);
-            this.Controls.Add(this.pViewControl);
-            this.Controls.Add(this.pWebSettings);
-            this.Controls.Add(this.pComposedLook);
+            this.ClientSize = new System.Drawing.Size(979, 561);
+            this.Controls.Add(this.scEditTemplate);
             this.Controls.Add(this.bSave);
-            this.Controls.Add(this.pRegionalSettings);
             this.Controls.Add(this.tbTemplate);
             this.Controls.Add(this.lTemplate);
             this.Controls.Add(this.bBrowse);
-            this.Controls.Add(this.tvTemplate);
-            this.Controls.Add(this.pTextControl);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1009,44 +978,52 @@
             this.Text = "Edit Provisioning Template";
             this.Resize += new System.EventHandler(this.ResizeControls);
             this.cmsTreeViewPopup.ResumeLayout(false);
-            this.pRegionalSettings.ResumeLayout(false);
-            this.pRegionalSettings.PerformLayout();
+            this.cmsViewControlPopup.ResumeLayout(false);
+            this.cmsListControlPopup.ResumeLayout(false);
+            this.scEditTemplate.Panel1.ResumeLayout(false);
+            this.scEditTemplate.Panel2.ResumeLayout(false);
+            this.scEditTemplate.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scEditTemplate)).EndInit();
+            this.scEditTemplate.ResumeLayout(false);
             this.pComposedLook.ResumeLayout(false);
             this.pComposedLook.PerformLayout();
+            this.pListControl.ResumeLayout(false);
+            this.pRegionalSettings.ResumeLayout(false);
+            this.pRegionalSettings.PerformLayout();
             this.pTextControl.ResumeLayout(false);
             this.pTextControl.PerformLayout();
-            this.cmsTextControlPopup.ResumeLayout(false);
+            this.pViewControl.ResumeLayout(false);
             this.pWebSettings.ResumeLayout(false);
             this.pWebSettings.PerformLayout();
-            this.pViewControl.ResumeLayout(false);
-            this.pViewControl.PerformLayout();
-            this.cmsViewControlPopup.ResumeLayout(false);
-            this.pListControl.ResumeLayout(false);
-            this.pListControl.PerformLayout();
-            this.cmsListControlPopup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TreeView tvTemplate;
         private System.Windows.Forms.TextBox tbTemplate;
         private System.Windows.Forms.Label lTemplate;
         private System.Windows.Forms.Button bBrowse;
+        private System.Windows.Forms.Button bSave;
+        private System.Windows.Forms.ContextMenuStrip cmsTreeViewPopup;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTVDelete;
+        private System.Windows.Forms.ContextMenuStrip cmsListControlPopup;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLCSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLCDeleteItem;
+        private System.Windows.Forms.ContextMenuStrip cmsViewControlPopup;
+        private System.Windows.Forms.ToolStripMenuItem tsmiVCSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem tsmiVCDeleteItem;
+        private System.Windows.Forms.SplitContainer scEditTemplate;
+        private System.Windows.Forms.TreeView tvTemplate;
+        private System.Windows.Forms.Panel pViewControl;
+        private System.Windows.Forms.ListView lvViewControl;
+        private System.Windows.Forms.ColumnHeader pbeKey;
+        private System.Windows.Forms.ColumnHeader pbeValue;
+        private System.Windows.Forms.Panel pTextControl;
+        private System.Windows.Forms.TextBox tbTextControl;
         private System.Windows.Forms.Panel pRegionalSettings;
-        private System.Windows.Forms.ComboBox cbRSTimeZone;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cbRSLocale;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cbRSSortOrder;
-        private System.Windows.Forms.CheckBox cbRSShowWeekNumbers;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cbRSCalendar;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox cbRSAlternateCalendar;
+        private System.Windows.Forms.ComboBox cbRSAdjustHijriDate;
+        private System.Windows.Forms.Label lAdjustHijriDate;
         private System.Windows.Forms.ComboBox cbRSTimeFormat;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cbRSWorkDayEndTime;
@@ -1059,23 +1036,30 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckedListBox clbRSWorkDays;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox cbRSAdjustHijriDate;
-        private System.Windows.Forms.Label lAdjustHijriDate;
-        private System.Windows.Forms.Button bSave;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbRSAlternateCalendar;
+        private System.Windows.Forms.CheckBox cbRSShowWeekNumbers;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cbRSCalendar;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbRSSortOrder;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cbRSLocale;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbRSTimeZone;
+        private System.Windows.Forms.Panel pListControl;
+        private System.Windows.Forms.ListBox lbListControl;
         private System.Windows.Forms.Panel pComposedLook;
-        private System.Windows.Forms.TextBox tbCLBackgroundFile;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox tbCLName;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox tbCLVersion;
+        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox tbCLFontFile;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox tbCLColorFile;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox tbCLVersion;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Panel pTextControl;
-        private System.Windows.Forms.Label lTextControl;
-        private System.Windows.Forms.TextBox tbTextControl;
+        private System.Windows.Forms.TextBox tbCLBackgroundFile;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox tbCLName;
+        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Panel pWebSettings;
         private System.Windows.Forms.CheckBox cbWSNoCrawl;
         private System.Windows.Forms.TextBox tbWSRequestAccessEmail;
@@ -1094,24 +1078,5 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox tbWSTitle;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.ContextMenuStrip cmsTreeViewPopup;
-        private System.Windows.Forms.ToolStripMenuItem tsmiTVDelete;
-        private System.Windows.Forms.Panel pViewControl;
-        private System.Windows.Forms.ListView lvViewControl;
-        private System.Windows.Forms.ColumnHeader pbeKey;
-        private System.Windows.Forms.ColumnHeader pbeValue;
-        private System.Windows.Forms.Label lViewControl;
-        private System.Windows.Forms.Panel pListControl;
-        private System.Windows.Forms.ListBox lbListControl;
-        private System.Windows.Forms.Label lListControl;
-        private System.Windows.Forms.ContextMenuStrip cmsListControlPopup;
-        private System.Windows.Forms.ToolStripMenuItem tsmiLCSelectAll;
-        private System.Windows.Forms.ToolStripMenuItem tsmiLCDeleteItem;
-        private System.Windows.Forms.ContextMenuStrip cmsViewControlPopup;
-        private System.Windows.Forms.ToolStripMenuItem tsmiVCSelectAll;
-        private System.Windows.Forms.ToolStripMenuItem tsmiVCDeleteItem;
-        private System.Windows.Forms.ContextMenuStrip cmsTextControlPopup;
-        private System.Windows.Forms.ToolStripMenuItem tsmiTCSelectAll;
-        private System.Windows.Forms.ToolStripMenuItem tsmiTCCopy;
     }
 }

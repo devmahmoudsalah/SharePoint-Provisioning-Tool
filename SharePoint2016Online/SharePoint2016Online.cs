@@ -15,6 +15,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Karabina.SharePoint.Provisioning
 {
@@ -839,7 +841,7 @@ namespace Karabina.SharePoint.Provisioning
 
                         if (directoryIndex < 0)
                         {
-                            Directory pnpDirectory = new Directory();
+                            PnPModel.Directory pnpDirectory = new PnPModel.Directory();
                             pnpDirectory.Folder = fileDirectory;
                             pnpDirectory.Level = PnPModel.FileLevel.Published;
                             pnpDirectory.Overwrite = true;
@@ -1222,6 +1224,3120 @@ namespace Karabina.SharePoint.Provisioning
             }
             return result;
         }
+
+        public TemplateItems OpenTemplateForEdit(string templatePath, string templateName, TreeView treeView)
+        {
+            TemplateItems templateItems = new TemplateItems();
+
+            string fileNamePNP = templateName + ".pnp";
+
+            FileConnectorBase fileConnector = new FileSystemConnector(templatePath, "");
+
+            XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(new OpenXMLConnector(fileNamePNP, fileConnector));
+
+            List<ProvisioningTemplate> templates = provider.GetTemplates();
+            ProvisioningTemplate template = templates[0];
+
+            template.Connector = provider.Connector; //needed when we save back to the template
+
+            EditingTemplate = template;
+
+            treeView.Nodes.Clear();
+
+            KeyValueList templateList = new KeyValueList();
+
+            TreeNode rootNode = new TreeNode($"Template - ( {templateName} )");
+            rootNode.Name = "TemplateNode";
+            rootNode.Tag = templateItems.AddItem(rootNode.Name, TemplateControlType.ListBox,
+                                                 TemplateItemType.Template, null, string.Empty);
+
+            if (template.RegionalSettings != null)
+            {
+                TreeNode rsNode = new TreeNode("Regional Settings");
+                rsNode.Name = "RegionalSettings";
+                rsNode.Tag = templateItems.AddItem(rsNode.Name, TemplateControlType.Form,
+                                                   TemplateItemType.RegionalSetting,
+                                                   GetRegionalSettings(), (string)rootNode.Tag);
+
+                rootNode.Nodes.Add(rsNode);
+                templateList.AddKeyValue(rsNode.Text, rsNode.Name);
+
+            }
+
+            if (template.AddIns?.Count > 0)
+            {
+                TreeNode aiNodes = new TreeNode("Add-Ins");
+                aiNodes.Name = "AddIns";
+                aiNodes.Tag = templateItems.AddItem(aiNodes.Name, TemplateControlType.ListBox,
+                                                    TemplateItemType.AddInList, null, (string)rootNode.Tag);
+
+                KeyValueList addInsList = new KeyValueList();
+
+                foreach (var addIn in template.AddIns)
+                {
+                    TreeNode aiNode = new TreeNode(addIn.PackagePath);
+                    aiNode.Name = addIn.PackagePath;
+                    aiNode.Tag = templateItems.AddItem(aiNode.Name, TemplateControlType.TextBox,
+                                                       TemplateItemType.AddInItem, addIn.Source,
+                                                       (string)aiNodes.Tag);
+
+                    aiNodes.Nodes.Add(aiNode);
+                    addInsList.AddKeyValue(addIn.PackagePath, addIn.Source);
+                }
+
+                templateItems.SetContent((string)aiNodes.Tag, addInsList);
+
+                rootNode.Nodes.Add(aiNodes);
+                templateList.AddKeyValue(aiNodes.Text, aiNodes.Name);
+
+            }
+
+            if (template.ComposedLook?.Name != null)
+            {
+                TreeNode clNode = new TreeNode("Composed Look");
+                clNode.Name = "ComposedLook";
+                clNode.Tag = templateItems.AddItem(clNode.Name, TemplateControlType.Form,
+                                                   TemplateItemType.ComposedLook, GetComposedLook(),
+                                                   (string)rootNode.Tag);
+
+                rootNode.Nodes.Add(clNode);
+                templateList.AddKeyValue(clNode.Text, clNode.Name);
+
+            }
+
+            if (template.CustomActions?.SiteCustomActions?.Count > 0)
+            {
+                TreeNode scaNodes = new TreeNode("Site Custom Actions");
+                scaNodes.Name = "SiteCustomActions";
+                scaNodes.Tag = templateItems.AddItem(scaNodes.Name, TemplateControlType.ListBox,
+                                                     TemplateItemType.SiteCustomActionList, null,
+                                                     (string)rootNode.Tag);
+
+                KeyValueList siteCustomActionsList = new KeyValueList();
+
+                foreach (var siteCustomAction in template.CustomActions.SiteCustomActions)
+                {
+                    TreeNode scaNode = new TreeNode(siteCustomAction.Name);
+                    scaNode.Name = siteCustomAction.RegistrationId;
+                    scaNode.Tag = templateItems.AddItem(scaNode.Name, TemplateControlType.TextBox,
+                                                        TemplateItemType.SiteCustomActionItem,
+                                                        GetCustomAction(siteCustomAction),
+                                                        (string)scaNodes.Tag);
+
+                    scaNodes.Nodes.Add(scaNode);
+
+                    siteCustomActionsList.AddKeyValue(siteCustomAction.Name, siteCustomAction.RegistrationId);
+                }
+
+                templateItems.SetContent((string)scaNodes.Tag, siteCustomActionsList);
+
+                rootNode.Nodes.Add(scaNodes);
+                templateList.AddKeyValue(scaNodes.Text, scaNodes.Name);
+
+            }
+
+            if (template.CustomActions?.WebCustomActions?.Count > 0)
+            {
+                TreeNode wcaNodes = new TreeNode("Web Custom Actions");
+                wcaNodes.Name = "WebCustomActions";
+                wcaNodes.Tag = templateItems.AddItem(wcaNodes.Name, TemplateControlType.ListBox,
+                                                     TemplateItemType.WebCustomActionList, null,
+                                                     (string)rootNode.Tag);
+
+                KeyValueList webCustomActionsList = new KeyValueList();
+
+                foreach (var webCustomAction in template.CustomActions.WebCustomActions)
+                {
+                    TreeNode wcaNode = new TreeNode(webCustomAction.Name);
+                    wcaNode.Name = webCustomAction.RegistrationId;
+                    wcaNode.Tag = templateItems.AddItem(wcaNode.Name, TemplateControlType.TextBox,
+                                                        TemplateItemType.WebCustomActionItem,
+                                                        GetCustomAction(webCustomAction),
+                                                        (string)wcaNodes.Tag);
+
+                    wcaNodes.Nodes.Add(wcaNode);
+
+                    webCustomActionsList.AddKeyValue(webCustomAction.Name, webCustomAction.RegistrationId);
+
+                }
+
+                templateItems.SetContent((string)wcaNodes.Tag, webCustomActionsList);
+
+                rootNode.Nodes.Add(wcaNodes);
+                templateList.AddKeyValue(wcaNodes.Text, wcaNodes.Name);
+
+            }
+
+            if (template.Features?.SiteFeatures?.Count > 0)
+            {
+                TreeNode sfNodes = new TreeNode("Site Features");
+                sfNodes.Name = "SiteFeatures";
+
+                KeyValueList siteFeaturesList = new KeyValueList();
+
+                foreach (var siteFeature in template.Features.SiteFeatures)
+                {
+                    siteFeaturesList.AddKeyValue(siteFeature.Id.ToString("B"), siteFeature.Id.ToString("B")); //B = {} format
+                }
+
+                sfNodes.Tag = templateItems.AddItem(sfNodes.Name, TemplateControlType.ListBox,
+                                                    TemplateItemType.SiteFeatureList,
+                                                    siteFeaturesList,
+                                                    (string)rootNode.Tag);
+
+                rootNode.Nodes.Add(sfNodes);
+                templateList.AddKeyValue(sfNodes.Text, sfNodes.Name);
+
+            }
+
+            if (template.Features?.WebFeatures?.Count > 0)
+            {
+                TreeNode wfNodes = new TreeNode("Web Features");
+                wfNodes.Name = "WebFeatures";
+
+                KeyValueList webFeaturesList = new KeyValueList();
+
+                foreach (var webFeature in template.Features.WebFeatures)
+                {
+                    webFeaturesList.AddKeyValue(webFeature.Id.ToString("B"), webFeature.Id.ToString("B"));
+                }
+
+                wfNodes.Tag = templateItems.AddItem(wfNodes.Name, TemplateControlType.ListBox,
+                                                    TemplateItemType.WebFeatureList,
+                                                    webFeaturesList,
+                                                    (string)rootNode.Tag);
+
+                rootNode.Nodes.Add(wfNodes);
+                templateList.AddKeyValue(wfNodes.Text, wfNodes.Name);
+
+            }
+
+            if (template.ContentTypes?.Count > 0)
+            {
+                TreeNode ctNodes = new TreeNode("Content Types");
+                ctNodes.Name = "ContentTypes";
+                ctNodes.Tag = templateItems.AddItem(ctNodes.Name, TemplateControlType.ListBox,
+                                                    TemplateItemType.ContentTypeList, null,
+                                                    (string)rootNode.Tag);
+
+                KeyValueList contentTypeList = new KeyValueList();
+
+                foreach (var contentType in template.ContentTypes)
+                {
+                    KeyValueList contentTypeGroup = null;
+                    TreeNode ctgNode = null;
+                    TreeNode[] ctgNodes = ctNodes.Nodes.Find(contentType.Group, false);
+                    if (ctgNodes?.Length > 0)
+                    {
+                        ctgNode = ctgNodes[0];
+                        contentTypeGroup = templateItems.GetContent((string)ctgNode.Tag) as KeyValueList;
+
+                    }
+                    else
+                    {
+                        ctgNode = new TreeNode(contentType.Group);
+                        ctgNode.Name = contentType.Group;
+                        ctgNode.Tag = templateItems.AddItem(ctgNode.Name, TemplateControlType.ListBox,
+                                                            TemplateItemType.ContentTypeGroup, null,
+                                                            (string)ctNodes.Tag);
+
+                        contentTypeGroup = new KeyValueList();
+
+                        ctNodes.Nodes.Add(ctgNode);
+
+                    }
+
+                    TreeNode ctNode = new TreeNode(contentType.Name);
+                    ctNode.Name = contentType.Id;
+                    ctNode.Tag = templateItems.AddItem(ctNode.Name, TemplateControlType.TextBox,
+                                                       TemplateItemType.ContentTypeItem,
+                                                       GetContentType(contentType.Id),
+                                                       (string)ctgNode.Tag);
+
+                    ctgNode.Nodes.Add(ctNode);
+
+                    contentTypeGroup.AddKeyValue(contentType.Name, contentType.Id);
+
+                    templateItems.SetContent((string)ctgNode.Tag, contentTypeGroup);
+
+                    if (!contentTypeList.Exists(p => p.Key.Equals(contentType.Group,
+                                                StringComparison.OrdinalIgnoreCase)))
+                    {
+                        contentTypeList.AddKeyValue(contentType.Group, contentType.Group);
+
+                    }
+
+                }
+
+                templateItems.SetContent((string)ctNodes.Tag, contentTypeList);
+
+                rootNode.Nodes.Add(ctNodes);
+
+                templateList.AddKeyValue(ctNodes.Text, ctNodes.Name);
+
+            }
+
+            if (template.SiteFields?.Count > 0)
+            {
+                TreeNode sfNodes = new TreeNode("Site Fields");
+                sfNodes.Name = "SiteFields";
+                sfNodes.Tag = templateItems.AddItem(sfNodes.Name, TemplateControlType.ListBox,
+                                                    TemplateItemType.SiteFieldList, null,
+                                                    (string)rootNode.Tag);
+
+                KeyValueList siteFieldsList = new KeyValueList();
+
+                foreach (var siteField in template.SiteFields)
+                {
+                    XElement fieldElement = XElement.Parse(siteField.SchemaXml);
+                    string fieldGroup = "Undefined Group";
+                    if (fieldElement.Attribute("Group") != null)
+                    {
+                        fieldGroup = fieldElement.Attribute("Group").Value;
+                    }
+                    string fieldID = fieldElement.Attribute("ID").Value;
+                    string fieldName = fieldElement.Attribute("Name").Value;
+
+                    KeyValueList siteFieldsGroup = null;
+                    TreeNode sfgNode = null;
+                    TreeNode[] sfgNodes = sfNodes.Nodes.Find(fieldGroup, false);
+                    if (sfgNodes?.Length > 0)
+                    {
+                        sfgNode = sfgNodes[0];
+                        siteFieldsGroup = templateItems.GetContent((string)sfgNode.Tag) as KeyValueList;
+
+                    }
+                    else
+                    {
+                        sfgNode = new TreeNode(fieldGroup);
+                        sfgNode.Name = fieldGroup;
+                        sfgNode.Tag = templateItems.AddItem(fieldGroup, TemplateControlType.ListBox,
+                                                            TemplateItemType.SiteFieldGroup, null,
+                                                            (string)sfNodes.Tag);
+
+                        siteFieldsGroup = new KeyValueList();
+
+                        sfNodes.Nodes.Add(sfgNode);
+
+                    }
+
+                    TreeNode sfNode = new TreeNode(fieldName);
+
+                    string fieldXml = fieldElement.ToString(SaveOptions.None);
+                    int gtFirst = fieldXml.IndexOf('>', 0);
+                    string fieldText = fieldXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n       ") +
+                                       fieldXml.Substring(gtFirst);
+
+                    sfNode.Name = fieldID;
+                    sfNode.Tag = templateItems.AddItem(fieldID, TemplateControlType.TextBox,
+                                                       TemplateItemType.SiteFieldItem, fieldText,
+                                                       (string)sfgNode.Tag);
+
+                    sfgNode.Nodes.Add(sfNode);
+
+                    siteFieldsGroup.AddKeyValue(fieldName, fieldID);
+
+                    templateItems.SetContent((string)sfgNode.Tag, siteFieldsGroup);
+
+                    if (!siteFieldsList.Exists(p => p.Key.Equals(fieldGroup,
+                                               StringComparison.OrdinalIgnoreCase)))
+                    {
+                        siteFieldsList.AddKeyValue(fieldGroup, fieldGroup);
+
+                    }
+
+                }
+
+                templateItems.SetContent((string)sfNodes.Tag, siteFieldsList);
+
+                rootNode.Nodes.Add(sfNodes);
+                templateList.AddKeyValue(sfNodes.Text, sfNodes.Name);
+
+            }
+
+            if (template.Files?.Count > 0)
+            {
+                TreeNode fNodes = new TreeNode("Files");
+                fNodes.Name = "Files";
+                fNodes.Tag = templateItems.AddItem(fNodes.Name, TemplateControlType.ListBox,
+                                                   TemplateItemType.FileList, null,
+                                                   (string)rootNode.Tag);
+
+                KeyValueList filesList = new KeyValueList();
+
+                foreach (var file in template.Files)
+                {
+                    string fileSrc = file.Src.Replace("%20", " ");
+                    file.Src = fileSrc;
+
+                    TreeNode fNode = new TreeNode(fileSrc);
+                    fNode.Name = fileSrc;
+                    fNode.Tag = templateItems.AddItem(fNode.Name, TemplateControlType.TextBox,
+                                                      TemplateItemType.FileItem,
+                                                      GetPNPFile(file),
+                                                      (string)fNodes.Tag);
+
+                    if (file.WebParts?.Count > 0)
+                    {
+                        TreeNode fwpNodes = new TreeNode("WebParts");
+                        fwpNodes.Name = fNode.Name + "_WebParts";
+                        fwpNodes.Tag = templateItems.AddItem(fwpNodes.Name, TemplateControlType.ListBox,
+                                                             TemplateItemType.FileWebPartsList, null,
+                                                             (string)fNode.Tag);
+
+                        KeyValueList webPartList = new KeyValueList();
+
+                        foreach (var webPart in file.WebParts)
+                        {
+                            WebPart newWP = new WebPart()
+                            {
+                                Column = webPart.Column,
+                                Order = webPart.Order,
+                                Row = webPart.Row,
+                                Title = webPart.Title,
+                                Zone = webPart.Zone
+
+                            };
+
+                            TreeNode fwpNode = new TreeNode(newWP.Title);
+                            fwpNode.Name = fwpNodes.Name + "_" + newWP.Title;
+                            fwpNode.Tag = templateItems.AddItem(fwpNode.Name, TemplateControlType.TextBox,
+                                                                TemplateItemType.FileWebPartItem,
+                                                                JsonConvert.SerializeObject(newWP, Newtonsoft.Json.Formatting.Indented),
+                                                                (string)fwpNodes.Tag);
+
+                            webPartList.AddKeyValue(newWP.Title, fwpNode.Name);
+
+                            TreeNode fwpcNode = new TreeNode("Contents");
+                            fwpcNode.Name = fwpNode.Name + "_Contents";
+                            XElement fwpcElement = XElement.Parse(webPart.Contents);
+
+                            string fieldXml = fwpcElement.ToString(SaveOptions.None);
+
+                            fwpcNode.Tag = templateItems.AddItem(fwpcNode.Name, TemplateControlType.TextBox,
+                                                                 TemplateItemType.FileWebPartItemContent,
+                                                                 fieldXml,
+                                                                 (string)fwpNode.Tag);
+
+                            fwpNode.Nodes.Add(fwpcNode);
+
+                            fwpNodes.Nodes.Add(fwpNode);
+
+                        }
+
+                        templateItems.SetContent((string)fwpNodes.Tag, webPartList);
+
+                        fNode.Nodes.Add(fwpNodes);
+
+                    }
+
+                    fNodes.Nodes.Add(fNode);
+
+                    filesList.AddKeyValue(fileSrc, fileSrc);
+
+                }
+
+                templateItems.SetContent((string)fNodes.Tag, filesList);
+
+                rootNode.Nodes.Add(fNodes);
+                templateList.AddKeyValue(fNodes.Text, fNodes.Name);
+
+            }
+
+            if (template.Lists?.Count > 0)
+            {
+                TreeNode lNodes = new TreeNode("Lists");
+                lNodes.Name = "Lists";
+                lNodes.Tag = templateItems.AddItem(lNodes.Name, TemplateControlType.ListBox,
+                                                   TemplateItemType.ListList, null,
+                                                   (string)rootNode.Tag);
+
+                KeyValueList listsList = new KeyValueList();
+
+                foreach (var list in template.Lists)
+                {
+                    TreeNode lNode = new TreeNode(list.Title);
+                    lNode.Name = list.Url;
+                    lNode.Tag = templateItems.AddItem(lNode.Name, TemplateControlType.TextBox,
+                                                      TemplateItemType.ListItem,
+                                                      GetListInstance(list.Url),
+                                                      (string)lNodes.Tag);
+
+                    if (list.Fields?.Count > 0)
+                    {
+                        TreeNode fNodes = new TreeNode("Fields");
+                        fNodes.Name = lNode.Name + "_ListFields";
+                        fNodes.Tag = templateItems.AddItem(fNodes.Name, TemplateControlType.ListBox,
+                                                           TemplateItemType.ListFieldList, null,
+                                                           (string)lNode.Tag);
+
+                        KeyValueList fieldsList = new KeyValueList();
+
+                        foreach (var field in list.Fields)
+                        {
+                            XElement fieldElement = XElement.Parse(field.SchemaXml);
+                            string fieldID = fieldElement.Attribute("ID").Value;
+                            string fieldName = fieldElement.Attribute("Name").Value;
+
+                            TreeNode fNode = new TreeNode(fieldName);
+
+                            string fieldXml = fieldElement.ToString(SaveOptions.None);
+                            //Arrange first element attributes in rows
+                            int gtFirst = fieldXml.IndexOf('>', 0);
+                            string fieldText = fieldXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n       ") +
+                                               fieldXml.Substring(gtFirst);
+
+                            fNode.Name = fieldID;
+                            fNode.Tag = templateItems.AddItem(fieldID, TemplateControlType.TextBox,
+                                                              TemplateItemType.ListFieldItem, fieldText,
+                                                              (string)fNodes.Tag);
+
+                            fNodes.Nodes.Add(fNode);
+                            fieldsList.AddKeyValue(fieldName, fieldID);
+
+                        }
+
+                        templateItems.SetContent((string)fNodes.Tag, fieldsList);
+
+                        lNode.Nodes.Add(fNodes);
+
+                    }
+
+                    if (list.Views?.Count > 0)
+                    {
+                        TreeNode vNodes = new TreeNode("Views");
+                        vNodes.Name = lNode.Name + "_ListViews";
+                        vNodes.Tag = templateItems.AddItem(vNodes.Name, TemplateControlType.ListBox,
+                                                           TemplateItemType.ListViewList, null,
+                                                           (string)lNode.Tag);
+
+                        KeyValueList viewsList = new KeyValueList();
+
+                        foreach (var view in list.Views)
+                        {
+                            XElement viewElement = XElement.Parse(view.SchemaXml);
+                            string viewName = viewElement.Attribute("Name").Value;
+                            string displayName = viewElement.Attribute("DisplayName").Value;
+
+                            TreeNode vNode = new TreeNode(displayName);
+
+                            string viewXml = viewElement.ToString(SaveOptions.None);
+                            //Arrange first element attributes in rows
+                            int gtFirst = viewXml.IndexOf('>', 0);
+                            string viewText = viewXml.Substring(0, gtFirst).Replace("\" ", "\"\r\n      ") +
+                                              viewXml.Substring(gtFirst);
+
+                            vNode.Name = viewName;
+                            vNode.Tag = templateItems.AddItem(vNode.Name, TemplateControlType.TextBox,
+                                                              TemplateItemType.ListViewItem, viewText,
+                                                              (string)vNodes.Tag);
+
+                            vNodes.Nodes.Add(vNode);
+
+                            viewsList.AddKeyValue(displayName, viewName);
+
+                        }
+
+                        templateItems.SetContent((string)vNodes.Tag, viewsList);
+
+                        lNode.Nodes.Add(vNodes);
+
+                    }
+
+                    listsList.AddKeyValue(list.Title, list.Url);
+
+                    lNodes.Nodes.Add(lNode);
+
+                }
+
+                templateItems.SetContent((string)lNodes.Tag, listsList);
+
+                rootNode.Nodes.Add(lNodes);
+                templateList.AddKeyValue(lNodes.Text, lNodes.Name);
+
+            }
+
+            if (template.Localizations?.Count > 0)
+            {
+                TreeNode glNodes = new TreeNode("Localizations");
+                glNodes.Name = "Localizations";
+                glNodes.Tag = templateItems.AddItem(glNodes.Name, TemplateControlType.ListBox,
+                                                    TemplateItemType.LocalizationsList, null,
+                                                    (string)rootNode.Tag);
+
+                KeyValueList localizationsList = new KeyValueList();
+
+                foreach (var localization in template.Localizations)
+                {
+                    TreeNode glNode = new TreeNode(localization.Name);
+                    glNode.Name = localization.LCID.ToString();
+                    glNode.Tag = templateItems.AddItem(glNode.Name, TemplateControlType.TextBox,
+                                                       TemplateItemType.LocalizationsItem,
+                                                       GetLocalization(localization),
+                                                       (string)glNodes.Tag);
+
+                    glNodes.Nodes.Add(glNode);
+
+                    localizationsList.AddKeyValue(localization.Name, localization.LCID.ToString());
+
+                }
+
+                templateItems.SetContent((string)glNodes.Tag, localizationsList);
+
+                rootNode.Nodes.Add(glNodes);
+                templateList.AddKeyValue(glNodes.Text, glNodes.Name);
+
+            }
+
+            //Navigation to do
+
+            if (template.Pages?.Count > 0)
+            {
+                TreeNode pNodes = new TreeNode("Pages");
+                pNodes.Name = "Pages";
+                pNodes.Tag = templateItems.AddItem(pNodes.Name, TemplateControlType.ListBox,
+                                                   TemplateItemType.PageList, null,
+                                                   (string)rootNode.Tag);
+
+                KeyValueList pageList = new KeyValueList();
+
+                foreach (var page in template.Pages)
+                {
+                    TreeNode pNode = new TreeNode(page.Url);
+                    pNode.Name = page.Url;
+                    pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.TextBox,
+                                                      TemplateItemType.PageItem,
+                                                      GetPageContent(page),
+                                                      (string)pNodes.Tag);
+
+                    pNodes.Nodes.Add(pNode);
+                    pageList.AddKeyValue(page.Url, page.Url);
+
+                }
+
+                templateItems.SetContent((string)pNodes.Tag, pageList);
+
+                rootNode.Nodes.Add(pNodes);
+
+                templateList.AddKeyValue(pNodes.Text, pNodes.Name);
+
+            }
+
+            if (template.Properties?.Count > 0)
+            {
+                TreeNode pNode = new TreeNode("Properties");
+                pNode.Name = "Properties";
+                pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.ListView,
+                                                  TemplateItemType.PropertiesList, null,
+                                                  (string)rootNode.Tag);
+
+                KeyValueList propertiesList = new KeyValueList();
+
+                foreach (var property in template.Properties)
+                {
+                    propertiesList.AddKeyValue(property.Key, property.Value);
+
+                }
+
+                templateItems.SetContent((string)pNode.Tag, propertiesList);
+
+                rootNode.Nodes.Add(pNode);
+
+                templateList.AddKeyValue(pNode.Text, pNode.Name);
+
+            }
+
+            if (template.PropertyBagEntries?.Count > 0)
+            {
+                TreeNode pbeNodes = new TreeNode("Property Bag Entries");
+                pbeNodes.Name = "PropertyBagEntries";
+                pbeNodes.Tag = templateItems.AddItem(pbeNodes.Name, TemplateControlType.ListView,
+                                                     TemplateItemType.PropertyBagEntriesList, null,
+                                                     (string)rootNode.Tag);
+
+                KeyValueList propertyBagEntriesList = new KeyValueList();
+
+                foreach (var propertyBagEntry in template.PropertyBagEntries)
+                {
+                    propertyBagEntriesList.AddKeyValue(propertyBagEntry.Key, propertyBagEntry.Value);
+
+                }
+
+                templateItems.SetContent((string)pbeNodes.Tag, propertyBagEntriesList);
+
+                rootNode.Nodes.Add(pbeNodes);
+
+                templateList.AddKeyValue(pbeNodes.Text, pbeNodes.Name);
+
+            }
+
+            if (template.Publishing != null)
+            {
+                TreeNode pNode = new TreeNode("Publishing");
+                pNode.Name = "Publishing";
+
+                pNode.Tag = templateItems.AddItem(pNode.Name, TemplateControlType.TextBox,
+                                                  TemplateItemType.PublishingList,
+                                                  GetPublishing(template.Publishing),
+                                                  (string)rootNode.Tag);
+
+                rootNode.Nodes.Add(pNode);
+
+                templateList.AddKeyValue(pNode.Text, pNode.Name);
+
+            }
+
+            //Security - to do...
+            //Search Settings - to do...
+
+            if (template.SupportedUILanguages?.Count > 0)
+            {
+                TreeNode suilNode = new TreeNode("Supported UI Languages");
+                suilNode.Name = "SupportedUILanguages";
+                suilNode.Tag = templateItems.AddItem(suilNode.Name, TemplateControlType.ListBox,
+                                                     TemplateItemType.SupportedUILanguagesList, null,
+                                                     (string)rootNode.Tag);
+
+                KeyValueList supportedUILanguages = new KeyValueList();
+
+                foreach (var suil in template.SupportedUILanguages)
+                {
+                    supportedUILanguages.AddKeyValue(suil.LCID.ToString(), suil.LCID.ToString());
+
+                }
+
+                templateItems.SetContent((string)suilNode.Tag, supportedUILanguages);
+
+                rootNode.Nodes.Add(suilNode);
+
+                templateList.AddKeyValue(suilNode.Text, suilNode.Name);
+
+            }
+
+            if (template.TermGroups?.Count > 0)
+            {
+                TreeNode tgNodes = new TreeNode("Term Groups");
+                tgNodes.Name = "TermGroups";
+                tgNodes.Tag = templateItems.AddItem(tgNodes.Name, TemplateControlType.ListBox,
+                                                    TemplateItemType.TermGroupList, null,
+                                                    (string)rootNode.Tag);
+
+                KeyValueList termGroupsList = new KeyValueList();
+
+                foreach (var termGroup in template.TermGroups)
+                {
+                    TreeNode tgNode = new TreeNode(termGroup.Name);
+                    tgNode.Name = termGroup.Id.ToString("N");
+                    tgNode.Tag = templateItems.AddItem(tgNode.Name, TemplateControlType.TextBox,
+                                                       TemplateItemType.TermGroupItem,
+                                                       GetTermGroup(termGroup.Id),
+                                                       (string)tgNodes.Tag);
+
+
+                    if (termGroup.TermSets?.Count > 0)
+                    {
+                        TreeNode tsNodes = new TreeNode("Term Sets");
+                        tsNodes.Name = tgNode.Name + "_TermSets";
+                        tsNodes.Tag = templateItems.AddItem(tsNodes.Name, TemplateControlType.ListBox,
+                                                            TemplateItemType.TermSetList, null,
+                                                            (string)tgNode.Tag);
+
+                        KeyValueList termSetsList = new KeyValueList();
+
+                        foreach (var termSet in termGroup.TermSets)
+                        {
+                            TreeNode tsNode = new TreeNode(termSet.Name);
+                            tsNode.Name = termSet.Id.ToString("N");
+                            tsNode.Tag = templateItems.AddItem(tsNode.Name, TemplateControlType.TextBox,
+                                                               TemplateItemType.TermSetItem,
+                                                               GetTermSet(termSet),
+                                                               (string)tsNodes.Tag);
+
+                            tsNodes.Nodes.Add(tsNode);
+
+                            termSetsList.AddKeyValue(termSet.Name, tsNodes.Name);
+
+                        }
+
+                        templateItems.SetContent((string)tsNodes.Tag, termSetsList);
+
+                        tgNode.Nodes.Add(tsNodes);
+
+                    }
+
+                    tgNodes.Nodes.Add(tgNode);
+
+                    termGroupsList.AddKeyValue(termGroup.Name, tgNode.Name);
+
+                }
+
+                templateItems.SetContent((string)tgNodes.Tag, termGroupsList);
+
+                rootNode.Nodes.Add(tgNodes);
+                templateList.AddKeyValue(tgNodes.Text, tgNodes.Name);
+
+            }
+
+            if (template.WebSettings != null)
+            {
+                TreeNode wsNode = new TreeNode("Web Settings");
+                wsNode.Name = "WebSettings";
+                wsNode.Tag = templateItems.AddItem(wsNode.Name, TemplateControlType.Form,
+                                                   TemplateItemType.WebSetting,
+                                                   GetWebSettings(template.WebSettings),
+                                                   (string)rootNode.Tag);
+
+                rootNode.Nodes.Add(wsNode);
+
+                templateList.AddKeyValue(wsNode.Text, wsNode.Name);
+
+            }
+
+            if (template.Workflows?.WorkflowDefinitions?.Count > 0)
+            {
+                TreeNode wwdNodes = new TreeNode("Workflow Definitions");
+                wwdNodes.Name = "WorkflowDefinitions";
+                wwdNodes.Tag = templateItems.AddItem(wwdNodes.Name, TemplateControlType.ListBox,
+                                                     TemplateItemType.WorkflowDefinitionList, null,
+                                                     (string)rootNode.Tag);
+
+                KeyValueList workflowDefinitionsList = new KeyValueList();
+
+                foreach (var workflowDefinition in template.Workflows.WorkflowDefinitions)
+                {
+                    TreeNode wwdNode = new TreeNode(workflowDefinition.DisplayName);
+                    wwdNode.Name = workflowDefinition.Id.ToString("N");
+                    wwdNode.Tag = templateItems.AddItem(wwdNode.Name, TemplateControlType.TextBox,
+                                                        TemplateItemType.WorkflowDefinitionItem,
+                                                        GetWorkflowDefinition(workflowDefinition.Id),
+                                                        (string)wwdNodes.Tag);
+
+                    wwdNodes.Nodes.Add(wwdNode);
+
+                    workflowDefinitionsList.AddKeyValue(workflowDefinition.DisplayName, wwdNode.Name);
+
+                }
+
+                templateItems.SetContent((string)wwdNodes.Tag, workflowDefinitionsList);
+
+                rootNode.Nodes.Add(wwdNodes);
+
+                templateList.AddKeyValue(wwdNodes.Text, wwdNodes.Name);
+
+            }
+
+            if (template.Workflows?.WorkflowSubscriptions?.Count > 0)
+            {
+                TreeNode wwsNodes = new TreeNode("Workflow Subscriptions");
+                wwsNodes.Name = "WorkflowSubscriptions";
+                wwsNodes.Tag = templateItems.AddItem(wwsNodes.Name, TemplateControlType.ListBox,
+                                                     TemplateItemType.WorkflowSubscriptionList, null,
+                                                     (string)rootNode.Tag);
+
+                KeyValueList workflowSubscriptionsList = new KeyValueList();
+
+                foreach (var workflowSubscription in template.Workflows.WorkflowSubscriptions)
+                {
+                    TreeNode wwsNode = new TreeNode(workflowSubscription.Name);
+                    wwsNode.Name = workflowSubscription.Name;
+                    wwsNode.Tag = templateItems.AddItem(wwsNode.Name, TemplateControlType.TextBox,
+                                                        TemplateItemType.WorkflowSubscriptionItem,
+                                                        GetWorkflowSubscription(workflowSubscription.Name),
+                                                        (string)wwsNodes.Tag);
+
+                    wwsNodes.Nodes.Add(wwsNode);
+
+                    workflowSubscriptionsList.AddKeyValue(workflowSubscription.Name, workflowSubscription.Name);
+
+                }
+
+                templateItems.SetContent((string)wwsNodes.Tag, workflowSubscriptionsList);
+
+                rootNode.Nodes.Add(wwsNodes);
+                templateList.AddKeyValue(wwsNodes.Text, wwsNodes.Name);
+
+            }
+
+            templateItems.SetContent((string)rootNode.Tag, templateList);
+
+            rootNode.Expand();
+
+            treeView.Nodes.Add(rootNode);
+
+            return templateItems;
+
+        } //OpenTemplateForEdit
+
+        private int[] GetRegionalSettings()
+        {
+            int[] result = null;
+            if (EditingTemplate?.RegionalSettings != null)
+            {
+                result = new int[]
+                {
+                    EditingTemplate.RegionalSettings.AdjustHijriDays,
+                    (int)EditingTemplate.RegionalSettings.AlternateCalendarType,
+                    (int)EditingTemplate.RegionalSettings.CalendarType,
+                    EditingTemplate.RegionalSettings.Collation,
+                    (int)EditingTemplate.RegionalSettings.FirstDayOfWeek,
+                    EditingTemplate.RegionalSettings.FirstWeekOfYear,
+                    EditingTemplate.RegionalSettings.LocaleId,
+                    (EditingTemplate.RegionalSettings.ShowWeeks ? 1 : 0),
+                    (EditingTemplate.RegionalSettings.Time24 ? 1 : 0),
+                    EditingTemplate.RegionalSettings.TimeZone,
+                    (int)EditingTemplate.RegionalSettings.WorkDayEndHour / 60,
+                    EditingTemplate.RegionalSettings.WorkDays,
+                    (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
+                };
+                //Note: Ensure that the above array is populated in the order of the RegionalSettingProperties enum
+            }
+
+            return result;
+
+        } //GetRegionalSettingProperty
+
+        private string[] GetComposedLook()
+        {
+            string[] result = null;
+            if (EditingTemplate?.ComposedLook != null)
+            {
+                result = new string[]
+                {
+                    EditingTemplate.ComposedLook.Name,
+                    EditingTemplate.ComposedLook.BackgroundFile,
+                    EditingTemplate.ComposedLook.ColorFile,
+                    EditingTemplate.ComposedLook.FontFile,
+                    EditingTemplate.ComposedLook.Version.ToString()
+                };
+                //Note: Ensure that the above array is populated in the order of the ComposedLookProperties enum
+            }
+
+            return result;
+
+        } //GetComposedLook
+
+        private string GetContentType(string contentTypeId)
+        {
+            string result = string.Empty;
+            if (EditingTemplate?.ContentTypes != null)
+            {
+                PnPModel.ContentType contentType = EditingTemplate.ContentTypes.Find(p => p.Id.Equals(contentTypeId,
+                                                                                     StringComparison.OrdinalIgnoreCase));
+                if (contentType != null)
+                {
+                    PnPModel.ContentType newCT = new PnPModel.ContentType()
+                    {
+                        Id = contentType.Id,
+                        Description = contentType.Description,
+                        DisplayFormUrl = contentType.DisplayFormUrl,
+                        DocumentSetTemplate = contentType.DocumentSetTemplate,
+                        DocumentTemplate = contentType.DocumentTemplate,
+                        EditFormUrl = contentType.EditFormUrl,
+                        Group = contentType.Group,
+                        Hidden = contentType.Hidden,
+                        Name = contentType.Name,
+                        NewFormUrl = contentType.NewFormUrl,
+                        Overwrite = contentType.Overwrite,
+                        ReadOnly = contentType.ReadOnly,
+                        Sealed = contentType.Sealed
+
+                    };
+
+                    if (contentType.FieldRefs?.Count > 0)
+                    {
+                        newCT.FieldRefs.AddRange(contentType.FieldRefs);
+
+                    }
+
+                    result = JsonConvert.SerializeObject(newCT, Newtonsoft.Json.Formatting.Indented);
+
+                }
+
+            }
+
+            return result;
+
+        } //GetContentType
+
+        private string GetListInstance(string url)
+        {
+            string result = string.Empty;
+            if (EditingTemplate?.Lists != null)
+            {
+                ListInstance listInstance = EditingTemplate.Lists.Find(p => p.Url.Equals(url,
+                                                                                         StringComparison.OrdinalIgnoreCase));
+                if (listInstance != null)
+                {
+                    ListInstance newLI = new ListInstance()
+                    {
+                        ContentTypesEnabled = listInstance.ContentTypesEnabled,
+                        Description = listInstance.Description,
+                        DocumentTemplate = listInstance.DocumentTemplate,
+                        DraftVersionVisibility = listInstance.DraftVersionVisibility,
+                        EnableAttachments = listInstance.EnableAttachments,
+                        EnableFolderCreation = listInstance.EnableFolderCreation,
+                        EnableMinorVersions = listInstance.EnableMinorVersions,
+                        EnableModeration = listInstance.EnableModeration,
+                        EnableVersioning = listInstance.EnableVersioning,
+                        ForceCheckout = listInstance.ForceCheckout,
+                        Hidden = listInstance.Hidden,
+                        MaxVersionLimit = listInstance.MaxVersionLimit,
+                        MinorVersionLimit = listInstance.MinorVersionLimit,
+                        OnQuickLaunch = listInstance.OnQuickLaunch,
+                        RemoveExistingContentTypes = listInstance.RemoveExistingContentTypes,
+                        RemoveExistingViews = listInstance.RemoveExistingViews,
+                        TemplateFeatureID = listInstance.TemplateFeatureID,
+                        TemplateType = listInstance.TemplateType,
+                        Title = listInstance.Title,
+                        Url = listInstance.Url
+
+                    };
+
+                    if (listInstance.ContentTypeBindings?.Count > 0)
+                    {
+                        newLI.ContentTypeBindings.AddRange(listInstance.ContentTypeBindings);
+
+                    }
+
+                    if (listInstance.DataRows?.Count > 0)
+                    {
+                        newLI.DataRows.AddRange(listInstance.DataRows);
+
+                    }
+
+                    if (listInstance.FieldDefaults?.Count > 0)
+                    {
+                        foreach (var kvp in listInstance.FieldDefaults)
+                        {
+                            newLI.FieldDefaults.Add(kvp.Key, kvp.Value);
+
+                        }
+
+                    }
+
+                    if (listInstance.FieldRefs?.Count > 0)
+                    {
+                        newLI.FieldRefs.AddRange(listInstance.FieldRefs);
+
+                    }
+
+                    if (listInstance.Folders?.Count > 0)
+                    {
+                        newLI.Folders.AddRange(listInstance.Folders);
+
+                    }
+
+                    if (listInstance.Security != null)
+                    {
+                        newLI.Security = new ObjectSecurity()
+                        {
+                            ClearSubscopes = listInstance.Security.ClearSubscopes,
+                            CopyRoleAssignments = listInstance.Security.CopyRoleAssignments
+
+                        };
+
+                        newLI.Security.RoleAssignments.AddRange(listInstance.Security.RoleAssignments);
+
+                    }
+
+                    if (listInstance.UserCustomActions?.Count > 0)
+                    {
+                        newLI.UserCustomActions.AddRange(listInstance.UserCustomActions);
+
+                    }
+
+                    //ensure fields are empty as they are handled elsewhere
+                    newLI.Fields.Clear();
+                    //ensure views are empty as they are handled elsewhere
+                    newLI.Views.Clear();
+
+                    result = JsonConvert.SerializeObject(newLI, Newtonsoft.Json.Formatting.Indented);
+
+                }
+
+            }
+
+            return result;
+
+        } //GetListInstance
+
+        private string[] GetWebSettings(WebSettings webSettings)
+        {
+            string[] result = null;
+            if (webSettings != null)
+            {
+                result = new string[]
+               {
+                   webSettings.AlternateCSS,
+                   webSettings.CustomMasterPageUrl,
+                   webSettings.Description,
+                   webSettings.MasterPageUrl,
+                   (webSettings.NoCrawl ? "1" : "0"),
+                   webSettings.RequestAccessEmail,
+                   webSettings.SiteLogo,
+                   webSettings.Title,
+                   webSettings.WelcomePage
+
+               };
+                //Note: Ensure that the above are added in the order as defined in the WebSettingProperties enum
+            }
+
+            return result;
+
+        } //GetWebSettings
+
+        private string GetWorkflowDefinition(Guid WorkflowDefinitionId)
+        {
+            string result = string.Empty;
+            if (EditingTemplate?.Workflows?.WorkflowDefinitions != null)
+            {
+                WorkflowDefinition workflowDefinition = EditingTemplate.Workflows.WorkflowDefinitions.Find(p =>
+                                                        p.Id.Equals(WorkflowDefinitionId));
+
+                if (workflowDefinition != null)
+                {
+                    WorkflowDefinition newWD = new WorkflowDefinition()
+                    {
+                        AssociationUrl = workflowDefinition.AssociationUrl,
+                        Description = workflowDefinition.Description,
+                        DisplayName = workflowDefinition.DisplayName,
+                        DraftVersion = workflowDefinition.DraftVersion,
+                        FormField = workflowDefinition.FormField,
+                        Id = workflowDefinition.Id,
+                        InitiationUrl = workflowDefinition.InitiationUrl,
+                        Published = workflowDefinition.Published,
+                        RequiresAssociationForm = workflowDefinition.RequiresAssociationForm,
+                        RequiresInitiationForm = workflowDefinition.RequiresInitiationForm,
+                        RestrictToScope = workflowDefinition.RestrictToScope,
+                        RestrictToType = workflowDefinition.RestrictToType,
+                        XamlPath = workflowDefinition.XamlPath
+
+                    };
+
+                    if (workflowDefinition.Properties?.Count > 0)
+                    {
+                        foreach (var property in workflowDefinition.Properties)
+                        {
+                            newWD.Properties.Add(property.Key, property.Value);
+                        }
+
+                    }
+
+                    result = JsonConvert.SerializeObject(newWD, Newtonsoft.Json.Formatting.Indented);
+
+                }
+
+            }
+
+            return result;
+
+        } //GetWorkflowDefinition
+
+        private string GetWorkflowSubscription(string workflowSubscriptionName)
+        {
+            string result = string.Empty;
+            if (EditingTemplate?.Workflows?.WorkflowSubscriptions != null)
+            {
+                WorkflowSubscription workflowSubscription = EditingTemplate.Workflows.WorkflowSubscriptions
+                                                                           .Find(p => p.Name.Equals(workflowSubscriptionName,
+                                                                                                    StringComparison.OrdinalIgnoreCase));
+                if (workflowSubscription != null)
+                {
+                    WorkflowSubscription newWS = new WorkflowSubscription()
+                    {
+                        DefinitionId = workflowSubscription.DefinitionId,
+                        Enabled = workflowSubscription.Enabled,
+                        EventSourceId = workflowSubscription.EventSourceId,
+                        EventTypes = workflowSubscription.EventTypes,
+                        ListId = workflowSubscription.ListId,
+                        ManualStartBypassesActivationLimit = workflowSubscription.ManualStartBypassesActivationLimit,
+                        Name = workflowSubscription.Name,
+                        ParentContentTypeId = workflowSubscription.ParentContentTypeId,
+                        StatusFieldName = workflowSubscription.StatusFieldName
+
+                    };
+
+                    if (workflowSubscription.PropertyDefinitions?.Count > 0)
+                    {
+                        foreach (var propertyDefinition in workflowSubscription.PropertyDefinitions)
+                        {
+                            newWS.PropertyDefinitions.Add(propertyDefinition.Key, propertyDefinition.Value);
+
+                        }
+
+                    }
+
+                    result = JsonConvert.SerializeObject(newWS, Newtonsoft.Json.Formatting.Indented);
+
+                }
+
+            }
+
+            return result;
+
+        } //GetWorkflowSubscription
+
+        private string GetCustomAction(CustomAction customAction)
+        {
+            string result = string.Empty;
+            if (customAction != null)
+            {
+                CustomAction newCA = new CustomAction()
+                {
+                    CommandUIExtension = customAction.CommandUIExtension,
+                    Description = customAction.Description,
+                    Enabled = customAction.Enabled,
+                    Group = customAction.Group,
+                    ImageUrl = customAction.ImageUrl,
+                    Location = customAction.Location,
+                    Name = customAction.Name,
+                    RegistrationId = customAction.RegistrationId,
+                    RegistrationType = customAction.RegistrationType,
+                    Remove = customAction.Remove,
+                    Rights = customAction.Rights,
+                    ScriptBlock = customAction.ScriptBlock,
+                    ScriptSrc = customAction.ScriptSrc,
+                    Sequence = customAction.Sequence,
+                    Title = customAction.Title,
+                    Url = customAction.Url
+
+                };
+
+                result = JsonConvert.SerializeObject(newCA, Newtonsoft.Json.Formatting.Indented);
+
+            }
+
+            return result;
+
+        } //GetCustomAction
+
+        private string GetPNPFile(PnPModel.File file)
+        {
+            string result = string.Empty;
+            if (file != null)
+            {
+                PnPModel.File newF = new PnPModel.File()
+                {
+                    Folder = file.Folder,
+                    Level = file.Level,
+                    Overwrite = file.Overwrite,
+                    Security = file.Security,
+                    Src = file.Src
+
+                };
+
+                if (file.Properties?.Count > 0)
+                {
+                    foreach (var property in file.Properties)
+                    {
+                        newF.Properties.Add(property.Key, property.Value);
+
+                    }
+
+                }
+
+                //Do not add Webparts here as they are handled somewhere else
+
+                result = JsonConvert.SerializeObject(newF, Newtonsoft.Json.Formatting.Indented);
+
+            }
+
+            return result;
+
+        } //GetPNPFile
+
+        private string GetLocalization(Localization localization)
+        {
+            string result = string.Empty;
+            if (localization != null)
+            {
+                Localization newL = new Localization()
+                {
+                    LCID = localization.LCID,
+                    Name = localization.Name,
+                    ResourceFile = localization.ResourceFile
+
+                };
+
+                result = JsonConvert.SerializeObject(newL, Newtonsoft.Json.Formatting.Indented);
+
+            }
+
+            return result;
+
+        } //GetLocalization
+
+        private string GetPageContent(Page page)
+        {
+            string result = string.Empty;
+            if (page != null)
+            {
+                Page newP = new Page()
+                {
+                    Layout = page.Layout,
+                    Overwrite = page.Overwrite,
+                    Url = page.Url
+
+                };
+
+                if (page.Fields?.Count > 0)
+                {
+                    foreach (var field in page.Fields)
+                    {
+                        newP.Fields.Add(field.Key, field.Value);
+
+                    }
+
+                }
+
+                if (page.WebParts?.Count > 0)
+                {
+                    newP.WebParts.AddRange(page.WebParts);
+
+                }
+
+                result = JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
+
+            }
+
+            return result;
+
+        } //GetPageContent
+
+        private string GetPublishing(Publishing publishing)
+        {
+            string result = string.Empty;
+            if (publishing != null)
+            {
+                Publishing newP = new Publishing()
+                {
+                    AutoCheckRequirements = publishing.AutoCheckRequirements
+
+                };
+
+                if (publishing.AvailableWebTemplates?.Count > 0)
+                {
+                    newP.AvailableWebTemplates.AddRange(publishing.AvailableWebTemplates);
+
+                }
+
+                if (publishing.DesignPackage != null)
+                {
+                    newP.DesignPackage = new DesignPackage()
+                    {
+                        DesignPackagePath = publishing.DesignPackage.DesignPackagePath,
+                        MajorVersion = publishing.DesignPackage.MajorVersion,
+                        MinorVersion = publishing.DesignPackage.MinorVersion,
+                        PackageGuid = publishing.DesignPackage.PackageGuid,
+                        PackageName = publishing.DesignPackage.PackageName
+
+                    };
+
+                }
+
+                if (publishing.PageLayouts?.Count > 0)
+                {
+                    foreach (var pageLayout in publishing.PageLayouts)
+                    {
+                        PageLayout newPL = new PageLayout()
+                        {
+                            IsDefault = pageLayout.IsDefault,
+                            Path = pageLayout.Path
+
+                        };
+
+                        newP.PageLayouts.Add(newPL);
+
+                    }
+
+                }
+
+                result = JsonConvert.SerializeObject(newP, Newtonsoft.Json.Formatting.Indented);
+
+            }
+
+            return result;
+
+        } //GetPublishing
+
+        private string GetTermGroup(Guid termGroupId)
+        {
+            string result = string.Empty;
+            if (EditingTemplate?.TermGroups != null)
+            {
+                TermGroup termGroup = EditingTemplate.TermGroups.Find(p => p.Id.CompareTo(termGroupId) == 0);
+                if (termGroup != null)
+                {
+                    TermGroup newTG = new TermGroup()
+                    {
+                        Description = termGroup.Description,
+                        Id = termGroup.Id,
+                        Name = termGroup.Name,
+                        SiteCollectionTermGroup = termGroup.SiteCollectionTermGroup
+
+                    };
+
+                    if (termGroup.Contributors?.Count > 0)
+                    {
+                        foreach (var user in termGroup.Contributors)
+                        {
+                            PnPModel.User newU = new PnPModel.User()
+                            {
+                                Name = user.Name
+
+                            };
+
+                            newTG.Contributors.Add(newU);
+
+                        }
+
+                    }
+
+                    if (termGroup.Managers?.Count > 0)
+                    {
+
+                        foreach (var user in termGroup.Managers)
+                        {
+                            PnPModel.User newU = new PnPModel.User()
+                            {
+                                Name = user.Name
+
+                            };
+
+                            newTG.Managers.Add(newU);
+
+                        }
+
+                    }
+
+                    result = JsonConvert.SerializeObject(newTG, Newtonsoft.Json.Formatting.Indented);
+
+                }
+
+            }
+
+            return result;
+
+        } //GetTermGroup
+
+        private void SetTermsIn(TermCollection here, TermCollection terms)
+        {
+            if (terms?.Count > 0)
+            {
+                foreach (var term in terms)
+                {
+                    Term newT = new Term()
+                    {
+                        CustomSortOrder = term.CustomSortOrder,
+                        Description = term.Description,
+                        Id = term.Id,
+                        IsAvailableForTagging = term.IsAvailableForTagging,
+                        IsDeprecated = term.IsDeprecated,
+                        IsReused = term.IsReused,
+                        IsSourceTerm = term.IsSourceTerm,
+                        Language = term.Language,
+                        Name = term.Name,
+                        Owner = term.Owner,
+                        SourceTermId = term.SourceTermId
+
+                    };
+
+                    if (term.Labels?.Count > 0)
+                    {
+                        foreach (var label in term.Labels)
+                        {
+                            TermLabel newL = new TermLabel()
+                            {
+                                IsDefaultForLanguage = label.IsDefaultForLanguage,
+                                Language = label.Language,
+                                Value = label.Value
+
+                            };
+
+                            newT.Labels.Add(newL);
+
+                        }
+
+                    }
+
+                    if (term.LocalProperties?.Count > 0)
+                    {
+                        foreach (var localProperty in term.LocalProperties)
+                        {
+                            newT.LocalProperties.Add(localProperty.Key, localProperty.Value);
+
+                        }
+
+                    }
+
+                    if (term.Properties?.Count > 0)
+                    {
+                        foreach (var property in term.Properties)
+                        {
+                            newT.Properties.Add(property.Key, property.Value);
+
+                        }
+
+                    }
+
+                    if (term.Terms?.Count > 0)
+                    {
+                        SetTermsIn(newT.Terms, term.Terms);
+
+                    }
+
+                    here.Add(newT);
+                }
+
+            }
+
+        }
+
+        private string GetTermSet(TermSet termSet)
+        {
+            string result = string.Empty;
+            if (termSet != null)
+            {
+                TermSet newTS = new TermSet()
+                {
+                    Description = termSet.Description,
+                    Id = termSet.Id,
+                    IsAvailableForTagging = termSet.IsAvailableForTagging,
+                    IsOpenForTermCreation = termSet.IsOpenForTermCreation,
+                    Language = termSet.Language,
+                    Name = termSet.Name,
+                    Owner = termSet.Owner
+
+                };
+
+                if (termSet.Properties?.Count > 0)
+                {
+                    foreach (var keyValue in termSet.Properties)
+                    {
+                        newTS.Properties.Add(keyValue.Key, keyValue.Value);
+
+                    }
+
+                }
+
+                SetTermsIn(newTS.Terms, termSet.Terms);
+
+                result = JsonConvert.SerializeObject(newTS, Newtonsoft.Json.Formatting.Indented);
+
+            }
+
+            return result;
+
+        } //GetTermSet
+
+
+        private void UpdateListWithNewList(ref ListInstance oldList, ListInstance newList,
+                                           PnPModel.FieldCollection fields, PnPModel.ViewCollection views)
+        {
+            oldList.ContentTypeBindings.Clear();
+            if (newList.ContentTypeBindings?.Count > 0)
+            {
+                oldList.ContentTypeBindings.AddRange(newList.ContentTypeBindings);
+
+            }
+
+            oldList.ContentTypesEnabled = newList.ContentTypesEnabled;
+            oldList.DataRows.Clear();
+            if (newList.DataRows?.Count > 0)
+            {
+                oldList.DataRows.AddRange(newList.DataRows);
+
+            }
+
+            oldList.Description = newList.Description;
+            oldList.DocumentTemplate = newList.DocumentTemplate;
+            oldList.DraftVersionVisibility = newList.DraftVersionVisibility;
+            oldList.EnableAttachments = newList.EnableAttachments;
+            oldList.EnableFolderCreation = newList.EnableFolderCreation;
+            oldList.EnableMinorVersions = newList.EnableMinorVersions;
+            oldList.EnableModeration = newList.EnableModeration;
+            oldList.EnableVersioning = newList.EnableVersioning;
+            oldList.FieldDefaults.Clear();
+            if (newList.FieldDefaults?.Count > 0)
+            {
+                foreach (var keyValue in newList.FieldDefaults)
+                {
+                    oldList.FieldDefaults.Add(keyValue.Key, keyValue.Value);
+
+                }
+
+            }
+
+            oldList.FieldRefs.Clear();
+            if (newList.FieldRefs?.Count > 0)
+            {
+                oldList.FieldRefs.AddRange(newList.FieldRefs);
+
+            }
+
+            oldList.Fields.Clear();
+            if (fields.Count > 0)
+            {
+                oldList.Fields.AddRange(newList.Fields);
+
+            }
+
+            oldList.Folders.Clear();
+            if (newList.Folders?.Count > 0)
+            {
+                oldList.Folders.AddRange(newList.Folders);
+
+            }
+
+            oldList.ForceCheckout = newList.ForceCheckout;
+            oldList.Hidden = newList.Hidden;
+            oldList.MaxVersionLimit = newList.MaxVersionLimit;
+            oldList.MinorVersionLimit = newList.MinorVersionLimit;
+            oldList.OnQuickLaunch = newList.OnQuickLaunch;
+            oldList.RemoveExistingContentTypes = newList.RemoveExistingContentTypes;
+            oldList.RemoveExistingViews = newList.RemoveExistingViews;
+            oldList.Security = newList.Security;
+            oldList.TemplateFeatureID = newList.TemplateFeatureID;
+            oldList.TemplateType = newList.TemplateType;
+            oldList.Title = newList.Title;
+            oldList.Url = newList.Url;
+            oldList.UserCustomActions.Clear();
+            if (newList.UserCustomActions?.Count > 0)
+            {
+                oldList.UserCustomActions.AddRange(newList.UserCustomActions);
+
+            }
+
+            oldList.Views.Clear();
+            if (newList.Views?.Count > 0)
+            {
+                oldList.Views.AddRange(newList.Views);
+
+            }
+
+        } //UpdateListInstance
+
+        public void SaveTemplateForEdit(TemplateItems templateItems, string templatePathName)
+        {
+            if (EditingTemplate != null)
+            {
+                ProvisioningTemplate template = EditingTemplate;
+
+                if (template.AddIns?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.AddInItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            template.AddIns.RemoveAll(p => p.PackagePath.Equals(templateItem.Name,
+                                                                                StringComparison.OrdinalIgnoreCase));
+
+                            templateItems.RemoveItem(templateItem);
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.AddInItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            AddIn addIn = template.AddIns.Find(p => p.PackagePath.Equals(templateItem.Name,
+                                                                                         StringComparison.OrdinalIgnoreCase));
+                            if (addIn != null)
+                            {
+                                addIn.Source = (string)templateItem.Content;
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    }
+
+                } //if AddIns
+
+                if (template.ComposedLook != null)
+                {
+                    List<TemplateItem> composedLookTemplateItems = templateItems.GetItems(TemplateItemType.ComposedLook);
+                    if (composedLookTemplateItems?.Count > 0)
+                    {
+                        foreach (var templateItem in composedLookTemplateItems)
+                        {
+                            if (templateItem.IsDeleted)
+                            {
+                                template.ComposedLook = null;
+
+                                templateItems.RemoveItem(templateItem);
+
+                            }
+                            else if (templateItem.IsChanged)
+                            {
+                                string[] values = templateItem.Content as string[];
+                                template.ComposedLook.Name = values[(int)ComposedLookProperties.Name];
+                                template.ComposedLook.BackgroundFile = values[(int)ComposedLookProperties.BackgroundFile];
+                                template.ComposedLook.ColorFile = values[(int)ComposedLookProperties.ColorFile];
+                                template.ComposedLook.FontFile = values[(int)ComposedLookProperties.FontFile];
+                                template.ComposedLook.Version = Convert.ToInt32(values[(int)ComposedLookProperties.Version]);
+
+                                templateItems.CommitItem(templateItem);
+
+                            }
+
+                        }
+
+                    }
+
+                } //if ComposedLook
+
+                if (template.ContentTypes?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.ContentTypeItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            template.ContentTypes.RemoveAll(p => p.Id.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.ContentTypeItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            PnPModel.ContentType oldCT = template.ContentTypes.Find(p =>
+                                                            p.Id.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldCT != null)
+                            {
+                                string contentType = (string)templateItem.Content;
+                                PnPModel.ContentType newCT = JsonConvert.DeserializeObject<PnPModel.ContentType>(contentType);
+                                template.ContentTypes.Remove(oldCT);
+                                template.ContentTypes.Add(newCT);
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    }
+
+                } //if ContentTypes
+
+                if (template.CustomActions?.SiteCustomActions?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.SiteCustomActionItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            template.CustomActions.SiteCustomActions.RemoveAll(p =>
+                                p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.SiteCustomActionItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            CustomAction oldCA = template.CustomActions.SiteCustomActions.Find(p =>
+                                                    p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldCA != null)
+                            {
+                                string customAction = (string)templateItem.Content;
+                                CustomAction newCA = JsonConvert.DeserializeObject<CustomAction>(customAction);
+                                template.CustomActions.SiteCustomActions.Remove(oldCA);
+                                template.CustomActions.SiteCustomActions.Add(newCA);
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    }
+
+                } //if SiteCustomActions
+
+                if (template.CustomActions?.WebCustomActions?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.WebCustomActionItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            template.CustomActions.WebCustomActions.RemoveAll(p =>
+                                p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.WebCustomActionItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            CustomAction oldCA = template.CustomActions.WebCustomActions.Find(p =>
+                                                    p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldCA != null)
+                            {
+                                string customAction = (string)templateItem.Content;
+                                CustomAction newCA = JsonConvert.DeserializeObject<CustomAction>(customAction);
+                                template.CustomActions.WebCustomActions.Remove(oldCA);
+                                template.CustomActions.WebCustomActions.Add(newCA);
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    }
+
+                } //if WebCustomActions
+
+                if (template.Features != null)
+                {
+
+                    if (template.Features.SiteFeatures?.Count > 0)
+                    {
+                        List<TemplateItem> siteFeatureTemplateItems = templateItems.GetItems(TemplateItemType.SiteFeatureList);
+                        if (siteFeatureTemplateItems?.Count > 0)
+                        {
+                            foreach (var templateItem in siteFeatureTemplateItems)
+                            {
+                                if (templateItem.IsDeleted)
+                                {
+                                    template.Features.SiteFeatures.Clear();
+
+                                    templateItems.RemoveItem(templateItem);
+
+                                }
+                                else if (templateItem.IsChanged)
+                                {
+                                    KeyValueList keyValueList = templateItem.Content as KeyValueList;
+                                    template.Features.SiteFeatures.Clear();
+                                    foreach (var keyValue in keyValueList)
+                                    {
+                                        PnPModel.Feature feature = new PnPModel.Feature();
+                                        feature.Id = new Guid(keyValue.Value);
+                                        template.Features.SiteFeatures.Add(feature);
+                                        templateItems.CommitItem(templateItem);
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    } //if SiteFeatures
+
+                    if (template.Features.WebFeatures?.Count > 0)
+                    {
+                        List<TemplateItem> webFeatureTemplateItems = templateItems.GetItems(TemplateItemType.WebFeatureList);
+                        if (webFeatureTemplateItems?.Count > 0)
+                        {
+                            foreach (var templateItem in webFeatureTemplateItems)
+                            {
+                                if (templateItem.IsDeleted)
+                                {
+                                    template.Features.WebFeatures.Clear();
+
+                                    templateItems.RemoveItem(templateItem);
+
+                                }
+                                else if (templateItem.IsChanged)
+                                {
+                                    template.Features.WebFeatures.Clear();
+                                    KeyValueList keyValueList = templateItem.Content as KeyValueList;
+                                    foreach (var keyValue in keyValueList)
+                                    {
+                                        PnPModel.Feature feature = new PnPModel.Feature();
+                                        feature.Id = new Guid(keyValue.Value);
+                                        template.Features.WebFeatures.Add(feature);
+                                        templateItems.CommitItem(templateItem);
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    } //if WebFeatures
+
+                    if ((template.Features.SiteFeatures.Count == 0) &&
+                        (template.Features.WebFeatures.Count == 0))
+                    {
+                        template.Features = null;
+
+                    }
+
+                }
+
+                if (template.Files?.Count > 0)
+                {
+
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        List<string> files = template.Connector.GetFiles();
+                        List<string> folders = template.Connector.GetFolders();
+
+                        foreach (var templateItem in deletedItems)
+                        {
+                            PnPModel.File file = template.Files.Find(p => p.Src.Equals(templateItem.Name,
+                                                                                       StringComparison.OrdinalIgnoreCase));
+                            if (file != null)
+                            {
+                                string fileName = files.EndsWith(file.Src);
+                                if (string.IsNullOrWhiteSpace(fileName))
+                                {
+                                    fileName = file.Src;
+
+                                }
+
+                                template.Connector.DeleteFile(fileName);
+                                template.Files.Remove(file);
+
+                            }
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    }
+
+                    if (template.Files?.Count > 0)
+                    {
+                        deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileWebPartItem);
+                        if (deletedItems?.Count > 0)
+                        {
+                            foreach (var templateItem in deletedItems)
+                            {
+                                TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.FileItem);
+                                if (parentItem != null)
+                                {
+                                    PnPModel.File file = template.Files.Find(p => p.Src.Equals(parentItem.Name,
+                                                                                               StringComparison.OrdinalIgnoreCase));
+                                    if (file != null)
+                                    {
+                                        string[] titles = templateItem.Name.Split(new char[] { '_' });
+                                        string webPartTitle = titles[titles.Length - 1];
+                                        WebPart webPart = file.WebParts.Find(p => p.Title.Equals(webPartTitle,
+                                                                                                 StringComparison.OrdinalIgnoreCase));
+                                        if (webPart != null)
+                                        {
+                                            file.WebParts.Remove(webPart);
+                                            templateItems.RemoveItem(templateItem);
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                        deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileWebPartItemContent);
+                        if (deletedItems?.Count > 0)
+                        {
+                            foreach (var templateItem in deletedItems)
+                            {
+                                TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.FileItem);
+                                if (parentItem != null)
+                                {
+                                    PnPModel.File file = template.Files.Find(p => p.Src.Equals(parentItem.Name,
+                                                                                               StringComparison.OrdinalIgnoreCase));
+                                    if (file != null)
+                                    {
+                                        parentItem = templateItems.GetParent(templateItem);
+                                        if (parentItem != null)
+                                        {
+                                            string[] titles = parentItem.Name.Split(new char[] { '_' });
+                                            string webPartTitle = titles[titles.Length - 1];
+                                            WebPart webPart = file.WebParts.Find(p => p.Title.Equals(webPartTitle,
+                                                                                                     StringComparison.OrdinalIgnoreCase));
+                                            if (webPart != null)
+                                            {
+                                                file.WebParts.Remove(webPart);
+                                                templateItems.RemoveItem(parentItem);
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.FileItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            PnPModel.File oldFile = template.Files.Find(p => p.Src.Equals(templateItem.Name,
+                                                                                       StringComparison.OrdinalIgnoreCase));
+                            if (oldFile != null)
+                            {
+                                PnPModel.File newFile = JsonConvert.DeserializeObject<PnPModel.File>((string)templateItem.Content);
+
+                                List<TemplateItem> children = templateItems.GetChildren(templateItem.Id); //Does this file have webparts?
+                                if (children?.Count > 0)
+                                {
+                                    WebPartCollection webParts = new WebPartCollection(EditingTemplate);
+                                    foreach (TemplateItem childItem in children)
+                                    {
+                                        List<TemplateItem> webPartItems = templateItems.GetChildren(childItem.Id);
+                                        foreach (TemplateItem webPartItem in webPartItems)
+                                        {
+                                            WebPart webPart = JsonConvert.DeserializeObject<WebPart>((string)webPartItem.Content);
+                                            List<TemplateItem> contentItems = templateItems.GetChildren(webPartItem.Id);
+                                            foreach (TemplateItem contentItem in contentItems)
+                                            {
+                                                XElement element = XElement.Parse((string)contentItem.Content, LoadOptions.None);
+                                                webPart.Contents = element.ToString(SaveOptions.DisableFormatting);
+
+                                            }
+
+                                            webParts.Add(webPart);
+
+                                        }
+
+                                    }
+
+                                    if (webParts.Count > 0)
+                                    {
+                                        newFile.WebParts.AddRange(webParts);
+
+                                    }
+
+                                }
+
+                                oldFile.Folder = newFile.Folder;
+                                oldFile.Level = newFile.Level;
+                                oldFile.Overwrite = newFile.Overwrite;
+                                oldFile.Security = newFile.Security;
+                                oldFile.Src = newFile.Src;
+                                oldFile.WebParts.Clear();
+                                oldFile.WebParts.AddRange(newFile.WebParts);
+                                oldFile.Properties.Clear();
+                                foreach (var keyValue in newFile.Properties)
+                                {
+                                    oldFile.Properties.Add(keyValue.Key, keyValue.Value);
+
+                                }
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems - files
+
+                    changedItems = templateItems.GetChangedItems(TemplateItemType.FileWebPartItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            if (templateItem.IsChanged)
+                            {
+                                TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.FileItem);
+                                if (parentItem != null)
+                                {
+                                    PnPModel.File file = template.Files.Find(p => p.Src.Equals(parentItem.Name));
+                                    if (file != null)
+                                    {
+                                        List<TemplateItem> children = templateItems.GetChildren(parentItem.Id);
+                                        if (children?.Count > 0)
+                                        {
+                                            WebPartCollection webParts = new WebPartCollection(EditingTemplate);
+                                            foreach (TemplateItem childItem in children)
+                                            {
+                                                List<TemplateItem> webPartItems = templateItems.GetChildren(childItem.Id);
+                                                foreach (TemplateItem webPartItem in webPartItems)
+                                                {
+                                                    WebPart webPart = JsonConvert.DeserializeObject<WebPart>((string)webPartItem.Content);
+                                                    List<TemplateItem> contentItems = templateItems.GetChildren(webPartItem.Id);
+                                                    foreach (TemplateItem contentItem in contentItems)
+                                                    {
+                                                        XElement element = XElement.Parse((string)contentItem.Content,
+                                                                                          LoadOptions.None);
+                                                        webPart.Contents = element.ToString(SaveOptions.DisableFormatting);
+
+                                                    }
+
+                                                    webParts.Add(webPart);
+
+                                                }
+
+                                            }
+
+                                            if (webParts.Count > 0)
+                                            {
+                                                file.WebParts.Clear();
+                                                file.WebParts.AddRange(webParts);
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                    templateItems.CommitItem(parentItem);
+
+                                }
+
+                            }
+
+                        }
+
+                    } //if changedItems 2
+
+                    changedItems = templateItems.GetChangedItems(TemplateItemType.FileWebPartItemContent);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            if (templateItem.IsChanged)
+                            {
+                                TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.FileItem);
+                                if (parentItem != null)
+                                {
+                                    PnPModel.File file = template.Files.Find(p => p.Src.Equals(parentItem.Name));
+                                    if (file != null)
+                                    {
+                                        List<TemplateItem> children = templateItems.GetChildren(parentItem.Id);
+                                        if (children?.Count > 0)
+                                        {
+                                            WebPartCollection webParts = new WebPartCollection(EditingTemplate);
+                                            foreach (TemplateItem childItem in children)
+                                            {
+                                                List<TemplateItem> webPartItems = templateItems.GetChildren(childItem.Id);
+                                                foreach (TemplateItem webPartItem in webPartItems)
+                                                {
+                                                    WebPart webPart = JsonConvert.DeserializeObject<WebPart>((string)webPartItem.Content);
+                                                    List<TemplateItem> contentItems = templateItems.GetChildren(webPartItem.Id);
+                                                    foreach (TemplateItem contentItem in contentItems)
+                                                    {
+                                                        XElement element = XElement.Parse((string)contentItem.Content,
+                                                                                          LoadOptions.None);
+                                                        webPart.Contents = element.ToString(SaveOptions.DisableFormatting);
+
+                                                    }
+
+                                                    webParts.Add(webPart);
+
+                                                }
+
+                                            }
+
+                                            if (webParts.Count > 0)
+                                            {
+                                                file.WebParts.Clear();
+                                                file.WebParts.AddRange(webParts);
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                    templateItems.CommitItem(parentItem);
+
+                                }
+
+                            }
+
+                        }
+
+                    } //if changedItems 3
+
+                } //if Files
+
+
+                if (template.Lists?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.ListItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            ListInstance listInstance = template.Lists.Find(p => p.Url.Equals(templateItem.Name,
+                                                                                              StringComparison.OrdinalIgnoreCase));
+                            if (listInstance != null)
+                            {
+                                template.Lists.Remove(listInstance);
+
+                                templateItems.RemoveItem(templateItem);
+
+                            }
+
+                        }
+
+                    } //if deletedItems
+
+                    deletedItems = templateItems.GetDeletedItems(TemplateItemType.ListFieldItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.ListItem);
+                            if (parentItem != null)
+                            {
+                                ListInstance listInstance = template.Lists.Find(p => p.Url.Equals(parentItem.Name,
+                                                                                                  StringComparison.OrdinalIgnoreCase));
+                                if (listInstance != null)
+                                {
+                                    foreach (var field in listInstance.Fields)
+                                    {
+                                        XElement element = XElement.Parse(field.SchemaXml, LoadOptions.None);
+                                        string fieldName = element.Attribute("Name").Value;
+                                        if (templateItem.Name.Equals(fieldName, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            listInstance.Fields.Remove(field);
+                                            templateItems.RemoveItem(templateItem);
+
+                                            break;
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    } //if deletedItems - List Fields
+
+                    deletedItems = templateItems.GetDeletedItems(TemplateItemType.ListViewItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.ListItem);
+                            if (parentItem != null)
+                            {
+                                ListInstance listInstance = template.Lists.Find(p => p.Url.Equals(parentItem.Name,
+                                                                                                  StringComparison.OrdinalIgnoreCase));
+                                if (listInstance != null)
+                                {
+                                    foreach (var view in listInstance.Views)
+                                    {
+                                        XElement element = XElement.Parse(view.SchemaXml, LoadOptions.None);
+                                        string viewName = element.Attribute("Name").Value;
+                                        if (templateItem.Name.Equals(viewName, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            listInstance.Views.Remove(view);
+                                            templateItems.RemoveItem(templateItem);
+
+                                            break;
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    } //if deletedItems - List Views
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.ListItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            ListInstance oldList = template.Lists.Find(p => p.Url.Equals(templateItem.Name,
+                                                                                         StringComparison.OrdinalIgnoreCase));
+                            if (oldList != null)
+                            {
+                                PnPModel.FieldCollection fields = new PnPModel.FieldCollection(EditingTemplate);
+                                PnPModel.ViewCollection views = new PnPModel.ViewCollection(EditingTemplate);
+                                List<TemplateItem> children = templateItems.GetChildren(templateItem.Id);
+                                if (children?.Count > 0)
+                                {
+                                    foreach (var childItem in children)
+                                    {
+                                        if (childItem.ItemType == TemplateItemType.ListFieldList)
+                                        {
+                                            List<TemplateItem> fieldItems = templateItems.GetChildren(childItem.Id);
+                                            foreach (var fieldItem in fieldItems)
+                                            {
+                                                XElement fieldElement = XElement.Parse((string)fieldItem.Content, LoadOptions.None);
+                                                PnPModel.Field field = new PnPModel.Field();
+                                                field.SchemaXml = fieldElement.ToString(SaveOptions.DisableFormatting);
+                                                fields.Add(field);
+
+                                            }
+
+                                        }
+                                        else if (childItem.ItemType == TemplateItemType.ListViewList)
+                                        {
+                                            List<TemplateItem> viewItems = templateItems.GetChildren(childItem.Id);
+                                            foreach (var viewItem in viewItems)
+                                            {
+                                                XElement viewElement = XElement.Parse((string)viewItem.Content, LoadOptions.None);
+                                                PnPModel.View view = new PnPModel.View();
+                                                view.SchemaXml = viewElement.ToString(SaveOptions.DisableFormatting);
+                                                views.Add(view);
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
+                                ListInstance newList = JsonConvert.DeserializeObject<ListInstance>((string)templateItem.Content);
+                                UpdateListWithNewList(ref oldList, newList, fields, views);
+
+                                templateItems.CommitItem(templateItem);
+
+                            }
+
+                        }
+
+                    } //if changedItems - List
+
+                    changedItems = templateItems.GetChangedItems(TemplateItemType.ListFieldItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.ListItem);
+                            if (parentItem != null)
+                            {
+                                ListInstance oldList = template.Lists.Find(p => p.Url.Equals(parentItem.Name,
+                                                                                             StringComparison.OrdinalIgnoreCase));
+                                if (oldList != null)
+                                {
+                                    foreach (var field in oldList.Fields)
+                                    {
+                                        XElement fieldElement = XElement.Parse(field.SchemaXml, LoadOptions.None);
+                                        string fieldID = fieldElement.Attribute("ID").Value;
+                                        if (templateItem.Name.Equals(fieldID, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            XElement newElement = XElement.Parse((string)templateItem.Content, LoadOptions.None);
+                                            field.SchemaXml = newElement.ToString(SaveOptions.DisableFormatting);
+
+                                            break;
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems - List Fields
+
+                    changedItems = templateItems.GetChangedItems(TemplateItemType.ListViewItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.ListItem);
+                            if (parentItem != null)
+                            {
+                                ListInstance oldList = template.Lists.Find(p => p.Url.Equals(parentItem.Name,
+                                                                                             StringComparison.OrdinalIgnoreCase));
+                                if (oldList != null)
+                                {
+                                    foreach (var view in oldList.Views)
+                                    {
+                                        XElement viewElement = XElement.Parse(view.SchemaXml, LoadOptions.None);
+                                        string viewName = viewElement.Attribute("Name").Value;
+                                        if (templateItem.Name.Equals(viewName, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            XElement newElement = XElement.Parse((string)templateItem.Content, LoadOptions.None);
+                                            view.SchemaXml = newElement.ToString(SaveOptions.DisableFormatting);
+
+                                            break;
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems - List Views
+
+                } //if Lists
+
+                if (template.Localizations?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.LocalizationsItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            int lcid = int.Parse(templateItem.Name);
+                            Localization oldLocalization = template.Localizations.Find(p => p.LCID == lcid);
+                            if (oldLocalization != null)
+                            {
+                                template.Localizations.Remove(oldLocalization);
+
+                            }
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.LocalizationsItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            int lcid = int.Parse(templateItem.Name);
+                            Localization oldLocalization = template.Localizations.Find(p => p.LCID == lcid);
+                            if (oldLocalization != null)
+                            {
+                                Localization newLocalization = JsonConvert.DeserializeObject<Localization>((string)templateItem.Content);
+                                oldLocalization.LCID = newLocalization.LCID;
+                                oldLocalization.Name = newLocalization.Name;
+                                oldLocalization.ResourceFile = newLocalization.ResourceFile;
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+
+                } //if Localizations
+
+                if (template.Pages?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.PageItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            Page oldPage = template.Pages.Find(p => p.Url.Equals(templateItem.Name,
+                                                                                 StringComparison.OrdinalIgnoreCase));
+                            if (oldPage != null)
+                            {
+                                template.Pages.Remove(oldPage);
+
+                                templateItems.RemoveItem(templateItem);
+
+                            }
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.PageItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            Page oldPage = template.Pages.Find(p => p.Url.Equals(templateItem.Name,
+                                                                                 StringComparison.OrdinalIgnoreCase));
+                            if (oldPage != null)
+                            {
+                                Page newPage = JsonConvert.DeserializeObject<Page>((string)templateItem.Content);
+                                oldPage.Fields.Clear();
+                                if (newPage.Fields?.Count > 0)
+                                {
+                                    foreach (var field in newPage.Fields)
+                                    {
+                                        oldPage.Fields.Add(field.Key, field.Value);
+
+                                    }
+
+                                }
+
+                                oldPage.Layout = newPage.Layout;
+                                oldPage.Overwrite = newPage.Overwrite;
+                                if (newPage.Security != null)
+                                {
+                                    if (oldPage.Security != null)
+                                    {
+                                        oldPage.Security.ClearSubscopes = newPage.Security.ClearSubscopes;
+                                        oldPage.Security.CopyRoleAssignments = newPage.Security.CopyRoleAssignments;
+                                        oldPage.Security.RoleAssignments.Clear();
+                                        oldPage.Security.RoleAssignments.AddRange(newPage.Security.RoleAssignments);
+
+                                    }
+
+                                }
+
+                                oldPage.Url = newPage.Url;
+                                oldPage.WebParts.Clear();
+                                if (newPage.WebParts?.Count > 0)
+                                {
+                                    oldPage.WebParts.AddRange(newPage.WebParts);
+
+                                }
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if Pages
+
+                if (template.Properties?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.PropertiesList);
+                    if (deletedItems?.Count > 0)
+                    {
+                        template.Properties.Clear();
+                        foreach (var templateItem in deletedItems) //should only be one
+                        {
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.PropertiesList);
+                    if (changedItems?.Count > 0)
+                    {
+                        template.Properties.Clear();
+                        foreach (var templateItem in changedItems)
+                        {
+                            KeyValueList keyValueList = templateItem.Content as KeyValueList;
+                            foreach (var keyValue in keyValueList)
+                            {
+                                template.Properties.Add(keyValue.Key, keyValue.Value);
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if Parameters
+
+                if (template.PropertyBagEntries?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.PropertyBagEntriesList);
+                    if (deletedItems?.Count > 0)
+                    {
+                        template.PropertyBagEntries.Clear();
+                        foreach (var templateItem in deletedItems) //should only be one
+                        {
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.PropertyBagEntriesList);
+                    if (changedItems?.Count > 0)
+                    {
+                        template.PropertyBagEntries.Clear();
+                        foreach (var templateItem in changedItems)
+                        {
+                            KeyValueList keyValueList = templateItem.Content as KeyValueList;
+                            foreach (var keyValue in keyValueList)
+                            {
+                                PropertyBagEntry propertyBagEntry = new PropertyBagEntry()
+                                {
+                                    Key = keyValue.Key,
+                                    Value = keyValue.Value
+
+                                };
+
+                                template.PropertyBagEntries.Add(propertyBagEntry);
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if PropertyBagEntries
+
+                if (template.Publishing != null)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.PublishingList);
+                    if (deletedItems?.Count > 0)
+                    {
+                        template.Publishing = null;
+                        foreach (var templateItem in deletedItems) //should only be one
+                        {
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.PublishingList);
+                    if (changedItems?.Count > 0)
+                    {
+                        Publishing oldPublishing = template.Publishing;
+                        foreach (var templateItem in changedItems) //should only be one
+                        {
+                            Publishing newPublishing = JsonConvert.DeserializeObject<Publishing>((string)templateItem.Content);
+                            oldPublishing.AutoCheckRequirements = newPublishing.AutoCheckRequirements;
+                            oldPublishing.AvailableWebTemplates.Clear();
+                            if (newPublishing.AvailableWebTemplates?.Count > 0)
+                            {
+                                oldPublishing.AvailableWebTemplates.AddRange(newPublishing.AvailableWebTemplates);
+
+                            }
+
+                            oldPublishing.DesignPackage = newPublishing.DesignPackage;
+                            oldPublishing.PageLayouts.Clear();
+                            if (newPublishing.PageLayouts?.Count > 0)
+                            {
+                                oldPublishing.PageLayouts.AddRange(newPublishing.PageLayouts);
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if Publishing
+
+                if (template.SupportedUILanguages?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.SupportedUILanguagesList);
+                    if (deletedItems?.Count > 0)
+                    {
+                        template.SupportedUILanguages.Clear();
+                        foreach (var templateItem in deletedItems) //should only be one
+                        {
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.SupportedUILanguagesList);
+                    if (changedItems?.Count > 0)
+                    {
+                        template.SupportedUILanguages.Clear();
+                        foreach (var templateItem in changedItems)
+                        {
+                            KeyValueList keyValueList = templateItem.Content as KeyValueList;
+                            foreach (var keyValue in keyValueList)
+                            {
+                                SupportedUILanguage newSupportedUILanguage = new SupportedUILanguage()
+                                {
+                                    LCID = int.Parse(keyValue.Value)
+
+                                };
+
+                                template.SupportedUILanguages.Add(newSupportedUILanguage);
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if SupportedUILanguages
+
+                if (template.RegionalSettings != null)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.RegionalSetting);
+                    if (deletedItems?.Count > 0)
+                    {
+                        template.RegionalSettings = null;
+                        foreach (var templateItem in deletedItems)
+                        {
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.RegionalSetting);
+                    if (changedItems?.Count > 0)
+                    {
+                        PnPModel.RegionalSettings oldRegionalSettings = template.RegionalSettings;
+                        foreach (var templateItem in changedItems) //should only be one
+                        {
+                            int[] newRegionalSettings = (int[])templateItem.Content;
+                            oldRegionalSettings.AdjustHijriDays = newRegionalSettings[(int)RegionalSettingProperties.AdjustHijriDays];
+                            oldRegionalSettings.AlternateCalendarType = (CalendarType)newRegionalSettings[(int)RegionalSettingProperties.AlternateCalendarType];
+                            oldRegionalSettings.CalendarType = (CalendarType)newRegionalSettings[(int)RegionalSettingProperties.CalendarType];
+                            oldRegionalSettings.Collation = newRegionalSettings[(int)RegionalSettingProperties.Collation];
+                            oldRegionalSettings.FirstDayOfWeek = (DayOfWeek)newRegionalSettings[(int)RegionalSettingProperties.FirstDayOfWeek];
+                            oldRegionalSettings.FirstWeekOfYear = newRegionalSettings[(int)RegionalSettingProperties.FirstWeekOfYear];
+                            oldRegionalSettings.LocaleId = newRegionalSettings[(int)RegionalSettingProperties.LocaleId];
+                            oldRegionalSettings.ShowWeeks = (newRegionalSettings[(int)RegionalSettingProperties.ShowWeeks] == 1 ? true : false);
+                            oldRegionalSettings.Time24 = (newRegionalSettings[(int)RegionalSettingProperties.Time24] == 1 ? true : false);
+                            oldRegionalSettings.TimeZone = newRegionalSettings[(int)RegionalSettingProperties.TimeZone];
+                            oldRegionalSettings.WorkDayEndHour = (WorkHour)newRegionalSettings[(int)RegionalSettingProperties.WorkDayEndHour];
+                            oldRegionalSettings.WorkDays = newRegionalSettings[(int)RegionalSettingProperties.WorkDays];
+                            oldRegionalSettings.WorkDayStartHour = (WorkHour)newRegionalSettings[(int)RegionalSettingProperties.WorkDayStartHour];
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if RegionalSettings
+
+
+                if (template.SiteFields?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.SiteFieldItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        List<PnPModel.Field> fieldsToDelete = new List<PnPModel.Field>();
+                        for (var i = 0; i < template.SiteFields.Count; i++)
+                        {
+                            var siteField = template.SiteFields[i];
+                            XElement fieldElement = XElement.Parse(siteField.SchemaXml);
+                            string fieldID = fieldElement.Attribute("ID").Value;
+                            TemplateItem templateItem = deletedItems.GetTemplateItemByName(fieldID);
+                            if (templateItem != null)
+                            {
+                                fieldsToDelete.Add(siteField);
+                                templateItems.RemoveItem(templateItem);
+
+                            }
+
+                        }
+                        if (fieldsToDelete.Count > 0)
+                        {
+                            foreach (var field in fieldsToDelete)
+                            {
+                                template.SiteFields.Remove(field);
+
+                            }
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.SiteFieldItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var siteField in template.SiteFields)
+                        {
+                            XElement oldElement = XElement.Parse(siteField.SchemaXml);
+                            string fieldID = oldElement.Attribute("ID").Value;
+                            TemplateItem templateItem = changedItems.GetTemplateItemByName(fieldID);
+                            if (templateItem != null)
+                            {
+                                XElement newElement = XElement.Parse((string)templateItem.Content, LoadOptions.None);
+                                siteField.SchemaXml = newElement.ToString(SaveOptions.DisableFormatting);
+                                templateItems.CommitItem(templateItem);
+
+                            }
+
+                        }
+
+                    } //if changedItems
+
+                } //if SiteFields
+
+                if (template.TermGroups?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.TermGroupItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            TermGroup termGroup = template.TermGroups.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
+                            if (termGroup != null)
+                            {
+                                template.TermGroups.Remove(termGroup);
+
+                            }
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems - TermGroups
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.TermGroupItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            TermGroup oldTermGroup = template.TermGroups.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
+                            if (oldTermGroup != null)
+                            {
+                                TermGroup newTermGroup = JsonConvert.DeserializeObject<TermGroup>((string)templateItem.Content);
+
+                                if (oldTermGroup.TermSets?.Count > 0)
+                                {
+                                    List<TemplateItem> childTermGroup = templateItems.GetChildren(templateItem.Id);
+                                    if (childTermGroup?.Count > 0)
+                                    {
+                                        foreach (var childItem in childTermGroup)
+                                        {
+                                            List<TemplateItem> termSets = templateItems.GetChildren(childItem.Id);
+                                            if (termSets?.Count > 0)
+                                            {
+                                                foreach (var termSet in termSets)
+                                                {
+                                                    TermSet newTermSet = JsonConvert.DeserializeObject<TermSet>((string)termSet.Content);
+                                                    oldTermGroup.TermSets.Clear();
+                                                    oldTermGroup.TermSets.Add(newTermSet);
+
+                                                }
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+
+                                oldTermGroup.Contributors.Clear();
+                                if (newTermGroup.Contributors?.Count > 0)
+                                {
+                                    oldTermGroup.Contributors.AddRange(newTermGroup.Contributors);
+
+                                }
+
+                                oldTermGroup.Description = newTermGroup.Description;
+                                oldTermGroup.Id = newTermGroup.Id;
+                                oldTermGroup.Managers.Clear();
+                                if (newTermGroup.Managers?.Count > 0)
+                                {
+                                    oldTermGroup.Managers.AddRange(newTermGroup.Managers);
+
+                                }
+
+                                oldTermGroup.Name = newTermGroup.Name;
+                                oldTermGroup.SiteCollectionTermGroup = newTermGroup.SiteCollectionTermGroup;
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems - TermGroups
+
+                    deletedItems = templateItems.GetDeletedItems(TemplateItemType.TermSetItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.TermGroupItem);
+                            if (parentItem != null)
+                            {
+                                TermGroup oldTermGroup = template.TermGroups.Find(p => p.Id.Equals(Guid.Parse(parentItem.Name)));
+                                if (oldTermGroup != null)
+                                {
+                                    TermSet oldTermSet = oldTermGroup.TermSets.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
+                                    if (oldTermSet != null)
+                                    {
+                                        oldTermGroup.TermSets.Remove(oldTermSet);
+
+                                    }
+
+                                }
+
+                            }
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems - TermSets
+
+                    changedItems = templateItems.GetChangedItems(TemplateItemType.TermSetItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.TermGroupItem);
+                            if (parentItem != null)
+                            {
+                                TermGroup oldTermGroup = template.TermGroups.Find(p => p.Id.Equals(Guid.Parse(parentItem.Name)));
+                                if (oldTermGroup != null)
+                                {
+                                    TermSet oldTermSet = oldTermGroup.TermSets.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
+                                    if (oldTermSet != null)
+                                    {
+                                        TermSet newTermSet = JsonConvert.DeserializeObject<TermSet>((string)templateItem.Content);
+
+                                        oldTermGroup.TermSets.Remove(oldTermSet);
+                                        oldTermGroup.TermSets.Add(newTermSet);
+
+                                    }
+
+                                }
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems = TermSets
+
+                } //if TermGroups
+
+                if (template.WebSettings != null)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.WebSetting);
+                    if (deletedItems?.Count > 0)
+                    {
+                        template.WebSettings = null;
+                        foreach (var templateItem in deletedItems) //should only be one
+                        {
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.WebSetting);
+                    if (changedItems?.Count > 0)
+                    {
+                        WebSettings oldWebSettings = template.WebSettings;
+                        foreach (var templateItem in changedItems)
+                        {
+                            string[] newWebSettings = (string[])templateItem.Content;
+                            if (newWebSettings?.Length > 0)
+                            {
+                                oldWebSettings.AlternateCSS = newWebSettings[(int)WebSettingProperties.AlternateCSS];
+                                oldWebSettings.CustomMasterPageUrl = newWebSettings[(int)WebSettingProperties.CustomMasterPageUrl];
+                                oldWebSettings.Description = newWebSettings[(int)WebSettingProperties.Description];
+                                oldWebSettings.MasterPageUrl = newWebSettings[(int)WebSettingProperties.MasterPageUrl];
+                                oldWebSettings.NoCrawl = (newWebSettings[(int)WebSettingProperties.NoCrawl].Equals("1", StringComparison.Ordinal) ? true : false);
+                                oldWebSettings.RequestAccessEmail = newWebSettings[(int)WebSettingProperties.RequestAccessEmail];
+                                oldWebSettings.SiteLogo = newWebSettings[(int)WebSettingProperties.SiteLogo];
+                                oldWebSettings.Title = newWebSettings[(int)WebSettingProperties.Title];
+                                oldWebSettings.WelcomePage = newWebSettings[(int)WebSettingProperties.WelcomePage];
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if WebSettings
+
+                if (template.Workflows?.WorkflowDefinitions?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.WorkflowDefinitionItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            WorkflowDefinition oldWorlkflowDefinition = template.Workflows.WorkflowDefinitions.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
+                            if (oldWorlkflowDefinition != null)
+                            {
+                                template.Connector.DeleteFile(oldWorlkflowDefinition.XamlPath);
+                                template.Workflows.WorkflowDefinitions.Remove(oldWorlkflowDefinition);
+                            }
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.WorkflowDefinitionItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in changedItems)
+                        {
+                            WorkflowDefinition oldWorlkflowDefinition = template.Workflows.WorkflowDefinitions.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
+                            if (oldWorlkflowDefinition != null)
+                            {
+                                WorkflowDefinition newWorkflowDefinition = JsonConvert.DeserializeObject<WorkflowDefinition>((string)templateItem.Content);
+                                if (newWorkflowDefinition != null)
+                                {
+                                    oldWorlkflowDefinition.AssociationUrl = newWorkflowDefinition.AssociationUrl;
+                                    oldWorlkflowDefinition.Description = newWorkflowDefinition.Description;
+                                    oldWorlkflowDefinition.DisplayName = newWorkflowDefinition.DisplayName;
+                                    oldWorlkflowDefinition.DraftVersion = newWorkflowDefinition.DraftVersion;
+                                    oldWorlkflowDefinition.FormField = newWorkflowDefinition.FormField;
+                                    oldWorlkflowDefinition.Id = newWorkflowDefinition.Id;
+                                    oldWorlkflowDefinition.InitiationUrl = newWorkflowDefinition.InitiationUrl;
+                                    oldWorlkflowDefinition.Properties.Clear();
+                                    if (newWorkflowDefinition.Properties?.Count > 0)
+                                    {
+                                        foreach (var keyValue in newWorkflowDefinition.Properties)
+                                        {
+                                            oldWorlkflowDefinition.Properties.Add(keyValue.Key, keyValue.Value);
+
+                                        }
+
+                                    }
+
+                                    oldWorlkflowDefinition.Published = newWorkflowDefinition.Published;
+                                    oldWorlkflowDefinition.RequiresAssociationForm = newWorkflowDefinition.RequiresAssociationForm;
+                                    oldWorlkflowDefinition.RequiresInitiationForm = newWorkflowDefinition.RequiresInitiationForm;
+                                    oldWorlkflowDefinition.RestrictToScope = newWorkflowDefinition.RestrictToScope;
+                                    oldWorlkflowDefinition.RestrictToType = newWorkflowDefinition.RestrictToType;
+
+                                }
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if WorkflowDefinitions
+
+                if (template.Workflows?.WorkflowSubscriptions?.Count > 0)
+                {
+                    List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.WorkflowSubscriptionItem);
+                    if (deletedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            WorkflowSubscription oldWorkflowSubscription = template.Workflows.WorkflowSubscriptions.Find(p =>
+                                                                            p.Name.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldWorkflowSubscription != null)
+                            {
+                                template.Workflows.WorkflowSubscriptions.Remove(oldWorkflowSubscription);
+
+                            }
+
+                            templateItems.RemoveItem(templateItem);
+
+                        }
+
+                    } //if deletedItems
+
+                    List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.WorkflowSubscriptionItem);
+                    if (changedItems?.Count > 0)
+                    {
+                        foreach (var templateItem in deletedItems)
+                        {
+                            WorkflowSubscription oldWorkflowSubscription = template.Workflows.WorkflowSubscriptions.Find(p =>
+                                                                            p.Name.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
+                            if (oldWorkflowSubscription != null)
+                            {
+                                WorkflowSubscription newWorkflowSubscription = JsonConvert.DeserializeObject<WorkflowSubscription>((string)templateItem.Content);
+                                if (newWorkflowSubscription != null)
+                                {
+                                    oldWorkflowSubscription.DefinitionId = newWorkflowSubscription.DefinitionId;
+                                    oldWorkflowSubscription.Enabled = newWorkflowSubscription.Enabled;
+                                    oldWorkflowSubscription.EventSourceId = newWorkflowSubscription.EventSourceId;
+                                    oldWorkflowSubscription.EventTypes.Clear();
+                                    if (newWorkflowSubscription.EventTypes?.Count > 0)
+                                    {
+                                        oldWorkflowSubscription.EventTypes.AddRange(newWorkflowSubscription.EventTypes);
+
+                                    }
+
+                                    oldWorkflowSubscription.ListId = newWorkflowSubscription.ListId;
+                                    oldWorkflowSubscription.ManualStartBypassesActivationLimit = newWorkflowSubscription.ManualStartBypassesActivationLimit;
+                                    oldWorkflowSubscription.Name = newWorkflowSubscription.Name;
+                                    oldWorkflowSubscription.ParentContentTypeId = newWorkflowSubscription.ParentContentTypeId;
+                                    oldWorkflowSubscription.PropertyDefinitions.Clear();
+                                    if (newWorkflowSubscription.PropertyDefinitions?.Count > 0)
+                                    {
+                                        foreach (var keyValue in newWorkflowSubscription.PropertyDefinitions)
+                                        {
+                                            oldWorkflowSubscription.PropertyDefinitions.Add(keyValue.Key, keyValue.Value);
+
+                                        }
+
+                                    }
+
+                                    oldWorkflowSubscription.StatusFieldName = newWorkflowSubscription.StatusFieldName;
+
+                                }
+
+                            }
+
+                            templateItems.CommitItem(templateItem);
+
+                        }
+
+                    } //if changedItems
+
+                } //if WorkflowSubscriptions
+
+
+                /*
+                //Are we going to have backup? Still to decide...
+                string backupFile = Path.ChangeExtension(templatePathName, ".bak");
+                System.IO.File.Copy(templatePathName, backupFile, true);
+                */
+
+                string xmlFileName = Path.GetFileName(templatePathName);
+                xmlFileName = Path.ChangeExtension(xmlFileName, ".xml");
+
+                OpenXMLConnector xmlConnector = template.Connector as OpenXMLConnector;
+
+                XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(xmlConnector);
+
+                provider.SaveAs(template, xmlFileName);
+
+                xmlConnector.Commit();
+
+
+            } //if EditingTemplate
+
+        } //SaveTemplateForEdit
 
     }
 
