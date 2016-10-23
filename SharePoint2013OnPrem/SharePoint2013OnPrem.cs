@@ -1606,8 +1606,11 @@ namespace Karabina.SharePoint.Provisioning
 
                 foreach (var file in template.Files)
                 {
-                    TreeNode fNode = new TreeNode(file.Src);
-                    fNode.Name = file.Src;
+                    string fileSrc = file.Src.Replace("%20", " ");
+                    file.Src = fileSrc;
+
+                    TreeNode fNode = new TreeNode(fileSrc);
+                    fNode.Name = fileSrc;
                     fNode.Tag = templateItems.AddItem(fNode.Name, TemplateControlType.TextBox,
                                                       TemplateItemType.FileItem,
                                                       GetPNPFile(file),
@@ -1669,7 +1672,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     fNodes.Nodes.Add(fNode);
 
-                    filesList.AddKeyValue(file.Src, file.Src);
+                    filesList.AddKeyValue(fileSrc, fileSrc);
 
                 }
 
@@ -1922,6 +1925,9 @@ namespace Karabina.SharePoint.Provisioning
                 templateList.AddKeyValue(pNode.Text, pNode.Name);
 
             }
+
+            //Security - to do...
+            //Search Settings - to do...
 
             if (template.SupportedUILanguages?.Count > 0)
             {
@@ -3141,12 +3147,12 @@ namespace Karabina.SharePoint.Provisioning
                                                                                        StringComparison.OrdinalIgnoreCase));
                             if (file != null)
                             {
-                                string fileName = file.Src;
-                                if (files.Contains(fileName))
+                                string fileName = files.EndsWith(file.Src);
+                                if (string.IsNullOrWhiteSpace(fileName))
                                 {
+                                    fileName = file.Src;
 
-                                }
-                                
+                                }                                
 
                                 template.Connector.DeleteFile(fileName);
                                 template.Files.Remove(file);
@@ -4349,20 +4355,23 @@ namespace Karabina.SharePoint.Provisioning
 
                 } //if WorkflowSubscriptions
 
+                
                 /*
+                //Are we going to have backup? Still to decide...
                 string backupFile = Path.ChangeExtension(templatePathName, ".bak");
                 System.IO.File.Copy(templatePathName, backupFile, true);
-                System.IO.File.Delete(templatePathName);
-
-                XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(template.Connector as OpenXMLConnector);
-                if (!string.IsNullOrWhiteSpace(templatePathName))
-                {
-                    provider.Uri = templatePathName;
-
-                }
                 */
 
-                (template.Connector as OpenXMLConnector).Commit();
+                string xmlFileName = Path.GetFileName(templatePathName);
+                xmlFileName = Path.ChangeExtension(xmlFileName, ".xml");
+
+                OpenXMLConnector xmlConnector = template.Connector as OpenXMLConnector;
+
+                XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(xmlConnector);
+
+                provider.SaveAs(template, xmlFileName);
+
+                xmlConnector.Commit();
 
 
             } //if EditingTemplate
