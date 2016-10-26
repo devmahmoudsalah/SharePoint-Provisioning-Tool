@@ -4,8 +4,8 @@ namespace Karabina.SharePoint.Provisioning
     public enum SharePointVersion
     {
         SharePoint_Invalid = 0,
-        SharePoint_2013_On_Premise = 1,
-        SharePoint_2016_On_Premise = 2,
+        SharePoint_2013_On_Premises = 1,
+        SharePoint_2016_On_Premises = 2,
         SharePoint_2016_OnLine = 3
 
     } //SharePointVersion
@@ -113,8 +113,8 @@ namespace Karabina.SharePoint.Provisioning
 
     public static class Constants
     {
-        public static readonly string SharePoint_2013_On_Premise = "SharePoint 2013 On Premise";
-        public static readonly string SharePoint_2016_On_Premise = "SharePoint 2016 On Premise";
+        public static readonly string SharePoint_2013_On_Premises = "SharePoint 2013 On Premises";
+        public static readonly string SharePoint_2016_On_Premises = "SharePoint 2016 On Premises";
         public static readonly string SharePoint_2016_Online = "SharePoint 2016 Online";
         public static readonly string File_Dialog_Filter = "SharePoint Provisioning Template Files (*.pnp)|*.pnp|All Files (*.*)|*.*";
         public static readonly string Enterprise_Wiki_TemplateId = "ENTERWIKI#0";

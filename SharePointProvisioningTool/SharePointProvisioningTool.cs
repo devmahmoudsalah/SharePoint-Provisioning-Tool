@@ -132,8 +132,8 @@ namespace Karabina.SharePoint.Provisioning
             string spVerionTitle = string.Empty;
             switch (callForm.SelectedVersion)
             {
-                case SharePointVersion.SharePoint_2013_On_Premise:
-                    spVerionTitle = Constants.SharePoint_2013_On_Premise;
+                case SharePointVersion.SharePoint_2013_On_Premises:
+                    spVerionTitle = Constants.SharePoint_2013_On_Premises;
                     if (_sp2013OnPrem == null)
                     {
                         _sp2013OnPrem = new SharePoint2013OnPrem();
@@ -142,8 +142,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     break;
 
-                case SharePointVersion.SharePoint_2016_On_Premise:
-                    spVerionTitle = Constants.SharePoint_2016_On_Premise;
+                case SharePointVersion.SharePoint_2016_On_Premises:
+                    spVerionTitle = Constants.SharePoint_2016_On_Premises;
                     if (_sp2016OnPrem == null)
                     {
                         _sp2016OnPrem = new SharePoint2016OnPrem();
@@ -171,12 +171,12 @@ namespace Karabina.SharePoint.Provisioning
 
             switch (callForm.SelectedVersion)
             {
-                case SharePointVersion.SharePoint_2013_On_Premise:
+                case SharePointVersion.SharePoint_2013_On_Premises:
                     result = _sp2013OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
-                case SharePointVersion.SharePoint_2016_On_Premise:
+                case SharePointVersion.SharePoint_2016_On_Premises:
                     result = _sp2016OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
@@ -207,8 +207,8 @@ namespace Karabina.SharePoint.Provisioning
             string spVerionTitle = string.Empty;
             switch (callForm.SelectedVersion)
             {
-                case SharePointVersion.SharePoint_2013_On_Premise:
-                    spVerionTitle = Constants.SharePoint_2013_On_Premise;
+                case SharePointVersion.SharePoint_2013_On_Premises:
+                    spVerionTitle = Constants.SharePoint_2013_On_Premises;
                     if (_sp2013OnPrem == null)
                     {
                         _sp2013OnPrem = new SharePoint2013OnPrem();
@@ -217,8 +217,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     break;
 
-                case SharePointVersion.SharePoint_2016_On_Premise:
-                    spVerionTitle = Constants.SharePoint_2016_On_Premise;
+                case SharePointVersion.SharePoint_2016_On_Premises:
+                    spVerionTitle = Constants.SharePoint_2016_On_Premises;
                     if (_sp2016OnPrem == null)
                     {
                         _sp2016OnPrem = new SharePoint2016OnPrem();
@@ -243,12 +243,12 @@ namespace Karabina.SharePoint.Provisioning
 
             switch (callForm.SelectedVersion)
             {
-                case SharePointVersion.SharePoint_2013_On_Premise:
+                case SharePointVersion.SharePoint_2013_On_Premises:
                     result = _sp2013OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
-                case SharePointVersion.SharePoint_2016_On_Premise:
+                case SharePointVersion.SharePoint_2016_On_Premises:
                     result = _sp2016OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
@@ -336,13 +336,13 @@ namespace Karabina.SharePoint.Provisioning
 
                 switch (version)
                 {
-                    case SharePointVersion.SharePoint_2013_On_Premise:
-                        applyForm.Text += Constants.SharePoint_2013_On_Premise;
+                    case SharePointVersion.SharePoint_2013_On_Premises:
+                        applyForm.Text += Constants.SharePoint_2013_On_Premises;
 
                         break;
 
-                    case SharePointVersion.SharePoint_2016_On_Premise:
-                        applyForm.Text += Constants.SharePoint_2016_On_Premise;
+                    case SharePointVersion.SharePoint_2016_On_Premises:
+                        applyForm.Text += Constants.SharePoint_2016_On_Premises;
 
                         break;
 
@@ -393,13 +393,13 @@ namespace Karabina.SharePoint.Provisioning
 
                 switch (version)
                 {
-                    case SharePointVersion.SharePoint_2013_On_Premise:
-                        createForm.Text += Constants.SharePoint_2013_On_Premise;
+                    case SharePointVersion.SharePoint_2013_On_Premises:
+                        createForm.Text += Constants.SharePoint_2013_On_Premises;
 
                         break;
 
-                    case SharePointVersion.SharePoint_2016_On_Premise:
-                        createForm.Text += Constants.SharePoint_2016_On_Premise;
+                    case SharePointVersion.SharePoint_2016_On_Premises:
+                        createForm.Text += Constants.SharePoint_2016_On_Premises;
 
                         break;
 
@@ -451,8 +451,8 @@ namespace Karabina.SharePoint.Provisioning
 
                 switch (version)
                 {
-                    case SharePointVersion.SharePoint_2013_On_Premise:
-                        editForm.Text += Constants.SharePoint_2013_On_Premise;
+                    case SharePointVersion.SharePoint_2013_On_Premises:
+                        editForm.Text += Constants.SharePoint_2013_On_Premises;
                         if (_sp2013OnPrem == null)
                         {
                             _sp2013OnPrem = new SharePoint2013OnPrem();
@@ -462,8 +462,8 @@ namespace Karabina.SharePoint.Provisioning
 
                         break;
 
-                    case SharePointVersion.SharePoint_2016_On_Premise:
-                        editForm.Text += Constants.SharePoint_2016_On_Premise;
+                    case SharePointVersion.SharePoint_2016_On_Premises:
+                        editForm.Text += Constants.SharePoint_2016_On_Premises;
                         if (_sp2016OnPrem == null)
                         {
                             _sp2016OnPrem = new SharePoint2016OnPrem();

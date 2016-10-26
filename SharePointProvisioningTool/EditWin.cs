@@ -62,12 +62,12 @@ namespace Karabina.SharePoint.Provisioning
 
                     switch (_selectedVersion)
                     {
-                        case SharePointVersion.SharePoint_2013_On_Premise:
+                        case SharePointVersion.SharePoint_2013_On_Premises:
                             _templateItems = SP2013OP.OpenTemplateForEdit(path, name, tvTemplate);
 
                             break;
 
-                        case SharePointVersion.SharePoint_2016_On_Premise:
+                        case SharePointVersion.SharePoint_2016_On_Premises:
                             _templateItems = SP2016OP.OpenTemplateForEdit(path, name, tvTemplate);
 
                             break;
@@ -603,12 +603,12 @@ namespace Karabina.SharePoint.Provisioning
             {
                 switch (_selectedVersion)
                 {
-                    case SharePointVersion.SharePoint_2013_On_Premise:
+                    case SharePointVersion.SharePoint_2013_On_Premises:
                         SP2013OP.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
 
                         break;
 
-                    case SharePointVersion.SharePoint_2016_On_Premise:
+                    case SharePointVersion.SharePoint_2016_On_Premises:
                         SP2016OP.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
 
                         break;

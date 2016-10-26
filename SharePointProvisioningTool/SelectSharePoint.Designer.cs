@@ -42,11 +42,11 @@
             this.rbSP2013OP.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.rbSP2013OP.Location = new System.Drawing.Point(25, 46);
             this.rbSP2013OP.Name = "rbSP2013OP";
-            this.rbSP2013OP.Size = new System.Drawing.Size(171, 20);
+            this.rbSP2013OP.Size = new System.Drawing.Size(190, 20);
             this.rbSP2013OP.TabIndex = 2;
             this.rbSP2013OP.TabStop = true;
             this.rbSP2013OP.Tag = "1";
-            this.rbSP2013OP.Text = " SharePoint 2013 On Prem ";
+            this.rbSP2013OP.Text = " SharePoint 2013 On Premises ";
             this.rbSP2013OP.UseVisualStyleBackColor = true;
             this.rbSP2013OP.CheckedChanged += new System.EventHandler(this.SetVersionSelected);
             // 
@@ -56,11 +56,11 @@
             this.rbSP2016OP.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.rbSP2016OP.Location = new System.Drawing.Point(25, 71);
             this.rbSP2016OP.Name = "rbSP2016OP";
-            this.rbSP2016OP.Size = new System.Drawing.Size(171, 20);
+            this.rbSP2016OP.Size = new System.Drawing.Size(190, 20);
             this.rbSP2016OP.TabIndex = 3;
             this.rbSP2016OP.TabStop = true;
             this.rbSP2016OP.Tag = "2";
-            this.rbSP2016OP.Text = " SharePoint 2016 On Prem ";
+            this.rbSP2016OP.Text = " SharePoint 2016 On Premises ";
             this.rbSP2016OP.UseVisualStyleBackColor = true;
             this.rbSP2016OP.CheckedChanged += new System.EventHandler(this.SetVersionSelected);
             // 
