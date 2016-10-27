@@ -16,12 +16,16 @@ namespace Karabina.SharePoint.Provisioning
 
         public SetStatusTextDelegate SetStatusBarText;
 
+        public bool ShouldShowHorizontalScrollBar { get; set; }
+
         public ProgressWin()
         {
             InitializeComponent();
+            ShouldShowHorizontalScrollBar = false;
             lbResult.IntegralHeight = true;
             lbResult.DrawItem += new DrawItemEventHandler(DrawItemInColor);
             lbResult.MeasureItem += new MeasureItemEventHandler(MeasureItemToDraw);
+
         }
 
         private void MeasureItemToDraw(object sender, MeasureItemEventArgs e)
@@ -33,7 +37,14 @@ namespace Karabina.SharePoint.Provisioning
             if (lbResult.HorizontalExtent < horzWidth)
             {
                 lbResult.HorizontalExtent = horzWidth + 5;
+                if (lbResult.Width < horzWidth)
+                {
+                    ShouldShowHorizontalScrollBar = true;
+
+                }
+
             }
+
         }
 
         private void DrawItemInColor(object sender, DrawItemEventArgs e)
@@ -130,6 +141,7 @@ namespace Karabina.SharePoint.Provisioning
                 
                 TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.VerticalCenter;
                 TextRenderer.DrawText(e.Graphics, itemString, Font, e.Bounds, foreColour, backColour, flags);
+
             }
 
         }
@@ -182,14 +194,21 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SetStatusText(object sender, EventArgs e)
         {
+            Control control = (sender as Control);
             string tag = Constants.Progress0;
-            tag = (sender as Control).Tag.ToString();
+            if (control.Tag != null)
+            {
+                tag = control.Tag.ToString();
+            }
+
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+
         }
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Progress0));
+
         }
 
     }

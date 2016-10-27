@@ -119,6 +119,12 @@ namespace Karabina.SharePoint.Provisioning
         private void FinishProgressWin(ProgressWin progressWin)
         {
             progressWin.SetButtonState(true);
+            if (progressWin.ShouldShowHorizontalScrollBar)
+            {
+                progressWin.ResultOutput.HorizontalScrollbar = true;
+
+            }
+
             progressWin.BringToFront();
             progressWin.SetButtonFocus();
 

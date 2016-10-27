@@ -18,6 +18,8 @@ namespace Karabina.SharePoint.Provisioning
 
         public bool IsDeleted { get; set; }
 
+        public bool IsEmpty { get; set; }
+
         public TemplateControlType ControlType { get; set; }
 
         public TemplateItemType ItemType { get; set; }
@@ -40,15 +42,37 @@ namespace Karabina.SharePoint.Provisioning
 
                 _content = value;
 
+                if (_content != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(_content.ToString()))
+                    {
+                        IsEmpty = false;
+
+                    }
+                    else
+                    {
+                        IsEmpty = true;
+
+                    }
+
+                }
+                else
+                {
+                    IsEmpty = true;
+
+                }
+
             }
 
-        }
+        } //Content
 
         public TemplateItem()
         {
             Id = Guid.NewGuid().ToString("N").ToUpperInvariant();
             IsChanged = false;
-        }
+            IsEmpty = false;
+
+        } //TemplateItem
 
         public TemplateItem(string name, TemplateControlType controlType,
                             TemplateItemType itemType, object content, string parentId)
@@ -60,7 +84,9 @@ namespace Karabina.SharePoint.Provisioning
             ControlType = controlType;
             ItemType = itemType;
             Content = content;
-        }
+            IsEmpty = false;
+
+        } //TemplateItem
 
     } //TemplateItem
 
@@ -94,7 +120,13 @@ namespace Karabina.SharePoint.Provisioning
         {
             return Find(p => p.Name.Equals(name, StringComparison.Ordinal));
 
-        } //GetItem
+        } //GetItemByName
+
+        public TemplateItem GetItemByName(string name, TemplateItemType itemType)
+        {
+            return Find(p => (p.Name.Equals(name, StringComparison.Ordinal) && (p.ItemType == itemType)));
+
+        } //GetItemByName
 
         public List<TemplateItem> GetItems(TemplateItemType itemType)
         {
@@ -232,6 +264,7 @@ namespace Karabina.SharePoint.Provisioning
             if (templateItem != null)
             {
                 templateItem.IsChanged = false;
+                templateItem.IsEmpty = false;
                 templateItem.IsDeleted = true;
 
             }
@@ -243,6 +276,7 @@ namespace Karabina.SharePoint.Provisioning
             if (templateItem != null)
             {
                 templateItem.IsChanged = false;
+                templateItem.IsEmpty = false;
                 templateItem.IsDeleted = true;
 
             }
@@ -256,6 +290,7 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     SetChildrenDeleted(item.Id);
                     item.IsChanged = false;
+                    item.IsEmpty = false;
                     item.IsDeleted = true;
 
                 });
@@ -345,6 +380,24 @@ namespace Karabina.SharePoint.Provisioning
             return FindAll(p => ((p.IsChanged) && (Array.IndexOf(itemTypes, p.ItemType) >= 0)));
 
         } //GetChangedItems
+
+        public List<TemplateItem> GetEmptyItems()
+        {
+            return FindAll(p => p.IsEmpty);
+
+        } //GetEmptyItems
+
+        public List<TemplateItem> GetEmptyItems(TemplateItemType itemType)
+        {
+            return FindAll(p => ((p.IsEmpty) && (p.ItemType == itemType)));
+
+        } //GetEmptyItems
+
+        public List<TemplateItem> GetEmptyItems(TemplateControlType controlType)
+        {
+            return FindAll(p => ((p.IsEmpty) && (p.ControlType == controlType)));
+
+        } //GetEmptyItems
 
         public void RemoveItem(TemplateItem templateItem)
         {

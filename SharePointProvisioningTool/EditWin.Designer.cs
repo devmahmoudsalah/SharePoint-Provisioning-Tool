@@ -44,6 +44,8 @@
             this.tsmiLCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scEditTemplate = new System.Windows.Forms.SplitContainer();
             this.tvTemplate = new System.Windows.Forms.TreeView();
+            this.pListControl = new System.Windows.Forms.Panel();
+            this.lbListControl = new System.Windows.Forms.ListBox();
             this.pComposedLook = new System.Windows.Forms.Panel();
             this.tbCLVersion = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -55,8 +57,30 @@
             this.label13 = new System.Windows.Forms.Label();
             this.tbCLName = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.pListControl = new System.Windows.Forms.Panel();
-            this.lbListControl = new System.Windows.Forms.ListBox();
+            this.pWebSettings = new System.Windows.Forms.Panel();
+            this.cbWSNoCrawl = new System.Windows.Forms.CheckBox();
+            this.tbWSRequestAccessEmail = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.tbWSWelcomePage = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.tbWSAlternateCSS = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.tbWSCustomMasterPageUrl = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.tbWSMasterPageUrl = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.tbWSSiteLogo = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.tbWSDescription = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.tbWSTitle = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.pViewControl = new System.Windows.Forms.Panel();
+            this.lvViewControl = new System.Windows.Forms.ListView();
+            this.pbeKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pbeValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.pTextControl = new System.Windows.Forms.Panel();
+            this.tbTextControl = new System.Windows.Forms.TextBox();
             this.pRegionalSettings = new System.Windows.Forms.Panel();
             this.cbRSAdjustHijriDate = new System.Windows.Forms.ComboBox();
             this.lAdjustHijriDate = new System.Windows.Forms.Label();
@@ -83,30 +107,6 @@
             this.cbRSLocale = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbRSTimeZone = new System.Windows.Forms.ComboBox();
-            this.pTextControl = new System.Windows.Forms.Panel();
-            this.tbTextControl = new System.Windows.Forms.TextBox();
-            this.pViewControl = new System.Windows.Forms.Panel();
-            this.lvViewControl = new System.Windows.Forms.ListView();
-            this.pbeKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pbeValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pWebSettings = new System.Windows.Forms.Panel();
-            this.cbWSNoCrawl = new System.Windows.Forms.CheckBox();
-            this.tbWSRequestAccessEmail = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.tbWSWelcomePage = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.tbWSAlternateCSS = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.tbWSCustomMasterPageUrl = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.tbWSMasterPageUrl = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.tbWSSiteLogo = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.tbWSDescription = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.tbWSTitle = new System.Windows.Forms.TextBox();
-            this.label25 = new System.Windows.Forms.Label();
             this.cmsTreeViewPopup.SuspendLayout();
             this.cmsViewControlPopup.SuspendLayout();
             this.cmsListControlPopup.SuspendLayout();
@@ -114,12 +114,12 @@
             this.scEditTemplate.Panel1.SuspendLayout();
             this.scEditTemplate.Panel2.SuspendLayout();
             this.scEditTemplate.SuspendLayout();
-            this.pComposedLook.SuspendLayout();
             this.pListControl.SuspendLayout();
-            this.pRegionalSettings.SuspendLayout();
-            this.pTextControl.SuspendLayout();
-            this.pViewControl.SuspendLayout();
+            this.pComposedLook.SuspendLayout();
             this.pWebSettings.SuspendLayout();
+            this.pViewControl.SuspendLayout();
+            this.pTextControl.SuspendLayout();
+            this.pRegionalSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsTreeViewPopup
@@ -268,6 +268,29 @@
             this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
             this.tvTemplate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeViewKeyUp);
             // 
+            // pListControl
+            // 
+            this.pListControl.Controls.Add(this.lbListControl);
+            this.pListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pListControl.Location = new System.Drawing.Point(0, 0);
+            this.pListControl.Name = "pListControl";
+            this.pListControl.Size = new System.Drawing.Size(650, 480);
+            this.pListControl.TabIndex = 17;
+            this.pListControl.Visible = false;
+            // 
+            // lbListControl
+            // 
+            this.lbListControl.ContextMenuStrip = this.cmsListControlPopup;
+            this.lbListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbListControl.ItemHeight = 15;
+            this.lbListControl.Location = new System.Drawing.Point(0, 0);
+            this.lbListControl.Name = "lbListControl";
+            this.lbListControl.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbListControl.Size = new System.Drawing.Size(650, 480);
+            this.lbListControl.TabIndex = 2;
+            this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
+            this.lbListControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListControlKeyUp);
+            // 
             // pComposedLook
             // 
             this.pComposedLook.AutoSize = true;
@@ -378,28 +401,256 @@
             this.label12.TabIndex = 0;
             this.label12.Text = "Name:";
             // 
-            // pListControl
+            // pWebSettings
             // 
-            this.pListControl.Controls.Add(this.lbListControl);
-            this.pListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pListControl.Location = new System.Drawing.Point(0, 0);
-            this.pListControl.Name = "pListControl";
-            this.pListControl.Size = new System.Drawing.Size(650, 480);
-            this.pListControl.TabIndex = 17;
-            this.pListControl.Visible = false;
+            this.pWebSettings.Controls.Add(this.cbWSNoCrawl);
+            this.pWebSettings.Controls.Add(this.tbWSRequestAccessEmail);
+            this.pWebSettings.Controls.Add(this.label28);
+            this.pWebSettings.Controls.Add(this.tbWSWelcomePage);
+            this.pWebSettings.Controls.Add(this.label27);
+            this.pWebSettings.Controls.Add(this.tbWSAlternateCSS);
+            this.pWebSettings.Controls.Add(this.label26);
+            this.pWebSettings.Controls.Add(this.tbWSCustomMasterPageUrl);
+            this.pWebSettings.Controls.Add(this.label21);
+            this.pWebSettings.Controls.Add(this.tbWSMasterPageUrl);
+            this.pWebSettings.Controls.Add(this.label22);
+            this.pWebSettings.Controls.Add(this.tbWSSiteLogo);
+            this.pWebSettings.Controls.Add(this.label23);
+            this.pWebSettings.Controls.Add(this.tbWSDescription);
+            this.pWebSettings.Controls.Add(this.label24);
+            this.pWebSettings.Controls.Add(this.tbWSTitle);
+            this.pWebSettings.Controls.Add(this.label25);
+            this.pWebSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pWebSettings.Location = new System.Drawing.Point(0, 0);
+            this.pWebSettings.Name = "pWebSettings";
+            this.pWebSettings.Size = new System.Drawing.Size(650, 480);
+            this.pWebSettings.TabIndex = 22;
+            this.pWebSettings.Visible = false;
             // 
-            // lbListControl
+            // cbWSNoCrawl
             // 
-            this.lbListControl.ContextMenuStrip = this.cmsListControlPopup;
-            this.lbListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbListControl.ItemHeight = 15;
-            this.lbListControl.Location = new System.Drawing.Point(0, 0);
-            this.lbListControl.Name = "lbListControl";
-            this.lbListControl.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbListControl.Size = new System.Drawing.Size(650, 480);
-            this.lbListControl.TabIndex = 2;
-            this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
-            this.lbListControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListControlKeyUp);
+            this.cbWSNoCrawl.AutoSize = true;
+            this.cbWSNoCrawl.Location = new System.Drawing.Point(13, 425);
+            this.cbWSNoCrawl.Name = "cbWSNoCrawl";
+            this.cbWSNoCrawl.Size = new System.Drawing.Size(81, 19);
+            this.cbWSNoCrawl.TabIndex = 16;
+            this.cbWSNoCrawl.Text = " No Crawl ";
+            this.cbWSNoCrawl.UseVisualStyleBackColor = true;
+            this.cbWSNoCrawl.CheckedChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // tbWSRequestAccessEmail
+            // 
+            this.tbWSRequestAccessEmail.Location = new System.Drawing.Point(13, 396);
+            this.tbWSRequestAccessEmail.Name = "tbWSRequestAccessEmail";
+            this.tbWSRequestAccessEmail.Size = new System.Drawing.Size(463, 23);
+            this.tbWSRequestAccessEmail.TabIndex = 15;
+            this.tbWSRequestAccessEmail.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label28.Location = new System.Drawing.Point(13, 377);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(121, 15);
+            this.label28.TabIndex = 14;
+            this.label28.Text = "Request access email:";
+            // 
+            // tbWSWelcomePage
+            // 
+            this.tbWSWelcomePage.Location = new System.Drawing.Point(13, 348);
+            this.tbWSWelcomePage.Name = "tbWSWelcomePage";
+            this.tbWSWelcomePage.Size = new System.Drawing.Size(463, 23);
+            this.tbWSWelcomePage.TabIndex = 13;
+            this.tbWSWelcomePage.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label27.Location = new System.Drawing.Point(13, 329);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(113, 15);
+            this.label27.TabIndex = 12;
+            this.label27.Text = "Welcome page URL:";
+            // 
+            // tbWSAlternateCSS
+            // 
+            this.tbWSAlternateCSS.Location = new System.Drawing.Point(13, 300);
+            this.tbWSAlternateCSS.Name = "tbWSAlternateCSS";
+            this.tbWSAlternateCSS.Size = new System.Drawing.Size(463, 23);
+            this.tbWSAlternateCSS.TabIndex = 11;
+            this.tbWSAlternateCSS.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label26.Location = new System.Drawing.Point(13, 281);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(81, 15);
+            this.label26.TabIndex = 10;
+            this.label26.Text = "Alternate CSS:";
+            // 
+            // tbWSCustomMasterPageUrl
+            // 
+            this.tbWSCustomMasterPageUrl.Location = new System.Drawing.Point(13, 252);
+            this.tbWSCustomMasterPageUrl.Name = "tbWSCustomMasterPageUrl";
+            this.tbWSCustomMasterPageUrl.Size = new System.Drawing.Size(463, 23);
+            this.tbWSCustomMasterPageUrl.TabIndex = 9;
+            this.tbWSCustomMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label21.Location = new System.Drawing.Point(13, 233);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(144, 15);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Custom master page URL:";
+            // 
+            // tbWSMasterPageUrl
+            // 
+            this.tbWSMasterPageUrl.Location = new System.Drawing.Point(13, 204);
+            this.tbWSMasterPageUrl.Name = "tbWSMasterPageUrl";
+            this.tbWSMasterPageUrl.Size = new System.Drawing.Size(463, 23);
+            this.tbWSMasterPageUrl.TabIndex = 7;
+            this.tbWSMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label22.Location = new System.Drawing.Point(13, 185);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(99, 15);
+            this.label22.TabIndex = 6;
+            this.label22.Text = "Master page URL:";
+            // 
+            // tbWSSiteLogo
+            // 
+            this.tbWSSiteLogo.Location = new System.Drawing.Point(13, 156);
+            this.tbWSSiteLogo.Name = "tbWSSiteLogo";
+            this.tbWSSiteLogo.Size = new System.Drawing.Size(463, 23);
+            this.tbWSSiteLogo.TabIndex = 5;
+            this.tbWSSiteLogo.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label23.Location = new System.Drawing.Point(13, 137);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(56, 15);
+            this.label23.TabIndex = 4;
+            this.label23.Text = "Site logo:";
+            // 
+            // tbWSDescription
+            // 
+            this.tbWSDescription.Location = new System.Drawing.Point(13, 75);
+            this.tbWSDescription.Multiline = true;
+            this.tbWSDescription.Name = "tbWSDescription";
+            this.tbWSDescription.ShortcutsEnabled = false;
+            this.tbWSDescription.Size = new System.Drawing.Size(463, 56);
+            this.tbWSDescription.TabIndex = 3;
+            this.tbWSDescription.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label24.Location = new System.Drawing.Point(13, 57);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(70, 15);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "Description:";
+            // 
+            // tbWSTitle
+            // 
+            this.tbWSTitle.Location = new System.Drawing.Point(13, 27);
+            this.tbWSTitle.Name = "tbWSTitle";
+            this.tbWSTitle.Size = new System.Drawing.Size(463, 23);
+            this.tbWSTitle.TabIndex = 1;
+            this.tbWSTitle.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label25.Location = new System.Drawing.Point(13, 8);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(33, 15);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Title:";
+            // 
+            // pViewControl
+            // 
+            this.pViewControl.Controls.Add(this.lvViewControl);
+            this.pViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pViewControl.Location = new System.Drawing.Point(0, 0);
+            this.pViewControl.Name = "pViewControl";
+            this.pViewControl.Size = new System.Drawing.Size(650, 480);
+            this.pViewControl.TabIndex = 20;
+            this.pViewControl.Visible = false;
+            // 
+            // lvViewControl
+            // 
+            this.lvViewControl.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.pbeKey,
+            this.pbeValue});
+            this.lvViewControl.ContextMenuStrip = this.cmsViewControlPopup;
+            this.lvViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvViewControl.FullRowSelect = true;
+            this.lvViewControl.GridLines = true;
+            this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvViewControl.HideSelection = false;
+            this.lvViewControl.Location = new System.Drawing.Point(0, 0);
+            this.lvViewControl.Name = "lvViewControl";
+            this.lvViewControl.ShowGroups = false;
+            this.lvViewControl.Size = new System.Drawing.Size(650, 480);
+            this.lvViewControl.TabIndex = 2;
+            this.lvViewControl.UseCompatibleStateImageBehavior = false;
+            this.lvViewControl.View = System.Windows.Forms.View.Details;
+            this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
+            this.lvViewControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ViewControlKeyUp);
+            // 
+            // pbeKey
+            // 
+            this.pbeKey.Text = "Key";
+            this.pbeKey.Width = 169;
+            // 
+            // pbeValue
+            // 
+            this.pbeValue.Text = "Value";
+            this.pbeValue.Width = 368;
+            // 
+            // pTextControl
+            // 
+            this.pTextControl.Controls.Add(this.tbTextControl);
+            this.pTextControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pTextControl.Location = new System.Drawing.Point(0, 0);
+            this.pTextControl.Name = "pTextControl";
+            this.pTextControl.Size = new System.Drawing.Size(650, 480);
+            this.pTextControl.TabIndex = 19;
+            this.pTextControl.Visible = false;
+            // 
+            // tbTextControl
+            // 
+            this.tbTextControl.AcceptsReturn = true;
+            this.tbTextControl.AcceptsTab = true;
+            this.tbTextControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbTextControl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTextControl.HideSelection = false;
+            this.tbTextControl.Location = new System.Drawing.Point(0, 0);
+            this.tbTextControl.Multiline = true;
+            this.tbTextControl.Name = "tbTextControl";
+            this.tbTextControl.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbTextControl.Size = new System.Drawing.Size(650, 480);
+            this.tbTextControl.TabIndex = 0;
+            this.tbTextControl.WordWrap = false;
+            this.tbTextControl.TextChanged += new System.EventHandler(this.ControlTextChanged);
             // 
             // pRegionalSettings
             // 
@@ -708,257 +959,6 @@
             this.cbRSTimeZone.TabIndex = 0;
             this.cbRSTimeZone.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
-            // pTextControl
-            // 
-            this.pTextControl.Controls.Add(this.tbTextControl);
-            this.pTextControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pTextControl.Location = new System.Drawing.Point(0, 0);
-            this.pTextControl.Name = "pTextControl";
-            this.pTextControl.Size = new System.Drawing.Size(650, 480);
-            this.pTextControl.TabIndex = 19;
-            this.pTextControl.Visible = false;
-            // 
-            // tbTextControl
-            // 
-            this.tbTextControl.AcceptsReturn = true;
-            this.tbTextControl.AcceptsTab = true;
-            this.tbTextControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbTextControl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTextControl.HideSelection = false;
-            this.tbTextControl.Location = new System.Drawing.Point(0, 0);
-            this.tbTextControl.Multiline = true;
-            this.tbTextControl.Name = "tbTextControl";
-            this.tbTextControl.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbTextControl.Size = new System.Drawing.Size(650, 480);
-            this.tbTextControl.TabIndex = 0;
-            this.tbTextControl.WordWrap = false;
-            this.tbTextControl.TextChanged += new System.EventHandler(this.ControlTextChanged);
-            // 
-            // pViewControl
-            // 
-            this.pViewControl.Controls.Add(this.lvViewControl);
-            this.pViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pViewControl.Location = new System.Drawing.Point(0, 0);
-            this.pViewControl.Name = "pViewControl";
-            this.pViewControl.Size = new System.Drawing.Size(650, 480);
-            this.pViewControl.TabIndex = 20;
-            this.pViewControl.Visible = false;
-            // 
-            // lvViewControl
-            // 
-            this.lvViewControl.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.pbeKey,
-            this.pbeValue});
-            this.lvViewControl.ContextMenuStrip = this.cmsViewControlPopup;
-            this.lvViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvViewControl.FullRowSelect = true;
-            this.lvViewControl.GridLines = true;
-            this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvViewControl.HideSelection = false;
-            this.lvViewControl.Location = new System.Drawing.Point(0, 0);
-            this.lvViewControl.Name = "lvViewControl";
-            this.lvViewControl.ShowGroups = false;
-            this.lvViewControl.Size = new System.Drawing.Size(650, 480);
-            this.lvViewControl.TabIndex = 2;
-            this.lvViewControl.UseCompatibleStateImageBehavior = false;
-            this.lvViewControl.View = System.Windows.Forms.View.Details;
-            this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
-            this.lvViewControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ViewControlKeyUp);
-            // 
-            // pbeKey
-            // 
-            this.pbeKey.Text = "Key";
-            this.pbeKey.Width = 169;
-            // 
-            // pbeValue
-            // 
-            this.pbeValue.Text = "Value";
-            this.pbeValue.Width = 368;
-            // 
-            // pWebSettings
-            // 
-            this.pWebSettings.Controls.Add(this.cbWSNoCrawl);
-            this.pWebSettings.Controls.Add(this.tbWSRequestAccessEmail);
-            this.pWebSettings.Controls.Add(this.label28);
-            this.pWebSettings.Controls.Add(this.tbWSWelcomePage);
-            this.pWebSettings.Controls.Add(this.label27);
-            this.pWebSettings.Controls.Add(this.tbWSAlternateCSS);
-            this.pWebSettings.Controls.Add(this.label26);
-            this.pWebSettings.Controls.Add(this.tbWSCustomMasterPageUrl);
-            this.pWebSettings.Controls.Add(this.label21);
-            this.pWebSettings.Controls.Add(this.tbWSMasterPageUrl);
-            this.pWebSettings.Controls.Add(this.label22);
-            this.pWebSettings.Controls.Add(this.tbWSSiteLogo);
-            this.pWebSettings.Controls.Add(this.label23);
-            this.pWebSettings.Controls.Add(this.tbWSDescription);
-            this.pWebSettings.Controls.Add(this.label24);
-            this.pWebSettings.Controls.Add(this.tbWSTitle);
-            this.pWebSettings.Controls.Add(this.label25);
-            this.pWebSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pWebSettings.Location = new System.Drawing.Point(0, 0);
-            this.pWebSettings.Name = "pWebSettings";
-            this.pWebSettings.Size = new System.Drawing.Size(650, 480);
-            this.pWebSettings.TabIndex = 22;
-            this.pWebSettings.Visible = false;
-            // 
-            // cbWSNoCrawl
-            // 
-            this.cbWSNoCrawl.AutoSize = true;
-            this.cbWSNoCrawl.Location = new System.Drawing.Point(13, 425);
-            this.cbWSNoCrawl.Name = "cbWSNoCrawl";
-            this.cbWSNoCrawl.Size = new System.Drawing.Size(81, 19);
-            this.cbWSNoCrawl.TabIndex = 16;
-            this.cbWSNoCrawl.Text = " No Crawl ";
-            this.cbWSNoCrawl.UseVisualStyleBackColor = true;
-            this.cbWSNoCrawl.CheckedChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // tbWSRequestAccessEmail
-            // 
-            this.tbWSRequestAccessEmail.Location = new System.Drawing.Point(13, 396);
-            this.tbWSRequestAccessEmail.Name = "tbWSRequestAccessEmail";
-            this.tbWSRequestAccessEmail.Size = new System.Drawing.Size(463, 23);
-            this.tbWSRequestAccessEmail.TabIndex = 15;
-            this.tbWSRequestAccessEmail.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label28.Location = new System.Drawing.Point(13, 377);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(121, 15);
-            this.label28.TabIndex = 14;
-            this.label28.Text = "Request access email:";
-            // 
-            // tbWSWelcomePage
-            // 
-            this.tbWSWelcomePage.Location = new System.Drawing.Point(13, 348);
-            this.tbWSWelcomePage.Name = "tbWSWelcomePage";
-            this.tbWSWelcomePage.Size = new System.Drawing.Size(463, 23);
-            this.tbWSWelcomePage.TabIndex = 13;
-            this.tbWSWelcomePage.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label27.Location = new System.Drawing.Point(13, 329);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(113, 15);
-            this.label27.TabIndex = 12;
-            this.label27.Text = "Welcome page URL:";
-            // 
-            // tbWSAlternateCSS
-            // 
-            this.tbWSAlternateCSS.Location = new System.Drawing.Point(13, 300);
-            this.tbWSAlternateCSS.Name = "tbWSAlternateCSS";
-            this.tbWSAlternateCSS.Size = new System.Drawing.Size(463, 23);
-            this.tbWSAlternateCSS.TabIndex = 11;
-            this.tbWSAlternateCSS.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label26.Location = new System.Drawing.Point(13, 281);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(81, 15);
-            this.label26.TabIndex = 10;
-            this.label26.Text = "Alternate CSS:";
-            // 
-            // tbWSCustomMasterPageUrl
-            // 
-            this.tbWSCustomMasterPageUrl.Location = new System.Drawing.Point(13, 252);
-            this.tbWSCustomMasterPageUrl.Name = "tbWSCustomMasterPageUrl";
-            this.tbWSCustomMasterPageUrl.Size = new System.Drawing.Size(463, 23);
-            this.tbWSCustomMasterPageUrl.TabIndex = 9;
-            this.tbWSCustomMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label21.Location = new System.Drawing.Point(13, 233);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(144, 15);
-            this.label21.TabIndex = 8;
-            this.label21.Text = "Custom master page URL:";
-            // 
-            // tbWSMasterPageUrl
-            // 
-            this.tbWSMasterPageUrl.Location = new System.Drawing.Point(13, 204);
-            this.tbWSMasterPageUrl.Name = "tbWSMasterPageUrl";
-            this.tbWSMasterPageUrl.Size = new System.Drawing.Size(463, 23);
-            this.tbWSMasterPageUrl.TabIndex = 7;
-            this.tbWSMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label22.Location = new System.Drawing.Point(13, 185);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(99, 15);
-            this.label22.TabIndex = 6;
-            this.label22.Text = "Master page URL:";
-            // 
-            // tbWSSiteLogo
-            // 
-            this.tbWSSiteLogo.Location = new System.Drawing.Point(13, 156);
-            this.tbWSSiteLogo.Name = "tbWSSiteLogo";
-            this.tbWSSiteLogo.Size = new System.Drawing.Size(463, 23);
-            this.tbWSSiteLogo.TabIndex = 5;
-            this.tbWSSiteLogo.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label23.Location = new System.Drawing.Point(13, 137);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(56, 15);
-            this.label23.TabIndex = 4;
-            this.label23.Text = "Site logo:";
-            // 
-            // tbWSDescription
-            // 
-            this.tbWSDescription.Location = new System.Drawing.Point(13, 75);
-            this.tbWSDescription.Multiline = true;
-            this.tbWSDescription.Name = "tbWSDescription";
-            this.tbWSDescription.ShortcutsEnabled = false;
-            this.tbWSDescription.Size = new System.Drawing.Size(463, 56);
-            this.tbWSDescription.TabIndex = 3;
-            this.tbWSDescription.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label24.Location = new System.Drawing.Point(13, 57);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(70, 15);
-            this.label24.TabIndex = 2;
-            this.label24.Text = "Description:";
-            // 
-            // tbWSTitle
-            // 
-            this.tbWSTitle.Location = new System.Drawing.Point(13, 27);
-            this.tbWSTitle.Name = "tbWSTitle";
-            this.tbWSTitle.Size = new System.Drawing.Size(463, 23);
-            this.tbWSTitle.TabIndex = 1;
-            this.tbWSTitle.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label25.Location = new System.Drawing.Point(13, 8);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(33, 15);
-            this.label25.TabIndex = 0;
-            this.label25.Text = "Title:";
-            // 
             // EditWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -985,16 +985,16 @@
             this.scEditTemplate.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scEditTemplate)).EndInit();
             this.scEditTemplate.ResumeLayout(false);
+            this.pListControl.ResumeLayout(false);
             this.pComposedLook.ResumeLayout(false);
             this.pComposedLook.PerformLayout();
-            this.pListControl.ResumeLayout(false);
-            this.pRegionalSettings.ResumeLayout(false);
-            this.pRegionalSettings.PerformLayout();
-            this.pTextControl.ResumeLayout(false);
-            this.pTextControl.PerformLayout();
-            this.pViewControl.ResumeLayout(false);
             this.pWebSettings.ResumeLayout(false);
             this.pWebSettings.PerformLayout();
+            this.pViewControl.ResumeLayout(false);
+            this.pTextControl.ResumeLayout(false);
+            this.pTextControl.PerformLayout();
+            this.pRegionalSettings.ResumeLayout(false);
+            this.pRegionalSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
