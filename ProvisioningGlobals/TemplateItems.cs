@@ -92,6 +92,9 @@ namespace Karabina.SharePoint.Provisioning
 
     public class TemplateItems : List<TemplateItem>
     {
+        public string TemplatePath { get; set; }
+
+        public string TemplateFilename { get; set; }
 
         public string AddItem(string name, TemplateControlType controlType,
                             TemplateItemType itemType, object content, string parentId)

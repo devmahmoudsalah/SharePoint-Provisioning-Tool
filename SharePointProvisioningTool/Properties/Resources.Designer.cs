@@ -81,7 +81,7 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SharePoint Provisioning Tool - Based on SharePoint PnP.
+        ///   Looks up a localized string similar to SharePoint Provisioning Tool - Front end for Office Dev PnP Core library for SharePoint.
         /// </summary>
         internal static string String0 {
             get {

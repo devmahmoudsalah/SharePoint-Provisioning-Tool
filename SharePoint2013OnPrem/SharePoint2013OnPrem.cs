@@ -29,6 +29,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private ProvisioningTemplate _editingTemplate = null;
         private ListBox _lbOutput = null;
+        private XMLTemplateProvider _editingProvider = null;
 
         public ProvisioningTemplate EditingTemplate
         {
@@ -40,6 +41,12 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _lbOutput; }
             set { _lbOutput = value; }
+        }
+
+        public XMLTemplateProvider EditingProvider
+        {
+            get { return _editingProvider; }
+            set { _editingProvider = value; }
         }
 
         private void WriteMessage(string message)
@@ -1268,16 +1275,28 @@ namespace Karabina.SharePoint.Provisioning
         {
             TemplateItems templateItems = new TemplateItems();
 
-            string fileNamePNP = templateName + ".pnp";
+            templateItems.TemplatePath = templatePath;
+
+            string fileNamePNP = templateName;
+
+            if (!templateName.EndsWith(".pnp", StringComparison.OrdinalIgnoreCase))
+            {
+                fileNamePNP += ".pnp";
+
+            }
+
+            templateItems.TemplateFilename = fileNamePNP;
 
             FileConnectorBase fileConnector = new FileSystemConnector(templatePath, "");
 
-            XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(new OpenXMLConnector(fileNamePNP, fileConnector));
+            EditingProvider = new XMLOpenXMLTemplateProvider(new OpenXMLConnector(fileNamePNP, fileConnector));
+
+            XMLTemplateProvider provider = EditingProvider;
 
             List<ProvisioningTemplate> templates = provider.GetTemplates();
-            ProvisioningTemplate template = templates[0];
+            ProvisioningTemplate template = templates[0]; //get only the first template
 
-            template.Connector = provider.Connector; //needed when we save back to the template
+            template.Connector = provider.Connector;
 
             EditingTemplate = template;
 
@@ -2873,7 +2892,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //UpdateListInstance
 
-        public void SaveTemplateForEdit(TemplateItems templateItems, string templatePathName)
+        public void SaveTemplateForEdit(TemplateItems templateItems)
         {
             if (EditingTemplate != null)
             {
@@ -4461,29 +4480,26 @@ namespace Karabina.SharePoint.Provisioning
 
                 } //if WorkflowSubscriptions
 
-                
-                /*
-                //Are we going to have backup? Still to decide...
-                string backupFile = Path.ChangeExtension(templatePathName, ".bak");
-                System.IO.File.Copy(templatePathName, backupFile, true);
-                */
+                XMLTemplateProvider provider = EditingProvider;
 
-                string xmlFileName = Path.GetFileName(templatePathName);
-                xmlFileName = Path.ChangeExtension(xmlFileName, ".xml");
+                if (provider == null)
+                {
 
-                OpenXMLConnector xmlConnector = template.Connector as OpenXMLConnector;
+                    string xmlFileName = Path.GetFileName(templateItems.TemplateFilename);
+                    xmlFileName = Path.ChangeExtension(xmlFileName, ".xml");
 
-                XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(xmlConnector);
+                    OpenXMLConnector xmlConnector = template.Connector as OpenXMLConnector;
 
-                provider.SaveAs(template, xmlFileName);
+                    provider = new XMLOpenXMLTemplateProvider(xmlConnector);
+                    provider.Uri = xmlFileName;
 
-                xmlConnector.Commit();
+                }
 
+                provider.Save(template);
 
             } //if EditingTemplate
 
         } //SaveTemplateForEdit
-
 
     } //SharePoint2013OnPrem
 

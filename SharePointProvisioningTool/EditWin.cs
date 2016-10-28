@@ -597,7 +597,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //DisplayActiveNode
 
-        private void ProcessParent(TemplateItem parentItem, TemplateItem templateItem)
+        private void ProcessEmptyParent(TemplateItem parentItem, TemplateItem templateItem)
         {
             if (parentItem != null)
             {
@@ -619,8 +619,11 @@ namespace Karabina.SharePoint.Provisioning
 
                         }
 
+                        _templateItems.SetChildrenDeleted(parentItem.Id);
+                        _templateItems.SetDeleted(parentItem);
+
                         TemplateItem grandParent = _templateItems.GetParent(parentItem);
-                        ProcessParent(grandParent, parentItem);
+                        ProcessEmptyParent(grandParent, parentItem);
 
                     }
 
@@ -628,7 +631,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        }
+        } //ProcessEmptyParent
 
         private void RemoveEmptyNodes()
         {
@@ -647,13 +650,12 @@ namespace Karabina.SharePoint.Provisioning
                                 node.Remove();
 
                             }
+                            _templateItems.SetChildrenDeleted(templateItem.Id);
+                            _templateItems.SetDeleted(templateItem);
 
                             TemplateItem parentItem = _templateItems.GetParent(templateItem);
 
-                            ProcessParent(parentItem, templateItem);
-
-                            _templateItems.SetChildrenDeleted(templateItem.Id);
-                            _templateItems.SetDeleted(templateItem);
+                            ProcessEmptyParent(parentItem, templateItem);
 
                         }
 
@@ -674,17 +676,17 @@ namespace Karabina.SharePoint.Provisioning
                 switch (_selectedVersion)
                 {
                     case SharePointVersion.SharePoint_2013_On_Premises:
-                        SP2013OP.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
+                        SP2013OP.SaveTemplateForEdit(_templateItems);
 
                         break;
 
                     case SharePointVersion.SharePoint_2016_On_Premises:
-                        SP2016OP.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
+                        SP2016OP.SaveTemplateForEdit(_templateItems);
 
                         break;
 
                     case SharePointVersion.SharePoint_2016_OnLine:
-                        SP2016OL.SaveTemplateForEdit(_templateItems, tbTemplate.Text);
+                        SP2016OL.SaveTemplateForEdit(_templateItems);
 
                         break;
 
