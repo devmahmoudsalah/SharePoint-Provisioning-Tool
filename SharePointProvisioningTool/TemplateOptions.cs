@@ -23,7 +23,7 @@ namespace Karabina.SharePoint.Provisioning
         public SetStatusTextDelegate SetStatusBarText;
 
         private string[] _contentItems = new string[] {
-                                                       "# lookup list items","# generic list items","# document library items",
+                                                       "# lookup list items","# custom list items","# document library items",
                                                        "# survey list items","# links list items","# announcements list items",
                                                        "# contacts list items","# events list items","# tasks list items",
                                                        "# discussion board items","# picture library items","# wiki page library items",
@@ -120,6 +120,18 @@ namespace Karabina.SharePoint.Provisioning
             }
 
             cbExcludeBaseTemplate.Enabled = isCreating;
+
+
+            foreach(var control in Controls.OfType<CheckBox>())
+            {
+                if (control.Tag == null)
+                {
+                    control.Tag = "28";
+
+                }
+
+            }
+
 
             _provisioningOptions = new ProvisioningOptions();
 
@@ -230,8 +242,9 @@ namespace Karabina.SharePoint.Provisioning
 
         private void ShowToolTip(object sender, EventArgs e)
         {
-            CheckBox cb = sender as CheckBox;
-            int tooltipId = Convert.ToInt32(cb.Tag);
+            string tag = "Option"+ (sender as Control).Tag.ToString();
+
+            lToolTip.Text = Properties.Resources.ResourceManager.GetString(tag);
 
         }
 

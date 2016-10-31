@@ -124,6 +124,90 @@
   <data name="Glossy3DBlueOrbs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\glossy-3d-blue-orbs2-110.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Option1" xml:space="preserve">
+    <value>Represents regional settings that are used on the server that is running SharePoint Server.</value>
+  </data>
+  <data name="Option10" xml:space="preserve">
+    <value>Represents a collection of activated features at the site and web.</value>
+  </data>
+  <data name="Option11" xml:space="preserve">
+    <value>Include / apply the current composed look settings.</value>
+  </data>
+  <data name="Option12" xml:space="preserve">
+    <value>Include / apply the default page for the site or web.</value>
+  </data>
+  <data name="Option13" xml:space="preserve">
+    <value>Gets a collection of metadata for the Web site.</value>
+  </data>
+  <data name="Option14" xml:space="preserve">
+    <value>Include / apply the master page and page layouts if the publishing feature is activated</value>
+  </data>
+  <data name="Option15" xml:space="preserve">
+    <value>Include / apply all workflow definitions and subscriptions</value>
+  </data>
+  <data name="Option16" xml:space="preserve">
+    <value>Include / apply the master page url, default page url, logo url and css files urls.</value>
+  </data>
+  <data name="Option17" xml:space="preserve">
+    <value>Include / apply navigation settings if the publishing feature is activated</value>
+  </data>
+  <data name="Option18" xml:space="preserve">
+    <value>Remove all settings from the template that are in the base template</value>
+  </data>
+  <data name="Option19" xml:space="preserve">
+    <value>Include composed look files (theme files, site logo, alternate css)</value>
+  </data>
+  <data name="Option2" xml:space="preserve">
+    <value>Specifies the language code identifiers (LCIDs) of the languages that are enabled for the site.</value>
+  </data>
+  <data name="Option20" xml:space="preserve">
+    <value>Defines whether to persist publishing files (MasterPages and PageLayouts)</value>
+  </data>
+  <data name="Option21" xml:space="preserve">
+    <value>Will create resource files named "PnP_Resource_[LCID].resx for every supported language.</value>
+  </data>
+  <data name="Option22" xml:space="preserve">
+    <value>Defines whether to extract native publishing files (MasterPages and PageLayouts)</value>
+  </data>
+  <data name="Option23" xml:space="preserve">
+    <value>Include / apply all term groups and term sets</value>
+  </data>
+  <data name="Option24" xml:space="preserve">
+    <value>Include / apply the term group and term sets defined for the site</value>
+  </data>
+  <data name="Option25" xml:space="preserve">
+    <value>Include / apply the term group security</value>
+  </data>
+  <data name="Option26" xml:space="preserve">
+    <value>Include / apply the site securty groups (owners, members &amp; visitors)</value>
+  </data>
+  <data name="Option27" xml:space="preserve">
+    <value>Exports search configuration settings at the web and site collection level in XML format.</value>
+  </data>
+  <data name="Option28" xml:space="preserve">
+    <value>Include / apply the content of lists and libraries</value>
+  </data>
+  <data name="Option3" xml:space="preserve">
+    <value>Audit settings</value>
+  </data>
+  <data name="Option4" xml:space="preserve">
+    <value>Gets the site policy that currently is applied. Apply a policy to a site.</value>
+  </data>
+  <data name="Option5" xml:space="preserve">
+    <value>Include / apply various site security settings</value>
+  </data>
+  <data name="Option6" xml:space="preserve">
+    <value>Represents a collection of Field objects as defined for the site.</value>
+  </data>
+  <data name="Option7" xml:space="preserve">
+    <value>Represents a collection of Web site content types.</value>
+  </data>
+  <data name="Option8" xml:space="preserve">
+    <value>Gets the collection of all lists that are contained in the web site excluding content</value>
+  </data>
+  <data name="Option9" xml:space="preserve">
+    <value>Represents a collection of custom actions associated with a SharePoint list, Web site, or subsite.</value>
+  </data>
   <data name="String0" xml:space="preserve">
     <value>SharePoint Provisioning Tool - Front end for Office Dev PnP Core library for SharePoint</value>
   </data>

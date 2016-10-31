@@ -39,6 +39,7 @@
             this.cbPublishingFiles = new System.Windows.Forms.CheckBox();
             this.cbBrandingFiles = new System.Windows.Forms.CheckBox();
             this.gbContentOptions = new System.Windows.Forms.GroupBox();
+            this.clbContentOptions = new System.Windows.Forms.CheckedListBox();
             this.bCancel = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
             this.gbTemplateOptions = new System.Windows.Forms.GroupBox();
@@ -61,7 +62,6 @@
             this.cbSupportedUILanguages = new System.Windows.Forms.CheckBox();
             this.cbRegionalSettings = new System.Windows.Forms.CheckBox();
             this.lToolTip = new System.Windows.Forms.Label();
-            this.clbContentOptions = new System.Windows.Forms.CheckedListBox();
             this.gbOtherTemplateOptions.SuspendLayout();
             this.gbContentOptions.SuspendLayout();
             this.gbTemplateOptions.SuspendLayout();
@@ -222,7 +222,22 @@
             this.gbContentOptions.Size = new System.Drawing.Size(241, 267);
             this.gbContentOptions.TabIndex = 19;
             this.gbContentOptions.TabStop = false;
+            this.gbContentOptions.Tag = "";
             this.gbContentOptions.Text = " Content Options ";
+            // 
+            // clbContentOptions
+            // 
+            this.clbContentOptions.BackColor = System.Drawing.SystemColors.Control;
+            this.clbContentOptions.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.clbContentOptions.CheckOnClick = true;
+            this.clbContentOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clbContentOptions.Location = new System.Drawing.Point(14, 19);
+            this.clbContentOptions.Name = "clbContentOptions";
+            this.clbContentOptions.Size = new System.Drawing.Size(224, 245);
+            this.clbContentOptions.TabIndex = 0;
+            this.clbContentOptions.Tag = "28";
+            this.clbContentOptions.MouseEnter += new System.EventHandler(this.ShowToolTip);
+            this.clbContentOptions.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
             // bCancel
             // 
@@ -536,18 +551,6 @@
             this.lToolTip.TabIndex = 23;
             this.lToolTip.Text = "Move the mouse over the items to see the explanation of the option";
             this.lToolTip.UseMnemonic = false;
-            // 
-            // clbContentOptions
-            // 
-            this.clbContentOptions.BackColor = System.Drawing.SystemColors.Control;
-            this.clbContentOptions.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clbContentOptions.CheckOnClick = true;
-            this.clbContentOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.clbContentOptions.Location = new System.Drawing.Point(14, 19);
-            this.clbContentOptions.Name = "clbContentOptions";
-            this.clbContentOptions.Size = new System.Drawing.Size(224, 245);
-            this.clbContentOptions.TabIndex = 0;
-            this.clbContentOptions.Tag = "28";
             // 
             // TemplateOptions
             // 

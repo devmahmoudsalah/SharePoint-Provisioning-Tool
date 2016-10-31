@@ -516,8 +516,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SetStatusText(object sender, EventArgs e)
         {
-            string tag = Constants.String0;
-            tag = (sender as ToolStripItem).Tag.ToString();
+            string tag = (sender as ToolStripItem).Tag.ToString();
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
 
         }
