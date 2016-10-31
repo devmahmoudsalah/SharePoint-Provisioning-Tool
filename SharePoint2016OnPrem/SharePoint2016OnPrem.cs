@@ -989,93 +989,201 @@ namespace Karabina.SharePoint.Provisioning
                     // Execute actual extraction of the tepmplate 
                     ProvisioningTemplate template = web.GetProvisioningTemplate(ptci);
 
-                    //List to hold all the lookup list names
+                    //List to hold all the lookup list names, populated in FixReferenceFields method
                     List<string> lookupListTitles = new List<string>();
 
                     if (provisioningOptions.Fields)
                     {
                         //fix fields with default, formula or defaultformula elements so that the referenced fields have 
                         //a lower index than the fields that reference them in the SiteFields collection
-                        //This prevents the "Invalid field found" error from occuring
+                        //This prevents the "Invalid field found" error from occuring when applying the template to a site
                         FixReferenceFields(template, lookupListTitles);
                     }
 
                     //Check if we should do any content operations
-                    if (provisioningOptions.DocumentLibraryFiles ||
-                        provisioningOptions.LookupListItems ||
-                        provisioningOptions.GenericListItems ||
-                        provisioningOptions.JavaScriptFiles ||
-                        provisioningOptions.PublishingPages ||
-                        provisioningOptions.XSLStyleSheetFiles ||
-                        provisioningOptions.ImageFiles)
+                    if (provisioningOptions.LookupListItems ||
+                        provisioningOptions.Files ||
+                        provisioningOptions.Lists)
                     {
                         ctx.Load(web.Lists);
                         ctx.ExecuteQuery();
 
                         foreach (ListInstance listInstance in template.Lists)
                         {
-                            string listTitle = listInstance.Title.ToLowerInvariant();
-                            switch (listTitle)
+
+                            if (provisioningOptions.LookupListItems)
                             {
-                                case "documents":
-                                case "site collection documents":
-                                    if (provisioningOptions.DocumentLibraryFiles)
-                                    {
-                                        SaveFilesToTemplate(ctx, web, listInstance, template);
-                                    }
-                                    break;
-                                case "images":
-                                case "site collection images":
-                                    if (provisioningOptions.ImageFiles)
-                                    {
-                                        SaveFilesToTemplate(ctx, web, listInstance, template);
-                                    }
-                                    break;
-                                case "pages":
-                                case "site pages":
-                                    if (provisioningOptions.Pages)
-                                    {
-                                        SaveFilesToTemplate(ctx, web, listInstance, template);
-                                    }
-                                    break;
-                                case "site assets":
-                                    if ((provisioningOptions.DocumentLibraryFiles) ||
-                                        (provisioningOptions.ImageFiles) ||
-                                        (provisioningOptions.JavaScriptFiles))
-                                    {
-                                        SaveFilesToTemplate(ctx, web, listInstance, template);
-                                    }
-                                    break;
-                                case "style library":
-                                    if ((provisioningOptions.JavaScriptFiles) ||
-                                        (provisioningOptions.XSLStyleSheetFiles))
-                                    {
-                                        SaveFilesToTemplate(ctx, web, listInstance, template);
-                                    }
-                                    break;
-                                default:
-                                    if (listInstance.TemplateType == 100) //100 = Custom list
-                                    {
-                                        if (provisioningOptions.GenericListItems)
-                                        {
-                                            SaveListItemsToTemplate(ctx, web.Lists, listInstance);
-                                        }
-                                        else if (provisioningOptions.LookupListItems)
-                                        {
-                                            if (lookupListTitles.IndexOf(listInstance.Title) >= 0)
-                                            {
-                                                SaveListItemsToTemplate(ctx, web.Lists, listInstance);
-                                            }
-                                        }
-                                    }
-                                    else if ((listInstance.TemplateType == 101) && //101 = Document Library
-                                             (provisioningOptions.DocumentLibraryFiles))
-                                    {
-                                        SaveFilesToTemplate(ctx, web, listInstance, template);
-                                    }
-                                    break;
+                                if (lookupListTitles.IndexOf(listInstance.Title) >= 0)
+                                {
+                                    SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                }
+
                             }
+
+                            switch (listInstance.TemplateType)
+                            {
+                                case 100: //  Generic list
+                                    if (provisioningOptions.GenericList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 101: //   Document library
+                                    if (provisioningOptions.DocumentLibrary)
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+
+                                    }
+
+                                    break;
+
+                                case 102: //   Survey
+                                    if (provisioningOptions.SurveyList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 103: //   Links list
+                                    if (provisioningOptions.LinksList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 104: //   Announcements list
+                                    if (provisioningOptions.AnnouncementsList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 105: //   Contacts list
+                                    if (provisioningOptions.ContactsList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 106: //   Events list
+                                    if (provisioningOptions.EventsList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 107: //   Tasks list
+                                    if (provisioningOptions.TasksList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 108: //   Discussion board
+                                    if (provisioningOptions.DiscussionBoard)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 109: //   Picture library
+                                    if (provisioningOptions.PictureLibrary)
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+
+                                    }
+
+                                    break;
+
+                                case 119: //   Wiki Page library
+                                    if (provisioningOptions.WikiPageLibrary)
+                                    {
+                                        SaveFilesToTemplate(ctx, web, listInstance, template);
+
+                                    }
+
+                                    break;
+
+                                case 150: //   Gantt Tasks list
+                                    if (provisioningOptions.GanttTasksList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 200: //   Meeting Series
+                                    if (provisioningOptions.MeetingSeriesList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 301: //   Blog Posts list
+                                    if (provisioningOptions.BlogPostsList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 302: //   Blog Comments list
+                                    if (provisioningOptions.BlogCommentsList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 303: //   Blog Categories list
+                                    if (provisioningOptions.BlogCategoriesList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                case 1100: //   Issue tracking
+                                    if (provisioningOptions.IssueTrackingList)
+                                    {
+                                        SaveListItemsToTemplate(ctx, web.Lists, listInstance);
+
+                                    }
+
+                                    break;
+
+                                default:
+
+                                    break;
+
+                            } //switch
+
                         }
+
                     }
 
                     //if exclude base template from template
@@ -1092,7 +1200,8 @@ namespace Karabina.SharePoint.Provisioning
                         CleanupTemplate(provisioningOptions, template, baseTemplate);
 
                         //if not publishing site and publishing feature is activated, then clean publishing features from template
-                        if (!baseTemplate.BaseSiteTemplate.Equals(Constants.Enterprise_Wiki_TemplateId, StringComparison.OrdinalIgnoreCase))
+                        if (!baseTemplate.BaseSiteTemplate.Equals(Constants.Enterprise_Wiki_TemplateId,
+                                                                  StringComparison.OrdinalIgnoreCase))
                         {
                             if (web.IsPublishingWeb())
                             {
@@ -1109,40 +1218,53 @@ namespace Karabina.SharePoint.Provisioning
 
                                 //perform the clean up
                                 CleanupTemplate(provisioningOptions, template, baseTemplate);
+
                             }
+
                         }
+
                     }
 
                     XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(ptci.FileConnector as OpenXMLConnector);
                     provider.SaveAs(template, fileNameXML);
+
 
                     WriteMessage($"Template saved to {provisioningOptions.TemplatePath}\\{provisioningOptions.TemplateName}.pnp");
 
                     WriteMessage($"Done creating provisioning template from {web.Title} ( {web.Url} )");
 
                     result = true;
+
                 }
+
             }
             catch (Exception ex)
             {
                 if (!lbOutput.HorizontalScrollbar)
                 {
                     lbOutput.HorizontalScrollbar = true;
+
                 }
+
                 WriteMessage("Error: " + ex.Message.Replace("\r\n", " "));
                 if (ex.InnerException != null)
                 {
                     WriteMessage("Error: Start of inner exception");
                     WriteMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
-                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
+                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' },
+                                                                         StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
+
                 }
+
                 WriteMessageRange(ex.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
                 result = false;
+
             }
+
             return result;
 
-        }
+        } //CreateProvisioningTemplate
 
         public bool ApplyProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
         {

@@ -711,7 +711,9 @@ namespace Karabina.SharePoint.Provisioning
             for (var i = 0; i < lbListControl.Items.Count; i++)
             {
                 lbListControl.SetSelected(i, true);
+
             }
+
             lbListControl.EndUpdate();
             lbListControl.TopIndex = topIdx;
 
@@ -771,11 +773,9 @@ namespace Karabina.SharePoint.Provisioning
 
                                 break;
 
-                        }
+                        } //switch
 
                         keyValueList.RemoveAll(p => p.KeyEquals(keyValue.Key));
-
-                        //lbListControl.Items.Remove(item);
 
                     }
 

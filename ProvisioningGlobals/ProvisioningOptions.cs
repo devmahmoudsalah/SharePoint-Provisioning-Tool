@@ -36,15 +36,28 @@ namespace Karabina.SharePoint.Provisioning
         private bool _searchConfiguration = false;
         private bool _publishingFiles = true;
         private bool _nativePublishingFiles = false;
-        private bool _lookupListItems = false;
-        private bool _genericListItems = false;
-        private bool _documentLibraryFiles = false;
-        private bool _javaScriptFiles = false;
-        private bool _publishingPages = false;
         private bool _excludeBaseTemplate = false;
-        private bool _xslStyleSheetFiles = false;
-        private bool _imageFiles = false;
 
+        private bool _lookupListItems = false;
+        private bool _genericList = false;
+        private bool _documentLibrary = false;
+        private bool _surveyList = false;
+        private bool _linksList = false;
+        private bool _announcementsList = false;
+        private bool _contactsList = false;
+        private bool _eventsList = false;
+        private bool _tasksList = false;
+        private bool _discussionBoard = false;
+        private bool _pictureLibrary = false;
+        private bool _wikiPageLibrary = false;
+        private bool _ganttTasksList = false;
+        private bool _meetingSeriesList = false;
+        private bool _blogPostsList = false;
+        private bool _blogCommentsList = false;
+        private bool _blogCategoriesList = false;
+        private bool _issueTrackingList = false;
+
+        //Security fields - used by the Create / Apply template methods
         private bool _authenticationRequired = true;
         private string _userNameOrEmail = string.Empty;
         private SecureString _userPassword = null;
@@ -52,8 +65,6 @@ namespace Karabina.SharePoint.Provisioning
         private string _templateName = string.Empty;
         private string _templatePath = string.Empty;
         private string _webAddress = string.Empty;
-
-
 
         public ProvisioningOptions()
         {
@@ -137,16 +148,6 @@ namespace Karabina.SharePoint.Provisioning
         public bool SearchSettings
         {
             get { return _searchConfiguration; }
-        }
-
-        public bool Files
-        {
-            get { return _documentLibraryFiles || _imageFiles || _javaScriptFiles || _publishingPages || _xslStyleSheetFiles; }
-        }
-
-        public bool Pages
-        {
-            get { return _publishingPages || _xslStyleSheetFiles; }
         }
 
         public bool PageContents
@@ -256,52 +257,117 @@ namespace Karabina.SharePoint.Provisioning
             set { _searchConfiguration = value; }
         }
 
-        public bool LookupListItems
-        {
-            get { return _lookupListItems; }
-            set { _lookupListItems = value; }
-        }
-
-        public bool GenericListItems
-        {
-            get { return _genericListItems; }
-            set { _genericListItems = value; }
-        }
-
-        public bool DocumentLibraryFiles
-        {
-            get { return _documentLibraryFiles; }
-            set { _documentLibraryFiles = value; }
-        }
-
-        public bool JavaScriptFiles
-        {
-            get { return _javaScriptFiles; }
-            set { _javaScriptFiles = value; }
-        }
-
-        public bool PublishingPages
-        {
-            get { return _publishingPages; }
-            set { _publishingPages = value; }
-        }
-
         public bool ExcludeBaseTemplate
         {
             get { return _excludeBaseTemplate; }
             set { _excludeBaseTemplate = value; }
         }
 
-        public bool XSLStyleSheetFiles
+        public bool LookupListItems
         {
-            get { return _xslStyleSheetFiles; }
-            set { _xslStyleSheetFiles = value; }
+            get { return _lookupListItems; }
+            set { _lookupListItems = value; }
         }
 
-        public bool ImageFiles
+        public bool GenericList
         {
-            get { return _imageFiles; }
-            set { _imageFiles = value; }
+            get { return _genericList; }
+            set { _genericList = value; }
+        }
+        public bool DocumentLibrary
+        {
+            get { return _documentLibrary; }
+            set { _documentLibrary = value; }
+        }
+
+        public bool SurveyList
+        {
+            get { return _surveyList; }
+            set { _surveyList = value; }
+        }
+
+        public bool LinksList
+        {
+            get { return _linksList; }
+            set { _linksList = value; }
+        }
+
+        public bool AnnouncementsList
+        {
+            get { return _announcementsList; }
+            set { _announcementsList = value; }
+        }
+
+        public bool ContactsList
+        {
+            get { return _contactsList; }
+            set { _contactsList = value; }
+        }
+
+        public bool EventsList
+        {
+            get { return _eventsList; }
+            set { _eventsList = value; }
+        }
+
+        public bool TasksList
+        {
+            get { return _tasksList; }
+            set { _tasksList = value; }
+        }
+
+        public bool DiscussionBoard
+        {
+            get { return _discussionBoard; }
+            set { _discussionBoard = value; }
+        }
+
+        public bool PictureLibrary
+        {
+            get { return _pictureLibrary; }
+            set { _pictureLibrary = value; }
+        }
+
+        public bool WikiPageLibrary
+        {
+            get { return _wikiPageLibrary; }
+            set { _wikiPageLibrary = value; }
+        }
+
+        public bool GanttTasksList
+        {
+            get { return _ganttTasksList; }
+            set { _ganttTasksList = value; }
+        }
+
+        public bool MeetingSeriesList
+        {
+            get { return _meetingSeriesList; }
+            set { _meetingSeriesList = value; }
+        }
+
+        public bool BlogPostsList
+        {
+            get { return _blogPostsList; }
+            set { _blogPostsList = value; }
+        }
+
+        public bool BlogCommentsList
+        {
+            get { return _blogCommentsList; }
+            set { _blogCommentsList = value; }
+        }
+
+        public bool BlogCategoriesList
+        {
+            get { return _blogCategoriesList; }
+            set { _blogCategoriesList = value; }
+        }
+
+        public bool IssueTrackingList
+        {
+            get { return _issueTrackingList; }
+            set { _issueTrackingList = value; }
         }
 
         public bool AuthenticationRequired
@@ -411,13 +477,23 @@ namespace Karabina.SharePoint.Provisioning
                 if (_publishingFiles) { return true; }
                 if (_nativePublishingFiles) { return true; }
                 if (_lookupListItems) { return true; }
-                if (_genericListItems) { return true; }
-                if (_documentLibraryFiles) { return true; }
-                if (_javaScriptFiles) { return true; }
-                if (_publishingPages) { return true; }
-                if (_excludeBaseTemplate) { return true; }
-                if (_xslStyleSheetFiles) { return true; }
-                if (_imageFiles) { return true; }
+                if (_genericList) { return true; }
+                if (_documentLibrary) { return true; }
+                if (_surveyList) { return true; }
+                if (_linksList) { return true; }
+                if (_announcementsList) { return true; }
+                if (_contactsList) { return true; }
+                if (_eventsList) { return true; }
+                if (_tasksList) { return true; }
+                if (_discussionBoard) { return true; }
+                if (_pictureLibrary) { return true; }
+                if (_wikiPageLibrary) { return true; }
+                if (_ganttTasksList) { return true; }
+                if (_meetingSeriesList) { return true; }
+                if (_blogPostsList) { return true; }
+                if (_blogCommentsList) { return true; }
+                if (_blogCategoriesList) { return true; }
+                if (_issueTrackingList) { return true; }
 
                 return false;
             }
@@ -441,7 +517,7 @@ namespace Karabina.SharePoint.Provisioning
                 if (_features) { count++; }
                 if (_composedLook) { count++; }
                 if (_pageContents) { count++; }
-                if (_propertyBagEntries) { count++; } 
+                if (_propertyBagEntries) { count++; }
                 if (_publishing) { count++; }
                 if (_workflows) { count++; }
                 if (_webSettings) { count++; }
@@ -451,6 +527,84 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         }
+
+        public bool OneOfContentOptions
+        {
+            get
+            {
+                if (_genericList) { return true; }
+                if (_documentLibrary) { return true; }
+                if (_surveyList) { return true; }
+                if (_linksList) { return true; }
+                if (_announcementsList) { return true; }
+                if (_contactsList) { return true; }
+                if (_eventsList) { return true; }
+                if (_tasksList) { return true; }
+                if (_discussionBoard) { return true; }
+                if (_pictureLibrary) { return true; }
+                if (_wikiPageLibrary) { return true; }
+                if (_ganttTasksList) { return true; }
+                if (_meetingSeriesList) { return true; }
+                if (_blogPostsList) { return true; }
+                if (_blogCommentsList) { return true; }
+                if (_blogCategoriesList) { return true; }
+                if (_issueTrackingList) { return true; }
+
+                return false;
+
+            }
+
+        } //AtLeastOneOfContentOptions
+
+        public bool Files
+        {
+            get
+            {
+                if (_documentLibrary) { return true; }
+                if (_pictureLibrary) { return true; }
+                if (_wikiPageLibrary) { return true; }
+                return false;
+
+            }
+        } //Files
+
+        public bool Lists
+        {
+            get
+            {
+                if (_genericList) { return true; }
+                if (_surveyList) { return true; }
+                if (_linksList) { return true; }
+                if (_announcementsList) { return true; }
+                if (_contactsList) { return true; }
+                if (_eventsList) { return true; }
+                if (_tasksList) { return true; }
+                if (_discussionBoard) { return true; }
+                if (_ganttTasksList) { return true; }
+                if (_meetingSeriesList) { return true; }
+                if (_blogPostsList) { return true; }
+                if (_blogCommentsList) { return true; }
+                if (_blogCategoriesList) { return true; }
+                if (_issueTrackingList) { return true; }
+
+                return false;
+            }
+
+        } //Lists
+
+        public bool Pages
+        {
+            get
+            {
+                if (_pageContents) { return true; }
+                if (_publishing) { return true; }
+                if (_publishingFiles) { return true; }
+
+                return false;
+
+            }
+
+        } //Pages
 
     }
 

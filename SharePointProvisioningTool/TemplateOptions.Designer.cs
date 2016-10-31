@@ -39,13 +39,6 @@
             this.cbPublishingFiles = new System.Windows.Forms.CheckBox();
             this.cbBrandingFiles = new System.Windows.Forms.CheckBox();
             this.gbContentOptions = new System.Windows.Forms.GroupBox();
-            this.cbLookupListItems = new System.Windows.Forms.CheckBox();
-            this.cbImageFiles = new System.Windows.Forms.CheckBox();
-            this.cbXSLStyleSheetFiles = new System.Windows.Forms.CheckBox();
-            this.cbPublishingPages = new System.Windows.Forms.CheckBox();
-            this.cbJavaScriptFiles = new System.Windows.Forms.CheckBox();
-            this.cbDocumentLibraryFiles = new System.Windows.Forms.CheckBox();
-            this.cbGenericListItems = new System.Windows.Forms.CheckBox();
             this.bCancel = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
             this.gbTemplateOptions = new System.Windows.Forms.GroupBox();
@@ -68,6 +61,7 @@
             this.cbSupportedUILanguages = new System.Windows.Forms.CheckBox();
             this.cbRegionalSettings = new System.Windows.Forms.CheckBox();
             this.lToolTip = new System.Windows.Forms.Label();
+            this.clbContentOptions = new System.Windows.Forms.CheckedListBox();
             this.gbOtherTemplateOptions.SuspendLayout();
             this.gbContentOptions.SuspendLayout();
             this.gbTemplateOptions.SuspendLayout();
@@ -98,7 +92,7 @@
             this.cbSearchConfiguration.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbSearchConfiguration.Location = new System.Drawing.Point(14, 230);
             this.cbSearchConfiguration.Name = "cbSearchConfiguration";
-            this.cbSearchConfiguration.Size = new System.Drawing.Size(189, 20);
+            this.cbSearchConfiguration.Size = new System.Drawing.Size(157, 20);
             this.cbSearchConfiguration.TabIndex = 8;
             this.cbSearchConfiguration.Tag = "27";
             this.cbSearchConfiguration.Text = " # search configuration ";
@@ -112,7 +106,7 @@
             this.cbSiteGroups.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbSiteGroups.Location = new System.Drawing.Point(14, 204);
             this.cbSiteGroups.Name = "cbSiteGroups";
-            this.cbSiteGroups.Size = new System.Drawing.Size(138, 20);
+            this.cbSiteGroups.Size = new System.Drawing.Size(106, 20);
             this.cbSiteGroups.TabIndex = 7;
             this.cbSiteGroups.Tag = "26";
             this.cbSiteGroups.Text = " # site groups ";
@@ -126,7 +120,7 @@
             this.cbTermGroupsSecurity.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbTermGroupsSecurity.Location = new System.Drawing.Point(14, 178);
             this.cbTermGroupsSecurity.Name = "cbTermGroupsSecurity";
-            this.cbTermGroupsSecurity.Size = new System.Drawing.Size(189, 20);
+            this.cbTermGroupsSecurity.Size = new System.Drawing.Size(157, 20);
             this.cbTermGroupsSecurity.TabIndex = 6;
             this.cbTermGroupsSecurity.Tag = "25";
             this.cbTermGroupsSecurity.Text = " # term groups security ";
@@ -140,7 +134,7 @@
             this.cbSiteCollectionTermGroup.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbSiteCollectionTermGroup.Location = new System.Drawing.Point(14, 152);
             this.cbSiteCollectionTermGroup.Name = "cbSiteCollectionTermGroup";
-            this.cbSiteCollectionTermGroup.Size = new System.Drawing.Size(216, 20);
+            this.cbSiteCollectionTermGroup.Size = new System.Drawing.Size(184, 20);
             this.cbSiteCollectionTermGroup.TabIndex = 5;
             this.cbSiteCollectionTermGroup.Tag = "24";
             this.cbSiteCollectionTermGroup.Text = " # site collection term group ";
@@ -154,7 +148,7 @@
             this.cbAllTermGroups.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbAllTermGroups.Location = new System.Drawing.Point(14, 126);
             this.cbAllTermGroups.Name = "cbAllTermGroups";
-            this.cbAllTermGroups.Size = new System.Drawing.Size(160, 20);
+            this.cbAllTermGroups.Size = new System.Drawing.Size(128, 20);
             this.cbAllTermGroups.TabIndex = 4;
             this.cbAllTermGroups.Tag = "23";
             this.cbAllTermGroups.Text = " # all term groups ";
@@ -168,7 +162,7 @@
             this.cbNativePublishingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbNativePublishingFiles.Location = new System.Drawing.Point(14, 100);
             this.cbNativePublishingFiles.Name = "cbNativePublishingFiles";
-            this.cbNativePublishingFiles.Size = new System.Drawing.Size(195, 20);
+            this.cbNativePublishingFiles.Size = new System.Drawing.Size(163, 20);
             this.cbNativePublishingFiles.TabIndex = 3;
             this.cbNativePublishingFiles.Tag = "22";
             this.cbNativePublishingFiles.Text = " # native publishing files ";
@@ -182,7 +176,7 @@
             this.cbMultiLanguageResources.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbMultiLanguageResources.Location = new System.Drawing.Point(14, 74);
             this.cbMultiLanguageResources.Name = "cbMultiLanguageResources";
-            this.cbMultiLanguageResources.Size = new System.Drawing.Size(208, 20);
+            this.cbMultiLanguageResources.Size = new System.Drawing.Size(185, 20);
             this.cbMultiLanguageResources.TabIndex = 2;
             this.cbMultiLanguageResources.Tag = "21";
             this.cbMultiLanguageResources.Text = " @ multi language resources ";
@@ -196,7 +190,7 @@
             this.cbPublishingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbPublishingFiles.Location = new System.Drawing.Point(14, 48);
             this.cbPublishingFiles.Name = "cbPublishingFiles";
-            this.cbPublishingFiles.Size = new System.Drawing.Size(155, 20);
+            this.cbPublishingFiles.Size = new System.Drawing.Size(132, 20);
             this.cbPublishingFiles.TabIndex = 1;
             this.cbPublishingFiles.Tag = "20";
             this.cbPublishingFiles.Text = " @ publishing files ";
@@ -210,7 +204,7 @@
             this.cbBrandingFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbBrandingFiles.Location = new System.Drawing.Point(14, 22);
             this.cbBrandingFiles.Name = "cbBrandingFiles";
-            this.cbBrandingFiles.Size = new System.Drawing.Size(147, 20);
+            this.cbBrandingFiles.Size = new System.Drawing.Size(124, 20);
             this.cbBrandingFiles.TabIndex = 0;
             this.cbBrandingFiles.Tag = "19";
             this.cbBrandingFiles.Text = " @ branding files ";
@@ -220,116 +214,15 @@
             // 
             // gbContentOptions
             // 
-            this.gbContentOptions.Controls.Add(this.cbLookupListItems);
-            this.gbContentOptions.Controls.Add(this.cbImageFiles);
-            this.gbContentOptions.Controls.Add(this.cbXSLStyleSheetFiles);
-            this.gbContentOptions.Controls.Add(this.cbPublishingPages);
-            this.gbContentOptions.Controls.Add(this.cbJavaScriptFiles);
-            this.gbContentOptions.Controls.Add(this.cbDocumentLibraryFiles);
-            this.gbContentOptions.Controls.Add(this.cbGenericListItems);
+            this.gbContentOptions.Controls.Add(this.clbContentOptions);
             this.gbContentOptions.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.gbContentOptions.Location = new System.Drawing.Point(738, 12);
+            this.gbContentOptions.Location = new System.Drawing.Point(727, 12);
             this.gbContentOptions.Name = "gbContentOptions";
-            this.gbContentOptions.Size = new System.Drawing.Size(230, 267);
+            this.gbContentOptions.Padding = new System.Windows.Forms.Padding(14, 3, 3, 3);
+            this.gbContentOptions.Size = new System.Drawing.Size(241, 267);
             this.gbContentOptions.TabIndex = 19;
             this.gbContentOptions.TabStop = false;
             this.gbContentOptions.Text = " Content Options ";
-            // 
-            // cbLookupListItems
-            // 
-            this.cbLookupListItems.AutoSize = true;
-            this.cbLookupListItems.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbLookupListItems.Location = new System.Drawing.Point(14, 22);
-            this.cbLookupListItems.Name = "cbLookupListItems";
-            this.cbLookupListItems.Size = new System.Drawing.Size(167, 20);
-            this.cbLookupListItems.TabIndex = 0;
-            this.cbLookupListItems.Tag = "28";
-            this.cbLookupListItems.Text = " # lookup list items ";
-            this.cbLookupListItems.UseVisualStyleBackColor = true;
-            // 
-            // cbImageFiles
-            // 
-            this.cbImageFiles.AutoSize = true;
-            this.cbImageFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbImageFiles.Location = new System.Drawing.Point(14, 178);
-            this.cbImageFiles.Name = "cbImageFiles";
-            this.cbImageFiles.Size = new System.Drawing.Size(134, 20);
-            this.cbImageFiles.TabIndex = 6;
-            this.cbImageFiles.Tag = "34";
-            this.cbImageFiles.Text = " # image files";
-            this.cbImageFiles.UseVisualStyleBackColor = true;
-            this.cbImageFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbImageFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
-            // 
-            // cbXSLStyleSheetFiles
-            // 
-            this.cbXSLStyleSheetFiles.AutoSize = true;
-            this.cbXSLStyleSheetFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbXSLStyleSheetFiles.Location = new System.Drawing.Point(14, 152);
-            this.cbXSLStyleSheetFiles.Name = "cbXSLStyleSheetFiles";
-            this.cbXSLStyleSheetFiles.Size = new System.Drawing.Size(201, 20);
-            this.cbXSLStyleSheetFiles.TabIndex = 5;
-            this.cbXSLStyleSheetFiles.Tag = "33";
-            this.cbXSLStyleSheetFiles.Text = " # XSL and style sheet files";
-            this.cbXSLStyleSheetFiles.UseVisualStyleBackColor = true;
-            this.cbXSLStyleSheetFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbXSLStyleSheetFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
-            // 
-            // cbPublishingPages
-            // 
-            this.cbPublishingPages.AutoSize = true;
-            this.cbPublishingPages.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbPublishingPages.Location = new System.Drawing.Point(14, 126);
-            this.cbPublishingPages.Name = "cbPublishingPages";
-            this.cbPublishingPages.Size = new System.Drawing.Size(170, 20);
-            this.cbPublishingPages.TabIndex = 4;
-            this.cbPublishingPages.Tag = "32";
-            this.cbPublishingPages.Text = " # publishing pages ";
-            this.cbPublishingPages.UseVisualStyleBackColor = true;
-            this.cbPublishingPages.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbPublishingPages.MouseLeave += new System.EventHandler(this.HideToolTip);
-            // 
-            // cbJavaScriptFiles
-            // 
-            this.cbJavaScriptFiles.AutoSize = true;
-            this.cbJavaScriptFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbJavaScriptFiles.Location = new System.Drawing.Point(14, 100);
-            this.cbJavaScriptFiles.Name = "cbJavaScriptFiles";
-            this.cbJavaScriptFiles.Size = new System.Drawing.Size(157, 20);
-            this.cbJavaScriptFiles.TabIndex = 3;
-            this.cbJavaScriptFiles.Tag = "31";
-            this.cbJavaScriptFiles.Text = " # java script files ";
-            this.cbJavaScriptFiles.UseVisualStyleBackColor = true;
-            this.cbJavaScriptFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbJavaScriptFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
-            // 
-            // cbDocumentLibraryFiles
-            // 
-            this.cbDocumentLibraryFiles.AutoSize = true;
-            this.cbDocumentLibraryFiles.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbDocumentLibraryFiles.Location = new System.Drawing.Point(14, 74);
-            this.cbDocumentLibraryFiles.Name = "cbDocumentLibraryFiles";
-            this.cbDocumentLibraryFiles.Size = new System.Drawing.Size(195, 20);
-            this.cbDocumentLibraryFiles.TabIndex = 2;
-            this.cbDocumentLibraryFiles.Tag = "30";
-            this.cbDocumentLibraryFiles.Text = " # document library files ";
-            this.cbDocumentLibraryFiles.UseVisualStyleBackColor = true;
-            this.cbDocumentLibraryFiles.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbDocumentLibraryFiles.MouseLeave += new System.EventHandler(this.HideToolTip);
-            // 
-            // cbGenericListItems
-            // 
-            this.cbGenericListItems.AutoSize = true;
-            this.cbGenericListItems.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cbGenericListItems.Location = new System.Drawing.Point(14, 48);
-            this.cbGenericListItems.Name = "cbGenericListItems";
-            this.cbGenericListItems.Size = new System.Drawing.Size(169, 20);
-            this.cbGenericListItems.TabIndex = 1;
-            this.cbGenericListItems.Tag = "29";
-            this.cbGenericListItems.Text = " # generic list items ";
-            this.cbGenericListItems.UseVisualStyleBackColor = true;
-            this.cbGenericListItems.MouseEnter += new System.EventHandler(this.ShowToolTip);
-            this.cbGenericListItems.MouseLeave += new System.EventHandler(this.HideToolTip);
             // 
             // bCancel
             // 
@@ -388,7 +281,7 @@
             this.cbNavigation.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbNavigation.Location = new System.Drawing.Point(244, 204);
             this.cbNavigation.Name = "cbNavigation";
-            this.cbNavigation.Size = new System.Drawing.Size(136, 20);
+            this.cbNavigation.Size = new System.Drawing.Size(104, 20);
             this.cbNavigation.TabIndex = 21;
             this.cbNavigation.Tag = "17";
             this.cbNavigation.Text = " # navigation ";
@@ -402,7 +295,7 @@
             this.cbWebSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbWebSettings.Location = new System.Drawing.Point(244, 178);
             this.cbWebSettings.Name = "cbWebSettings";
-            this.cbWebSettings.Size = new System.Drawing.Size(146, 20);
+            this.cbWebSettings.Size = new System.Drawing.Size(114, 20);
             this.cbWebSettings.TabIndex = 20;
             this.cbWebSettings.Tag = "16";
             this.cbWebSettings.Text = " # web settings ";
@@ -416,7 +309,7 @@
             this.cbWorkflows.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbWorkflows.Location = new System.Drawing.Point(244, 152);
             this.cbWorkflows.Name = "cbWorkflows";
-            this.cbWorkflows.Size = new System.Drawing.Size(134, 20);
+            this.cbWorkflows.Size = new System.Drawing.Size(102, 20);
             this.cbWorkflows.TabIndex = 19;
             this.cbWorkflows.Tag = "15";
             this.cbWorkflows.Text = " # workflows ";
@@ -430,7 +323,7 @@
             this.cbPublishing.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbPublishing.Location = new System.Drawing.Point(244, 126);
             this.cbPublishing.Name = "cbPublishing";
-            this.cbPublishing.Size = new System.Drawing.Size(136, 20);
+            this.cbPublishing.Size = new System.Drawing.Size(104, 20);
             this.cbPublishing.TabIndex = 18;
             this.cbPublishing.Tag = "14";
             this.cbPublishing.Text = " # publishing ";
@@ -444,7 +337,7 @@
             this.cbPropertyBagEntries.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbPropertyBagEntries.Location = new System.Drawing.Point(244, 100);
             this.cbPropertyBagEntries.Name = "cbPropertyBagEntries";
-            this.cbPropertyBagEntries.Size = new System.Drawing.Size(186, 20);
+            this.cbPropertyBagEntries.Size = new System.Drawing.Size(154, 20);
             this.cbPropertyBagEntries.TabIndex = 17;
             this.cbPropertyBagEntries.Tag = "13";
             this.cbPropertyBagEntries.Text = " # property bag entries ";
@@ -458,7 +351,7 @@
             this.cbPageContents.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbPageContents.Location = new System.Drawing.Point(244, 74);
             this.cbPageContents.Name = "cbPageContents";
-            this.cbPageContents.Size = new System.Drawing.Size(155, 20);
+            this.cbPageContents.Size = new System.Drawing.Size(123, 20);
             this.cbPageContents.TabIndex = 16;
             this.cbPageContents.Tag = "12";
             this.cbPageContents.Text = " # page contents ";
@@ -472,7 +365,7 @@
             this.cbComposedLook.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbComposedLook.Location = new System.Drawing.Point(244, 48);
             this.cbComposedLook.Name = "cbComposedLook";
-            this.cbComposedLook.Size = new System.Drawing.Size(162, 20);
+            this.cbComposedLook.Size = new System.Drawing.Size(130, 20);
             this.cbComposedLook.TabIndex = 15;
             this.cbComposedLook.Tag = "11";
             this.cbComposedLook.Text = " # composed look ";
@@ -486,7 +379,7 @@
             this.cbFeatures.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbFeatures.Location = new System.Drawing.Point(244, 22);
             this.cbFeatures.Name = "cbFeatures";
-            this.cbFeatures.Size = new System.Drawing.Size(122, 20);
+            this.cbFeatures.Size = new System.Drawing.Size(90, 20);
             this.cbFeatures.TabIndex = 14;
             this.cbFeatures.Tag = "10";
             this.cbFeatures.Text = " # features ";
@@ -514,7 +407,7 @@
             this.cbCustomActions.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbCustomActions.Location = new System.Drawing.Point(14, 230);
             this.cbCustomActions.Name = "cbCustomActions";
-            this.cbCustomActions.Size = new System.Drawing.Size(161, 20);
+            this.cbCustomActions.Size = new System.Drawing.Size(129, 20);
             this.cbCustomActions.TabIndex = 8;
             this.cbCustomActions.Tag = "9";
             this.cbCustomActions.Text = " # custom actions ";
@@ -528,7 +421,7 @@
             this.cbListInstances.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbListInstances.Location = new System.Drawing.Point(14, 204);
             this.cbListInstances.Name = "cbListInstances";
-            this.cbListInstances.Size = new System.Drawing.Size(147, 20);
+            this.cbListInstances.Size = new System.Drawing.Size(115, 20);
             this.cbListInstances.TabIndex = 7;
             this.cbListInstances.Tag = "8";
             this.cbListInstances.Text = " # list instances ";
@@ -542,7 +435,7 @@
             this.cbContentTypes.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbContentTypes.Location = new System.Drawing.Point(14, 178);
             this.cbContentTypes.Name = "cbContentTypes";
-            this.cbContentTypes.Size = new System.Drawing.Size(152, 20);
+            this.cbContentTypes.Size = new System.Drawing.Size(120, 20);
             this.cbContentTypes.TabIndex = 6;
             this.cbContentTypes.Tag = "7";
             this.cbContentTypes.Text = " # content types ";
@@ -556,7 +449,7 @@
             this.cbFields.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbFields.Location = new System.Drawing.Point(14, 152);
             this.cbFields.Name = "cbFields";
-            this.cbFields.Size = new System.Drawing.Size(108, 20);
+            this.cbFields.Size = new System.Drawing.Size(76, 20);
             this.cbFields.TabIndex = 5;
             this.cbFields.Tag = "6";
             this.cbFields.Text = " # fields ";
@@ -570,7 +463,7 @@
             this.cbSiteSecurity.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbSiteSecurity.Location = new System.Drawing.Point(14, 126);
             this.cbSiteSecurity.Name = "cbSiteSecurity";
-            this.cbSiteSecurity.Size = new System.Drawing.Size(142, 20);
+            this.cbSiteSecurity.Size = new System.Drawing.Size(110, 20);
             this.cbSiteSecurity.TabIndex = 4;
             this.cbSiteSecurity.Tag = "5";
             this.cbSiteSecurity.Text = " # site security ";
@@ -584,7 +477,7 @@
             this.cbSitePolicy.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbSitePolicy.Location = new System.Drawing.Point(14, 100);
             this.cbSitePolicy.Name = "cbSitePolicy";
-            this.cbSitePolicy.Size = new System.Drawing.Size(133, 20);
+            this.cbSitePolicy.Size = new System.Drawing.Size(101, 20);
             this.cbSitePolicy.TabIndex = 3;
             this.cbSitePolicy.Tag = "4";
             this.cbSitePolicy.Text = " # site policy ";
@@ -598,7 +491,7 @@
             this.cbAuditSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbAuditSettings.Location = new System.Drawing.Point(14, 74);
             this.cbAuditSettings.Name = "cbAuditSettings";
-            this.cbAuditSettings.Size = new System.Drawing.Size(151, 20);
+            this.cbAuditSettings.Size = new System.Drawing.Size(119, 20);
             this.cbAuditSettings.TabIndex = 2;
             this.cbAuditSettings.Tag = "3";
             this.cbAuditSettings.Text = " # audit settings ";
@@ -612,7 +505,7 @@
             this.cbSupportedUILanguages.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbSupportedUILanguages.Location = new System.Drawing.Point(14, 48);
             this.cbSupportedUILanguages.Name = "cbSupportedUILanguages";
-            this.cbSupportedUILanguages.Size = new System.Drawing.Size(205, 20);
+            this.cbSupportedUILanguages.Size = new System.Drawing.Size(173, 20);
             this.cbSupportedUILanguages.TabIndex = 1;
             this.cbSupportedUILanguages.Tag = "2";
             this.cbSupportedUILanguages.Text = " # supported UI languages ";
@@ -626,7 +519,7 @@
             this.cbRegionalSettings.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbRegionalSettings.Location = new System.Drawing.Point(14, 22);
             this.cbRegionalSettings.Name = "cbRegionalSettings";
-            this.cbRegionalSettings.Size = new System.Drawing.Size(167, 20);
+            this.cbRegionalSettings.Size = new System.Drawing.Size(135, 20);
             this.cbRegionalSettings.TabIndex = 0;
             this.cbRegionalSettings.Tag = "1";
             this.cbRegionalSettings.Text = " # regional settings ";
@@ -643,6 +536,18 @@
             this.lToolTip.TabIndex = 23;
             this.lToolTip.Text = "Move the mouse over the items to see the explanation of the option";
             this.lToolTip.UseMnemonic = false;
+            // 
+            // clbContentOptions
+            // 
+            this.clbContentOptions.BackColor = System.Drawing.SystemColors.Control;
+            this.clbContentOptions.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.clbContentOptions.CheckOnClick = true;
+            this.clbContentOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clbContentOptions.Location = new System.Drawing.Point(14, 19);
+            this.clbContentOptions.Name = "clbContentOptions";
+            this.clbContentOptions.Size = new System.Drawing.Size(224, 245);
+            this.clbContentOptions.TabIndex = 0;
+            this.clbContentOptions.Tag = "28";
             // 
             // TemplateOptions
             // 
@@ -669,7 +574,6 @@
             this.gbOtherTemplateOptions.ResumeLayout(false);
             this.gbOtherTemplateOptions.PerformLayout();
             this.gbContentOptions.ResumeLayout(false);
-            this.gbContentOptions.PerformLayout();
             this.gbTemplateOptions.ResumeLayout(false);
             this.gbTemplateOptions.PerformLayout();
             this.ResumeLayout(false);
@@ -689,14 +593,8 @@
         private System.Windows.Forms.CheckBox cbNativePublishingFiles;
         private System.Windows.Forms.CheckBox cbMultiLanguageResources;
         private System.Windows.Forms.GroupBox gbContentOptions;
-        private System.Windows.Forms.CheckBox cbPublishingPages;
-        private System.Windows.Forms.CheckBox cbJavaScriptFiles;
-        private System.Windows.Forms.CheckBox cbDocumentLibraryFiles;
-        private System.Windows.Forms.CheckBox cbGenericListItems;
         private System.Windows.Forms.Button bCancel;
         private System.Windows.Forms.Button bSave;
-        private System.Windows.Forms.CheckBox cbXSLStyleSheetFiles;
-        private System.Windows.Forms.CheckBox cbImageFiles;
         private System.Windows.Forms.GroupBox gbTemplateOptions;
         private System.Windows.Forms.CheckBox cbExcludeBaseTemplate;
         private System.Windows.Forms.CheckBox cbCustomActions;
@@ -717,6 +615,6 @@
         private System.Windows.Forms.CheckBox cbComposedLook;
         private System.Windows.Forms.CheckBox cbFeatures;
         private System.Windows.Forms.Label lToolTip;
-        private System.Windows.Forms.CheckBox cbLookupListItems;
+        private System.Windows.Forms.CheckedListBox clbContentOptions;
     }
 }

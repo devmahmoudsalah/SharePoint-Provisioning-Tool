@@ -239,12 +239,12 @@
             // 
             // scEditTemplate.Panel2
             // 
+            this.scEditTemplate.Panel2.Controls.Add(this.pRegionalSettings);
             this.scEditTemplate.Panel2.Controls.Add(this.pListControl);
             this.scEditTemplate.Panel2.Controls.Add(this.pComposedLook);
             this.scEditTemplate.Panel2.Controls.Add(this.pWebSettings);
             this.scEditTemplate.Panel2.Controls.Add(this.pViewControl);
             this.scEditTemplate.Panel2.Controls.Add(this.pTextControl);
-            this.scEditTemplate.Panel2.Controls.Add(this.pRegionalSettings);
             this.scEditTemplate.Panel2MinSize = 514;
             this.scEditTemplate.Size = new System.Drawing.Size(946, 480);
             this.scEditTemplate.SplitterDistance = 292;
@@ -824,6 +824,7 @@
             // 
             this.clbRSWorkDays.BackColor = System.Drawing.SystemColors.Control;
             this.clbRSWorkDays.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.clbRSWorkDays.CheckOnClick = true;
             this.clbRSWorkDays.ColumnWidth = 60;
             this.clbRSWorkDays.FormattingEnabled = true;
             this.clbRSWorkDays.Location = new System.Drawing.Point(16, 342);

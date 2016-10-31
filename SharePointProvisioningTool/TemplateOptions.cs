@@ -22,6 +22,15 @@ namespace Karabina.SharePoint.Provisioning
 
         public SetStatusTextDelegate SetStatusBarText;
 
+        private string[] _contentItems = new string[] {
+                                                       "# lookup list items","# generic list items","# document library items",
+                                                       "# survey list items","# links list items","# announcements list items",
+                                                       "# contacts list items","# events list items","# tasks list items",
+                                                       "# discussion board items","# picture library items","# wiki page library items",
+                                                       "# gantt tasks list items","# meeting series items","# blog posts list items",
+                                                       "# blog comments list items","# blog categories list items","# issue tracking items"
+                                                      };
+
         public ProvisioningOptions ProvisioningOptions
         {
             get { return _provisioningOptions; }
@@ -47,23 +56,36 @@ namespace Karabina.SharePoint.Provisioning
                     cbWorkflows.Checked = _provisioningOptions.Workflows;
                     cbWebSettings.Checked = _provisioningOptions.WebSettings;
                     cbNavigation.Checked = _provisioningOptions.Navigation;
-                    cbDocumentLibraryFiles.Checked = _provisioningOptions.DocumentLibraryFiles;
-                    cbLookupListItems.Checked = _provisioningOptions.LookupListItems;
-                    cbGenericListItems.Checked = _provisioningOptions.GenericListItems;
                     cbAllTermGroups.Checked = _provisioningOptions.AllTermGroups;
                     cbNativePublishingFiles.Checked = _provisioningOptions.NativePublishingFiles;
                     cbSearchConfiguration.Checked = _provisioningOptions.SearchConfiguration;
                     cbSiteCollectionTermGroup.Checked = _provisioningOptions.SiteCollectionTermGroup;
                     cbSiteGroups.Checked = _provisioningOptions.SiteGroups;
                     cbTermGroupsSecurity.Checked = _provisioningOptions.TermGroupsSecurity;
-                    cbJavaScriptFiles.Checked = _provisioningOptions.JavaScriptFiles;
                     cbBrandingFiles.Checked = _provisioningOptions.BrandingFiles;
                     cbMultiLanguageResources.Checked = _provisioningOptions.MultiLanguageResources;
                     cbPublishingFiles.Checked = _provisioningOptions.PublishingFiles;
-                    cbPublishingPages.Checked = _provisioningOptions.PublishingPages;
                     cbExcludeBaseTemplate.Checked = _provisioningOptions.ExcludeBaseTemplate;
-                    cbXSLStyleSheetFiles.Checked = _provisioningOptions.XSLStyleSheetFiles;
-                    cbImageFiles.Checked = _provisioningOptions.ImageFiles;
+
+                    clbContentOptions.SetItemChecked(0, _provisioningOptions.LookupListItems);
+                    clbContentOptions.SetItemChecked(1, _provisioningOptions.GenericList);
+                    clbContentOptions.SetItemChecked(2, _provisioningOptions.DocumentLibrary);
+                    clbContentOptions.SetItemChecked(3, _provisioningOptions.SurveyList);
+                    clbContentOptions.SetItemChecked(4, _provisioningOptions.LinksList);
+                    clbContentOptions.SetItemChecked(5, _provisioningOptions.AnnouncementsList);
+                    clbContentOptions.SetItemChecked(6, _provisioningOptions.ContactsList);
+                    clbContentOptions.SetItemChecked(7, _provisioningOptions.EventsList);
+                    clbContentOptions.SetItemChecked(8, _provisioningOptions.TasksList);
+                    clbContentOptions.SetItemChecked(9, _provisioningOptions.DiscussionBoard);
+                    clbContentOptions.SetItemChecked(10, _provisioningOptions.PictureLibrary);
+                    clbContentOptions.SetItemChecked(11, _provisioningOptions.WikiPageLibrary);
+                    clbContentOptions.SetItemChecked(12, _provisioningOptions.GanttTasksList);
+                    clbContentOptions.SetItemChecked(13, _provisioningOptions.MeetingSeriesList);
+                    clbContentOptions.SetItemChecked(14, _provisioningOptions.BlogPostsList);
+                    clbContentOptions.SetItemChecked(15, _provisioningOptions.BlogCommentsList);
+                    clbContentOptions.SetItemChecked(16, _provisioningOptions.BlogCategoriesList);
+                    clbContentOptions.SetItemChecked(17, _provisioningOptions.IssueTrackingList);
+
 
                 }
 
@@ -79,7 +101,7 @@ namespace Karabina.SharePoint.Provisioning
             string hashText = isCreating ? "Include" : "Apply";
             string atText = isCreating ? "Persist" : "Apply";
             IEnumerable<GroupBox> groupBoxes = Controls.OfType<GroupBox>();
-            foreach(var groupbox in groupBoxes)
+            foreach (var groupbox in groupBoxes)
             {
                 IEnumerable<CheckBox> checkBoxes = groupbox.Controls.OfType<CheckBox>();
                 foreach (var checkbox in checkBoxes)
@@ -90,7 +112,14 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            cbExcludeBaseTemplate.Enabled = isCreating;            
+            foreach (string item in _contentItems)
+            {
+                string updatedSting = item.Replace("#", hashText).Replace("@", atText);
+                clbContentOptions.Items.Add(updatedSting);
+
+            }
+
+            cbExcludeBaseTemplate.Enabled = isCreating;
 
             _provisioningOptions = new ProvisioningOptions();
 
@@ -115,23 +144,35 @@ namespace Karabina.SharePoint.Provisioning
             _provisioningOptions.Workflows = cbWorkflows.Checked;
             _provisioningOptions.WebSettings = cbWebSettings.Checked;
             _provisioningOptions.Navigation = cbNavigation.Checked;
-            _provisioningOptions.DocumentLibraryFiles = cbDocumentLibraryFiles.Checked;
-            _provisioningOptions.LookupListItems = cbLookupListItems.Checked;
-            _provisioningOptions.GenericListItems = cbGenericListItems.Checked;
             _provisioningOptions.AllTermGroups = cbAllTermGroups.Checked;
             _provisioningOptions.NativePublishingFiles = cbNativePublishingFiles.Checked;
             _provisioningOptions.SearchConfiguration = cbSearchConfiguration.Checked;
             _provisioningOptions.SiteCollectionTermGroup = cbSiteCollectionTermGroup.Checked;
             _provisioningOptions.SiteGroups = cbSiteGroups.Checked;
             _provisioningOptions.TermGroupsSecurity = cbTermGroupsSecurity.Checked;
-            _provisioningOptions.JavaScriptFiles = cbJavaScriptFiles.Checked;
             _provisioningOptions.BrandingFiles = cbBrandingFiles.Checked;
             _provisioningOptions.MultiLanguageResources = cbMultiLanguageResources.Checked;
             _provisioningOptions.PublishingFiles = cbPublishingFiles.Checked;
-            _provisioningOptions.PublishingPages = cbPublishingPages.Checked;
             _provisioningOptions.ExcludeBaseTemplate = cbExcludeBaseTemplate.Checked;
-            _provisioningOptions.XSLStyleSheetFiles = cbXSLStyleSheetFiles.Checked;
-            _provisioningOptions.ImageFiles = cbImageFiles.Checked;
+
+            _provisioningOptions.LookupListItems = clbContentOptions.GetItemChecked(0);
+            _provisioningOptions.GenericList = clbContentOptions.GetItemChecked(1);
+            _provisioningOptions.DocumentLibrary = clbContentOptions.GetItemChecked(2);
+            _provisioningOptions.SurveyList = clbContentOptions.GetItemChecked(3);
+            _provisioningOptions.LinksList = clbContentOptions.GetItemChecked(4);
+            _provisioningOptions.AnnouncementsList = clbContentOptions.GetItemChecked(5);
+            _provisioningOptions.ContactsList = clbContentOptions.GetItemChecked(6);
+            _provisioningOptions.EventsList = clbContentOptions.GetItemChecked(7);
+            _provisioningOptions.TasksList = clbContentOptions.GetItemChecked(8);
+            _provisioningOptions.DiscussionBoard = clbContentOptions.GetItemChecked(9);
+            _provisioningOptions.PictureLibrary = clbContentOptions.GetItemChecked(10);
+            _provisioningOptions.WikiPageLibrary = clbContentOptions.GetItemChecked(11);
+            _provisioningOptions.GanttTasksList = clbContentOptions.GetItemChecked(12);
+            _provisioningOptions.MeetingSeriesList = clbContentOptions.GetItemChecked(13);
+            _provisioningOptions.BlogPostsList = clbContentOptions.GetItemChecked(14);
+            _provisioningOptions.BlogCommentsList = clbContentOptions.GetItemChecked(15);
+            _provisioningOptions.BlogCategoriesList = clbContentOptions.GetItemChecked(16);
+            _provisioningOptions.IssueTrackingList = clbContentOptions.GetItemChecked(17);
 
             if (_isCreating)
             {
@@ -149,7 +190,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            if (_provisioningOptions.GenericListItems)
+            if (_provisioningOptions.OneOfContentOptions)
             {
                 _provisioningOptions.ListInstances = true;
                 cbListInstances.Checked = true;
@@ -180,7 +221,7 @@ namespace Karabina.SharePoint.Provisioning
             }
 
         }
-        
+
         private void bClose_Click(object sender, EventArgs e)
         {
             Close();
