@@ -31,3 +31,7 @@ C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\obj\Debug\SharePoint
 C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\Microsoft.Office.Client.Education.dll
 C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\ProvisioningGlobals.dll
 C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\ProvisioningGlobals.pdb
+C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\SharePoint2013OnPrem.dll.config
+C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\Microsoft.Office.SharePoint.Tools.dll
+C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\Microsoft.ProjectServer.Client.dll
+C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\Microsoft.SharePoint.Client.Runtime.Windows.dll

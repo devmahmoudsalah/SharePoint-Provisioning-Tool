@@ -179,12 +179,52 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon Glossy3DBlueOrbs {
+        internal static System.Drawing.Bitmap Karabina122x122 {
             get {
-                object obj = ResourceManager.GetObject("Glossy3DBlueOrbs", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("Karabina122x122", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Karabina16x16 {
+            get {
+                object obj = ResourceManager.GetObject("Karabina16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Karabina32x32 {
+            get {
+                object obj = ResourceManager.GetObject("Karabina32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Karabina48x48 {
+            get {
+                object obj = ResourceManager.GetObject("Karabina48x48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap KarabinaWorkflowFeatureIcon_Generic {
+            get {
+                object obj = ResourceManager.GetObject("KarabinaWorkflowFeatureIcon_Generic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

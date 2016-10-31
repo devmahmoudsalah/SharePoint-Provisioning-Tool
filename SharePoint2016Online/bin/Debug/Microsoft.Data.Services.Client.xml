@@ -819,9 +819,6 @@
             An <see cref="T:Microsoft.Data.Edm.IEdmComplexType"/> implementation that supports delay-loading of properties.
             </summary>
         </member>
-        <member name="F:System.Data.Services.Client.Providers.EdmComplexTypeWithDelayLoadedProperties.lockObject">
-            <summary>The lock object for the delayed property loading.</summary>
-        </member>
         <member name="F:System.Data.Services.Client.Providers.EdmComplexTypeWithDelayLoadedProperties.propertyLoadAction">
             <summary>An action that is used to create the properties for this type.</summary>
         </member>
@@ -849,9 +846,6 @@
             <summary>
             An <see cref="T:Microsoft.Data.Edm.IEdmEntityType"/> implementation that supports delay-loading of properties.
             </summary>
-        </member>
-        <member name="F:System.Data.Services.Client.Providers.EdmEntityTypeWithDelayLoadedProperties.lockObject">
-            <summary>The lock object for the delayed property loading.</summary>
         </member>
         <member name="F:System.Data.Services.Client.Providers.EdmEntityTypeWithDelayLoadedProperties.propertyLoadAction">
             <summary>An action that is used to create the properties for this type.</summary>
@@ -3882,6 +3876,9 @@
             Gets the max protocol version of the model.
             </summary>
         </member>
+        <member name="P:System.Data.Services.Client.ClientEdmModel.ResolveBackingField">
+            <summary>Callback for getting the backing field for a property.</summary>
+        </member>
         <member name="T:System.Data.Services.Client.ClientEdmModel.EdmTypeCacheValue">
             <summary>
             Cache value for the type cache.
@@ -4459,6 +4456,12 @@
             <param name="name">Name of sub-entry.</param>
             <returns>The sub-entry (never null).</returns>
         </member>
+        <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializer.ProjectionGetEntryOrNull(System.Data.Services.Client.Materialization.MaterializerEntry,System.String)">
+            <summary>Provides support for getting payload entries or null during projections.</summary> 
+            <param name="entry">Entry to get sub-entry from.</param> 
+            <param name="name">Name of sub-entry.</param> 
+            <returns>The sub-entry or null.</returns> 
+        </member>
         <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializer.ProjectionInitializeEntity(System.Data.Services.Client.Materialization.ODataEntityMaterializer,System.Data.Services.Client.Materialization.MaterializerEntry,System.Type,System.Type,System.String[],System.Func{System.Object,System.Object,System.Type,System.Object}[])">
             <summary>Initializes a projection-driven entry (with a specific type and specific properties).</summary>
             <param name="materializer">Materializer under which projection is taking place.</param>
@@ -4541,9 +4544,10 @@
             <param name="entry">Entry to check.</param>
             <param name="name">Name of entry being accessed.</param>
         </member>
-        <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializer.CreatePlan(System.Data.Services.Client.QueryComponents)">
+        <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializer.CreatePlan(System.Data.Services.Client.QueryComponents,System.Boolean)">
             <summary>Creates an entry materialization plan for a given projection.</summary>
             <param name="queryComponents">Query components for plan to materialize.</param>
+            <param name="autoNullPropagation">Auto nulls check in expand paths.</param>
             <returns>A materialization plan.</returns>
         </member>
         <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializer.MaterializeToList(System.Data.Services.Client.Materialization.ODataEntityMaterializer,System.Collections.IEnumerable,System.Type,System.Collections.Generic.IEnumerable{Microsoft.Data.OData.ODataEntry})">
@@ -4562,6 +4566,14 @@
             <param name="links">List to get value from.</param>
             <param name="propertyName">Property name to look up.</param>
             <returns>The specified property (never null).</returns>
+        </member>
+        <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializer.ProjectionGetMaterializerEntry(System.Data.Services.Client.Materialization.MaterializerEntry,System.String)">
+            <summary>
+            Provides support for getting payload entries during projections.
+            </summary>
+            <param name="entry">Entry to get sub-entry from.</param>
+            <param name="name">Name of sub-entry.</param>
+            <returns>The sub-entry.</returns>
         </member>
         <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializer.MergeLists(System.Data.Services.Client.Materialization.MaterializerEntry,System.Data.Services.Client.Metadata.ClientPropertyAnnotation,System.Collections.IEnumerable,System.Uri,System.Data.Services.Client.ProjectionPlan)">
             <summary>Merges a list into the property of a given <paramref name="entry"/>.</summary>
@@ -5908,6 +5920,11 @@
             Gets the materialization Events
             </summary>
         </member>
+        <member name="P:System.Data.Services.Client.Materialization.IODataMaterializerContext.AutoNullPropagation">
+            <summary>
+            Gets the value which indicates whether auto nulls check in expand paths in enabled.
+            </summary>
+        </member>
         <member name="M:System.Data.Services.Client.Materialization.ODataMaterializerContext.#ctor(System.Data.Services.Client.ResponseInfo)">
             <summary>
             Initializes a materializer context
@@ -5930,6 +5947,9 @@
             <returns>The resolved EDM type.</returns>
         </member>
         <member name="P:System.Data.Services.Client.Materialization.ODataMaterializerContext.IgnoreMissingProperties">
+            <remarks>
+            Undeclared properties will be silently ignored if they are allowed from pervious stage, otherwise exception will be thrown.
+            </remarks>
             <summary>
             Gets a value indicating whether to ignore missing properties when materializing values
             </summary>
@@ -5942,6 +5962,11 @@
         <member name="P:System.Data.Services.Client.Materialization.ODataMaterializerContext.ResponsePipeline">
             <summary>
             Gets the materialization Events
+            </summary>
+        </member>
+        <member name="P:System.Data.Services.Client.Materialization.ODataMaterializerContext.AutoNullPropagation">
+            <summary>
+            Gets the value which indicates whether auto nulls check in expand path is enabled.
             </summary>
         </member>
         <member name="P:System.Data.Services.Client.Materialization.ODataMaterializerContext.ResponseInfo">
@@ -7257,6 +7282,7 @@
         </member>
         <member name="M:System.Data.Services.Client.QueryResult.ExecuteQuery">
             <summary>Synchronous web request</summary>
+            <returns>The IODataResponseMessage for the Request.</returns>
         </member>
         <member name="M:System.Data.Services.Client.QueryResult.GetResponse``1(System.Data.Services.Client.MaterializeAtom)">
             <summary>
@@ -7345,6 +7371,16 @@
             <param name="payloadKind">expected payload kind.</param>
             <returns>A new materializer instance</returns>
         </member>
+        <member name="M:System.Data.Services.Client.QueryResult.CopyStreamFromResponseMessage">
+            <summary>
+            Copies the stream of response message and set it to local outputResponseStream.
+            </summary>
+        </member>
+        <member name="M:System.Data.Services.Client.QueryResult.GetStreamFromResponseMessage">
+            <summary>
+            Sets the stream of response message to local outputResponseStream.
+            </summary>
+        </member>
         <member name="P:System.Data.Services.Client.QueryResult.ContentLength">
             <summary>HttpWebResponse.ContentLength</summary>
         </member>
@@ -7353,6 +7389,9 @@
         </member>
         <member name="P:System.Data.Services.Client.QueryResult.StatusCode">
             <summary>HttpWebResponse.StatusCode</summary>
+        </member>
+        <member name="P:System.Data.Services.Client.QueryResult.AllowDirectNetworkStreamReading">
+            <summary>Allow reading directly from the network stream</summary>
         </member>
         <member name="F:System.Data.Services.Client.LoadPropertyResult.entity">
             <summary>entity whose property is being loaded</summary>
@@ -7703,6 +7742,12 @@
             <param name="entry">Entry to get sub-entry from.</param>
             <param name="name">Name of sub-entry.</param>
             <returns>The sub-entry (never null).</returns>
+        </member>
+        <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializerInvoker.ProjectionGetEntryOrNull(System.Object,System.String)">
+            <summary>Provides support for getting payload entries or null during projections.</summary> 
+            <param name="entry">Entry to get sub-entry from.</param> 
+            <param name="name">Name of sub-entry.</param> 
+            <returns>The sub-entry or null.</returns> 
         </member>
         <member name="M:System.Data.Services.Client.Materialization.ODataEntityMaterializerInvoker.ProjectionInitializeEntity(System.Object,System.Object,System.Type,System.Type,System.String[],System.Func{System.Object,System.Object,System.Type,System.Object}[])">
             <summary>Initializes a projection-driven entry (with a specific type and specific properties).</summary>
@@ -8840,16 +8885,21 @@
         <member name="F:System.Data.Services.Client.ProjectionPlanCompiler.topLevelProjectionFound">
             <summary>Whether the top level projection has been found.</summary>
         </member>
-        <member name="M:System.Data.Services.Client.ProjectionPlanCompiler.#ctor(System.Collections.Generic.Dictionary{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression})">
+        <member name="F:System.Data.Services.Client.ProjectionPlanCompiler.autoNullPropagation">
+            <summary>Auto nulls check in expand paths.</summary>
+        </member>
+        <member name="M:System.Data.Services.Client.ProjectionPlanCompiler.#ctor(System.Collections.Generic.Dictionary{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression},System.Boolean)">
             <summary>
             Initializes a new <see cref="T:System.Data.Services.Client.ProjectionPlanCompiler"/> instance.
             </summary>
             <param name="normalizerRewrites">Rewrites introduces by normalizer.</param>
+            <param name="autoNullPropagation">Auto nulls check in expand paths.</param>
         </member>
-        <member name="M:System.Data.Services.Client.ProjectionPlanCompiler.CompilePlan(System.Linq.Expressions.LambdaExpression,System.Collections.Generic.Dictionary{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression})">
+        <member name="M:System.Data.Services.Client.ProjectionPlanCompiler.CompilePlan(System.Linq.Expressions.LambdaExpression,System.Collections.Generic.Dictionary{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression},System.Boolean)">
             <summary>Creates a projection plan from the specified <paramref name="projection"/>.</summary>
             <param name="projection">Projection expression.</param>
             <param name="normalizerRewrites">Tracks rewrite-to-source rewrites introduced by expression normalizer.</param>
+            <param name="autoNullPropagation">Auto nulls check in expand paths.</param>
             <returns>A new <see cref="T:System.Data.Services.Client.ProjectionPlan"/> instance.</returns>
         </member>
         <member name="M:System.Data.Services.Client.ProjectionPlanCompiler.VisitBinary(System.Linq.Expressions.BinaryExpression)">
@@ -9494,6 +9544,14 @@
         <member name="P:System.Data.Services.Client.ResponseInfo.IgnoreMissingProperties">
             <summary>Whether to ignore extra properties in the response payload.</summary>
         </member>
+        <member name="P:System.Data.Services.Client.ResponseInfo.AutoNullPropagation">
+            <summary>
+            Auto nulls check in expand paths.
+            </summary>
+        </member>
+        <member name="P:System.Data.Services.Client.ResponseInfo.UndeclaredPropertyBehaviorKinds">
+            <summary>Gets the value of UndeclaredPropertyBehaviorKinds.</summary>
+        </member>
         <member name="P:System.Data.Services.Client.ResponseInfo.EntityTracker">
             <summary>Returns the instance of entity tracker class which tracks all the entities and links for the context.</summary>
         </member>
@@ -9901,6 +9959,9 @@
         <member name="F:System.Data.Services.Client.HttpWebResponseMessage.httpWebResponse">
             <summary>HttpWebResponse instance.</summary>
         </member>
+        <member name="F:System.Data.Services.Client.HttpWebResponseMessage.underlyingResponseMessage">
+            <summary>The IODataResponseMessage to be disposed together with this HttpWebResponseMessage.</summary>
+        </member>
         <member name="M:System.Data.Services.Client.HttpWebResponseMessage.#ctor(System.Collections.Generic.IDictionary{System.String,System.String},System.Int32,System.Func{System.IO.Stream})">
             <summary>
             Constructor.
@@ -9922,6 +9983,15 @@
             <param name="headers">The headers.</param>
             <param name="statusCode">The status code.</param>
             <param name="getResponseStream">A function returning the response stream.</param>
+        </member>
+        <member name="M:System.Data.Services.Client.HttpWebResponseMessage.#ctor(System.Data.Services.Client.HeaderCollection,System.Int32,System.Func{System.IO.Stream},Microsoft.Data.OData.IODataResponseMessage)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="headers">The headers.</param>
+            <param name="statusCode">The status code.</param>
+            <param name="getResponseStream">A function returning the response stream.</param>
+            <param name="underlyingResponseMessage">The underlying response message that should be disposed together with this instance.</param>
         </member>
         <member name="M:System.Data.Services.Client.HttpWebResponseMessage.GetHeader(System.String)">
             <summary>
@@ -14494,6 +14564,19 @@
         <member name="M:System.Data.Services.Client.BindingGraph.Reset">
             <summary>Reset the graph after detaching notifications for everything</summary>
         </member>
+        <member name="M:System.Data.Services.Client.BindingGraph.Pause(System.Object)">
+            <summary>
+            Temporarily pauses notifications.
+            This could be used to defer notifications during collection load untill all elements have been loaded.
+            </summary>
+            <param name="collection">The collection to pause notifications for.</param>
+        </member>
+        <member name="M:System.Data.Services.Client.BindingGraph.Resume(System.Object)">
+            <summary>
+            Resumes notifications.
+            </summary>
+            <param name="collection">The collection to resume notifications for.</param>
+        </member>
         <member name="M:System.Data.Services.Client.BindingGraph.RemoveUnreachableVertices">
             <summary>Removes the un-reachable vertices from the graph and un-registers notification handlers</summary>
         </member>
@@ -14666,7 +14749,12 @@
             <summary>Collection of incoming edges for the vertex</summary>
         </member>
         <member name="F:System.Data.Services.Client.BindingGraph.Vertex.outgoingEdges">
-            <summary>Collection of outgoing edges for the vertex</summary>
+            <summary>Hashed collection of outgoing edges for the vertex</summary>
+        </member>
+        <member name="F:System.Data.Services.Client.BindingGraph.Vertex.edgeComparer">
+            <summary>
+            Comparer for compairing Edge's in the outgoingEdges hash set.
+            </summary>
         </member>
         <member name="M:System.Data.Services.Client.BindingGraph.Vertex.#ctor(System.Object)">
             <summary>Constructor</summary>
@@ -14726,6 +14814,17 @@
             Edge between two vertices of graph, directed and labeled
             </summary>
         </member>
+        <member name="M:System.Data.Services.Client.BindingGraph.Edge.#ctor(System.Data.Services.Client.BindingGraph.Vertex,System.Data.Services.Client.BindingGraph.Vertex,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <remarks>
+            Introduced to ensure that Source, Target and Label is not changed after construction, as we want the HashCode to be immutable.
+            </remarks>
+            <param name="source">Source vertex</param>
+            <param name="target">Target vertex</param>
+            <param name="label">Label of the edge</param>
+        </member>
         <member name="M:System.Data.Services.Client.BindingGraph.Edge.Equals(System.Data.Services.Client.BindingGraph.Edge)">
             <summary>IEquatable override</summary>
             <param name="other">Comparand</param>
@@ -14739,6 +14838,26 @@
         </member>
         <member name="P:System.Data.Services.Client.BindingGraph.Edge.Label">
             <summary>Label of the edge</summary>
+        </member>
+        <member name="T:System.Data.Services.Client.BindingGraph.EdgeComparer">
+            <summary>
+            EqualityComparer for Edge's
+            </summary>
+        </member>
+        <member name="M:System.Data.Services.Client.BindingGraph.EdgeComparer.Equals(System.Data.Services.Client.BindingGraph.Edge,System.Data.Services.Client.BindingGraph.Edge)">
+            <summary>
+            Compares two edges for equality.
+            </summary>
+            <param name="x">Edge x</param>
+            <param name="y">Edge y</param>
+            <returns>true if they are equal, false otherwise</returns>
+        </member>
+        <member name="M:System.Data.Services.Client.BindingGraph.EdgeComparer.GetHashCode(System.Data.Services.Client.BindingGraph.Edge)">
+            <summary>
+            Computes the HashCode for an Edge based on Source, Target and Label
+            </summary>
+            <param name="obj">The Edge to compute the HashCode for</param>
+            <returns>The computed HashCode</returns>
         </member>
         <member name="T:System.Data.Services.Client.BindingObserver">
             <summary>The BindingObserver class</summary>
@@ -14755,6 +14874,19 @@
             <param name="context">The DataServiceContext associated with the BindingObserver.</param>
             <param name="entityChanged">EntityChanged delegate.</param>
             <param name="collectionChanged">EntityCollectionChanged delegate.</param>
+        </member>
+        <member name="M:System.Data.Services.Client.BindingObserver.PauseTracking(System.Object)">
+            <summary>
+            Temporarily pauses notifications.
+            This is used during collection Load to defer notifications untill all elements have been loaded.
+            </summary>
+            <param name="collection">The collection to pause notifications for</param>
+        </member>
+        <member name="M:System.Data.Services.Client.BindingObserver.ResumeTracking(System.Object)">
+            <summary>
+            Resumes notifications.
+            </summary>
+            <param name="collection">The collection to resume notifications for.</param>
         </member>
         <member name="M:System.Data.Services.Client.BindingObserver.StartTracking``1(System.Data.Services.Client.DataServiceCollection{``0},System.String)">
             <summary>Start tracking the specified DataServiceCollection.</summary>
@@ -14784,6 +14916,12 @@
             <summary>Handle changes to tracked DataServiceCollection.</summary>
             <param name="collection">The DataServiceCollection that raised the event.</param>
             <param name="eventArgs">Information about the event such as added/removed entities, operation.</param>
+        </member>
+        <member name="M:System.Data.Services.Client.BindingObserver.OnDataServiceCollectionBulkAdded(System.Object,System.Collections.IEnumerable)">
+            <summary>Handle multiple additions to tracked DataServiceCollection.</summary>
+            <remarks>This is an optimized version of <see cref="M:System.Data.Services.Client.BindingObserver.OnDataServiceCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)"/> for bulk adding of many entities.</remarks>
+            <param name="collection">The DataServiceCollection that newItems were added to.</param>
+            <param name="newItems">The entities that were added to the collection.</param>
         </member>
         <member name="M:System.Data.Services.Client.BindingObserver.OnPrimitiveOrComplexCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
             <summary>Handle changes to collection properties.</summary>
@@ -15151,6 +15289,11 @@
             The async handle for the current LoadAsync Operation
             </summary>
         </member>
+        <member name="F:System.Data.Services.Client.DataServiceCollection`1.hashedItems">
+            <summary>
+            A hashed set of the entities in this DataServiceCollection. Optimization - used for faster detection of item prescense in the collection.
+            </summary>
+        </member>
         <member name="M:System.Data.Services.Client.DataServiceCollection`1.#ctor">
             <summary>Initializes a new instance of the <see cref="T:System.Data.Services.Client.DataServiceCollection`1" /> class.</summary>
             <remarks>Creates a default data service collection, with auto-change tracking enabled as soon as data is loaded into it.</remarks>
@@ -15293,6 +15436,24 @@
             Override to prevent additions to the collection in "deferred tracking" mode, and to verify that the item implements INotifyPropertyChanged.
             Overridding this method will cover items that are added to the collection via Add and Insert.
             </remarks>
+        </member>
+        <member name="M:System.Data.Services.Client.DataServiceCollection`1.ClearItems">
+            <summary>
+            Called from the ObservableCollection when the DataServiceCollection is cleared. Used to sync hasedItems with the  ObservableCollection.
+            </summary>
+        </member>
+        <member name="M:System.Data.Services.Client.DataServiceCollection`1.RemoveItem(System.Int32)">
+            <summary>
+            Called from the ObservableCollection when an item is removed from the DataServiceCollection. Used to sync hasedItems with the  ObservableCollection.
+            </summary>
+            <param name="index">The index of the item to be removed.</param>
+        </member>
+        <member name="M:System.Data.Services.Client.DataServiceCollection`1.SetItem(System.Int32,`0)">
+            <summary>
+            Called from the ObservableCollection when an item at a given index is replaced with another. Used to sync hasedItems with the  ObservableCollection.
+            </summary>
+            <param name="index">Index at which to remove the old item and add the new item.</param>
+            <param name="item">The item to be added</param>
         </member>
         <member name="M:System.Data.Services.Client.DataServiceCollection`1.ValidateIteratorParameter(System.Collections.Generic.IEnumerable{`0})">
             <summary>
@@ -16600,6 +16761,11 @@
         </member>
         <member name="F:System.Data.Services.Client.MaterializeAtom.moved">
             <summary>Whether anything has been read.</summary>
+        </member>
+        <member name="F:System.Data.Services.Client.MaterializeAtom.responseMessage">
+            <summary>
+            The ODataResponseMessage to dispose when we are done.
+            </summary>
         </member>
         <member name="F:System.Data.Services.Client.MaterializeAtom.writer">
             <summary>
@@ -18653,6 +18819,28 @@
             <remarks>This has been suggested as a workaround in msdn forums by the VS team. Note that even though this is production code
             the attribute has no effect on anything else.</remarks>
         </member>
+        <member name="T:System.Data.Services.Client.UndeclaredPropertyBehavior">
+            <summary>
+            Indicates DataServiceContext's behavior on undeclared property in entity/complex value.
+            </summary>
+        </member>
+        <member name="F:System.Data.Services.Client.UndeclaredPropertyBehavior.None">
+            <summary>
+            The default value, implies respecting DataServiceContext.IgnoreMissingProperties boolean.
+            Note: IgnoreMissingProperties==false is to throw exception on undeclared property in entity.
+            IgnoreMissingProperties==true is to read undeclared property in entity.
+            </summary>
+        </member>
+        <member name="F:System.Data.Services.Client.UndeclaredPropertyBehavior.Ignore">
+            <summary>
+            Sliently ignores undeclared property.
+            </summary>
+        </member>
+        <member name="F:System.Data.Services.Client.UndeclaredPropertyBehavior.Support">
+            <summary>
+            Supports undeclared property.
+            </summary>
+        </member>
         <member name="T:System.Data.Services.Client.DataServiceContext">
             <summary>
             The <see cref="T:System.Data.Services.Client.DataServiceContext" /> represents the runtime context of the data service.
@@ -18708,6 +18896,9 @@
         </member>
         <member name="F:System.Data.Services.Client.DataServiceContext.ignoreMissingProperties">
             <summary>Options when deserializing properties to the target type.</summary>
+        </member>
+        <member name="F:System.Data.Services.Client.DataServiceContext.undeclaredPropertyBehavior">
+            <summary>Options on top of ignoreMissingProperties.</summary>
         </member>
         <member name="F:System.Data.Services.Client.DataServiceContext.mergeOption">
             <summary>Used to specify a value synchronization strategy.</summary>
@@ -19831,9 +20022,33 @@
             This also affects responses during SaveChanges.
             </remarks>
         </member>
+        <member name="P:System.Data.Services.Client.DataServiceContext.AutoNullPropagation">
+            <summary>
+            Gets or sets whether query projection will handle null propagation automatically. 
+            If sets to true, null propagation checks can be omitted from queries.
+            </summary>
+        </member>
+        <member name="P:System.Data.Services.Client.DataServiceContext.UndeclaredPropertyBehavior">
+            <summary>Gets or sets whether to respect IgnoreMissingProperties boolean, or directly ignore/support undeclared properties.</summary>
+            <remarks>
+            This also affects responses during SaveChanges.
+            </remarks>
+        </member>
         <member name="P:System.Data.Services.Client.DataServiceContext.DataNamespace">
             <summary>Gets or sets the XML namespace for data items, not metadata items, of an Atom payload.</summary>
             <returns>A string representing the XML namespace for data items of a payload in the ATOM format.</returns>
+        </member>
+        <member name="P:System.Data.Services.Client.DataServiceContext.ResolveBackingField">
+            <summary>Gets or sets a function that is used to resolve the backing field for a property in an entity.</summary>
+            <returns>A delegate that takes a <see cref="T:System.Reflection.PropertyInfo" /> and returns a <see cref="T:System.Reflection.FieldInfo" /> value.</returns>
+            <remarks>
+            This is used internally to check properties for null values without triggering lazy construction.
+            The supplied delegate should return the FieldInfo for the backing field for the PropertyInfo parameter. The method may return null.
+            The returned FieldInfo.FieldType should match the PropertyInfo.PropertyType or it will be disregarded.
+            This is only used for collection navigation properties, collection complex properties and single value complex properties.
+            For entities with a large amount of collection navigation/complex collection properties and/or complex properties, 
+            using lazy construction in the proxy and setting ResolveBackingField can dramatically improve performance during GET operations.
+            </remarks>
         </member>
         <member name="P:System.Data.Services.Client.DataServiceContext.ResolveName">
             <summary>Gets or sets a function to override the default type resolution strategy used by the client library when you send entities to a data service.</summary>
@@ -19912,6 +20127,14 @@
             <summary>
             Gets or sets the URL conventions the client should use.
             </summary>
+        </member>
+        <member name="P:System.Data.Services.Client.DataServiceContext.AllowDirectNetworkStreamReading">
+            <summary>
+            If set to true data is read directly from the network stream. If set to false (default/old behaviour) the network stream is copied before reading.
+            </summary>
+            <remarks>
+            This setting only has effect for synchronous requests. Setting this to true will increase performance. 
+            </remarks>
         </member>
         <member name="P:System.Data.Services.Client.DataServiceContext.UseDefaultCredentials">
             <summary>
@@ -20343,6 +20566,9 @@
             Is this a known primitive/reference type or an entity/complex/collection type?
             </summary>
         </member>
+        <member name="F:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.fieldOrPropertyGetter">
+            <summary>If we have the backing field for a property we use that otherwise we use the property getter</summary>
+        </member>
         <member name="F:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.propertyGetter">
             <summary>property getter</summary>
         </member>
@@ -20376,12 +20602,13 @@
         <member name="F:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.mimeTypeProperty">
             <summary>The other property in this type that holds the MIME type for this one</summary>
         </member>
-        <member name="M:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.#ctor(Microsoft.Data.Edm.IEdmProperty,System.Reflection.PropertyInfo,System.Data.Services.Client.ClientEdmModel)">
+        <member name="M:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.#ctor(Microsoft.Data.Edm.IEdmProperty,System.Reflection.PropertyInfo,System.Reflection.FieldInfo,System.Data.Services.Client.ClientEdmModel)">
             <summary>
             constructor
             </summary>
             <param name="edmProperty">Back reference to the EdmProperty this annotation is part of.</param>
             <param name="propertyInfo">propertyInfo instance.</param>
+            <param name="backingField">FieldInfo instance for peeking initial property values.</param> 
             <param name="model">The client model.</param>
         </member>
         <member name="M:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.GetValue(System.Object)">
@@ -20390,6 +20617,13 @@
             </summary>
             <param name="instance">object to get the property value from</param>
             <returns>property value</returns>
+        </member>
+        <member name="M:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.GetFieldOrPropertyValue(System.Object)">
+            <summary> 
+            get field or property value from an object 
+            </summary> 
+            <param name="instance">object to get the field or property value from</param> 
+            <returns>Field or property value</returns> 
         </member>
         <member name="M:System.Data.Services.Client.Metadata.ClientPropertyAnnotation.RemoveValue(System.Object,System.Object)">
             <summary>
@@ -20518,6 +20752,13 @@
             </summary>
             <param name="edmType">EdmType instance.</param>
             <returns>the full name of the edmType.</returns>
+        </member>
+        <member name="M:System.Data.Services.Client.Metadata.ClientTypeUtil.IsPrimitive(Microsoft.Data.Edm.IEdmType)">
+            <summary>
+            Determine whether the type is primitive or primitive collection.
+            </summary>
+            <param name="edmType">The type to be evaluated.</param>
+            <returns>True if the type is primitive or primitive collection.</returns>
         </member>
         <member name="M:System.Data.Services.Client.Metadata.ClientTypeUtil.GetMethodForGenericType(System.Type,System.Type,System.String,System.Type@)">
             <summary>

@@ -178,6 +178,11 @@
     <Content Include="Resources\Edit16.ico" />
     <Content Include="Resources\FileSetting16.ico" />
     <None Include="Resources\HorizontalNew.png" />
+    <None Include="Resources\Karabina16x16.png" />
+    <None Include="Resources\Karabina32x32.png" />
+    <None Include="Resources\Karabina48x48.png" />
+    <None Include="Resources\Karabina122x122.png" />
+    <None Include="Resources\KarabinaWorkflowFeatureIcon-Generic.png" />
     <Content Include="Resources\NewsPaper16.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

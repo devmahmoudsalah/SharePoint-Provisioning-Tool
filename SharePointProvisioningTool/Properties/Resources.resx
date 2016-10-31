@@ -157,8 +157,20 @@
   <data name="ExitApplicationRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PowerOffRed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Glossy3DBlueOrbs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\glossy-3d-blue-orbs2-110.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Karabina122x122" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Karabina122x122.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Karabina16x16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Karabina16x16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Karabina32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Karabina32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Karabina48x48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Karabina48x48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KarabinaWorkflowFeatureIcon_Generic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KarabinaWorkflowFeatureIcon-Generic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Option00" xml:space="preserve">
     <value>Move the mouse over the items to see the explanation of the option</value>
