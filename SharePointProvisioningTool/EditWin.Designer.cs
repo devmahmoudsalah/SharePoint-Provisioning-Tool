@@ -44,6 +44,34 @@
             this.tsmiLCDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scEditTemplate = new System.Windows.Forms.SplitContainer();
             this.tvTemplate = new System.Windows.Forms.TreeView();
+            this.pTextControl = new System.Windows.Forms.Panel();
+            this.tbTextControl = new System.Windows.Forms.TextBox();
+            this.pRegionalSettings = new System.Windows.Forms.Panel();
+            this.cbRSAdjustHijriDate = new System.Windows.Forms.ComboBox();
+            this.lAdjustHijriDate = new System.Windows.Forms.Label();
+            this.cbRSTimeFormat = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cbRSWorkDayEndTime = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cbRSFirstWeekOfYear = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cbRSWorkDayStartTime = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cbRSFirstDayOfWeek = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.clbRSWorkDays = new System.Windows.Forms.CheckedListBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbRSAlternateCalendar = new System.Windows.Forms.ComboBox();
+            this.cbRSShowWeekNumbers = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbRSCalendar = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbRSSortOrder = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbRSLocale = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbRSTimeZone = new System.Windows.Forms.ComboBox();
             this.pListControl = new System.Windows.Forms.Panel();
             this.lbListControl = new System.Windows.Forms.ListBox();
             this.pComposedLook = new System.Windows.Forms.Panel();
@@ -79,34 +107,6 @@
             this.lvViewControl = new System.Windows.Forms.ListView();
             this.pbeKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pbeValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pTextControl = new System.Windows.Forms.Panel();
-            this.tbTextControl = new System.Windows.Forms.TextBox();
-            this.pRegionalSettings = new System.Windows.Forms.Panel();
-            this.cbRSAdjustHijriDate = new System.Windows.Forms.ComboBox();
-            this.lAdjustHijriDate = new System.Windows.Forms.Label();
-            this.cbRSTimeFormat = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.cbRSWorkDayEndTime = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cbRSFirstWeekOfYear = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cbRSWorkDayStartTime = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cbRSFirstDayOfWeek = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.clbRSWorkDays = new System.Windows.Forms.CheckedListBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cbRSAlternateCalendar = new System.Windows.Forms.ComboBox();
-            this.cbRSShowWeekNumbers = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cbRSCalendar = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cbRSSortOrder = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cbRSLocale = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbRSTimeZone = new System.Windows.Forms.ComboBox();
             this.cmsTreeViewPopup.SuspendLayout();
             this.cmsViewControlPopup.SuspendLayout();
             this.cmsListControlPopup.SuspendLayout();
@@ -114,12 +114,12 @@
             this.scEditTemplate.Panel1.SuspendLayout();
             this.scEditTemplate.Panel2.SuspendLayout();
             this.scEditTemplate.SuspendLayout();
+            this.pTextControl.SuspendLayout();
+            this.pRegionalSettings.SuspendLayout();
             this.pListControl.SuspendLayout();
             this.pComposedLook.SuspendLayout();
             this.pWebSettings.SuspendLayout();
             this.pViewControl.SuspendLayout();
-            this.pTextControl.SuspendLayout();
-            this.pRegionalSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsTreeViewPopup
@@ -144,7 +144,9 @@
             this.tbTemplate.ReadOnly = true;
             this.tbTemplate.Size = new System.Drawing.Size(418, 23);
             this.tbTemplate.TabIndex = 1;
-            this.tbTemplate.Tag = "";
+            this.tbTemplate.Tag = "Edit01";
+            this.tbTemplate.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tbTemplate.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // lTemplate
             // 
@@ -163,10 +165,12 @@
             this.bBrowse.Name = "bBrowse";
             this.bBrowse.Size = new System.Drawing.Size(75, 23);
             this.bBrowse.TabIndex = 2;
-            this.bBrowse.Tag = "";
+            this.bBrowse.Tag = "Edit02";
             this.bBrowse.Text = "Browse...";
             this.bBrowse.UseVisualStyleBackColor = true;
             this.bBrowse.Click += new System.EventHandler(this.BrowseForTemplate);
+            this.bBrowse.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bBrowse.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // bSave
             // 
@@ -175,11 +179,13 @@
             this.bSave.Name = "bSave";
             this.bSave.Size = new System.Drawing.Size(75, 23);
             this.bSave.TabIndex = 5;
-            this.bSave.Tag = "";
+            this.bSave.Tag = "Edit03";
             this.bSave.Text = "Save";
             this.bSave.UseVisualStyleBackColor = true;
             this.bSave.Visible = false;
             this.bSave.Click += new System.EventHandler(this.SaveChanges);
+            this.bSave.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bSave.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // cmsViewControlPopup
             // 
@@ -264,367 +270,12 @@
             this.tvTemplate.ShowLines = false;
             this.tvTemplate.Size = new System.Drawing.Size(292, 480);
             this.tvTemplate.TabIndex = 4;
+            this.tvTemplate.Tag = "Edit04";
             this.tvTemplate.Visible = false;
             this.tvTemplate.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeSelected);
             this.tvTemplate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TreeViewKeyUp);
-            // 
-            // pListControl
-            // 
-            this.pListControl.Controls.Add(this.lbListControl);
-            this.pListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pListControl.Location = new System.Drawing.Point(0, 0);
-            this.pListControl.Name = "pListControl";
-            this.pListControl.Size = new System.Drawing.Size(650, 480);
-            this.pListControl.TabIndex = 17;
-            this.pListControl.Visible = false;
-            // 
-            // lbListControl
-            // 
-            this.lbListControl.ContextMenuStrip = this.cmsListControlPopup;
-            this.lbListControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbListControl.ItemHeight = 15;
-            this.lbListControl.Location = new System.Drawing.Point(0, 0);
-            this.lbListControl.Name = "lbListControl";
-            this.lbListControl.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbListControl.Size = new System.Drawing.Size(650, 480);
-            this.lbListControl.TabIndex = 2;
-            this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
-            this.lbListControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListControlKeyUp);
-            // 
-            // pComposedLook
-            // 
-            this.pComposedLook.AutoSize = true;
-            this.pComposedLook.Controls.Add(this.tbCLVersion);
-            this.pComposedLook.Controls.Add(this.label16);
-            this.pComposedLook.Controls.Add(this.tbCLFontFile);
-            this.pComposedLook.Controls.Add(this.label15);
-            this.pComposedLook.Controls.Add(this.tbCLColorFile);
-            this.pComposedLook.Controls.Add(this.label14);
-            this.pComposedLook.Controls.Add(this.tbCLBackgroundFile);
-            this.pComposedLook.Controls.Add(this.label13);
-            this.pComposedLook.Controls.Add(this.tbCLName);
-            this.pComposedLook.Controls.Add(this.label12);
-            this.pComposedLook.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pComposedLook.Location = new System.Drawing.Point(0, 0);
-            this.pComposedLook.Name = "pComposedLook";
-            this.pComposedLook.Size = new System.Drawing.Size(650, 480);
-            this.pComposedLook.TabIndex = 7;
-            this.pComposedLook.Visible = false;
-            // 
-            // tbCLVersion
-            // 
-            this.tbCLVersion.Location = new System.Drawing.Point(13, 302);
-            this.tbCLVersion.Name = "tbCLVersion";
-            this.tbCLVersion.Size = new System.Drawing.Size(463, 23);
-            this.tbCLVersion.TabIndex = 9;
-            this.tbCLVersion.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label16.Location = new System.Drawing.Point(13, 283);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(49, 15);
-            this.label16.TabIndex = 8;
-            this.label16.Text = "Version:";
-            // 
-            // tbCLFontFile
-            // 
-            this.tbCLFontFile.Location = new System.Drawing.Point(13, 232);
-            this.tbCLFontFile.Name = "tbCLFontFile";
-            this.tbCLFontFile.Size = new System.Drawing.Size(463, 23);
-            this.tbCLFontFile.TabIndex = 7;
-            this.tbCLFontFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label15.Location = new System.Drawing.Point(13, 213);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(53, 15);
-            this.label15.TabIndex = 6;
-            this.label15.Text = "Font file:";
-            // 
-            // tbCLColorFile
-            // 
-            this.tbCLColorFile.Location = new System.Drawing.Point(13, 157);
-            this.tbCLColorFile.Name = "tbCLColorFile";
-            this.tbCLColorFile.Size = new System.Drawing.Size(463, 23);
-            this.tbCLColorFile.TabIndex = 5;
-            this.tbCLColorFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label14.Location = new System.Drawing.Point(13, 138);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(58, 15);
-            this.label14.TabIndex = 4;
-            this.label14.Text = "Color file:";
-            // 
-            // tbCLBackgroundFile
-            // 
-            this.tbCLBackgroundFile.Location = new System.Drawing.Point(13, 89);
-            this.tbCLBackgroundFile.Name = "tbCLBackgroundFile";
-            this.tbCLBackgroundFile.Size = new System.Drawing.Size(463, 23);
-            this.tbCLBackgroundFile.TabIndex = 3;
-            this.tbCLBackgroundFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label13.Location = new System.Drawing.Point(13, 70);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(93, 15);
-            this.label13.TabIndex = 2;
-            this.label13.Text = "Background file:";
-            // 
-            // tbCLName
-            // 
-            this.tbCLName.Location = new System.Drawing.Point(13, 27);
-            this.tbCLName.Name = "tbCLName";
-            this.tbCLName.Size = new System.Drawing.Size(463, 23);
-            this.tbCLName.TabIndex = 1;
-            this.tbCLName.TextChanged += new System.EventHandler(this.ComposedLookChanged);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label12.Location = new System.Drawing.Point(13, 8);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(42, 15);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Name:";
-            // 
-            // pWebSettings
-            // 
-            this.pWebSettings.Controls.Add(this.cbWSNoCrawl);
-            this.pWebSettings.Controls.Add(this.tbWSRequestAccessEmail);
-            this.pWebSettings.Controls.Add(this.label28);
-            this.pWebSettings.Controls.Add(this.tbWSWelcomePage);
-            this.pWebSettings.Controls.Add(this.label27);
-            this.pWebSettings.Controls.Add(this.tbWSAlternateCSS);
-            this.pWebSettings.Controls.Add(this.label26);
-            this.pWebSettings.Controls.Add(this.tbWSCustomMasterPageUrl);
-            this.pWebSettings.Controls.Add(this.label21);
-            this.pWebSettings.Controls.Add(this.tbWSMasterPageUrl);
-            this.pWebSettings.Controls.Add(this.label22);
-            this.pWebSettings.Controls.Add(this.tbWSSiteLogo);
-            this.pWebSettings.Controls.Add(this.label23);
-            this.pWebSettings.Controls.Add(this.tbWSDescription);
-            this.pWebSettings.Controls.Add(this.label24);
-            this.pWebSettings.Controls.Add(this.tbWSTitle);
-            this.pWebSettings.Controls.Add(this.label25);
-            this.pWebSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pWebSettings.Location = new System.Drawing.Point(0, 0);
-            this.pWebSettings.Name = "pWebSettings";
-            this.pWebSettings.Size = new System.Drawing.Size(650, 480);
-            this.pWebSettings.TabIndex = 22;
-            this.pWebSettings.Visible = false;
-            // 
-            // cbWSNoCrawl
-            // 
-            this.cbWSNoCrawl.AutoSize = true;
-            this.cbWSNoCrawl.Location = new System.Drawing.Point(13, 425);
-            this.cbWSNoCrawl.Name = "cbWSNoCrawl";
-            this.cbWSNoCrawl.Size = new System.Drawing.Size(81, 19);
-            this.cbWSNoCrawl.TabIndex = 16;
-            this.cbWSNoCrawl.Text = " No Crawl ";
-            this.cbWSNoCrawl.UseVisualStyleBackColor = true;
-            this.cbWSNoCrawl.CheckedChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // tbWSRequestAccessEmail
-            // 
-            this.tbWSRequestAccessEmail.Location = new System.Drawing.Point(13, 396);
-            this.tbWSRequestAccessEmail.Name = "tbWSRequestAccessEmail";
-            this.tbWSRequestAccessEmail.Size = new System.Drawing.Size(463, 23);
-            this.tbWSRequestAccessEmail.TabIndex = 15;
-            this.tbWSRequestAccessEmail.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label28.Location = new System.Drawing.Point(13, 377);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(121, 15);
-            this.label28.TabIndex = 14;
-            this.label28.Text = "Request access email:";
-            // 
-            // tbWSWelcomePage
-            // 
-            this.tbWSWelcomePage.Location = new System.Drawing.Point(13, 348);
-            this.tbWSWelcomePage.Name = "tbWSWelcomePage";
-            this.tbWSWelcomePage.Size = new System.Drawing.Size(463, 23);
-            this.tbWSWelcomePage.TabIndex = 13;
-            this.tbWSWelcomePage.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label27.Location = new System.Drawing.Point(13, 329);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(113, 15);
-            this.label27.TabIndex = 12;
-            this.label27.Text = "Welcome page URL:";
-            // 
-            // tbWSAlternateCSS
-            // 
-            this.tbWSAlternateCSS.Location = new System.Drawing.Point(13, 300);
-            this.tbWSAlternateCSS.Name = "tbWSAlternateCSS";
-            this.tbWSAlternateCSS.Size = new System.Drawing.Size(463, 23);
-            this.tbWSAlternateCSS.TabIndex = 11;
-            this.tbWSAlternateCSS.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label26.Location = new System.Drawing.Point(13, 281);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(81, 15);
-            this.label26.TabIndex = 10;
-            this.label26.Text = "Alternate CSS:";
-            // 
-            // tbWSCustomMasterPageUrl
-            // 
-            this.tbWSCustomMasterPageUrl.Location = new System.Drawing.Point(13, 252);
-            this.tbWSCustomMasterPageUrl.Name = "tbWSCustomMasterPageUrl";
-            this.tbWSCustomMasterPageUrl.Size = new System.Drawing.Size(463, 23);
-            this.tbWSCustomMasterPageUrl.TabIndex = 9;
-            this.tbWSCustomMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label21.Location = new System.Drawing.Point(13, 233);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(144, 15);
-            this.label21.TabIndex = 8;
-            this.label21.Text = "Custom master page URL:";
-            // 
-            // tbWSMasterPageUrl
-            // 
-            this.tbWSMasterPageUrl.Location = new System.Drawing.Point(13, 204);
-            this.tbWSMasterPageUrl.Name = "tbWSMasterPageUrl";
-            this.tbWSMasterPageUrl.Size = new System.Drawing.Size(463, 23);
-            this.tbWSMasterPageUrl.TabIndex = 7;
-            this.tbWSMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label22.Location = new System.Drawing.Point(13, 185);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(99, 15);
-            this.label22.TabIndex = 6;
-            this.label22.Text = "Master page URL:";
-            // 
-            // tbWSSiteLogo
-            // 
-            this.tbWSSiteLogo.Location = new System.Drawing.Point(13, 156);
-            this.tbWSSiteLogo.Name = "tbWSSiteLogo";
-            this.tbWSSiteLogo.Size = new System.Drawing.Size(463, 23);
-            this.tbWSSiteLogo.TabIndex = 5;
-            this.tbWSSiteLogo.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label23.Location = new System.Drawing.Point(13, 137);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(56, 15);
-            this.label23.TabIndex = 4;
-            this.label23.Text = "Site logo:";
-            // 
-            // tbWSDescription
-            // 
-            this.tbWSDescription.Location = new System.Drawing.Point(13, 75);
-            this.tbWSDescription.Multiline = true;
-            this.tbWSDescription.Name = "tbWSDescription";
-            this.tbWSDescription.ShortcutsEnabled = false;
-            this.tbWSDescription.Size = new System.Drawing.Size(463, 56);
-            this.tbWSDescription.TabIndex = 3;
-            this.tbWSDescription.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label24.Location = new System.Drawing.Point(13, 57);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(70, 15);
-            this.label24.TabIndex = 2;
-            this.label24.Text = "Description:";
-            // 
-            // tbWSTitle
-            // 
-            this.tbWSTitle.Location = new System.Drawing.Point(13, 27);
-            this.tbWSTitle.Name = "tbWSTitle";
-            this.tbWSTitle.Size = new System.Drawing.Size(463, 23);
-            this.tbWSTitle.TabIndex = 1;
-            this.tbWSTitle.TextChanged += new System.EventHandler(this.WebSettingChanged);
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.label25.Location = new System.Drawing.Point(13, 8);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(33, 15);
-            this.label25.TabIndex = 0;
-            this.label25.Text = "Title:";
-            // 
-            // pViewControl
-            // 
-            this.pViewControl.Controls.Add(this.lvViewControl);
-            this.pViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pViewControl.Location = new System.Drawing.Point(0, 0);
-            this.pViewControl.Name = "pViewControl";
-            this.pViewControl.Size = new System.Drawing.Size(650, 480);
-            this.pViewControl.TabIndex = 20;
-            this.pViewControl.Visible = false;
-            // 
-            // lvViewControl
-            // 
-            this.lvViewControl.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.pbeKey,
-            this.pbeValue});
-            this.lvViewControl.ContextMenuStrip = this.cmsViewControlPopup;
-            this.lvViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvViewControl.FullRowSelect = true;
-            this.lvViewControl.GridLines = true;
-            this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvViewControl.HideSelection = false;
-            this.lvViewControl.Location = new System.Drawing.Point(0, 0);
-            this.lvViewControl.Name = "lvViewControl";
-            this.lvViewControl.ShowGroups = false;
-            this.lvViewControl.Size = new System.Drawing.Size(650, 480);
-            this.lvViewControl.TabIndex = 2;
-            this.lvViewControl.UseCompatibleStateImageBehavior = false;
-            this.lvViewControl.View = System.Windows.Forms.View.Details;
-            this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
-            this.lvViewControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ViewControlKeyUp);
-            // 
-            // pbeKey
-            // 
-            this.pbeKey.Text = "Key";
-            this.pbeKey.Width = 169;
-            // 
-            // pbeValue
-            // 
-            this.pbeValue.Text = "Value";
-            this.pbeValue.Width = 368;
+            this.tvTemplate.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tvTemplate.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // pTextControl
             // 
@@ -649,8 +300,11 @@
             this.tbTextControl.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbTextControl.Size = new System.Drawing.Size(650, 480);
             this.tbTextControl.TabIndex = 0;
+            this.tbTextControl.Tag = "Edit11";
             this.tbTextControl.WordWrap = false;
             this.tbTextControl.TextChanged += new System.EventHandler(this.ControlTextChanged);
+            this.tbTextControl.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.tbTextControl.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // pRegionalSettings
             // 
@@ -684,7 +338,10 @@
             this.pRegionalSettings.Name = "pRegionalSettings";
             this.pRegionalSettings.Size = new System.Drawing.Size(650, 480);
             this.pRegionalSettings.TabIndex = 18;
+            this.pRegionalSettings.Tag = "Edit05";
             this.pRegionalSettings.Visible = false;
+            this.pRegionalSettings.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.pRegionalSettings.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // cbRSAdjustHijriDate
             // 
@@ -960,6 +617,376 @@
             this.cbRSTimeZone.TabIndex = 0;
             this.cbRSTimeZone.SelectedIndexChanged += new System.EventHandler(this.RegionalSettingChanged);
             // 
+            // pListControl
+            // 
+            this.pListControl.Controls.Add(this.lbListControl);
+            this.pListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pListControl.Location = new System.Drawing.Point(0, 0);
+            this.pListControl.Name = "pListControl";
+            this.pListControl.Size = new System.Drawing.Size(650, 480);
+            this.pListControl.TabIndex = 17;
+            this.pListControl.Visible = false;
+            // 
+            // lbListControl
+            // 
+            this.lbListControl.ContextMenuStrip = this.cmsListControlPopup;
+            this.lbListControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbListControl.ItemHeight = 15;
+            this.lbListControl.Location = new System.Drawing.Point(0, 0);
+            this.lbListControl.Name = "lbListControl";
+            this.lbListControl.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbListControl.Size = new System.Drawing.Size(650, 480);
+            this.lbListControl.TabIndex = 2;
+            this.lbListControl.Tag = "Edit06";
+            this.lbListControl.DoubleClick += new System.EventHandler(this.DisplayActiveNode);
+            this.lbListControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListControlKeyUp);
+            this.lbListControl.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.lbListControl.MouseLeave += new System.EventHandler(this.SetStatusDefault);
+            // 
+            // pComposedLook
+            // 
+            this.pComposedLook.AutoSize = true;
+            this.pComposedLook.Controls.Add(this.tbCLVersion);
+            this.pComposedLook.Controls.Add(this.label16);
+            this.pComposedLook.Controls.Add(this.tbCLFontFile);
+            this.pComposedLook.Controls.Add(this.label15);
+            this.pComposedLook.Controls.Add(this.tbCLColorFile);
+            this.pComposedLook.Controls.Add(this.label14);
+            this.pComposedLook.Controls.Add(this.tbCLBackgroundFile);
+            this.pComposedLook.Controls.Add(this.label13);
+            this.pComposedLook.Controls.Add(this.tbCLName);
+            this.pComposedLook.Controls.Add(this.label12);
+            this.pComposedLook.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pComposedLook.Location = new System.Drawing.Point(0, 0);
+            this.pComposedLook.Name = "pComposedLook";
+            this.pComposedLook.Size = new System.Drawing.Size(650, 480);
+            this.pComposedLook.TabIndex = 7;
+            this.pComposedLook.Tag = "Edit08";
+            this.pComposedLook.Visible = false;
+            this.pComposedLook.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.pComposedLook.MouseLeave += new System.EventHandler(this.SetStatusDefault);
+            // 
+            // tbCLVersion
+            // 
+            this.tbCLVersion.Location = new System.Drawing.Point(13, 302);
+            this.tbCLVersion.Name = "tbCLVersion";
+            this.tbCLVersion.Size = new System.Drawing.Size(463, 23);
+            this.tbCLVersion.TabIndex = 9;
+            this.tbCLVersion.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label16.Location = new System.Drawing.Point(13, 283);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(49, 15);
+            this.label16.TabIndex = 8;
+            this.label16.Text = "Version:";
+            // 
+            // tbCLFontFile
+            // 
+            this.tbCLFontFile.Location = new System.Drawing.Point(13, 232);
+            this.tbCLFontFile.Name = "tbCLFontFile";
+            this.tbCLFontFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLFontFile.TabIndex = 7;
+            this.tbCLFontFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label15.Location = new System.Drawing.Point(13, 213);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(53, 15);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Font file:";
+            // 
+            // tbCLColorFile
+            // 
+            this.tbCLColorFile.Location = new System.Drawing.Point(13, 157);
+            this.tbCLColorFile.Name = "tbCLColorFile";
+            this.tbCLColorFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLColorFile.TabIndex = 5;
+            this.tbCLColorFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label14.Location = new System.Drawing.Point(13, 138);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(58, 15);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Color file:";
+            // 
+            // tbCLBackgroundFile
+            // 
+            this.tbCLBackgroundFile.Location = new System.Drawing.Point(13, 89);
+            this.tbCLBackgroundFile.Name = "tbCLBackgroundFile";
+            this.tbCLBackgroundFile.Size = new System.Drawing.Size(463, 23);
+            this.tbCLBackgroundFile.TabIndex = 3;
+            this.tbCLBackgroundFile.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label13.Location = new System.Drawing.Point(13, 70);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(93, 15);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Background file:";
+            // 
+            // tbCLName
+            // 
+            this.tbCLName.Location = new System.Drawing.Point(13, 27);
+            this.tbCLName.Name = "tbCLName";
+            this.tbCLName.Size = new System.Drawing.Size(463, 23);
+            this.tbCLName.TabIndex = 1;
+            this.tbCLName.TextChanged += new System.EventHandler(this.ComposedLookChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label12.Location = new System.Drawing.Point(13, 8);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(42, 15);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Name:";
+            // 
+            // pWebSettings
+            // 
+            this.pWebSettings.Controls.Add(this.cbWSNoCrawl);
+            this.pWebSettings.Controls.Add(this.tbWSRequestAccessEmail);
+            this.pWebSettings.Controls.Add(this.label28);
+            this.pWebSettings.Controls.Add(this.tbWSWelcomePage);
+            this.pWebSettings.Controls.Add(this.label27);
+            this.pWebSettings.Controls.Add(this.tbWSAlternateCSS);
+            this.pWebSettings.Controls.Add(this.label26);
+            this.pWebSettings.Controls.Add(this.tbWSCustomMasterPageUrl);
+            this.pWebSettings.Controls.Add(this.label21);
+            this.pWebSettings.Controls.Add(this.tbWSMasterPageUrl);
+            this.pWebSettings.Controls.Add(this.label22);
+            this.pWebSettings.Controls.Add(this.tbWSSiteLogo);
+            this.pWebSettings.Controls.Add(this.label23);
+            this.pWebSettings.Controls.Add(this.tbWSDescription);
+            this.pWebSettings.Controls.Add(this.label24);
+            this.pWebSettings.Controls.Add(this.tbWSTitle);
+            this.pWebSettings.Controls.Add(this.label25);
+            this.pWebSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pWebSettings.Location = new System.Drawing.Point(0, 0);
+            this.pWebSettings.Name = "pWebSettings";
+            this.pWebSettings.Size = new System.Drawing.Size(650, 480);
+            this.pWebSettings.TabIndex = 22;
+            this.pWebSettings.Tag = "Edit09";
+            this.pWebSettings.Visible = false;
+            this.pWebSettings.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.pWebSettings.MouseLeave += new System.EventHandler(this.SetStatusDefault);
+            // 
+            // cbWSNoCrawl
+            // 
+            this.cbWSNoCrawl.AutoSize = true;
+            this.cbWSNoCrawl.Location = new System.Drawing.Point(13, 425);
+            this.cbWSNoCrawl.Name = "cbWSNoCrawl";
+            this.cbWSNoCrawl.Size = new System.Drawing.Size(81, 19);
+            this.cbWSNoCrawl.TabIndex = 16;
+            this.cbWSNoCrawl.Text = " No Crawl ";
+            this.cbWSNoCrawl.UseVisualStyleBackColor = true;
+            this.cbWSNoCrawl.CheckedChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // tbWSRequestAccessEmail
+            // 
+            this.tbWSRequestAccessEmail.Location = new System.Drawing.Point(13, 396);
+            this.tbWSRequestAccessEmail.Name = "tbWSRequestAccessEmail";
+            this.tbWSRequestAccessEmail.Size = new System.Drawing.Size(463, 23);
+            this.tbWSRequestAccessEmail.TabIndex = 15;
+            this.tbWSRequestAccessEmail.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label28.Location = new System.Drawing.Point(13, 377);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(121, 15);
+            this.label28.TabIndex = 14;
+            this.label28.Text = "Request access email:";
+            // 
+            // tbWSWelcomePage
+            // 
+            this.tbWSWelcomePage.Location = new System.Drawing.Point(13, 348);
+            this.tbWSWelcomePage.Name = "tbWSWelcomePage";
+            this.tbWSWelcomePage.Size = new System.Drawing.Size(463, 23);
+            this.tbWSWelcomePage.TabIndex = 13;
+            this.tbWSWelcomePage.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label27.Location = new System.Drawing.Point(13, 329);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(113, 15);
+            this.label27.TabIndex = 12;
+            this.label27.Text = "Welcome page URL:";
+            // 
+            // tbWSAlternateCSS
+            // 
+            this.tbWSAlternateCSS.Location = new System.Drawing.Point(13, 300);
+            this.tbWSAlternateCSS.Name = "tbWSAlternateCSS";
+            this.tbWSAlternateCSS.Size = new System.Drawing.Size(463, 23);
+            this.tbWSAlternateCSS.TabIndex = 11;
+            this.tbWSAlternateCSS.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label26.Location = new System.Drawing.Point(13, 281);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(81, 15);
+            this.label26.TabIndex = 10;
+            this.label26.Text = "Alternate CSS:";
+            // 
+            // tbWSCustomMasterPageUrl
+            // 
+            this.tbWSCustomMasterPageUrl.Location = new System.Drawing.Point(13, 252);
+            this.tbWSCustomMasterPageUrl.Name = "tbWSCustomMasterPageUrl";
+            this.tbWSCustomMasterPageUrl.Size = new System.Drawing.Size(463, 23);
+            this.tbWSCustomMasterPageUrl.TabIndex = 9;
+            this.tbWSCustomMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label21.Location = new System.Drawing.Point(13, 233);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(144, 15);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Custom master page URL:";
+            // 
+            // tbWSMasterPageUrl
+            // 
+            this.tbWSMasterPageUrl.Location = new System.Drawing.Point(13, 204);
+            this.tbWSMasterPageUrl.Name = "tbWSMasterPageUrl";
+            this.tbWSMasterPageUrl.Size = new System.Drawing.Size(463, 23);
+            this.tbWSMasterPageUrl.TabIndex = 7;
+            this.tbWSMasterPageUrl.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label22.Location = new System.Drawing.Point(13, 185);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(99, 15);
+            this.label22.TabIndex = 6;
+            this.label22.Text = "Master page URL:";
+            // 
+            // tbWSSiteLogo
+            // 
+            this.tbWSSiteLogo.Location = new System.Drawing.Point(13, 156);
+            this.tbWSSiteLogo.Name = "tbWSSiteLogo";
+            this.tbWSSiteLogo.Size = new System.Drawing.Size(463, 23);
+            this.tbWSSiteLogo.TabIndex = 5;
+            this.tbWSSiteLogo.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label23.Location = new System.Drawing.Point(13, 137);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(56, 15);
+            this.label23.TabIndex = 4;
+            this.label23.Text = "Site logo:";
+            // 
+            // tbWSDescription
+            // 
+            this.tbWSDescription.Location = new System.Drawing.Point(13, 75);
+            this.tbWSDescription.Multiline = true;
+            this.tbWSDescription.Name = "tbWSDescription";
+            this.tbWSDescription.ShortcutsEnabled = false;
+            this.tbWSDescription.Size = new System.Drawing.Size(463, 56);
+            this.tbWSDescription.TabIndex = 3;
+            this.tbWSDescription.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label24.Location = new System.Drawing.Point(13, 57);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(70, 15);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "Description:";
+            // 
+            // tbWSTitle
+            // 
+            this.tbWSTitle.Location = new System.Drawing.Point(13, 27);
+            this.tbWSTitle.Name = "tbWSTitle";
+            this.tbWSTitle.Size = new System.Drawing.Size(463, 23);
+            this.tbWSTitle.TabIndex = 1;
+            this.tbWSTitle.TextChanged += new System.EventHandler(this.WebSettingChanged);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.label25.Location = new System.Drawing.Point(13, 8);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(33, 15);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Title:";
+            // 
+            // pViewControl
+            // 
+            this.pViewControl.Controls.Add(this.lvViewControl);
+            this.pViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pViewControl.Location = new System.Drawing.Point(0, 0);
+            this.pViewControl.Name = "pViewControl";
+            this.pViewControl.Size = new System.Drawing.Size(650, 480);
+            this.pViewControl.TabIndex = 20;
+            this.pViewControl.Visible = false;
+            // 
+            // lvViewControl
+            // 
+            this.lvViewControl.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lvViewControl.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.pbeKey,
+            this.pbeValue});
+            this.lvViewControl.ContextMenuStrip = this.cmsViewControlPopup;
+            this.lvViewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvViewControl.FullRowSelect = true;
+            this.lvViewControl.GridLines = true;
+            this.lvViewControl.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvViewControl.HideSelection = false;
+            this.lvViewControl.Location = new System.Drawing.Point(0, 0);
+            this.lvViewControl.Name = "lvViewControl";
+            this.lvViewControl.ShowGroups = false;
+            this.lvViewControl.Size = new System.Drawing.Size(650, 480);
+            this.lvViewControl.TabIndex = 2;
+            this.lvViewControl.Tag = "Edit10";
+            this.lvViewControl.UseCompatibleStateImageBehavior = false;
+            this.lvViewControl.View = System.Windows.Forms.View.Details;
+            this.lvViewControl.DoubleClick += new System.EventHandler(this.ShowViewItem);
+            this.lvViewControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ViewControlKeyUp);
+            this.lvViewControl.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.lvViewControl.MouseLeave += new System.EventHandler(this.SetStatusDefault);
+            // 
+            // pbeKey
+            // 
+            this.pbeKey.Text = "Key";
+            this.pbeKey.Width = 169;
+            // 
+            // pbeValue
+            // 
+            this.pbeValue.Text = "Value";
+            this.pbeValue.Width = 368;
+            // 
             // EditWin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -976,7 +1003,9 @@
             this.Name = "EditWin";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Tag = "Edit00";
             this.Text = "Edit Provisioning Template";
+            this.Activated += new System.EventHandler(this.SetStatusText);
             this.Resize += new System.EventHandler(this.ResizeControls);
             this.cmsTreeViewPopup.ResumeLayout(false);
             this.cmsViewControlPopup.ResumeLayout(false);
@@ -986,16 +1015,16 @@
             this.scEditTemplate.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scEditTemplate)).EndInit();
             this.scEditTemplate.ResumeLayout(false);
+            this.pTextControl.ResumeLayout(false);
+            this.pTextControl.PerformLayout();
+            this.pRegionalSettings.ResumeLayout(false);
+            this.pRegionalSettings.PerformLayout();
             this.pListControl.ResumeLayout(false);
             this.pComposedLook.ResumeLayout(false);
             this.pComposedLook.PerformLayout();
             this.pWebSettings.ResumeLayout(false);
             this.pWebSettings.PerformLayout();
             this.pViewControl.ResumeLayout(false);
-            this.pTextControl.ResumeLayout(false);
-            this.pTextControl.PerformLayout();
-            this.pRegionalSettings.ResumeLayout(false);
-            this.pRegionalSettings.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

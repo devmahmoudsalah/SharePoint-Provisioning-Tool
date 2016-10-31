@@ -1200,6 +1200,20 @@ namespace Karabina.SharePoint.Provisioning
 
         } //ViewControlKeyUp
 
+        private void SetStatusText(object sender, EventArgs e)
+        {
+            string tag = Constants.Edit00;
+            tag = (sender as Control).Tag.ToString();
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+
+        }
+
+        private void SetStatusDefault(object sender, EventArgs e)
+        {
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Edit00));
+
+        }
+
     } //EditWin
 
 } //Namespace

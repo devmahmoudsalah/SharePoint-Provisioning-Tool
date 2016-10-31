@@ -424,7 +424,7 @@
             this.cbCustomActions.Name = "cbCustomActions";
             this.cbCustomActions.Size = new System.Drawing.Size(129, 20);
             this.cbCustomActions.TabIndex = 8;
-            this.cbCustomActions.Tag = "9";
+            this.cbCustomActions.Tag = "09";
             this.cbCustomActions.Text = " # custom actions ";
             this.cbCustomActions.UseVisualStyleBackColor = true;
             this.cbCustomActions.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -438,7 +438,7 @@
             this.cbListInstances.Name = "cbListInstances";
             this.cbListInstances.Size = new System.Drawing.Size(115, 20);
             this.cbListInstances.TabIndex = 7;
-            this.cbListInstances.Tag = "8";
+            this.cbListInstances.Tag = "08";
             this.cbListInstances.Text = " # list instances ";
             this.cbListInstances.UseVisualStyleBackColor = true;
             this.cbListInstances.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -452,7 +452,7 @@
             this.cbContentTypes.Name = "cbContentTypes";
             this.cbContentTypes.Size = new System.Drawing.Size(120, 20);
             this.cbContentTypes.TabIndex = 6;
-            this.cbContentTypes.Tag = "7";
+            this.cbContentTypes.Tag = "07";
             this.cbContentTypes.Text = " # content types ";
             this.cbContentTypes.UseVisualStyleBackColor = true;
             this.cbContentTypes.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -466,7 +466,7 @@
             this.cbFields.Name = "cbFields";
             this.cbFields.Size = new System.Drawing.Size(76, 20);
             this.cbFields.TabIndex = 5;
-            this.cbFields.Tag = "6";
+            this.cbFields.Tag = "06";
             this.cbFields.Text = " # fields ";
             this.cbFields.UseVisualStyleBackColor = true;
             this.cbFields.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -480,7 +480,7 @@
             this.cbSiteSecurity.Name = "cbSiteSecurity";
             this.cbSiteSecurity.Size = new System.Drawing.Size(110, 20);
             this.cbSiteSecurity.TabIndex = 4;
-            this.cbSiteSecurity.Tag = "5";
+            this.cbSiteSecurity.Tag = "05";
             this.cbSiteSecurity.Text = " # site security ";
             this.cbSiteSecurity.UseVisualStyleBackColor = true;
             this.cbSiteSecurity.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -494,7 +494,7 @@
             this.cbSitePolicy.Name = "cbSitePolicy";
             this.cbSitePolicy.Size = new System.Drawing.Size(101, 20);
             this.cbSitePolicy.TabIndex = 3;
-            this.cbSitePolicy.Tag = "4";
+            this.cbSitePolicy.Tag = "04";
             this.cbSitePolicy.Text = " # site policy ";
             this.cbSitePolicy.UseVisualStyleBackColor = true;
             this.cbSitePolicy.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -508,7 +508,7 @@
             this.cbAuditSettings.Name = "cbAuditSettings";
             this.cbAuditSettings.Size = new System.Drawing.Size(119, 20);
             this.cbAuditSettings.TabIndex = 2;
-            this.cbAuditSettings.Tag = "3";
+            this.cbAuditSettings.Tag = "03";
             this.cbAuditSettings.Text = " # audit settings ";
             this.cbAuditSettings.UseVisualStyleBackColor = true;
             this.cbAuditSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -522,7 +522,7 @@
             this.cbSupportedUILanguages.Name = "cbSupportedUILanguages";
             this.cbSupportedUILanguages.Size = new System.Drawing.Size(173, 20);
             this.cbSupportedUILanguages.TabIndex = 1;
-            this.cbSupportedUILanguages.Tag = "2";
+            this.cbSupportedUILanguages.Tag = "02";
             this.cbSupportedUILanguages.Text = " # supported UI languages ";
             this.cbSupportedUILanguages.UseVisualStyleBackColor = true;
             this.cbSupportedUILanguages.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -536,7 +536,7 @@
             this.cbRegionalSettings.Name = "cbRegionalSettings";
             this.cbRegionalSettings.Size = new System.Drawing.Size(135, 20);
             this.cbRegionalSettings.TabIndex = 0;
-            this.cbRegionalSettings.Tag = "1";
+            this.cbRegionalSettings.Tag = "01";
             this.cbRegionalSettings.Text = " # regional settings ";
             this.cbRegionalSettings.UseVisualStyleBackColor = true;
             this.cbRegionalSettings.MouseEnter += new System.EventHandler(this.ShowToolTip);
@@ -549,7 +549,6 @@
             this.lToolTip.Name = "lToolTip";
             this.lToolTip.Size = new System.Drawing.Size(708, 35);
             this.lToolTip.TabIndex = 23;
-            this.lToolTip.Text = "Move the mouse over the items to see the explanation of the option";
             this.lToolTip.UseMnemonic = false;
             // 
             // TemplateOptions

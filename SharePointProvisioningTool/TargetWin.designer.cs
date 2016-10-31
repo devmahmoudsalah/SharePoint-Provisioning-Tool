@@ -55,7 +55,7 @@
             this.cbNoUNP.Name = "cbNoUNP";
             this.cbNoUNP.Size = new System.Drawing.Size(182, 20);
             this.cbNoUNP.TabIndex = 8;
-            this.cbNoUNP.Tag = "Target4";
+            this.cbNoUNP.Tag = "Target04";
             this.cbNoUNP.Text = "Authentication not required ";
             this.cbNoUNP.UseVisualStyleBackColor = true;
             this.cbNoUNP.CheckedChanged += new System.EventHandler(this.cbNoUNP_CheckedChanged);
@@ -69,7 +69,7 @@
             this.tbPassword.PasswordChar = '*';
             this.tbPassword.Size = new System.Drawing.Size(243, 23);
             this.tbPassword.TabIndex = 13;
-            this.tbPassword.Tag = "Target6";
+            this.tbPassword.Tag = "Target06";
             this.tbPassword.UseSystemPasswordChar = true;
             this.tbPassword.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.tbPassword.MouseLeave += new System.EventHandler(this.SetStatusDefault);
@@ -90,7 +90,7 @@
             this.tbUserName.Name = "tbUserName";
             this.tbUserName.Size = new System.Drawing.Size(243, 23);
             this.tbUserName.TabIndex = 10;
-            this.tbUserName.Tag = "Target5";
+            this.tbUserName.Tag = "Target05";
             this.tbUserName.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.tbUserName.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
@@ -110,7 +110,7 @@
             this.tbSharePointUrl.Name = "tbSharePointUrl";
             this.tbSharePointUrl.Size = new System.Drawing.Size(499, 23);
             this.tbSharePointUrl.TabIndex = 6;
-            this.tbSharePointUrl.Tag = "Target3";
+            this.tbSharePointUrl.Tag = "Target03";
             this.tbSharePointUrl.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.tbSharePointUrl.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
@@ -131,7 +131,7 @@
             this.bBrowse.Name = "bBrowse";
             this.bBrowse.Size = new System.Drawing.Size(75, 23);
             this.bBrowse.TabIndex = 3;
-            this.bBrowse.Tag = "Target2";
+            this.bBrowse.Tag = "Target02";
             this.bBrowse.Text = "Browse...";
             this.bBrowse.UseVisualStyleBackColor = true;
             this.bBrowse.Click += new System.EventHandler(this.bBrowse_Click);
@@ -155,7 +155,7 @@
             this.tbTemplate.ReadOnly = true;
             this.tbTemplate.Size = new System.Drawing.Size(418, 23);
             this.tbTemplate.TabIndex = 2;
-            this.tbTemplate.Tag = "Target1";
+            this.tbTemplate.Tag = "Target01";
             this.tbTemplate.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.tbTemplate.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
@@ -166,7 +166,7 @@
             this.bApply.Name = "bApply";
             this.bApply.Size = new System.Drawing.Size(75, 23);
             this.bApply.TabIndex = 16;
-            this.bApply.Tag = "Target8";
+            this.bApply.Tag = "Target08";
             this.bApply.Text = "Apply";
             this.bApply.UseVisualStyleBackColor = true;
             this.bApply.Click += new System.EventHandler(this.bApply_Click);
@@ -232,7 +232,7 @@
             this.bOptions.Name = "bOptions";
             this.bOptions.Size = new System.Drawing.Size(75, 23);
             this.bOptions.TabIndex = 15;
-            this.bOptions.Tag = "Target7";
+            this.bOptions.Tag = "Target07";
             this.bOptions.Text = "Options";
             this.bOptions.UseVisualStyleBackColor = true;
             this.bOptions.Click += new System.EventHandler(this.bOptions_Click);
@@ -267,7 +267,7 @@
             this.MinimizeBox = false;
             this.Name = "TargetWin";
             this.ShowInTaskbar = false;
-            this.Tag = "Target0";
+            this.Tag = "Target00";
             this.Text = "Apply Template";
             this.Activated += new System.EventHandler(this.SetStatusText);
             this.Shown += new System.EventHandler(this.FormShown);

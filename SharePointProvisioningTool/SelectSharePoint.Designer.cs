@@ -45,10 +45,12 @@
             this.rbSP2013OP.Size = new System.Drawing.Size(190, 20);
             this.rbSP2013OP.TabIndex = 2;
             this.rbSP2013OP.TabStop = true;
-            this.rbSP2013OP.Tag = "1";
+            this.rbSP2013OP.Tag = "Version01";
             this.rbSP2013OP.Text = " SharePoint 2013 On Premises ";
             this.rbSP2013OP.UseVisualStyleBackColor = true;
             this.rbSP2013OP.CheckedChanged += new System.EventHandler(this.SetVersionSelected);
+            this.rbSP2013OP.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.rbSP2013OP.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // rbSP2016OP
             // 
@@ -59,10 +61,12 @@
             this.rbSP2016OP.Size = new System.Drawing.Size(190, 20);
             this.rbSP2016OP.TabIndex = 3;
             this.rbSP2016OP.TabStop = true;
-            this.rbSP2016OP.Tag = "2";
+            this.rbSP2016OP.Tag = "Version02";
             this.rbSP2016OP.Text = " SharePoint 2016 On Premises ";
             this.rbSP2016OP.UseVisualStyleBackColor = true;
             this.rbSP2016OP.CheckedChanged += new System.EventHandler(this.SetVersionSelected);
+            this.rbSP2016OP.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.rbSP2016OP.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // rbSP2016OL
             // 
@@ -73,10 +77,12 @@
             this.rbSP2016OL.Size = new System.Drawing.Size(159, 20);
             this.rbSP2016OL.TabIndex = 4;
             this.rbSP2016OL.TabStop = true;
-            this.rbSP2016OL.Tag = "3";
+            this.rbSP2016OL.Tag = "Version03";
             this.rbSP2016OL.Text = " SharePoint 2016 Online ";
             this.rbSP2016OL.UseVisualStyleBackColor = true;
             this.rbSP2016OL.CheckedChanged += new System.EventHandler(this.SetVersionSelected);
+            this.rbSP2016OL.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.rbSP2016OL.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // lTopic
             // 
@@ -96,9 +102,12 @@
             this.bOkay.Name = "bOkay";
             this.bOkay.Size = new System.Drawing.Size(75, 23);
             this.bOkay.TabIndex = 5;
+            this.bOkay.Tag = "Version04";
             this.bOkay.Text = "&OK";
             this.bOkay.UseVisualStyleBackColor = true;
             this.bOkay.Click += new System.EventHandler(this.bOkay_Click);
+            this.bOkay.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bOkay.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // bCancel
             // 
@@ -108,9 +117,12 @@
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 6;
+            this.bCancel.Tag = "Version05";
             this.bCancel.Text = "&Cancel";
             this.bCancel.UseVisualStyleBackColor = true;
             this.bCancel.Click += new System.EventHandler(this.bCancel_Click);
+            this.bCancel.MouseEnter += new System.EventHandler(this.SetStatusText);
+            this.bCancel.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
             // SelectSharePoint
             // 
@@ -134,7 +146,9 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Tag = "Version00";
             this.Text = "Select SharePoint Version";
+            this.Activated += new System.EventHandler(this.SetStatusText);
             this.ResumeLayout(false);
             this.PerformLayout();
 

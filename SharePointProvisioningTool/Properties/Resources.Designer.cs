@@ -61,6 +61,114 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open a provisioning template for edit and saving the changes.
+        /// </summary>
+        internal static string Edit00 {
+            get {
+                return ResourceManager.GetString("Edit00", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provisioning template file name being edited will appear here.
+        /// </summary>
+        internal static string Edit01 {
+            get {
+                return ResourceManager.GetString("Edit01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to select the provisioning template to edit.
+        /// </summary>
+        internal static string Edit02 {
+            get {
+                return ResourceManager.GetString("Edit02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to save the changes made to the provisioning template.
+        /// </summary>
+        internal static string Edit03 {
+            get {
+                return ResourceManager.GetString("Edit03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hierachical display of the provisioning template items. Click a node to edit it, right click for edit options.
+        /// </summary>
+        internal static string Edit04 {
+            get {
+                return ResourceManager.GetString("Edit04", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change the regional settings of the provisioning template.
+        /// </summary>
+        internal static string Edit05 {
+            get {
+                return ResourceManager.GetString("Edit05", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected node child items. Double click to view the item, right click for edit options.
+        /// </summary>
+        internal static string Edit06 {
+            get {
+                return ResourceManager.GetString("Edit06", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ahh, you found the lost edit tag.
+        /// </summary>
+        internal static string Edit07 {
+            get {
+                return ResourceManager.GetString("Edit07", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change the composed look settings of the provisioning template.
+        /// </summary>
+        internal static string Edit08 {
+            get {
+                return ResourceManager.GetString("Edit08", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change the web settings of the provisioning template.
+        /// </summary>
+        internal static string Edit09 {
+            get {
+                return ResourceManager.GetString("Edit09", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change properties of the provisioning template. Double click to change selected item, right click for edit options.
+        /// </summary>
+        internal static string Edit10 {
+            get {
+                return ResourceManager.GetString("Edit10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit the details of the selected provisioning template item. Right click for edit options. On save empty items will be deleted.
+        /// </summary>
+        internal static string Edit11 {
+            get {
+                return ResourceManager.GetString("Edit11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ExitApplicationRed {
@@ -81,11 +189,92 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move the mouse over the items to see the explanation of the option.
+        /// </summary>
+        internal static string Option00 {
+            get {
+                return ResourceManager.GetString("Option00", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Represents regional settings that are used on the server that is running SharePoint Server..
         /// </summary>
-        internal static string Option1 {
+        internal static string Option01 {
             get {
-                return ResourceManager.GetString("Option1", resourceCulture);
+                return ResourceManager.GetString("Option01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specifies the language code identifiers (LCIDs) of the languages that are enabled for the site..
+        /// </summary>
+        internal static string Option02 {
+            get {
+                return ResourceManager.GetString("Option02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audit settings.
+        /// </summary>
+        internal static string Option03 {
+            get {
+                return ResourceManager.GetString("Option03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the site policy that currently is applied. Apply a policy to a site..
+        /// </summary>
+        internal static string Option04 {
+            get {
+                return ResourceManager.GetString("Option04", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include / apply various site security settings.
+        /// </summary>
+        internal static string Option05 {
+            get {
+                return ResourceManager.GetString("Option05", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Represents a collection of Field objects as defined for the site..
+        /// </summary>
+        internal static string Option06 {
+            get {
+                return ResourceManager.GetString("Option06", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Represents a collection of Web site content types..
+        /// </summary>
+        internal static string Option07 {
+            get {
+                return ResourceManager.GetString("Option07", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gets the collection of all lists that are contained in the web site excluding content.
+        /// </summary>
+        internal static string Option08 {
+            get {
+                return ResourceManager.GetString("Option08", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Represents a collection of custom actions associated with a SharePoint list, Web site, or subsite..
+        /// </summary>
+        internal static string Option09 {
+            get {
+                return ResourceManager.GetString("Option09", resourceCulture);
             }
         }
         
@@ -180,15 +369,6 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies the language code identifiers (LCIDs) of the languages that are enabled for the site..
-        /// </summary>
-        internal static string Option2 {
-            get {
-                return ResourceManager.GetString("Option2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Defines whether to persist publishing files (MasterPages and PageLayouts).
         /// </summary>
         internal static string Option20 {
@@ -270,155 +450,281 @@ namespace Karabina.SharePoint.Provisioning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Audit settings.
+        ///   Looks up a localized string similar to Details about the current operation will appear on this form.
         /// </summary>
-        internal static string Option3 {
+        internal static string Progress00 {
             get {
-                return ResourceManager.GetString("Option3", resourceCulture);
+                return ResourceManager.GetString("Progress00", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets the site policy that currently is applied. Apply a policy to a site..
+        ///   Looks up a localized string similar to The current operation details will appear on this listbox.
         /// </summary>
-        internal static string Option4 {
+        internal static string Progress01 {
             get {
-                return ResourceManager.GetString("Option4", resourceCulture);
+                return ResourceManager.GetString("Progress01", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Include / apply various site security settings.
+        ///   Looks up a localized string similar to Click this button to close this progress form.
         /// </summary>
-        internal static string Option5 {
+        internal static string Progress02 {
             get {
-                return ResourceManager.GetString("Option5", resourceCulture);
+                return ResourceManager.GetString("Progress02", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Represents a collection of Field objects as defined for the site..
+        ///   Looks up a localized string similar to Complete the fields to create a provisioning template from a SharePoint site.
         /// </summary>
-        internal static string Option6 {
+        internal static string Source00 {
             get {
-                return ResourceManager.GetString("Option6", resourceCulture);
+                return ResourceManager.GetString("Source00", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Represents a collection of Web site content types..
+        ///   Looks up a localized string similar to Specify the URL of the SharePoint site to save in the provisioning template.
         /// </summary>
-        internal static string Option7 {
+        internal static string Source01 {
             get {
-                return ResourceManager.GetString("Option7", resourceCulture);
+                return ResourceManager.GetString("Source01", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gets the collection of all lists that are contained in the web site excluding content.
+        ///   Looks up a localized string similar to On Premises - On the SharePoint server check this option if logged in with the farm account.
         /// </summary>
-        internal static string Option8 {
+        internal static string Source02 {
             get {
-                return ResourceManager.GetString("Option8", resourceCulture);
+                return ResourceManager.GetString("Source02", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Represents a collection of custom actions associated with a SharePoint list, Web site, or subsite..
+        ///   Looks up a localized string similar to Online - Specify email address; On Premises - Specify domain\account.
         /// </summary>
-        internal static string Option9 {
+        internal static string Source03 {
             get {
-                return ResourceManager.GetString("Option9", resourceCulture);
+                return ResourceManager.GetString("Source03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify the password for the account.
+        /// </summary>
+        internal static string Source04 {
+            get {
+                return ResourceManager.GetString("Source04", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provisioning template file name will appear here.
+        /// </summary>
+        internal static string Source05 {
+            get {
+                return ResourceManager.GetString("Source05", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to specify the provisioning template file.
+        /// </summary>
+        internal static string Source06 {
+            get {
+                return ResourceManager.GetString("Source06", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to specify what should be included in the provisioning template.
+        /// </summary>
+        internal static string Source07 {
+            get {
+                return ResourceManager.GetString("Source07", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to create the provisioning file, the progress form will appear.
+        /// </summary>
+        internal static string Source08 {
+            get {
+                return ResourceManager.GetString("Source08", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to SharePoint Provisioning Tool - Front end for Office Dev PnP Core library for SharePoint.
         /// </summary>
-        internal static string String0 {
+        internal static string String00 {
             get {
-                return ResourceManager.GetString("String0", resourceCulture);
+                return ResourceManager.GetString("String00", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Click to open the Create Template form.
         /// </summary>
-        internal static string String1 {
+        internal static string String01 {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("String01", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Click to open the Edit Template form.
         /// </summary>
-        internal static string String2 {
+        internal static string String02 {
             get {
-                return ResourceManager.GetString("String2", resourceCulture);
+                return ResourceManager.GetString("String02", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Click to open the Apply Template form.
         /// </summary>
-        internal static string String3 {
+        internal static string String03 {
             get {
-                return ResourceManager.GetString("String3", resourceCulture);
+                return ResourceManager.GetString("String03", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Click to exit this application.
         /// </summary>
-        internal static string String4 {
+        internal static string String04 {
             get {
-                return ResourceManager.GetString("String4", resourceCulture);
+                return ResourceManager.GetString("String04", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Click to cascade the open forms.
         /// </summary>
-        internal static string String5 {
+        internal static string String05 {
             get {
-                return ResourceManager.GetString("String5", resourceCulture);
+                return ResourceManager.GetString("String05", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Click to tile the open forms vertically.
         /// </summary>
-        internal static string String6 {
+        internal static string String06 {
             get {
-                return ResourceManager.GetString("String6", resourceCulture);
+                return ResourceManager.GetString("String06", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Click to tile the open forms horizontally.
         /// </summary>
-        internal static string String7 {
+        internal static string String07 {
             get {
-                return ResourceManager.GetString("String7", resourceCulture);
+                return ResourceManager.GetString("String07", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Contains the arrange forms commands.
         /// </summary>
-        internal static string String8 {
+        internal static string String08 {
             get {
-                return ResourceManager.GetString("String8", resourceCulture);
+                return ResourceManager.GetString("String08", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Contains the template commands.
         /// </summary>
-        internal static string String9 {
+        internal static string String09 {
             get {
-                return ResourceManager.GetString("String9", resourceCulture);
+                return ResourceManager.GetString("String09", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complete the fields to apply a provisioning template to a SharePoint site.
+        /// </summary>
+        internal static string Target00 {
+            get {
+                return ResourceManager.GetString("Target00", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The selected provisioning template file name will appear here.
+        /// </summary>
+        internal static string Target01 {
+            get {
+                return ResourceManager.GetString("Target01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to select the provisioning template file.
+        /// </summary>
+        internal static string Target02 {
+            get {
+                return ResourceManager.GetString("Target02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify the URL of the SharePoint site to apply the provisioning template.
+        /// </summary>
+        internal static string Target03 {
+            get {
+                return ResourceManager.GetString("Target03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On Premises - On the SharePoint server check this option if logged in with the farm account.
+        /// </summary>
+        internal static string Target04 {
+            get {
+                return ResourceManager.GetString("Target04", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Online - Specify email address; On Premises - Specify domain\account.
+        /// </summary>
+        internal static string Target05 {
+            get {
+                return ResourceManager.GetString("Target05", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify the password for the account.
+        /// </summary>
+        internal static string Target06 {
+            get {
+                return ResourceManager.GetString("Target06", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to specify what should be applied from the provisioning template.
+        /// </summary>
+        internal static string Target07 {
+            get {
+                return ResourceManager.GetString("Target07", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to apply the provisioning template to the SharePoint site.
+        /// </summary>
+        internal static string Target08 {
+            get {
+                return ResourceManager.GetString("Target08", resourceCulture);
             }
         }
         
@@ -449,6 +755,60 @@ namespace Karabina.SharePoint.Provisioning.Properties {
             get {
                 object obj = ResourceManager.GetObject("TemplateEditRed", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the SharePoint version to perform the action on.
+        /// </summary>
+        internal static string Version00 {
+            get {
+                return ResourceManager.GetString("Version00", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select SharePoint 2013 On Premises to perform the action on.
+        /// </summary>
+        internal static string Version01 {
+            get {
+                return ResourceManager.GetString("Version01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select SharePoint 2016 On Premises to perform the action on.
+        /// </summary>
+        internal static string Version02 {
+            get {
+                return ResourceManager.GetString("Version02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select SharePoint 2016 Online to perform the action on.
+        /// </summary>
+        internal static string Version03 {
+            get {
+                return ResourceManager.GetString("Version03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to make the selection.
+        /// </summary>
+        internal static string Version04 {
+            get {
+                return ResourceManager.GetString("Version04", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to cancel the action.
+        /// </summary>
+        internal static string Version05 {
+            get {
+                return ResourceManager.GetString("Version05", resourceCulture);
             }
         }
         

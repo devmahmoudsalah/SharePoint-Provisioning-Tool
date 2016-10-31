@@ -79,7 +79,7 @@
             this.fileMenu.ImageTransparentColor = System.Drawing.Color.White;
             this.fileMenu.Name = "fileMenu";
             this.fileMenu.Size = new System.Drawing.Size(37, 20);
-            this.fileMenu.Tag = "String9";
+            this.fileMenu.Tag = "String09";
             this.fileMenu.Text = "&File";
             this.fileMenu.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.fileMenu.MouseLeave += new System.EventHandler(this.SetStatusDefault);
@@ -92,7 +92,7 @@
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
-            this.newToolStripMenuItem.Tag = "String1";
+            this.newToolStripMenuItem.Tag = "String01";
             this.newToolStripMenuItem.Text = "Create &Template";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.ShowCreateForm);
             this.newToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -106,7 +106,7 @@
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.editToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
-            this.editToolStripMenuItem.Tag = "String2";
+            this.editToolStripMenuItem.Tag = "String02";
             this.editToolStripMenuItem.Text = "&Edit Template";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.ShowEditForm);
             this.editToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -120,7 +120,7 @@
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
-            this.saveToolStripMenuItem.Tag = "String3";
+            this.saveToolStripMenuItem.Tag = "String03";
             this.saveToolStripMenuItem.Text = "A&pply Template";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ShowApplyForm);
             this.saveToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -139,7 +139,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShowShortcutKeys = false;
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
-            this.exitToolStripMenuItem.Tag = "String4";
+            this.exitToolStripMenuItem.Tag = "String04";
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolsStripMenuItem_Click);
             this.exitToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -155,7 +155,7 @@
             this.windowsMenu.ImageTransparentColor = System.Drawing.Color.White;
             this.windowsMenu.Name = "windowsMenu";
             this.windowsMenu.Size = new System.Drawing.Size(68, 20);
-            this.windowsMenu.Tag = "String8";
+            this.windowsMenu.Tag = "String08";
             this.windowsMenu.Text = "&Windows";
             this.windowsMenu.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.windowsMenu.MouseLeave += new System.EventHandler(this.SetStatusDefault);
@@ -166,8 +166,8 @@
             this.cascadeToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.cascadeToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
-            this.cascadeToolStripMenuItem.Tag = "String5";
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
+            this.cascadeToolStripMenuItem.Tag = "String05";
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
             this.cascadeToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -179,8 +179,8 @@
             this.tileVerticalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tileVerticalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
-            this.tileVerticalToolStripMenuItem.Tag = "String6";
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
+            this.tileVerticalToolStripMenuItem.Tag = "String06";
             this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
             this.tileVerticalToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -192,8 +192,8 @@
             this.tileHorizontalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tileHorizontalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
-            this.tileHorizontalToolStripMenuItem.Tag = "String7";
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
+            this.tileHorizontalToolStripMenuItem.Tag = "String07";
             this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);
             this.tileHorizontalToolStripMenuItem.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -221,7 +221,7 @@
             this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.newToolStripButton.Name = "newToolStripButton";
             this.newToolStripButton.Size = new System.Drawing.Size(36, 36);
-            this.newToolStripButton.Tag = "String1";
+            this.newToolStripButton.Tag = "String01";
             this.newToolStripButton.Text = "Create Template";
             this.newToolStripButton.Click += new System.EventHandler(this.ShowCreateForm);
             this.newToolStripButton.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -235,7 +235,7 @@
             this.editToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.editToolStripButton.Name = "editToolStripButton";
             this.editToolStripButton.Size = new System.Drawing.Size(36, 36);
-            this.editToolStripButton.Tag = "String2";
+            this.editToolStripButton.Tag = "String02";
             this.editToolStripButton.Text = "Edit Template";
             this.editToolStripButton.Click += new System.EventHandler(this.ShowEditForm);
             this.editToolStripButton.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -249,7 +249,7 @@
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.White;
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(36, 36);
-            this.saveToolStripButton.Tag = "String3";
+            this.saveToolStripButton.Tag = "String03";
             this.saveToolStripButton.Text = "Apply Template";
             this.saveToolStripButton.Click += new System.EventHandler(this.ShowApplyForm);
             this.saveToolStripButton.MouseEnter += new System.EventHandler(this.SetStatusText);
@@ -269,8 +269,8 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(303, 17);
-            this.toolStripStatusLabel.Text = "SharePoint Provisioning Tool - Based on SharePoint PnP";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(14, 17);
+            this.toolStripStatusLabel.Text = "#";
             // 
             // SharePointProvisioningTool
             // 

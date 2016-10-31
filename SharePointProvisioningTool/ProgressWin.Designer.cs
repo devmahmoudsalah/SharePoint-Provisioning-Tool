@@ -59,7 +59,7 @@
             this.lbResult.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbResult.Size = new System.Drawing.Size(622, 259);
             this.lbResult.TabIndex = 1;
-            this.lbResult.Tag = "Progress1";
+            this.lbResult.Tag = "Progress01";
             this.lbResult.MouseEnter += new System.EventHandler(this.SetStatusText);
             this.lbResult.MouseLeave += new System.EventHandler(this.SetStatusDefault);
             // 
@@ -99,7 +99,7 @@
             this.bClose.Name = "bClose";
             this.bClose.Size = new System.Drawing.Size(75, 23);
             this.bClose.TabIndex = 2;
-            this.bClose.Tag = "Progress2";
+            this.bClose.Tag = "Progress02";
             this.bClose.Text = "Close";
             this.bClose.UseVisualStyleBackColor = true;
             this.bClose.Click += new System.EventHandler(this.bClose_Click);
@@ -123,7 +123,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Tag = "Progress0";
+            this.Tag = "Progress00";
             this.Text = "ProgressWin";
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.SetStatusText);

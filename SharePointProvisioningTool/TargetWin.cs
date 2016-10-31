@@ -152,14 +152,14 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SetStatusText(object sender, EventArgs e)
         {
-            string tag = Constants.Target0;
+            string tag = Constants.Target00;
             tag = (sender as Control).Tag.ToString();
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
         }
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
-            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Target0));
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Target00));
         }
 
         private void bOptions_Click(object sender, EventArgs e)

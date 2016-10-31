@@ -19,6 +19,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             InitializeComponent();
 
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.String00));
+
         }
 
         private string OpenFile()
@@ -329,6 +331,8 @@ namespace Karabina.SharePoint.Provisioning
 
             dialog.setTopic("Select the SharePoint version to apply the template to");
 
+            dialog.SetStatusBarText = SetStatusBarText;
+
             DialogResult result = dialog.ShowDialog(this);
 
             if (result == DialogResult.OK)
@@ -386,6 +390,8 @@ namespace Karabina.SharePoint.Provisioning
 
             dialog.setTopic("Select the SharePoint version to create the template from");
 
+            dialog.SetStatusBarText = SetStatusBarText;
+
             DialogResult result = dialog.ShowDialog(this);
 
             if (result == DialogResult.OK)
@@ -442,6 +448,8 @@ namespace Karabina.SharePoint.Provisioning
             dialog.FormClosed += new FormClosedEventHandler(DestroyForm);
 
             dialog.setTopic("Select the SharePoint version of the template to edit");
+
+            dialog.SetStatusBarText = SetStatusBarText;
 
             DialogResult result = dialog.ShowDialog(this);
 
@@ -523,7 +531,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
-            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.String0));
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.String00));
 
         }
 

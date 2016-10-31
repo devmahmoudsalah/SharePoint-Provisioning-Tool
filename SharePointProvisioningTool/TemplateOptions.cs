@@ -121,17 +121,7 @@ namespace Karabina.SharePoint.Provisioning
 
             cbExcludeBaseTemplate.Enabled = isCreating;
 
-
-            foreach(var control in Controls.OfType<CheckBox>())
-            {
-                if (control.Tag == null)
-                {
-                    control.Tag = "28";
-
-                }
-
-            }
-
+            lToolTip.Text = Properties.Resources.ResourceManager.GetString(Constants.Option00);
 
             _provisioningOptions = new ProvisioningOptions();
 
@@ -250,7 +240,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private void HideToolTip(object sender, EventArgs e)
         {
-            lToolTip.Text = "Move the mouse over the items to see the explanation of the option";
+            lToolTip.Text = Properties.Resources.ResourceManager.GetString(Constants.Option00);
 
         }
 

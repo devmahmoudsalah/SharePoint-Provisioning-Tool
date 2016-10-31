@@ -195,7 +195,7 @@ namespace Karabina.SharePoint.Provisioning
         private void SetStatusText(object sender, EventArgs e)
         {
             Control control = (sender as Control);
-            string tag = Constants.Progress0;
+            string tag = Constants.Progress00;
             if (control.Tag != null)
             {
                 tag = control.Tag.ToString();
@@ -207,7 +207,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
-            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Progress0));
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Progress00));
 
         }
 

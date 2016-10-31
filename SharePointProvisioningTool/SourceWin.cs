@@ -174,7 +174,7 @@ namespace Karabina.SharePoint.Provisioning
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
-            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Source0));
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Source00));
         }
 
     }

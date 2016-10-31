@@ -19,30 +19,59 @@ namespace Karabina.SharePoint.Provisioning
             set { _versionSelected = value; }
         }
 
+        public delegate void SetStatusTextDelegate(string message);
+
+        public SetStatusTextDelegate SetStatusBarText;
+
         public SelectSharePoint()
         {
-            InitializeComponent();
+            InitializeComponent();          
+
         }
 
         public void setTopic(string topic)
         {
             lTopic.Text = topic;
+
         }
 
         private void bOkay_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
+
         }
 
         private void bCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
+
         }
 
         private void SetVersionSelected(object sender, EventArgs e)
         {
             RadioButton rb = sender as RadioButton;
-            _versionSelected = (SharePointVersion)Convert.ToInt32(rb.Tag);
+            string tag = (sender as Control).Tag.ToString();
+            int verNum = Convert.ToInt32(tag.Replace("Version0", ""));
+            _versionSelected = (SharePointVersion)verNum;
+
         }
+
+        private void SetStatusText(object sender, EventArgs e)
+        {
+            string tag = Constants.Version00;
+            tag = (sender as Control).Tag.ToString();
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
+
+        }
+
+        private void SetStatusDefault(object sender, EventArgs e)
+        {
+            SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Version00));
+
+        }
+
+
+
     }
+
 }
