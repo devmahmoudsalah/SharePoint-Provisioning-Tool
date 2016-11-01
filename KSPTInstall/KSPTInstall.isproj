@@ -29,4 +29,14 @@
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath32)\InstallShield\2015Limited\InstallShield.targets"/>
 	<ItemGroup/>
+	<ItemGroup>
+		<ProjectReference Include="..\ProvisioningGlobals\ProvisioningGlobals.csproj">
+			<Name>ProvisioningGlobals</Name>
+			<Project>{42F37640-6554-461E-9C68-74CEA510EB4F}</Project>
+		</ProjectReference>
+		<ProjectReference Include="..\SharePointProvisioningTool\SharePointProvisioningTool.csproj">
+			<Name>SharePointProvisioningTool</Name>
+			<Project>{9B03FE1D-2014-405D-8503-874CDFA8B96F}</Project>
+		</ProjectReference>
+	</ItemGroup>
 </Project>

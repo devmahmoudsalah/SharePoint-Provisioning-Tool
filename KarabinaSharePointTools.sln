@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePoint2016Online", "SharePoint2016Online\SharePoint2016Online.csproj", "{8B770922-2953-44AC-A4C0-025861E45ED8}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "KSPTInstall", "KSPTInstall\KSPTInstall.isproj", "{A0622138-7A80-4FDA-AACC-BB6450E884C5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9B03FE1D-2014-405D-8503-874CDFA8B96F} = {9B03FE1D-2014-405D-8503-874CDFA8B96F}
+		{42F37640-6554-461E-9C68-74CEA510EB4F} = {42F37640-6554-461E-9C68-74CEA510EB4F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvisioningGlobals", "ProvisioningGlobals\ProvisioningGlobals.csproj", "{42F37640-6554-461E-9C68-74CEA510EB4F}"
 EndProject

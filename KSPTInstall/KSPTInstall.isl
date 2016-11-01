@@ -52,7 +52,7 @@
 	<summary>
 		<codepage>1252</codepage>
 		<title>Installation Database</title>
-		<subject>SharePoint Provisioning Tool</subject>
+		<subject>##ID_STRING5##</subject>
 		<author>##ID_STRING3##</author>
 		<keywords>Installer,MSI,Database</keywords>
 		<comments>Contact:  Your local administrator</comments>
@@ -341,13 +341,15 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>KSPPApplication.Primary_output</td><td>{B67ABE7B-CDAB-45D2-8EA7-8FC02FC6F44D}</td><td>INSTALLDIR</td><td>2</td><td/><td>ksppapplication.primary_outp</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td>{392BA059-1448-406D-9C4E-1ADFD341F9F4}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ProvisioningGlobals.Primary_output</td><td>{72A5A70C-7D01-4EC0-806F-5C7E1DFF279E}</td><td>INSTALLDIR</td><td>2</td><td/><td>provisioningglobals.primary_</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SharePoint2013OnPrem.Primary_output</td><td>{044B8D5E-67CB-41AD-A442-94C3BB84D676}</td><td>INSTALLDIR</td><td>2</td><td/><td>sharepoint2013onprem.primary</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SharePoint2013OnPrem.Runtime_Implementation</td><td>{D2AACC27-B099-4566-9D96-47A0187E85E1}</td><td>INSTALLDIR</td><td>2</td><td/><td>sharepoint2013onprem.runtime</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SharePoint2016OnPrem.Primary_output</td><td>{7011AA42-EABA-4BBE-90ED-2243F1D55141}</td><td>INSTALLDIR</td><td>2</td><td/><td>sharepoint2016onprem.primary</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SharePoint2016OnPrem.Runtime_Implementation</td><td>{350CB77F-A13C-480A-8DAB-1327E91ED3C8}</td><td>INSTALLDIR</td><td>2</td><td/><td>sharepoint2016onprem.runtime</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SharePoint2016Online.Primary_output</td><td>{3AA8A1EE-B47B-4820-87DF-40B6454F8925}</td><td>INSTALLDIR</td><td>2</td><td/><td>sharepoint2016online.primary</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SharePoint2016Online.Runtime_Implementation</td><td>{2D29702E-BC4D-4906-ACB8-939591BBDBFE}</td><td>INSTALLDIR</td><td>2</td><td/><td>sharepoint2016online.runtime</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>SharePointProvisioningTool.Primary_output</td><td>{D2F629CE-FFC6-483D-9C20-57B3EBFA0742}</td><td>INSTALLDIR</td><td>2</td><td/><td>sharepointprovisioningtool.p</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1057,13 +1059,15 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>INSTALLDIR</td><td>KSPPApplication.Primary_output</td></row>
+		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>INSTALLDIR</td><td>ProvisioningGlobals.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>SharePoint2013OnPrem.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>SharePoint2013OnPrem.Runtime_Implementation</td></row>
 		<row><td>INSTALLDIR</td><td>SharePoint2016OnPrem.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>SharePoint2016OnPrem.Runtime_Implementation</td></row>
 		<row><td>INSTALLDIR</td><td>SharePoint2016Online.Primary_output</td></row>
 		<row><td>INSTALLDIR</td><td>SharePoint2016Online.Runtime_Implementation</td></row>
+		<row><td>INSTALLDIR</td><td>SharePointProvisioningTool.Primary_output</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -1184,8 +1188,6 @@
 		<row><td>USERPROFILE</td><td>TARGETDIR</td><td>.:USERPR~1|UserProfile</td><td/><td>0</td><td/></row>
 		<row><td>WindowsFolder</td><td>TARGETDIR</td><td>.:Windows</td><td/><td>0</td><td/></row>
 		<row><td>WindowsVolume</td><td>TARGETDIR</td><td>.:WinRoot</td><td/><td>0</td><td/></row>
-		<row><td>karabina</td><td>ProgramMenuFolder</td><td>Karabina</td><td/><td>1</td><td/></row>
-		<row><td>sharep_1_sharepoint_provisioning_tool</td><td>karabina</td><td>SHAREP~1|SharePoint Provisioning Tool</td><td/><td>1</td><td/></row>
 	</table>
 
 	<table name="DrLocator">
@@ -1877,13 +1879,15 @@
 	<table name="FeatureComponents">
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>AlwaysInstall</td><td>KSPPApplication.Primary_output</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>AlwaysInstall</td><td>ProvisioningGlobals.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>SharePoint2013OnPrem.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>SharePoint2013OnPrem.Runtime_Implementation</td></row>
 		<row><td>AlwaysInstall</td><td>SharePoint2016OnPrem.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>SharePoint2016OnPrem.Runtime_Implementation</td></row>
 		<row><td>AlwaysInstall</td><td>SharePoint2016Online.Primary_output</td></row>
 		<row><td>AlwaysInstall</td><td>SharePoint2016Online.Runtime_Implementation</td></row>
+		<row><td>AlwaysInstall</td><td>SharePointProvisioningTool.Primary_output</td></row>
 	</table>
 
 	<table name="File">
@@ -1898,13 +1902,15 @@
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
-		<row><td>ksppapplication.primary_outp</td><td>KSPPApplication.Primary_output</td><td>KSPPApplication.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;KSPPApplication&gt;|Built</td><td>3</td><td/></row>
+		<row><td>karabina48x48.ico</td><td>ISX_DEFAULTCOMPONENT</td><td>KARABI~1.ICO|Karabina48x48.ico</td><td>0</td><td/><td/><td/><td>1</td><td>C:\Development\Karabina\Karabina48x48.ico</td><td>1</td><td/></row>
+		<row><td>provisioningglobals.primary_</td><td>ProvisioningGlobals.Primary_output</td><td>ProvisioningGlobals.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProvisioningGlobals&gt;|Built</td><td>3</td><td/></row>
 		<row><td>sharepoint2013onprem.primary</td><td>SharePoint2013OnPrem.Primary_output</td><td>SharePoint2013OnPrem.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SharePoint2013OnPrem&gt;|Built</td><td>3</td><td/></row>
 		<row><td>sharepoint2013onprem.runtime</td><td>SharePoint2013OnPrem.Runtime_Implementation</td><td>SharePoint2013OnPrem.Runtime Implementation</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SharePoint2013OnPrem&gt;|RuntimeImplementation</td><td>3</td><td/></row>
 		<row><td>sharepoint2016online.primary</td><td>SharePoint2016Online.Primary_output</td><td>SharePoint2016Online.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SharePoint2016Online&gt;|Built</td><td>3</td><td/></row>
 		<row><td>sharepoint2016online.runtime</td><td>SharePoint2016Online.Runtime_Implementation</td><td>SharePoint2016Online.Runtime Implementation</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SharePoint2016Online&gt;|RuntimeImplementation</td><td>3</td><td/></row>
 		<row><td>sharepoint2016onprem.primary</td><td>SharePoint2016OnPrem.Primary_output</td><td>SharePoint2016OnPrem.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SharePoint2016OnPrem&gt;|Built</td><td>3</td><td/></row>
 		<row><td>sharepoint2016onprem.runtime</td><td>SharePoint2016OnPrem.Runtime_Implementation</td><td>SharePoint2016OnPrem.Runtime Implementation</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SharePoint2016OnPrem&gt;|RuntimeImplementation</td><td>3</td><td/></row>
+		<row><td>sharepointprovisioningtool.p</td><td>SharePointProvisioningTool.Primary_output</td><td>SharePointProvisioningTool.Primary output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;SharePointProvisioningTool&gt;|Built</td><td>3</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2046,13 +2052,15 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>KSPPApplication.Primary_output</td><td/><td/><td>_2FAE524A_8AF6_42C5_9320_967C1DBF8210_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_28BBA47A_BE55_4A96_9C3D_3FF81DDEF2FC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ProvisioningGlobals.Primary_output</td><td/><td/><td>_2B3E55B0_EC73_4FA6_B386_D78FF56013CB_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SharePoint2013OnPrem.Primary_output</td><td/><td/><td>_8C20F92C_ADE6_44BA_86A7_135BF97D9D32_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SharePoint2013OnPrem.Runtime_Implementation</td><td/><td/><td>_84FD23BD_5305_4A75_B9E4_4824D3690A4F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SharePoint2016OnPrem.Primary_output</td><td/><td/><td>_F2DB4EBD_0A8B_4F26_B7B4_6A02DC85D798_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SharePoint2016OnPrem.Runtime_Implementation</td><td/><td/><td>_9CDBAAF3_8D04_493A_A227_3796950AD267_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SharePoint2016Online.Primary_output</td><td/><td/><td>_E2B1DBEA_BE0F_4FEB_BA39_E4BAA6E6B623_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SharePoint2016Online.Runtime_Implementation</td><td/><td/><td>_7C1D869D_5275_4AD7_86BC_D0CEBB53F811_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>SharePointProvisioningTool.Primary_output</td><td/><td/><td>_E6C94930_3CFA_43ED_8654_FF5276BB4B89_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">
@@ -2337,9 +2345,11 @@
 		<row><td>ISProjectFolder</td><td/><td/><td>1</td></row>
 		<row><td>KSPPApplication</td><td>KSPPApplication.csproj</td><td/><td>2</td></row>
 		<row><td>ProgramFilesFolder</td><td/><td/><td>1</td></row>
+		<row><td>ProvisioningGlobals</td><td>ProvisioningGlobals\ProvisioningGlobals.csproj</td><td/><td>2</td></row>
 		<row><td>SharePoint2013OnPrem</td><td>..\SharePoint2013OnPrem\SharePoint2013OnPrem.csproj</td><td/><td>2</td></row>
 		<row><td>SharePoint2016OnPrem</td><td>..\SharePoint2016OnPrem\SharePoint2016OnPrem.csproj</td><td/><td>2</td></row>
 		<row><td>SharePoint2016Online</td><td>..\SharePoint2016Online\SharePoint2016Online.csproj</td><td/><td>2</td></row>
+		<row><td>SharePointProvisioningTool</td><td>SharePointProvisioningTool\SharePointProvisioningTool.csproj</td><td/><td>2</td></row>
 		<row><td>SystemFolder</td><td/><td/><td>1</td></row>
 		<row><td>WindowsFolder</td><td/><td/><td>1</td></row>
 	</table>
@@ -2611,6 +2621,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
+		<row><td>_A7492BB7_07F6_4BA5_AEFF_FCC9D8DCD07A_</td><td>Microsoft .NET Framework 4.6 Full.prq</td><td/><td/><td/></row>
 	</table>
 
 	<table name="ISSetupType">
@@ -3750,6 +3761,8 @@
 		<row><td>ID_STRING2</td><td>1033</td><td>http://www.karabina.co.za</td><td>0</td><td/><td>-467393868</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>Karabina Business Technology Solutions</td><td>0</td><td/><td>-467387724</td></row>
 		<row><td>ID_STRING4</td><td>1033</td><td>Launch |Built</td><td>0</td><td/><td>-467369516</td></row>
+		<row><td>ID_STRING5</td><td>1033</td><td>SharePoint Provisioning Tool</td><td>0</td><td/><td>228866063</td></row>
+		<row><td>ID_STRING6</td><td>1033</td><td>SHAREP~1|SharePoint Provisioning Tool</td><td>0</td><td/><td>228882767</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-467373772</td></row>
 	</table>
 
@@ -3863,7 +3876,9 @@
 		<col def="V0">Data</col>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
-		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\setupicon.ico</td><td>0</td></row>
+		<row><td>ARPPRODUCTICON.exe</td><td/><td>C:\Development\Karabina\Karabina32x32.ico</td><td>0</td></row>
+		<row><td>NewShortcut1_CB04712A9A374A5BA26B49CC5DB3D9E1.exe</td><td/><td>C:\Development\Karabina\Karabina48x48.ico</td><td>0</td></row>
+		<row><td>_Built1_7A2AA8FBD48E4E28A6B117DAA1093AC2.exe</td><td/><td>http://www.karabina.co.za</td><td>0</td></row>
 	</table>
 
 	<table name="IniFile">
@@ -3996,7 +4011,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{E1EE5AE1-E1E6-4E8B-832F-3D90A0ECFFAB}</td></row>
 		<row><td>ISUSSignature</td><td>{B6BC2612-3038-4037-8ECF-E9B6DED4385B}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewObjects,viewAppFiles,viewISToday</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewProject,viewObjects,viewAppFiles,viewISToday,viewUpgradePaths,viewUpdateService,viewShortcuts,viewUI</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -4454,9 +4469,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
-		<row><td>FileKey1</td><td>KSPPApplication.Primary_output</td><td/><td>karabina</td><td>2</td></row>
-		<row><td>FileKey2</td><td>KSPPApplication.Primary_output</td><td/><td>sharep_1_sharepoint_provisioning_tool</td><td>2</td></row>
-		<row><td>_Built</td><td>KSPPApplication.Primary_output</td><td/><td>sharep_1_sharepoint_provisioning_tool</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -4542,8 +4554,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>_Built</td><td>sharep_1_sharepoint_provisioning_tool</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>KSPPApplication.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>_Built1</td><td>DesktopFolder</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>KSPPApplication.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td/><td/><td>1</td><td/><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut1</td><td>DesktopFolder</td><td>##ID_STRING6##</td><td>SharePointProvisioningTool.Primary_output</td><td>AlwaysInstall</td><td/><td/><td/><td>NewShortcut1_CB04712A9A374A5BA26B49CC5DB3D9E1.exe</td><td>0</td><td>3</td><td>SHAREPOINT_PROVISIONING_TOOL</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
