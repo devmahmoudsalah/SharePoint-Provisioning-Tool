@@ -11,12 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePoint2016OnPrem", "Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePoint2016Online", "SharePoint2016Online\SharePoint2016Online.csproj", "{8B770922-2953-44AC-A4C0-025861E45ED8}"
 EndProject
-Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "KSPTInstall", "KSPTInstall\KSPTInstall.isproj", "{A0622138-7A80-4FDA-AACC-BB6450E884C5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9B03FE1D-2014-405D-8503-874CDFA8B96F} = {9B03FE1D-2014-405D-8503-874CDFA8B96F}
-		{42F37640-6554-461E-9C68-74CEA510EB4F} = {42F37640-6554-461E-9C68-74CEA510EB4F}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvisioningGlobals", "ProvisioningGlobals\ProvisioningGlobals.csproj", "{42F37640-6554-461E-9C68-74CEA510EB4F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2116E641-B69F-4407-838D-541E6D7F4A50}"
@@ -24,7 +18,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{20715B05-0C14-48CD-959E-85593CDD0553}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{88D11D2A-95E6-4E79-9E61-24D26061094B}"
+	ProjectSection(SolutionItems) = preProject
+		Images\ApplyOptions.png = Images\ApplyOptions.png
+		Images\ApplyTemplate.png = Images\ApplyTemplate.png
+		Images\CreateOptions.png = Images\CreateOptions.png
+		Images\CreateProgress.png = Images\CreateProgress.png
+		Images\CreateTemplate.png = Images\CreateTemplate.png
+		Images\EditStart.png = Images\EditStart.png
+		Images\EditTemplateDeleteItems.png = Images\EditTemplateDeleteItems.png
+		Images\EditTemplateKeyValue.png = Images\EditTemplateKeyValue.png
+		Images\EditTemplateKeyValueNew.png = Images\EditTemplateKeyValueNew.png
+		Images\EditTemplateList.png = Images\EditTemplateList.png
+		Images\EditTemplateRegionalSettings.png = Images\EditTemplateRegionalSettings.png
+		Images\EditTemplateSaved.png = Images\EditTemplateSaved.png
+		Images\EditTemplateText.png = Images\EditTemplateText.png
+		Images\MainScreen.png = Images\MainScreen.png
+		Images\OpenTemplate.png = Images\OpenTemplate.png
+		Images\VersionSelect.png = Images\VersionSelect.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,16 +87,6 @@ Global
 		{8B770922-2953-44AC-A4C0-025861E45ED8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B770922-2953-44AC-A4C0-025861E45ED8}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{8B770922-2953-44AC-A4C0-025861E45ED8}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.CD_ROM|Any CPU.Build.0 = CD_ROM
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.Debug|Any CPU.ActiveCfg = DVD-5
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.Debug|Any CPU.Build.0 = DVD-5
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.DVD-5|Any CPU.ActiveCfg = DVD-5
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.DVD-5|Any CPU.Build.0 = DVD-5
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.Release|Any CPU.ActiveCfg = SingleImage
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.Release|Any CPU.Build.0 = SingleImage
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.SingleImage|Any CPU.ActiveCfg = SingleImage
-		{A0622138-7A80-4FDA-AACC-BB6450E884C5}.SingleImage|Any CPU.Build.0 = SingleImage
 		{42F37640-6554-461E-9C68-74CEA510EB4F}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
 		{42F37640-6554-461E-9C68-74CEA510EB4F}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{42F37640-6554-461E-9C68-74CEA510EB4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -100,6 +102,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{20715B05-0C14-48CD-959E-85593CDD0553} = {2116E641-B69F-4407-838D-541E6D7F4A50}
+		{88D11D2A-95E6-4E79-9E61-24D26061094B} = {2116E641-B69F-4407-838D-541E6D7F4A50}
 	EndGlobalSection
 EndGlobal
