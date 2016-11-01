@@ -28,7 +28,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _weekDays; }
             private set { _weekDays = value; }
-        }
+
+        } //WeekDays
 
         public string DisplayMember
         {
@@ -53,7 +54,7 @@ namespace Karabina.SharePoint.Provisioning
             _weekDays.Add(new WeekDay() { WeekDayId = 5, WeekDayBit = 2, WeekDayLongName = "Friday", WeekDayShortName = "Fri" });
             _weekDays.Add(new WeekDay() { WeekDayId = 6, WeekDayBit = 1, WeekDayLongName = "Saterday", WeekDayShortName = "Sat" });
 
-        }
+        } //WeekDayColllection
 
     } //WeekDayColllection
 

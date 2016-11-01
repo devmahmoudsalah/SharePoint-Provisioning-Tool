@@ -26,7 +26,7 @@ namespace Karabina.SharePoint.Provisioning
             lbResult.DrawItem += new DrawItemEventHandler(DrawItemInColor);
             lbResult.MeasureItem += new MeasureItemEventHandler(MeasureItemToDraw);
 
-        }
+        } //ProgressWin
 
         private void MeasureItemToDraw(object sender, MeasureItemEventArgs e)
         {
@@ -45,7 +45,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        }
+        } //MeasureItemToDraw
 
         private void DrawItemInColor(object sender, DrawItemEventArgs e)
         {
@@ -64,6 +64,7 @@ namespace Karabina.SharePoint.Provisioning
                     foreColour = SystemColors.HighlightText;
                     backColour = SystemColors.Highlight;
                     backBrush = SystemBrushes.Highlight;
+
                 }
 
                 string itemString = lbResult.Items[e.Index].ToString();
@@ -75,11 +76,14 @@ namespace Karabina.SharePoint.Provisioning
                         foreColour = Color.White;
                         backColour = Color.DarkGreen;
                         backBrush = Brushes.DarkGreen;
+
                     }
                     else
                     {
                         foreColour = Color.DarkGreen;
+
                     }
+
                 }
                 else if (itemString.StartsWith("Cleanup: "))
                 {
@@ -88,11 +92,14 @@ namespace Karabina.SharePoint.Provisioning
                         foreColour = Color.White;
                         backColour = Color.RoyalBlue;
                         backBrush = Brushes.RoyalBlue;
+
                     }
                     else
                     {
                         foreColour = Color.RoyalBlue;
+
                     }
+
                 }
                 else if (itemString.StartsWith("Error: "))
                 {
@@ -101,11 +108,14 @@ namespace Karabina.SharePoint.Provisioning
                         foreColour = Color.White;
                         backColour = Color.OrangeRed;
                         backBrush = Brushes.OrangeRed;
+
                     }
                     else
                     {
                         foreColour = Color.OrangeRed;
+
                     }
+
                 }
                 else if (itemString.StartsWith("Warning: "))
                 {
@@ -114,11 +124,14 @@ namespace Karabina.SharePoint.Provisioning
                         foreColour = Color.White;
                         backColour = Color.DarkOrange;
                         backBrush = Brushes.DarkOrange;
+
                     }
                     else
                     {
                         foreColour = Color.DarkOrange;
+
                     }
+
                 }
                 else if (itemString.StartsWith("   at "))
                 {
@@ -127,16 +140,20 @@ namespace Karabina.SharePoint.Provisioning
                         foreColour = Color.White;
                         backColour = Color.OrangeRed;
                         backBrush = Brushes.OrangeRed;
+
                     }
                     else
                     {
                         foreColour = Color.OrangeRed;
+
                     }
+
                 }
                 
                 if (itemSelected)
                 {
                     e.Graphics.FillRectangle(backBrush, e.Bounds);
+
                 }
                 
                 TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.VerticalCenter;
@@ -144,27 +161,31 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        }
+        } //DrawItemInColor
 
         public ListBox ResultOutput
         {
             get { return lbResult; }
-        }
+
+        } //ResultOutput
 
         public void SetButtonFocus()
         {
             bClose.Focus();
-        }
+
+        } //SetButtonFocus
 
         public void SetButtonState(bool enable)
         {
             bClose.Enabled = enable;
-        }
+
+        } //SetButtonState
 
         private void bClose_Click(object sender, EventArgs e)
         {
             Close();
-        }
+
+        } //bClose_Click
 
         private void CopyLines(object sender, EventArgs e)
         {
@@ -174,10 +195,14 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (object item in lbResult.SelectedItems)
                 {
                     sb.AppendLine(item.ToString());
+
                 }
+
                 Clipboard.SetText(sb.ToString());
+
             }
-        }
+
+        } //CopyLines
 
         private void CopyAllLines(object sender, EventArgs e)
         {
@@ -187,10 +212,14 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (object item in lbResult.Items)
                 {
                     sb.AppendLine(item.ToString());
+
                 }
+
                 Clipboard.SetText(sb.ToString());
+
             }
-        }
+
+        } //CopyAllLines
 
         private void SetStatusText(object sender, EventArgs e)
         {
@@ -203,14 +232,14 @@ namespace Karabina.SharePoint.Provisioning
 
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
 
-        }
+        } //SetStatusText
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Progress00));
 
-        }
+        } //SetStatusDefault
 
-    }
+    } //ProgressWin
 
 }

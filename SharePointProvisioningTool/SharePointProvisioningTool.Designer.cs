@@ -166,7 +166,7 @@
             this.cascadeToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.cascadeToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
             this.cascadeToolStripMenuItem.Tag = "String05";
             this.cascadeToolStripMenuItem.Text = "&Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.CascadeToolStripMenuItem_Click);
@@ -179,7 +179,7 @@
             this.tileVerticalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tileVerticalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileVerticalToolStripMenuItem.Name = "tileVerticalToolStripMenuItem";
-            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
+            this.tileVerticalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
             this.tileVerticalToolStripMenuItem.Tag = "String06";
             this.tileVerticalToolStripMenuItem.Text = "Tile &Vertical";
             this.tileVerticalToolStripMenuItem.Click += new System.EventHandler(this.TileVerticalToolStripMenuItem_Click);
@@ -192,7 +192,7 @@
             this.tileHorizontalToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tileHorizontalToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.White;
             this.tileHorizontalToolStripMenuItem.Name = "tileHorizontalToolStripMenuItem";
-            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(168, 38);
+            this.tileHorizontalToolStripMenuItem.Size = new System.Drawing.Size(167, 38);
             this.tileHorizontalToolStripMenuItem.Tag = "String07";
             this.tileHorizontalToolStripMenuItem.Text = "Tile &Horizontal";
             this.tileHorizontalToolStripMenuItem.Click += new System.EventHandler(this.TileHorizontalToolStripMenuItem_Click);

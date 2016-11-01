@@ -35,33 +35,38 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _editingTemplate; }
             set { _editingTemplate = value; }
-        }
+
+        } //EditingTemplate
 
         public ListBox OutputBox
         {
             get { return _lbOutput; }
             set { _lbOutput = value; }
-        }
+
+        } //OutputBox
 
         public XMLTemplateProvider EditingProvider
         {
             get { return _editingProvider; }
             set { _editingProvider = value; }
-        }
+
+        } //EditingProvider
 
         private void WriteMessage(string message)
         {
             _lbOutput.Items.Add(message);
             _lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
             Application.DoEvents();
-        }
+
+        } //WriteMessage
 
         private void WriteMessageRange(string[] message)
         {
             _lbOutput.Items.AddRange(message);
             _lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
             Application.DoEvents();
-        }
+
+        } //WriteMessageRange
 
         private Dictionary<string, string> GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection, 
                                                               SPClient.FieldCollection fields)
@@ -94,19 +99,28 @@ namespace Karabina.SharePoint.Provisioning
                                             if (i > 0)
                                             {
                                                 sb.Append(";#");
+
                                             }
+
                                             sb.Append($"{lookupValues[i].LookupId};#{lookupValues[i].LookupValue}");
+
                                         }
+
                                         data.Add(field.Name, sb.ToString());
+
                                     }
                                     else
                                     {
                                         //No, get the field id and value
                                         FieldLookupValue lookupValue = value as FieldLookupValue;
                                         data.Add(field.Name, $"{lookupValue.LookupId};#{lookupValue.LookupValue}");
+
                                     }
+
                                 }
+
                                 break;
+
                             case ProvisioningFieldType.User:
                                 FieldUser fieldUser = fields.GetFieldByName<FieldUser>(field.Name);
                                 if (fieldUser != null)
@@ -122,46 +136,66 @@ namespace Karabina.SharePoint.Provisioning
                                             if (i > 0)
                                             {
                                                 sb.Append(";#");
+
                                             }
+
                                             sb.Append($"{userValues[i].LookupId};#{userValues[i].LookupValue}");
+
                                         }
+
                                         data.Add(field.Name, sb.ToString());
+
                                     }
                                     else
                                     {
                                         //No, get the user id and value
                                         FieldUserValue userValue = value as FieldUserValue;
                                         data.Add(field.Name, $"{userValue.LookupId};#{userValue.LookupValue}");
+
                                     }
+
                                 }
+
                                 break;
+
                             case ProvisioningFieldType.URL:
                                 //Field is URL, save in url,description format.
                                 FieldUrlValue urlValue = value as FieldUrlValue;
                                 data.Add(field.Name, $"{urlValue.Url},{urlValue.Description}");
+
                                 break;
+
                             case ProvisioningFieldType.Guid:
                                 //Field is GUID, save full guid format.
                                 Guid guid = Guid.Parse(value.ToString());
                                 data.Add(field.Name, guid.ToString("B"));
+
                                 break;
+
                             case ProvisioningFieldType.DateTime:
                                 //Field is date time, save in ISO format
                                 DateTime dateTime = Convert.ToDateTime(value);
                                 data.Add(field.Name, dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fffZ")); //ISO format
+
                                 break;
+
                             default:
                                 //Field is text, number or one of the other types not checked above.
                                 data.Add(field.Name, value.ToString());
+
                                 break;
+
                         }
+
                     }
+
                 }
 
             }
 
             return data;
-        }
+
+        } //GetItemFieldValues
 
 
         private void GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection, SPClient.FieldCollection fields, 
@@ -173,9 +207,12 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (KeyValuePair<string, string> keyValue in data)
                 {
                     properties.Add(keyValue.Key, keyValue.Value);
+
                 }
+
             }
-        }
+
+        } //GetItemFieldValues
 
 
         private void SaveListItemsToTemplate(ClientContext ctx, ListCollection lists, ListInstance listInstance)
@@ -209,7 +246,9 @@ namespace Karabina.SharePoint.Provisioning
                         (field.FieldTypeKind != FieldType.ContentTypeId))
                     {
                         fieldCollection.Add(field.InternalName, (ProvisioningFieldType)field.FieldTypeKind);
+
                     }
+
                 }
 
                 //Now get this items with our fields.
@@ -219,11 +258,14 @@ namespace Karabina.SharePoint.Provisioning
                     Dictionary<string, string> data = GetItemFieldValues(item, fieldCollection, fields);
                     DataRow dataRow = new DataRow(data);
                     listInstance.DataRows.Add(dataRow);
+
                 }
+
             }
 
             WriteMessage($"Info: {itemCount} items saved");
-        }
+
+        } //SaveListItemsToTemplate
 
         private void FixReferenceFields(ProvisioningTemplate template, List<string> lookupLists)
         {
@@ -251,8 +293,11 @@ namespace Karabina.SharePoint.Provisioning
                         if (lookupLists.IndexOf(lookupListTitle) < 0)
                         {
                             lookupLists.Add(lookupListTitle);
+
                         }
+
                     }
+
                 }
 
                 if (fieldElement.HasElements)
@@ -265,16 +310,25 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             case "Default":
                                 value = element.Value;
+
                                 break;
+
                             case "Formula":
                                 value = element.Value;
+
                                 break;
+
                             case "DefaultFormula":
                                 value = element.Value;
+
                                 break;
+
                             default:
+
                                 break;
+
                         }
+
                         if (!string.IsNullOrWhiteSpace(value))
                         {
                             if (value.IndexOf("{fieldtitle:") >= 0)
@@ -291,6 +345,7 @@ namespace Karabina.SharePoint.Provisioning
                                             List<string> keyValues = new List<string>();
                                             keyValues.Add(fieldName);
                                             referenceFields.Add(fieldTitle, keyValues);
+
                                         }
                                         else
                                         {
@@ -299,11 +354,15 @@ namespace Karabina.SharePoint.Provisioning
                                             if (keyValues == null)
                                             {
                                                 keyValues = new List<string>();
+
                                             }
+
                                             if (!keyValues.Contains(fieldName))
                                             {
                                                 keyValues.Add(fieldName);
+
                                             }
+
                                         }
 
                                     }
@@ -311,10 +370,13 @@ namespace Karabina.SharePoint.Provisioning
                                 }
 
                             }
+
                         }
 
                     }
+
                 }
+
             }
 
             if (referenceFields.Count > 0)
@@ -332,7 +394,9 @@ namespace Karabina.SharePoint.Provisioning
                             if (keyIndex < lowestIndex)
                             {
                                 lowestIndex = keyIndex;
+
                             }
+
                         }
 
                         if (index > lowestIndex)
@@ -348,14 +412,18 @@ namespace Karabina.SharePoint.Provisioning
 
                             indexFields[referencedField.Key] = lowestIndex;
                             indexFields[tempTitle] = index;
+
                         }
+
                     }
 
                 }
 
             }
+
             WriteMessage("Info: Done performing fix up of reference fields");
-        }
+
+        } //FixReferenceFields
 
         private void CleanupTemplate(ProvisioningOptions provisioningOptions,
                                      ProvisioningTemplate template,
@@ -378,10 +446,12 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             template.CustomActions.SiteCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title,
                                                                                                    StringComparison.OrdinalIgnoreCase));
+
                         }
 
                         total -= template.CustomActions.SiteCustomActions.Count;
                         WriteMessage($"Cleanup: {total} site collection custom actions cleaned from template");
+
                     }
 
                     if ((baseTemplate.CustomActions.WebCustomActions != null) &&
@@ -393,15 +463,18 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             template.CustomActions.WebCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title,
                                                                                                   StringComparison.OrdinalIgnoreCase));
+
                         }
 
                         total -= template.CustomActions.WebCustomActions.Count;
                         WriteMessage($"Cleanup: {total} site custom actions cleaned from template");
+
                     }
 
                 }
 
             }
+
             if (provisioningOptions.Features)
             {
                 if ((baseTemplate.Features != null) &&
@@ -415,10 +488,12 @@ namespace Karabina.SharePoint.Provisioning
                         foreach (var feature in baseTemplate.Features.SiteFeatures)
                         {
                             template.Features.SiteFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+
                         }
 
                         total -= template.Features.SiteFeatures.Count;
                         WriteMessage($"Cleanup: {total} site collection features cleaned from template");
+
                     }
 
                     if ((baseTemplate.Features.WebFeatures != null) &&
@@ -429,13 +504,18 @@ namespace Karabina.SharePoint.Provisioning
                         foreach (var feature in baseTemplate.Features.WebFeatures)
                         {
                             template.Features.WebFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
+
                         }
 
                         total -= template.Features.WebFeatures.Count;
                         WriteMessage($"Cleanup: {total} site features cleaned from template");
+
                     }
+
                 }
+
             }
+
             if (provisioningOptions.Fields)
             {
                 if ((baseTemplate.SiteFields != null) &&
@@ -456,6 +536,7 @@ namespace Karabina.SharePoint.Provisioning
                             PnPModel.Field baseField = baseFields[i];
                             XElement baseFieldElement = XElement.Parse(baseField.SchemaXml);
                             baseFieldKeys.Add(baseFieldElement.Attribute("Name").Value);
+
                         }
 
                         if (i < count)
@@ -463,6 +544,7 @@ namespace Karabina.SharePoint.Provisioning
                             PnPModel.Field field = fields[i];
                             XElement fieldElement = XElement.Parse(field.SchemaXml);
                             fieldsIndex.Add(fieldElement.Attribute("Name").Value, i);
+
                         }
 
                     }
@@ -475,6 +557,7 @@ namespace Karabina.SharePoint.Provisioning
                             int idx = fieldsIndex[baseFieldKey];
                             fields[idx].SchemaXml = null;
                             fieldsToDelete++;
+
                         }
 
                     }
@@ -482,6 +565,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (fieldsToDelete > 0)
                     {
                         fields.RemoveAll(p => p.SchemaXml == null);
+
                     }
 
                     WriteMessage($"Cleanup: {fieldsToDelete} site collection fields cleaned from template");
@@ -499,10 +583,12 @@ namespace Karabina.SharePoint.Provisioning
                     foreach (var file in baseTemplate.Files)
                     {
                         template.Files.RemoveAll(p => p.Src.Equals(file.Src, StringComparison.OrdinalIgnoreCase));
+
                     }
 
                     total -= template.Files.Count;
                     WriteMessage($"Cleanup: {total} files cleaned from template");
+
                 }
 
             }
@@ -517,10 +603,12 @@ namespace Karabina.SharePoint.Provisioning
                     foreach (var listInstance in baseTemplate.Lists)
                     {
                         template.Lists.RemoveAll(p => p.Title.Equals(listInstance.Title, StringComparison.OrdinalIgnoreCase));
+
                     }
 
                     total -= template.Lists.Count;
                     WriteMessage($"Cleanup: {total} lists cleaned from template");
+
                 }
 
             }
@@ -535,6 +623,7 @@ namespace Karabina.SharePoint.Provisioning
                     foreach (var page in baseTemplate.Pages)
                     {
                         template.Pages.RemoveAll(p => p.Url.Equals(page.Url, StringComparison.OrdinalIgnoreCase));
+
                     }
 
                     total -= template.Pages.Count;
@@ -558,10 +647,12 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             template.Publishing.AvailableWebTemplates.RemoveAll(p => 
                                 p.TemplateName.Equals(availableWebTemplate.TemplateName, StringComparison.OrdinalIgnoreCase));
+
                         }
 
                         total -= template.Publishing.AvailableWebTemplates.Count;
                         WriteMessage($"Cleanup: {total} avaiable web templates cleaned from template");
+
                     }
 
                     if ((baseTemplate.Publishing.PageLayouts != null) &&
@@ -573,10 +664,12 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             template.Publishing.PageLayouts.RemoveAll(p => p.Path.Equals(pageLayout.Path,
                                                                                          StringComparison.OrdinalIgnoreCase));
+
                         }
 
                         total -= template.Publishing.PageLayouts.Count;
                         WriteMessage($"Cleanup: {total} page layouts cleaned from template");
+
                     }
 
                 }
@@ -593,6 +686,7 @@ namespace Karabina.SharePoint.Provisioning
                     foreach (var supportedUILanguage in baseTemplate.SupportedUILanguages)
                     {
                         template.SupportedUILanguages.RemoveAll(p => (p.LCID == supportedUILanguage.LCID));
+
                     }
 
                     total -= template.SupportedUILanguages.Count;
@@ -612,6 +706,7 @@ namespace Karabina.SharePoint.Provisioning
                     foreach (var termGroup in baseTemplate.TermGroups)
                     {
                         template.TermGroups.RemoveAll(p => (p.Id.CompareTo(termGroup.Id) == 0));
+
                     }
 
                     total -= template.TermGroups.Count;
@@ -635,6 +730,7 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             template.Workflows.WorkflowSubscriptions.RemoveAll(p =>
                             (p.DefinitionId.CompareTo(workflowSubscription.DefinitionId) == 0));
+
                         }
 
                         total -= template.Workflows.WorkflowSubscriptions.Count;
@@ -652,6 +748,7 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             template.Workflows.WorkflowDefinitions.RemoveAll(p =>
                             (p.Id.CompareTo(workflowDefinition.Id) == 0));
+
                         }
 
                         total -= template.Workflows.WorkflowDefinitions.Count;
@@ -673,6 +770,7 @@ namespace Karabina.SharePoint.Provisioning
                     foreach (var contentType in baseTemplate.ContentTypes)
                     {
                         template.ContentTypes.RemoveAll(p => p.Id.Equals(contentType.Id, StringComparison.OrdinalIgnoreCase));
+
                     }
 
                     total -= template.ContentTypes.Count;
@@ -693,6 +791,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         template.PropertyBagEntries.RemoveAll(p => p.Key.Equals(propertyBagEntry.Key, 
                                                                                 StringComparison.OrdinalIgnoreCase));
+
                     }
 
                     total -= template.PropertyBagEntries.Count;
@@ -704,7 +803,7 @@ namespace Karabina.SharePoint.Provisioning
 
             WriteMessage($"Info: Performed {baseTemplate.BaseSiteTemplate} template clean up");
 
-        }
+        } //CleanupTemplate
 
         private string TokenizeWebPartXml(Web web, string xml)
         {
@@ -715,14 +814,19 @@ namespace Karabina.SharePoint.Provisioning
 
             foreach (var list in lists)
             {
-                xml = Regex.Replace(xml, list.Id.ToString(), string.Format("{{listid:{0}}}", list.Title), RegexOptions.IgnoreCase);
+                xml = Regex.Replace(xml, list.Id.ToString(), 
+                                    string.Format("{{listid:{0}}}", list.Title), 
+                                    RegexOptions.IgnoreCase);
+
             }
             xml = Regex.Replace(xml, web.Id.ToString(), "{siteid}", RegexOptions.IgnoreCase);
             xml = Regex.Replace(xml, "(\"" + web.ServerRelativeUrl + ")(?!&)", "\"{site}", RegexOptions.IgnoreCase);
             xml = Regex.Replace(xml, "'" + web.ServerRelativeUrl, "'{site}", RegexOptions.IgnoreCase);
             xml = Regex.Replace(xml, ">" + web.ServerRelativeUrl, ">{site}", RegexOptions.IgnoreCase);
+
             return xml;
-        }
+
+        } //TokenizeWebPartXml
 
         private void SaveFilesToTemplate(ClientContext ctx, Web web, ListInstance listInstance, ProvisioningTemplate template)
         {
@@ -753,7 +857,9 @@ namespace Karabina.SharePoint.Provisioning
                         (!field.TypeAsString.Contains("Taxonomy")))
                     {
                         fieldCollection.Add(field.InternalName, (ProvisioningFieldType)field.FieldTypeKind);
+
                     }
+
                 }
 
                 WriteMessage($"Info: Saving items from {listInstance.Title} to template");
@@ -794,14 +900,25 @@ namespace Karabina.SharePoint.Provisioning
                                 {
                                     case SPClient.FileLevel.Draft:
                                         pnpFile.Level = PnPModel.FileLevel.Draft;
+
                                         break;
+
                                     case SPClient.FileLevel.Published:
                                         pnpFile.Level = PnPModel.FileLevel.Published;
+
                                         break;
+
                                     case SPClient.FileLevel.Checkout:
                                         pnpFile.Level = PnPModel.FileLevel.Checkout;
+
                                         break;
+
+                                    default:
+
+                                        break;
+
                                 }
+
                                 pnpFile.Overwrite = true;
 
                                 pnpFile.Src = fileStreamName;
@@ -809,6 +926,7 @@ namespace Karabina.SharePoint.Provisioning
                                 if (fieldCollection.Count > 0)
                                 {
                                     GetItemFieldValues(item, fieldCollection, fields, pnpFile.Properties);
+
                                 }
 
                                 if (fileName.ToLowerInvariant().EndsWith(".aspx"))
@@ -826,9 +944,11 @@ namespace Karabina.SharePoint.Provisioning
                                             Order = (uint)webPartDefinition.WebPart.ZoneIndex,
                                             Contents = webPartxml,
                                             Zone = webPartDefinition.ZoneId
+
                                         };
 
                                         pnpFile.WebParts.Add(webPart);
+
                                     }
 
                                 }
@@ -836,6 +956,7 @@ namespace Karabina.SharePoint.Provisioning
                                 template.Files.Add(pnpFile);
                                 FileInformation fileInfo = SPClient.File.OpenBinaryDirect(ctx, filePathName);
                                 template.Connector.SaveFileStream(fileStreamName, string.Empty, fileInfo.Stream);
+
                             }
 
                         }
@@ -858,16 +979,18 @@ namespace Karabina.SharePoint.Provisioning
                             pnpDirectory.Src = fileStreamName;
 
                             template.Directories.Add(pnpDirectory);
+
                         }
 
                     }
 
                 }
+
                 WriteMessage($"Info: {itemCount} items saved");
 
             }
 
-        }
+        } //SaveFilesToTemplate
 
         public bool CreateProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
         {
@@ -891,8 +1014,11 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             ctx.Credentials = new NetworkCredential(provisioningOptions.UserNameOrEmail,
                                                                     provisioningOptions.UserPassword);
+
                         }
+
                     }
+
                     ctx.RequestTimeout = Timeout.Infinite;
 
                     WriteMessage($"Connecting to {provisioningOptions.WebAddress}");
@@ -905,6 +1031,7 @@ namespace Karabina.SharePoint.Provisioning
                                   w => w.Configuration,
                                   w => w.AllProperties,
                                   w => w.ServerRelativeUrl);
+
                     ctx.ExecuteQueryRetry();
 
                     WriteMessage($"Creating provisioning template from {web.Title} ( {web.Url} )");
@@ -955,30 +1082,44 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             case ProvisioningMessageType.Error:
                                 WriteMessage("Error: " + message);
+
                                 break;
+
                             case ProvisioningMessageType.Progress:
                                 WriteMessage("Progress: " + message);
+
                                 break;
+
                             case ProvisioningMessageType.Warning:
                                 WriteMessage("Warning: " + message);
+
                                 break;
+
                             case ProvisioningMessageType.EasterEgg:
                                 WriteMessage("EasterEgg: " + message);
+
                                 break;
+
                             default:
                                 WriteMessage("Unknown: " + message);
+
                                 break;
+
                         }
+
                         if (!lbOutput.HorizontalScrollbar)
                         {
                             lbOutput.HorizontalScrollbar = true;
+
                         }
+
                     };
 
                     ptci.ProgressDelegate = delegate (string message, int progress, int total)
                     {
                         // Output progress
                         WriteMessage(string.Format("{0:00}/{1:00} - {2}", progress, total, message));
+
                     };
 
                     // Create FileSystemConnector, to be used by OpenXMLConnector
@@ -998,6 +1139,7 @@ namespace Karabina.SharePoint.Provisioning
                         //a lower index than the fields that reference them in the SiteFields collection
                         //This prevents the "Invalid field found" error from occuring when applying the template to a site
                         FixReferenceFields(template, lookupListTitles);
+
                     }
 
                     //Check if we should do any content operations
@@ -1218,8 +1360,11 @@ namespace Karabina.SharePoint.Provisioning
 
                                 //perform the clean up
                                 CleanupTemplate(provisioningOptions, template, baseTemplate);
+
                             }
+
                         }
+
                     }
 
                     XMLTemplateProvider provider = new XMLOpenXMLTemplateProvider(ptci.FileConnector as OpenXMLConnector);
@@ -1231,14 +1376,18 @@ namespace Karabina.SharePoint.Provisioning
                     WriteMessage($"Done creating provisioning template from {web.Title} ( {web.Url} )");
 
                     result = true;
+
                 }
+
             }
             catch (Exception ex)
             {
                 if (!lbOutput.HorizontalScrollbar)
                 {
                     lbOutput.HorizontalScrollbar = true;
+
                 }
+
                 WriteMessage("Error: " + ex.Message.Replace("\r\n", " "));
                 if (ex.InnerException != null)
                 {
@@ -1247,10 +1396,14 @@ namespace Karabina.SharePoint.Provisioning
                     WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' }, 
                                                                          StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
+
                 }
+
                 WriteMessageRange(ex.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
                 result = false;
+
             }
+
             return result;
 
         } //CreateProvisioningTemplate
@@ -1276,8 +1429,11 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             ctx.Credentials = new NetworkCredential(provisioningOptions.UserNameOrEmail,
                                                                     provisioningOptions.UserPassword);
+
                         }
+
                     }
+
                     ctx.RequestTimeout = Timeout.Infinite;
 
                     string webTitle = string.Empty;
@@ -1308,6 +1464,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (template.WebSettings != null)
                     {
                         template.WebSettings.Title = webTitle;
+
                     }
 
                     template.Connector = provider.Connector;
@@ -1320,29 +1477,43 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             case ProvisioningMessageType.Error:
                                 WriteMessage("Error: " + message);
+
                                 break;
+
                             case ProvisioningMessageType.Progress:
                                 WriteMessage("Progress: " + message);
+
                                 break;
+
                             case ProvisioningMessageType.Warning:
                                 WriteMessage("Warning: " + message);
+
                                 break;
+
                             case ProvisioningMessageType.EasterEgg:
                                 WriteMessage("EasterEgg: " + message);
+
                                 break;
+
                             default:
                                 WriteMessage("Unknown: " + message);
+
                                 break;
+
                         }
+
                         if (!lbOutput.HorizontalScrollbar)
                         {
                             lbOutput.HorizontalScrollbar = true;
+
                         }
+
                     };
 
                     ptai.ProgressDelegate = delegate (string message, int progress, int total)
                     {
                         WriteMessage(string.Format("{0:00}/{1:00} - {2}", progress, total, message));
+
                     };
 
                     web.ApplyProvisioningTemplate(template, ptai);
@@ -1350,14 +1521,18 @@ namespace Karabina.SharePoint.Provisioning
                     WriteMessage($"Done applying provisioning template to {web.Title} ( {web.Url} )");
 
                     result = true;
+
                 }
+
             }
             catch (Exception ex)
             {
                 if (!lbOutput.HorizontalScrollbar)
                 {
                     lbOutput.HorizontalScrollbar = true;
+
                 }
+
                 WriteMessage("Error: " + ex.Message.Replace("\r\n", " "));
                 if (ex.InnerException != null)
                 {
@@ -1366,12 +1541,18 @@ namespace Karabina.SharePoint.Provisioning
                     WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\r', '\n' }, 
                                                                          StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
+
                 }
+
                 WriteMessageRange(ex.StackTrace.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
+
                 result = false;
+
             }
+
             return result;
-        }
+
+        } //ApplyProvisioningTemplate
 
         public TemplateItems OpenTemplateForEdit(string templatePath, string templateName, TreeView treeView)
         {
@@ -1439,6 +1620,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     aiNodes.Nodes.Add(aiNode);
                     addInsList.AddKeyValue(addIn.PackagePath, aiNode.Name);
+
                 }
 
                 templateItems.SetContent(aiNodes.Name, addInsList);
@@ -1551,6 +1733,7 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var webFeature in template.Features.WebFeatures)
                 {
                     webFeaturesList.AddKeyValue(webFeature.Id.ToString("B"), webFeature.Id.ToString("B"));
+
                 }
 
                 wfNodes.Name = templateItems.AddItem("WebFeatures", TemplateControlType.ListBox,
@@ -1598,6 +1781,7 @@ namespace Karabina.SharePoint.Provisioning
                             ctNodes.Nodes.Add(ctgNode);
 
                         }
+
                     }
                     else
                     {
@@ -1657,7 +1841,9 @@ namespace Karabina.SharePoint.Provisioning
                     if (fieldElement.Attribute("Group") != null)
                     {
                         fieldGroup = fieldElement.Attribute("Group").Value;
+
                     }
+
                     string fieldID = fieldElement.Attribute("ID").Value;
                     string fieldName = fieldElement.Attribute("Name").Value;
 
@@ -2265,8 +2451,11 @@ namespace Karabina.SharePoint.Provisioning
                     (int)EditingTemplate.RegionalSettings.WorkDayEndHour / 60,
                     EditingTemplate.RegionalSettings.WorkDays,
                     (int)EditingTemplate.RegionalSettings.WorkDayStartHour / 60
+
                 };
+
                 //Note: Ensure that the above array is populated in the order of the RegionalSettingProperties enum
+
             }
 
             return result;
@@ -2285,8 +2474,11 @@ namespace Karabina.SharePoint.Provisioning
                     EditingTemplate.ComposedLook.ColorFile,
                     EditingTemplate.ComposedLook.FontFile,
                     EditingTemplate.ComposedLook.Version.ToString()
+
                 };
+
                 //Note: Ensure that the above array is populated in the order of the ComposedLookProperties enum
+
             }
 
             return result;
@@ -2456,7 +2648,9 @@ namespace Karabina.SharePoint.Provisioning
                    webSettings.WelcomePage
 
                };
+
                 //Note: Ensure that the above are added in the order as defined in the WebSettingProperties enum
+
             }
 
             return result;
@@ -3011,6 +3205,7 @@ namespace Karabina.SharePoint.Provisioning
                                                                                 StringComparison.OrdinalIgnoreCase));
 
                             templateItems.RemoveItem(templateItem);
+
                         }
 
                     }

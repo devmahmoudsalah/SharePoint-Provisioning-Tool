@@ -13,7 +13,7 @@ namespace Karabina.SharePoint.Provisioning
 
         public Locale() { }
 
-    }
+    } //Locale
 
     public class LocaleCollection
     {
@@ -22,7 +22,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _locales; }
             private set { _locales = value; }
-        }
+
+        } //Locales
 
         public string DisplayMember
         {
@@ -250,8 +251,8 @@ namespace Karabina.SharePoint.Provisioning
             _locales.Add(new Locale() { LocaleId = 1144, LocaleName = "Yi" });
             _locales.Add(new Locale() { LocaleId = 1130, LocaleName = "Yoruba" });
 
-        }
+        } //LocaleCollection
 
-    }
+    } //LocaleCollection
 
 }

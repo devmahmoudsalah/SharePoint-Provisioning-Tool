@@ -9,10 +9,12 @@ namespace Karabina.SharePoint.Provisioning
     public class SortOrder
     {
         public int SortOrderId { get; set; }
+
         public string SortOrderName { get; set; }
 
         public SortOrder() { }
-    }
+
+    } //SortOrder
 
     public class SortOrderCollection
     {
@@ -22,7 +24,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _sortOrders; }
             private set { _sortOrders = value; }
-        }
+
+        } //SortOrders
 
         public string DisplayMember
         {
@@ -90,8 +93,8 @@ namespace Karabina.SharePoint.Provisioning
             _sortOrders.Add(new SortOrder() { SortOrderId = 48, SortOrderName = "Uzbek (Latin)" });
             _sortOrders.Add(new SortOrder() { SortOrderId = 38, SortOrderName = "Vietnamese" });
 
-        }
+        } //SortOrderCollection
 
-    }
+    } //SortOrderCollection
 
 }

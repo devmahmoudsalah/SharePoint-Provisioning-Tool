@@ -17,7 +17,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _versionSelected; }
             set { _versionSelected = value; }
-        }
+
+        } //VersionSelected
 
         public delegate void SetStatusTextDelegate(string message);
 
@@ -25,27 +26,27 @@ namespace Karabina.SharePoint.Provisioning
 
         public SelectSharePoint()
         {
-            InitializeComponent();          
+            InitializeComponent();
 
-        }
+        } //SelectSharePoint
 
         public void setTopic(string topic)
         {
             lTopic.Text = topic;
 
-        }
+        } //setTopic
 
         private void bOkay_Click(object sender, EventArgs e)
         {
             Close();
 
-        }
+        } //bOkay_Click
 
         private void bCancel_Click(object sender, EventArgs e)
         {
             Close();
 
-        }
+        } //bCancel_Click
 
         private void SetVersionSelected(object sender, EventArgs e)
         {
@@ -54,7 +55,7 @@ namespace Karabina.SharePoint.Provisioning
             int verNum = Convert.ToInt32(tag.Replace("Version0", ""));
             _versionSelected = (SharePointVersion)verNum;
 
-        }
+        } //SetVersionSelected
 
         private void SetStatusText(object sender, EventArgs e)
         {
@@ -62,16 +63,14 @@ namespace Karabina.SharePoint.Provisioning
             tag = (sender as Control).Tag.ToString();
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
 
-        }
+        } //SetStatusText
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Version00));
 
-        }
+        } //SetStatusDefault
 
-
-
-    }
+    } //SelectSharePoint
 
 }

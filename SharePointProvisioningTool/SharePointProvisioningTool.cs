@@ -21,7 +21,7 @@ namespace Karabina.SharePoint.Provisioning
 
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.String00));
 
-        }
+        } //SharePointProvisioningTool
 
         private string OpenFile()
         {
@@ -49,7 +49,8 @@ namespace Karabina.SharePoint.Provisioning
             }
 
             return fileName;
-        }
+
+        } //OpenFile
 
         private string SaveFile()
         {
@@ -78,7 +79,7 @@ namespace Karabina.SharePoint.Provisioning
 
             return fileName;
 
-        }
+        } //SaveFile
 
         private void DestroyForm(object sender, FormClosedEventArgs e)
         {
@@ -91,7 +92,51 @@ namespace Karabina.SharePoint.Provisioning
             }
             catch { }
 
-        }
+        } //DestroyForm
+
+        private string EnsureVersionLoaded(SharePointVersion version)
+        {
+            string spVersionTitle = string.Empty;
+            switch (version)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premises:
+                    spVersionTitle = Constants.SharePoint_2013_On_Premises;
+                    if (_sp2013OnPrem == null)
+                    {
+                        _sp2013OnPrem = new SharePoint2013OnPrem();
+
+                    }
+
+                    break;
+
+                case SharePointVersion.SharePoint_2016_On_Premises:
+                    spVersionTitle = Constants.SharePoint_2016_On_Premises;
+                    if (_sp2016OnPrem == null)
+                    {
+                        _sp2016OnPrem = new SharePoint2016OnPrem();
+
+                    }
+
+                    break;
+
+                case SharePointVersion.SharePoint_2016_OnLine:
+                    spVersionTitle = Constants.SharePoint_2016_Online;
+                    if (_sp2016Online == null)
+                    {
+                        _sp2016Online = new SharePoint2016Online();
+
+                    }
+
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            return spVersionTitle;
+
+        } //EnsureVersionLoaded
 
         private ProgressWin StartProgressWin(bool isCreating, string sharePointVersion)
         {
@@ -116,7 +161,7 @@ namespace Karabina.SharePoint.Provisioning
             Application.DoEvents();
             return progressWin;
 
-        }
+        } //StartProgressWin
 
         private void FinishProgressWin(ProgressWin progressWin)
         {
@@ -130,52 +175,16 @@ namespace Karabina.SharePoint.Provisioning
             progressWin.BringToFront();
             progressWin.SetButtonFocus();
 
-        }
+        } //FinishProgressWin
 
         private bool CreateSPTemplate(Form callee, ProvisioningOptions provisioningOptions)
         {
             SourceWin callForm = callee as SourceWin;
             bool result = false;
             callForm.Visible = false;
-            string spVerionTitle = string.Empty;
-            switch (callForm.SelectedVersion)
-            {
-                case SharePointVersion.SharePoint_2013_On_Premises:
-                    spVerionTitle = Constants.SharePoint_2013_On_Premises;
-                    if (_sp2013OnPrem == null)
-                    {
-                        _sp2013OnPrem = new SharePoint2013OnPrem();
+            string spVersionTitle = EnsureVersionLoaded(callForm.SelectedVersion);            
 
-                    }
-
-                    break;
-
-                case SharePointVersion.SharePoint_2016_On_Premises:
-                    spVerionTitle = Constants.SharePoint_2016_On_Premises;
-                    if (_sp2016OnPrem == null)
-                    {
-                        _sp2016OnPrem = new SharePoint2016OnPrem();
-
-                    }
-
-                    break;
-
-                case SharePointVersion.SharePoint_2016_OnLine:
-                    spVerionTitle = Constants.SharePoint_2016_Online;
-                    if (_sp2016Online == null)
-                    {
-                        _sp2016Online = new SharePoint2016Online();
-
-                    }
-
-                    break;
-
-                default:
-                    break;
-
-            }
-
-            ProgressWin progressWin = StartProgressWin(true, spVerionTitle);
+            ProgressWin progressWin = StartProgressWin(true, spVersionTitle);
 
             switch (callForm.SelectedVersion)
             {
@@ -204,7 +213,7 @@ namespace Karabina.SharePoint.Provisioning
             FinishProgressWin(progressWin);
             return result;
 
-        }
+        } //CreateSPTemplate
 
         private bool ApplySPTemplate(Form callee, ProvisioningOptions provisioningOptions)
         {
@@ -212,42 +221,9 @@ namespace Karabina.SharePoint.Provisioning
             bool result = false;
             callForm.Visible = false;
 
-            string spVerionTitle = string.Empty;
-            switch (callForm.SelectedVersion)
-            {
-                case SharePointVersion.SharePoint_2013_On_Premises:
-                    spVerionTitle = Constants.SharePoint_2013_On_Premises;
-                    if (_sp2013OnPrem == null)
-                    {
-                        _sp2013OnPrem = new SharePoint2013OnPrem();
+            string spVersionTitle = EnsureVersionLoaded(callForm.SelectedVersion);            
 
-                    }
-
-                    break;
-
-                case SharePointVersion.SharePoint_2016_On_Premises:
-                    spVerionTitle = Constants.SharePoint_2016_On_Premises;
-                    if (_sp2016OnPrem == null)
-                    {
-                        _sp2016OnPrem = new SharePoint2016OnPrem();
-
-                    }
-
-                    break;
-
-                case SharePointVersion.SharePoint_2016_OnLine:
-                    spVerionTitle = Constants.SharePoint_2016_Online;
-                    if (_sp2016Online == null)
-                    {
-                        _sp2016Online = new SharePoint2016Online();
-
-                    }
-
-                    break;
-
-            }
-
-            ProgressWin progressWin = StartProgressWin(false, spVerionTitle);
+            ProgressWin progressWin = StartProgressWin(false, spVersionTitle);
 
             switch (callForm.SelectedVersion)
             {
@@ -272,7 +248,7 @@ namespace Karabina.SharePoint.Provisioning
             FinishProgressWin(progressWin);
             return result;
 
-        }
+        } //ApplySPTemplate
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -296,40 +272,42 @@ namespace Karabina.SharePoint.Provisioning
 
             Close();
 
-        }
+        } //ExitToolsStripMenuItem_Click
 
 
         private void CascadeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.Cascade);
 
-        }
+        } //CascadeToolStripMenuItem_Click
 
         private void TileVerticalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.TileVertical);
 
-        }
+        } //TileVerticalToolStripMenuItem_Click
 
         private void TileHorizontalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.TileHorizontal);
 
-        }
+        } //TileHorizontalToolStripMenuItem_Click
 
         private void ArrangeIconsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.ArrangeIcons);
 
-        }
+        } //ArrangeIconsToolStripMenuItem_Click
 
-        private void ShowApplyForm(object sender, EventArgs e)
+        private SharePointVersion GetVersion(string topic)
         {
+            SharePointVersion version = SharePointVersion.SharePoint_Invalid;
+
             SelectSharePoint dialog = new SelectSharePoint();
 
             dialog.FormClosed += new FormClosedEventHandler(DestroyForm);
 
-            dialog.setTopic("Select the SharePoint version to apply the template to");
+            dialog.setTopic("Select the SharePoint version " + topic);
 
             dialog.SetStatusBarText = SetStatusBarText;
 
@@ -337,8 +315,21 @@ namespace Karabina.SharePoint.Provisioning
 
             if (result == DialogResult.OK)
             {
-                SharePointVersion version = dialog.VersionSelected;
+                version = dialog.VersionSelected;
 
+            }
+
+            return version;
+
+        } //GetVersion
+
+
+        private void ShowApplyForm(object sender, EventArgs e)
+        {
+            SharePointVersion version = GetVersion("to apply the template to");
+
+            if (version != SharePointVersion.SharePoint_Invalid)
+            {
                 TargetWin applyForm = new TargetWin();
 
                 applyForm.FormClosed += new FormClosedEventHandler(DestroyForm);
@@ -380,24 +371,14 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        }
+        } //ShowApplyForm
 
         private void ShowCreateForm(object sender, EventArgs e)
         {
-            SelectSharePoint dialog = new SelectSharePoint();
+            SharePointVersion version = GetVersion("to create the template from");
 
-            dialog.FormClosed += new FormClosedEventHandler(DestroyForm);
-
-            dialog.setTopic("Select the SharePoint version to create the template from");
-
-            dialog.SetStatusBarText = SetStatusBarText;
-
-            DialogResult result = dialog.ShowDialog(this);
-
-            if (result == DialogResult.OK)
+            if (version != SharePointVersion.SharePoint_Invalid)
             {
-                SharePointVersion version = dialog.VersionSelected;
-
                 SourceWin createForm = new SourceWin();
 
                 createForm.FormClosed += new FormClosedEventHandler(DestroyForm);
@@ -439,24 +420,14 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        }
+        } //ShowCreateForm
 
         private void ShowEditForm(object sender, EventArgs e)
         {
-            SelectSharePoint dialog = new SelectSharePoint();
+            SharePointVersion version = GetVersion("of the template to edit");
 
-            dialog.FormClosed += new FormClosedEventHandler(DestroyForm);
-
-            dialog.setTopic("Select the SharePoint version of the template to edit");
-
-            dialog.SetStatusBarText = SetStatusBarText;
-
-            DialogResult result = dialog.ShowDialog(this);
-
-            if (result == DialogResult.OK)
+            if (version != SharePointVersion.SharePoint_Invalid)
             {
-                SharePointVersion version = dialog.VersionSelected;
-
                 EditWin editForm = new EditWin();
 
                 editForm.FormClosed += new FormClosedEventHandler(DestroyForm);
@@ -514,27 +485,27 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        }
+        } //ShowEditForm
 
         private void SetStatusBarText(string message)
         {
             toolStripStatusLabel.Text = message;
 
-        }
+        } //SetStatusBarText
 
         private void SetStatusText(object sender, EventArgs e)
         {
             string tag = (sender as ToolStripItem).Tag.ToString();
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
 
-        }
+        } //SetStatusText
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.String00));
 
-        }
+        } //SetStatusDefault
 
-    }
+    } //SharePointProvisioningTool
 
 }

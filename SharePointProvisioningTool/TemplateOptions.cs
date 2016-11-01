@@ -89,9 +89,9 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-            }
+            } //set
 
-        }
+        } //ProvisioningOptions
 
         public TemplateOptions(string title, bool isCreating)
         {
@@ -125,7 +125,7 @@ namespace Karabina.SharePoint.Provisioning
 
             _provisioningOptions = new ProvisioningOptions();
 
-        }
+        } //TemplateOptions
 
         private void bSave_Click(object sender, EventArgs e)
         {
@@ -222,13 +222,13 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-        }
+        } //bSave_Click
 
         private void bClose_Click(object sender, EventArgs e)
         {
             Close();
 
-        }
+        } //bClose_Click
 
         private void ShowToolTip(object sender, EventArgs e)
         {
@@ -236,14 +236,14 @@ namespace Karabina.SharePoint.Provisioning
 
             lToolTip.Text = Properties.Resources.ResourceManager.GetString(tag);
 
-        }
+        } //ShowToolTip
 
         private void HideToolTip(object sender, EventArgs e)
         {
             lToolTip.Text = Properties.Resources.ResourceManager.GetString(Constants.Option00);
 
-        }
+        } //HideToolTip
 
-    }
+    } //TemplateOptions
 
 }

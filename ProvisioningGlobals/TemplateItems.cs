@@ -153,7 +153,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-            }
+            } //if templateItem
 
             return templateItem;
 
@@ -170,7 +170,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-            }
+            } //if templateItem
 
             return result;
 
@@ -194,7 +194,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-            }
+            } //while ItemType
 
             return templateItem;
 
@@ -223,7 +223,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-            }
+            } //if templateItem
 
             return result;
 

@@ -17,7 +17,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _selectedVersion; }
             set { _selectedVersion = value; }
-        }
+
+        } //SelectedVersion
 
         private ProvisioningOptions _options = null;
 
@@ -36,7 +37,8 @@ namespace Karabina.SharePoint.Provisioning
         public SourceWin()
         {
             InitializeComponent();
-        }
+
+        } //SourceWin
 
 
         private void bBrowse_Click(object sender, EventArgs e)
@@ -45,8 +47,10 @@ namespace Karabina.SharePoint.Provisioning
             if (!string.IsNullOrWhiteSpace(fileName))
             {
                 tbTemplate.Text = fileName;
+
             }
-        }
+
+        } //bBrowse_Click
 
         private void cbNoUNP_CheckedChanged(object sender, EventArgs e)
         {
@@ -56,6 +60,7 @@ namespace Karabina.SharePoint.Provisioning
                 tbUserName.Enabled = false;
                 lPassword.Enabled = false;
                 tbPassword.Enabled = false;
+
             }
             else
             {
@@ -63,8 +68,10 @@ namespace Karabina.SharePoint.Provisioning
                 tbUserName.Enabled = true;
                 lPassword.Enabled = true;
                 tbPassword.Enabled = true;
+
             }
-        }
+
+        } //cbNoUNP_CheckedChanged
 
         private void bCreate_Click(object sender, EventArgs e)
         {
@@ -79,6 +86,7 @@ namespace Karabina.SharePoint.Provisioning
                 lSharePointUrlError.Visible = true;
                 tbSharePointUrl.Focus();
                 return;
+
             }
 
             if (!cbNoUNP.Checked)
@@ -88,14 +96,19 @@ namespace Karabina.SharePoint.Provisioning
                     lUserNameError.Visible = true;
                     tbUserName.Focus();
                     return;
+
                 }
+
                 if (string.IsNullOrWhiteSpace(tbPassword.Text))
                 {
                     lPasswordError.Visible = true;
                     tbPassword.Focus();
                     return;
+
                 }
+
                 foreach (char c in tbPassword.Text.ToCharArray()) pwdSecure.AppendChar(c);
+
             }
 
             if (string.IsNullOrWhiteSpace(tbTemplate.Text))
@@ -103,7 +116,9 @@ namespace Karabina.SharePoint.Provisioning
                 lTemplateError.Visible = true;
                 bBrowse.Focus();
                 return;
+
             }
+
             int slashPosition = tbTemplate.Text.LastIndexOf('\\');
             string path = tbTemplate.Text.Substring(0, slashPosition);
             slashPosition++;
@@ -112,7 +127,9 @@ namespace Karabina.SharePoint.Provisioning
             if (_options == null)
             {
                 _options = new ProvisioningOptions();
+
             }
+
             _options.TemplatePath = path;
             _options.TemplateName = name.Replace(".pnp", "");
             _options.WebAddress = tbSharePointUrl.Text;
@@ -123,12 +140,14 @@ namespace Karabina.SharePoint.Provisioning
             Enabled = false;
             CreateTemplate(this, _options);
             Enabled = true;
-        }
+
+        } //bCreate_Click
 
         private void bClose_Click(object sender, EventArgs e)
         {
             Close();
-        }
+
+        } //bClose_Click
 
         private void FormShown(object sender, EventArgs e)
         {
@@ -139,6 +158,7 @@ namespace Karabina.SharePoint.Provisioning
                 lUserName.Text = "Email";
                 SendMessage(tbUserName.Handle, EM_SETCUEBANNER, 0, "john.doe@company.com");
                 lUserNameError.Text = lUserNameError.Text.Replace("#", "email");
+
             }
             else
             {
@@ -146,37 +166,45 @@ namespace Karabina.SharePoint.Provisioning
                 lUserName.Text = "User Name";
                 SendMessage(tbUserName.Handle, EM_SETCUEBANNER, 0, "Domain\\UserName");
                 lUserNameError.Text = lUserNameError.Text.Replace("#", "user name");
+
             }
+
             SendMessage(tbPassword.Handle, EM_SETCUEBANNER, 0, "●●●●●●●●"); //password
-        }
+
+        } //FormShown
 
         private void bOptions_Click(object sender, EventArgs e)
         {
             if (_options == null)
             {
                 _options = new ProvisioningOptions();
+
             }
-            TemplateOptions templateOptions = new TemplateOptions("Template Creation Options", true);
+
+            TemplateOptions templateOptions = new TemplateOptions("Template Create Options", true);
             templateOptions.ProvisioningOptions = _options;
             DialogResult result = templateOptions.ShowDialog(this);
             if(result== DialogResult.OK)
             {
                 _options = templateOptions.ProvisioningOptions;
+
             }
 
-        }
+        } //bOptions_Click
 
         private void SetStatusText(object sender, EventArgs e)
         {
             string tag = (sender as Control).Tag.ToString();
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
-        }
+
+        } //SetStatusText
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Source00));
-        }
 
-    }
+        } //SetStatusDefault
+
+    } //SourceWin
 
 }

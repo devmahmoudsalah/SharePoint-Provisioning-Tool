@@ -17,6 +17,9 @@ namespace Karabina.SharePoint.Provisioning
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SharePointProvisioningTool());
-        }
-    }
+
+        } //Main
+
+    } //Program
+
 }

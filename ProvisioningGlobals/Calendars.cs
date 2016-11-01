@@ -22,7 +22,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _calendars; }
             private set { _calendars = value; }
-        }
+
+        } //Calendars
 
         public string DisplayMember
         {

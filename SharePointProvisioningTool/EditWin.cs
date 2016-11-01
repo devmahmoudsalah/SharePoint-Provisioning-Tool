@@ -22,7 +22,7 @@ namespace Karabina.SharePoint.Provisioning
             get { return _selectedVersion; }
             set { _selectedVersion = value; }
 
-        }
+        } //SelectedVersion
 
         public SharePoint2013OnPrem SP2013OP { get; set; }
 
@@ -492,12 +492,14 @@ namespace Karabina.SharePoint.Provisioning
         private void ResizeControls(object sender, EventArgs e)
         {
             int splitterWidth = scEditTemplate.SplitterDistance;
+
             int newHeight = (Height - 69 - 51);
             int newWidth = (Width - 48);
 
             Size newSize = new Size(newWidth, newHeight);
 
             scEditTemplate.Size = newSize;
+
             scEditTemplate.SplitterDistance = splitterWidth;
 
         } //ResizeControls
@@ -1206,13 +1208,13 @@ namespace Karabina.SharePoint.Provisioning
             tag = (sender as Control).Tag.ToString();
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(tag));
 
-        }
+        } //SetStatusText
 
         private void SetStatusDefault(object sender, EventArgs e)
         {
             SetStatusBarText(Properties.Resources.ResourceManager.GetString(Constants.Edit00));
 
-        }
+        } //SetStatusDefault
 
     } //EditWin
 

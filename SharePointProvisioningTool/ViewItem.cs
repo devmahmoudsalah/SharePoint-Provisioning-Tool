@@ -15,12 +15,14 @@ namespace Karabina.SharePoint.Provisioning
         public ViewItem()
         {
             InitializeComponent();
-        }
+
+        } //ViewItem
 
         public void SetTitle(string title)
         {
             Text = title;
-        }
+
+        } //SetTitle
 
         public void SetKeyValue(KeyValue keyValue)
         {
@@ -32,17 +34,21 @@ namespace Karabina.SharePoint.Provisioning
         public KeyValue GetKeyValue()
         {
             return new KeyValue(tbKey.Text, tbValue.Text);
-        }
+
+        } //GetKeyValue
 
         private void bOK_Click(object sender, EventArgs e)
         {
             Close();
-        }
+
+        } //bOK_Click
 
         private void bCancel_Click(object sender, EventArgs e)
         {
             Close();
-        }
 
-    }
+        } //bCancel_Click
+
+    } //ViewItem
+
 }

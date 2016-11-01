@@ -42,22 +42,25 @@ namespace Karabina.SharePoint.Provisioning
         Geolocation = 31,
         OutcomeChoice = 32,
         MaxItems = 33
-    }
+
+    } //ProvisioningFieldType
 
     public class ProvisioningField
     {
         public string Name { get; set; }
-        public ProvisioningFieldType FieldType { get; set; }
-        public ProvisioningField()
-        {
 
-        }
+        public ProvisioningFieldType FieldType { get; set; }
+
+        public ProvisioningField() { }
+
         public ProvisioningField(string name, ProvisioningFieldType fieldType)
         {
             Name = name;
             FieldType = fieldType;
-        }
-    }
+
+        } //ProvisioningField
+
+    } //ProvisioningField
 
     public class ProvisioningFieldCollection
     {
@@ -67,25 +70,30 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _fields; }
             set { _fields = value; }
-        }
+
+        } //Fields
 
         public int Count
         {
             get
             {
                 return _fields != null ? _fields.Count : 0;
+
             }
-        }
+
+        } //Count
 
         public ProvisioningFieldCollection()
         {
             _fields = new List<ProvisioningField>();
-        }
+
+        } //ProvisioningFieldCollection
 
         public void Add(string name, ProvisioningFieldType fieldType)
         {
             Add(new ProvisioningField(name, fieldType));
-        }
+
+        } //Add
 
         public void Add(ProvisioningField item)
         {
@@ -93,19 +101,23 @@ namespace Karabina.SharePoint.Provisioning
             if (_fields.FindIndex(p => p.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase)) < 0)
             {
                 _fields.Add(item);
+
             }
-        }
+
+        } //Add
 
         public ProvisioningField Find(string name)
         {
             return _fields.Find(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-        }
+
+        } //Find
 
         public int FindIndex(string name)
         {
             return _fields.FindIndex(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-        }
 
+        } //FindIndex
 
-    }
+    } //ProvisioningFieldCollection
+
 }

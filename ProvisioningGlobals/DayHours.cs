@@ -16,11 +16,12 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return DayHourId * 60; }
             private set { }
-        }
+
+        } //MinutesFromMidnight
 
         public DayHour() { }
 
-    }
+    } //DayHour
 
     public class DayHourCollection
     {
@@ -30,7 +31,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _dayHours; }
             private set { _dayHours = value; }
-        }
+
+        } //DayHours
 
         public string DisplayMember
         {
@@ -50,10 +52,11 @@ namespace Karabina.SharePoint.Provisioning
             for (int i = 0; i < 24; i++)
             {
                 _dayHours.Add(new DayHour() { DayHourId = i, DayHourName = string.Format("{0:00}:00", i) });
+
             }
 
-        }
+        } //DayHourCollection
 
-    }
+    } //DayHourCollection
 
 }

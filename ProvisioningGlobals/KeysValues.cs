@@ -20,7 +20,7 @@ namespace Karabina.SharePoint.Provisioning
             Key = key;
             Value = value;
 
-        }
+        } //KeyValue
 
         public bool KeyIsEmpty()
         {
@@ -45,7 +45,7 @@ namespace Karabina.SharePoint.Provisioning
 
             return result;
 
-        }
+        } //Equals
 
         public bool KeyEquals(string key)
         {

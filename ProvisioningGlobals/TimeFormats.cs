@@ -13,7 +13,8 @@ namespace Karabina.SharePoint.Provisioning
         public string TimeFormatName { get; set; }
 
         public TimeFormat() { }
-    }
+
+    } //TimeFormat
 
     public class TimeFormatCollection
     {
@@ -23,7 +24,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _timeFormats; }
             private set { _timeFormats = value; }
-        }
+
+        } //TimeFormats
 
         public string DisplayMember
         {
@@ -44,8 +46,8 @@ namespace Karabina.SharePoint.Provisioning
             _timeFormats.Add(new TimeFormat() { TimeFormatId = 0, TimeFormatName = "12 Hour" });
             _timeFormats.Add(new TimeFormat() { TimeFormatId = 1, TimeFormatName = "24 Hour" });
 
-        }
+        } //TimeFormatCollection
 
-    }
+    } //TimeFormatCollection
 
 }

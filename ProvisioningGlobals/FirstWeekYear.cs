@@ -14,7 +14,7 @@ namespace Karabina.SharePoint.Provisioning
 
         public FirstWeek() { }
 
-    }
+    } //FirstWeek
 
     public class FirstWeekCollection
     {
@@ -24,7 +24,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _firstWeeks; }
             private set { _firstWeeks = value; }
-        }
+
+        } //FirstWeeks
 
         public string DisplayMember
         {
@@ -46,8 +47,8 @@ namespace Karabina.SharePoint.Provisioning
             _firstWeeks.Add(new FirstWeek() { FirstWeekId = 1, FirstWeekName = "First full week" });
             _firstWeeks.Add(new FirstWeek() { FirstWeekId = 2, FirstWeekName = "First 4 - day week" });
 
-        }
+        } //FirstWeekCollection
 
-    }
+    } //FirstWeekCollection
 
 }

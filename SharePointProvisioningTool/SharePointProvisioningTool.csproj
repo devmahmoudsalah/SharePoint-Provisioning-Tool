@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\glossy-3d-blue-orbs2-110.ico</ApplicationIcon>
+    <ApplicationIcon>Karabina32x32.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Karabina.SharePoint.Provisioning.Program</StartupObject>
@@ -158,9 +158,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\glossy-3d-blue-orbs2-110.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\EditRed.png" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +172,7 @@
   <ItemGroup>
     <None Include="Resources\VerticalNew.png" />
     <None Include="Resources\CascadeNew.png" />
+    <Content Include="Karabina32x32.ico" />
     <Content Include="Resources\Edit16.ico" />
     <Content Include="Resources\FileSetting16.ico" />
     <None Include="Resources\HorizontalNew.png" />

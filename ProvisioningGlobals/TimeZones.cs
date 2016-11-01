@@ -9,10 +9,12 @@ namespace Karabina.SharePoint.Provisioning
     public class TimeZone
     {
         public int TimeZoneId { get; set; }
+
         public string TimeZoneName { get; set; }
 
         public TimeZone() { }
-    }
+
+    } //TimeZone
 
     public class TimeZoneCollection
     {
@@ -22,7 +24,8 @@ namespace Karabina.SharePoint.Provisioning
         {
             get { return _timeZones; }
             private set { _timeZones = value; }
-        }
+
+        } //TimeZones
 
         public string DisplayMember
         {
@@ -147,7 +150,8 @@ namespace Karabina.SharePoint.Provisioning
             _timeZones.Add(new TimeZone() { TimeZoneId = 67, TimeZoneName = "(UTC+13:00) Nuku'alofa" });
             _timeZones.Add(new TimeZone() { TimeZoneId = 16, TimeZoneName = "(UTC+13:00) Samoa" });
 
-        }
-    }
+        } //TimeZoneCollection
+
+    } //TimeZoneCollection
 
 }
