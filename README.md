@@ -97,6 +97,24 @@ While editing you can save the template.
 
 ### Apply Template
 
+To apply a saved provisioning template to a SharePoint site, click the "Apply Template" button. 
+After selecting the SharePoint version the following form will appear.
+
+![](Images/ApplyTemplate.png)
+
+Click the "Browse..." button to select the provisioning template to apply. 
+Complete the other fields specifing the SharePoint site URL where you want to apply the template to.
+
+Click the "Options" button to narrow down what will be applied to the site.
+
+![](Images/ApplyOptions.png)
+
+For example to apply only the Site Fields, deselect all the options and select the "Apply Fields" option.
+Click to "Apply" button to apply the template to the SharePoint site. 
+The progress form will appear and show the status of the operation.
+
+![](Images/ApplyProgress.png)
+
 
 -----------
 ```

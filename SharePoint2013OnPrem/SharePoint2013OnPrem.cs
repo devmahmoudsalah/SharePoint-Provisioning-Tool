@@ -1516,6 +1516,29 @@ namespace Karabina.SharePoint.Provisioning
 
                     };
 
+                    ptai.HandlersToProcess = (provisioningOptions.AuditSettings ? Handlers.AuditSettings : 0) |
+                                             (provisioningOptions.ComposedLook ? Handlers.ComposedLook : 0) |
+                                             (provisioningOptions.CustomActions ? Handlers.CustomActions : 0) |
+                                             (provisioningOptions.ExtensibilityProviders ? Handlers.ExtensibilityProviders : 0) |
+                                             (provisioningOptions.Features ? Handlers.Features : 0) |
+                                             (provisioningOptions.Fields ? Handlers.Fields : 0) |
+                                             (provisioningOptions.Files ? Handlers.Files : 0) |
+                                             (provisioningOptions.ListInstances ? Handlers.Lists : 0) |
+                                             (provisioningOptions.Pages ? Handlers.Pages : 0) |
+                                             (provisioningOptions.Publishing ? Handlers.Publishing : 0) |
+                                             (provisioningOptions.RegionalSettings ? Handlers.RegionalSettings : 0) |
+                                             (provisioningOptions.SearchSettings ? Handlers.SearchSettings : 0) |
+                                             (provisioningOptions.SitePolicy ? Handlers.SitePolicy : 0) |
+                                             (provisioningOptions.SupportedUILanguages ? Handlers.SupportedUILanguages : 0) |
+                                             (provisioningOptions.TermGroups ? Handlers.TermGroups : 0) |
+                                             (provisioningOptions.Workflows ? Handlers.Workflows : 0) |
+                                             (provisioningOptions.SiteSecurity ? Handlers.SiteSecurity : 0) |
+                                             (provisioningOptions.ContentTypes ? Handlers.ContentTypes : 0) |
+                                             (provisioningOptions.PropertyBagEntries ? Handlers.PropertyBagEntries : 0) |
+                                             (provisioningOptions.PageContents ? Handlers.PageContents : 0) |
+                                             (provisioningOptions.WebSettings ? Handlers.WebSettings : 0) |
+                                             (provisioningOptions.Navigation ? Handlers.Navigation : 0);
+                    
                     web.ApplyProvisioningTemplate(template, ptai);
 
                     WriteMessage($"Done applying provisioning template to {web.Title} ( {web.Url} )");

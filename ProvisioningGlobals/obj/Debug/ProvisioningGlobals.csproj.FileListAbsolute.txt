@@ -1,4 +1,0 @@
-C:\Development\KarabinaSharePointTools\ProvisioningGlobals\bin\Debug\ProvisioningGlobals.dll
-C:\Development\KarabinaSharePointTools\ProvisioningGlobals\bin\Debug\ProvisioningGlobals.pdb
-C:\Development\KarabinaSharePointTools\ProvisioningGlobals\obj\Debug\ProvisioningGlobals.dll
-C:\Development\KarabinaSharePointTools\ProvisioningGlobals\obj\Debug\ProvisioningGlobals.pdb
