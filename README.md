@@ -57,11 +57,46 @@ Click the "Browse..." button to select the provisioning template to edit.
 
 ![](Images/OpenTemplate.png)
 
-Select the template that you want to edit from the list or download more templates from the [SharePoint Templates Gallery](https://templates-gallery.sharepointpnp.com).
+Select the template that you want to edit from previous saved templates or download templates from the [SharePoint Templates Gallery](https://templates-gallery.sharepointpnp.com).
 
 ![](Images/EditTemplateList.png)
 
-To be continued...
+On the left the tree view of the template contents will be displayed. 
+On the right one of four diffirent controls will be displayed.
+
+The listbox control shows the child items of the selected node in the tree view. 
+Double click will take you to that child item. Right click will enable you to delete unwanted items.
+
+![](Images/EditTemplateDeleteItems.png)
+
+Most of the items will be displayed in a textbox control. 
+This allows you to edit the details of that item as shown in the image below.
+
+![](Images/EditTemplateText.png)
+
+Note: If the contents of the textbox is cleared, when you save the template that item will be deleted from the template before saving.
+
+Regional Settings, Web Settings and Composed Look items have their own form to edit. 
+Below is the form for Regional Settings:
+![](Images/EditTemplateRegionalSettings.png)
+
+If the template item consists of Key Value pairs then they will be shown in the details view.
+Double click on a row will enable you to edit the selected Key Value pair.
+
+![](Images/EditTemplateKeyValue.png)
+
+You also have the option to add a new Key Value pair.
+
+![](Images/EditTemplateKeyValueNew.png)
+
+While editing you can save the template.
+
+![](Images/EditTemplateSaved.png)
+
+-----------
+
+### Apply Template
+
 
 -----------
 ```
@@ -69,4 +104,14 @@ Disclaimer
 THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS 
 OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR 
 PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
+
+
+
+
+
+
+
+
+
+
 
