@@ -279,7 +279,6 @@ namespace Karabina.SharePoint.Provisioning
             if (result == DialogResult.OK)
             {
                 version = dialog.VersionSelected;
-                Program.currentVerion = version;
 
             }
 

@@ -10,7 +10,7 @@ namespace Karabina.SharePoint.Provisioning
     static class Program
     {
 
-        
+        /*
         public static SPReflection sharePoint2013OnPremises = null;
 
         public static SPReflection sharePoint2016OnPremises = null;
@@ -19,39 +19,6 @@ namespace Karabina.SharePoint.Provisioning
         
 
         public static SharePointVersion currentVerion = SharePointVersion.SharePoint_Invalid;
-
-
-        /*
-        private static Assembly ResolveAssemblyHandler(object source, ResolveEventArgs e)
-        {
-            Assembly result = null;
-            switch (currentVerion)
-            {
-                case SharePointVersion.SharePoint_2013_On_Premises:
-                    result = Assembly.LoadFrom(appDomain2013OP.BaseDirectory);
-
-                    break;
-
-                case SharePointVersion.SharePoint_2016_On_Premises:
-                    result = Assembly.LoadFrom(appDomain2016OP.BaseDirectory);
-
-                    break;
-
-                case SharePointVersion.SharePoint_2016_OnLine:
-                    result = Assembly.LoadFrom(appDomain2016OL.BaseDirectory);
-
-                    break;
-
-                default:
-                    result = Assembly.GetExecutingAssembly();
-
-                    break;
-
-            }
-
-            return result;
-
-        } //ResolveAssemblyHandler
         */
 
         /// <summary>
@@ -60,7 +27,7 @@ namespace Karabina.SharePoint.Provisioning
         [STAThread]
         static void Main(string[] args)
         {
-
+            /*
             //appDomain2013OP
             AppDomainSetup setup2013OP = new AppDomainSetup()
             {
@@ -120,41 +87,13 @@ namespace Karabina.SharePoint.Provisioning
 
             currentVerion = SharePointVersion.SharePoint_Invalid;
 
-            AppDomain current = AppDomain.CurrentDomain;
-
-            AppDomainSetup currentSetup = new AppDomainSetup()
-            {
-                ApplicationBase = current.SetupInformation.ApplicationBase,
-                ConfigurationFile = current.SetupInformation.ConfigurationFile,
-                DisallowApplicationBaseProbing = false,
-                DisallowBindingRedirects = false
-
-            };
-
-            AppDomain appDomainCurrent = AppDomain.CreateDomain(AppDomain.CurrentDomain.FriendlyName, null, currentSetup);
-
-            Type sppToolType  = typeof(SPPTool);
-
-            SPPTool sppTool = (SPPTool)appDomainCurrent.CreateInstanceAndUnwrap(sppToolType.Assembly.FullName, sppToolType.FullName);
-
-            sppTool.Main(args);
-
-            AppDomain.Unload(appDomainCurrent);
-
             AppDomain.Unload(appDomain2016OL);
 
             AppDomain.Unload(appDomain2016OP);
 
             AppDomain.Unload(appDomain2013OP);
+            */
 
-        }
-
-    }
-
-    public class SPPTool : MarshalByRefObject
-    {
-        public void Main(string[] args)
-        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SharePointProvisioningTool());
