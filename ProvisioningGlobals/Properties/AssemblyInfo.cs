@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ProvisioningGlobals")]
+[assembly: AssemblyTitle("SharePoint Provisioning Tool - Global Definitions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ProvisioningGlobals")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("Karabina SharePoint Tools")]
+[assembly: AssemblyCopyright("Copyright ©  2016, Karabina")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

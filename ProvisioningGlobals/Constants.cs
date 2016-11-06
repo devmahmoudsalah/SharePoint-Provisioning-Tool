@@ -114,6 +114,13 @@ namespace Karabina.SharePoint.Provisioning
 
     public static class Constants
     {
+        public static readonly string SharePoint2013OnPrem_Assembly_FullName = "SharePoint2013OnPrem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+        public static readonly string SharePoint2013OnPrem_Type_FullName = "Karabina.SharePoint.Provisioning.SharePoint2013OnPrem";
+        public static readonly string SharePoint2016OnPrem_Assembly_FullName = "SharePoint2016OnPrem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+        public static readonly string SharePoint2016OnPrem_Type_FullName = "Karabina.SharePoint.Provisioning.SharePoint2016OnPrem";
+        public static readonly string SharePoint2016Online_Assembly_FullName = "SharePoint2016Online, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+        public static readonly string SharePoint2016Online_Type_FullName = "Karabina.SharePoint.Provisioning.SharePoint2016Online";
+
         public static readonly string SharePoint_2013_On_Premises = "SharePoint 2013 On Premises";
         public static readonly string SharePoint_2016_On_Premises = "SharePoint 2016 On Premises";
         public static readonly string SharePoint_2016_Online = "SharePoint 2016 Online";
@@ -133,7 +140,7 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly int Hijri_CalendarId = 6;
         public static readonly int Karabina_Red = 204;
         public static readonly int Karabina_Green = 0;
-        public static readonly int Karabina_Blue = Karabina_Green;
+        public static readonly int Karabina_Blue = 0;
         public static readonly string Add_New = "<Add New>";
 
     } //Constants

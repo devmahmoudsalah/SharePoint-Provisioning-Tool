@@ -213,7 +213,7 @@ namespace Karabina.SharePoint.Provisioning
         }
 
         /// <summary>
-        /// Gets the database connection string from SharePoint for autohosted add-in.
+        /// Gets the database connection string from SharePoint for autohosted app.
         /// This method is deprecated because the autohosted option is no longer available.
         /// </summary>
         [ObsoleteAttribute("This method is deprecated because the autohosted option is no longer available.", true)]

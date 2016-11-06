@@ -24,12 +24,6 @@ namespace Karabina.SharePoint.Provisioning
 
         } //SelectedVersion
 
-        public SharePoint2013OnPrem SP2013OP { get; set; }
-
-        public SharePoint2016OnPrem SP2016OP { get; set; }
-
-        public SharePoint2016Online SP2016OL { get; set; }
-
         public delegate string OpenTemplateDelegate();
 
         public OpenTemplateDelegate OpenTemplate;
@@ -41,7 +35,6 @@ namespace Karabina.SharePoint.Provisioning
         public EditWin()
         {
             InitializeComponent();
-
         }
 
         private void BrowseForTemplate(object sender, EventArgs e)
@@ -63,17 +56,17 @@ namespace Karabina.SharePoint.Provisioning
                     switch (_selectedVersion)
                     {
                         case SharePointVersion.SharePoint_2013_On_Premises:
-                            _templateItems = SP2013OP.OpenTemplateForEdit(path, name, tvTemplate);
+                            //_templateItems = SP2013OP.OpenTemplateForEdit(path, name, tvTemplate);
 
                             break;
 
                         case SharePointVersion.SharePoint_2016_On_Premises:
-                            _templateItems = SP2016OP.OpenTemplateForEdit(path, name, tvTemplate);
+                            //_templateItems = SP2016OP.OpenTemplateForEdit(path, name, tvTemplate);
 
                             break;
 
                         case SharePointVersion.SharePoint_2016_OnLine:
-                            _templateItems = SP2016OL.OpenTemplateForEdit(path, name, tvTemplate);
+                            //_templateItems = SP2016OL.OpenTemplateForEdit(path, name, tvTemplate);
 
                             break;
 
@@ -336,8 +329,18 @@ namespace Karabina.SharePoint.Provisioning
                 tbWSCustomMasterPageUrl.Text = ws[(int)WebSettingProperties.CustomMasterPageUrl];
                 tbWSAlternateCSS.Text = ws[(int)WebSettingProperties.AlternateCSS];
                 tbWSWelcomePage.Text = ws[(int)WebSettingProperties.WelcomePage];
-                tbWSRequestAccessEmail.Text = ws[(int)WebSettingProperties.RequestAccessEmail];
-                cbWSNoCrawl.Checked = (ws[(int)WebSettingProperties.NoCrawl].Equals("1"));
+                if (SelectedVersion == SharePointVersion.SharePoint_2016_OnLine)
+                {
+                    tbWSRequestAccessEmail.Text = ws[(int)WebSettingProperties.RequestAccessEmail];
+                    cbWSNoCrawl.Checked = (ws[(int)WebSettingProperties.NoCrawl].Equals("1"));
+
+                }
+                else
+                {
+                    tbWSRequestAccessEmail.Enabled = false;
+                    cbWSNoCrawl.Enabled = false;
+
+                }
 
             }
 
@@ -678,17 +681,17 @@ namespace Karabina.SharePoint.Provisioning
                 switch (_selectedVersion)
                 {
                     case SharePointVersion.SharePoint_2013_On_Premises:
-                        SP2013OP.SaveTemplateForEdit(_templateItems);
+                        //SP2013OP.SaveTemplateForEdit(_templateItems);
 
                         break;
 
                     case SharePointVersion.SharePoint_2016_On_Premises:
-                        SP2016OP.SaveTemplateForEdit(_templateItems);
+                        //SP2016OP.SaveTemplateForEdit(_templateItems);
 
                         break;
 
                     case SharePointVersion.SharePoint_2016_OnLine:
-                        SP2016OL.SaveTemplateForEdit(_templateItems);
+                        //SP2016OL.SaveTemplateForEdit(_templateItems);
 
                         break;
 

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9B03FE1D-2014-405D-8503-874CDFA8B96F}</ProjectGuid>
+    <ProjectGuid>{45553E78-2B44-4C09-9A71-67282E8ABBA1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Karabina.SharePoint.Provisioning</RootNamespace>
@@ -12,31 +12,54 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>SharePoint Provisioning Tool</ProductName>
+    <SuiteName>Karabina SharePoint Tools</SuiteName>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Karabina32x32.ico</ApplicationIcon>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Karabina.SharePoint.Provisioning.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Karabina32x32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -58,12 +81,6 @@
     <Compile Include="EditWin.Designer.cs">
       <DependentUpon>EditWin.cs</DependentUpon>
     </Compile>
-    <Compile Include="SharePointProvisioningTool.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SharePointProvisioningTool.Designer.cs">
-      <DependentUpon>SharePointProvisioningTool.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ProgressWin.cs">
       <SubType>Form</SubType>
@@ -72,28 +89,31 @@
       <DependentUpon>ProgressWin.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="SelectSharePoint.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SelectSharePoint.Designer.cs">
       <DependentUpon>SelectSharePoint.cs</DependentUpon>
     </Compile>
-    <Compile Include="TargetWin.cs">
+    <Compile Include="SharePointProvisioningTool.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TargetWin.designer.cs">
-      <DependentUpon>TargetWin.cs</DependentUpon>
+    <Compile Include="SharePointProvisioningTool.Designer.cs">
+      <DependentUpon>SharePointProvisioningTool.cs</DependentUpon>
     </Compile>
     <Compile Include="SourceWin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SourceWin.designer.cs">
       <DependentUpon>SourceWin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SPReflection.cs" />
+    <Compile Include="TargetWin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TargetWin.designer.cs">
+      <DependentUpon>TargetWin.cs</DependentUpon>
     </Compile>
     <Compile Include="TemplateOptions.cs">
       <SubType>Form</SubType>
@@ -113,21 +133,18 @@
     <EmbeddedResource Include="ProgressWin.resx">
       <DependentUpon>ProgressWin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx" />
     <EmbeddedResource Include="SelectSharePoint.resx">
       <DependentUpon>SelectSharePoint.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TargetWin.resx">
-      <DependentUpon>TargetWin.cs</DependentUpon>
+    <EmbeddedResource Include="SharePointProvisioningTool.resx">
+      <DependentUpon>SharePointProvisioningTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SourceWin.resx">
       <DependentUpon>SourceWin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SharePointProvisioningTool.resx">
-      <DependentUpon>SharePointProvisioningTool.cs</DependentUpon>
+    <EmbeddedResource Include="TargetWin.resx">
+      <DependentUpon>TargetWin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TemplateOptions.resx">
       <DependentUpon>TemplateOptions.cs</DependentUpon>
@@ -140,48 +157,40 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Karabina32x32.ico" />
+    <Content Include="Resources\CascadeNew.png" />
+    <Content Include="Resources\Edit16.ico" />
+    <Content Include="Resources\EditRed.png" />
+    <Content Include="Resources\FileSetting16.ico" />
+    <Content Include="Resources\FileSettingRed.png" />
+    <Content Include="Resources\HorizontalNew.png" />
+    <Content Include="Resources\Karabina122x122.png" />
+    <Content Include="Resources\Karabina16x16.png" />
+    <Content Include="Resources\Karabina32x32.png" />
+    <Content Include="Resources\Karabina48x48.png" />
+    <Content Include="Resources\KarabinaWorkflowFeatureIcon-Generic.png" />
+    <Content Include="Resources\NewsPaper16.ico" />
+    <Content Include="Resources\NewsPaperRed.png" />
+    <Content Include="Resources\PowerOffRed.png" />
+    <Content Include="Resources\VerticalNew.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ProvisioningGlobals\ProvisioningGlobals.csproj">
       <Project>{42f37640-6554-461e-9c68-74cea510eb4f}</Project>
       <Name>ProvisioningGlobals</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharePoint2013OnPrem\SharePoint2013OnPrem.csproj">
-      <Project>{00043c6b-e5e2-4fe2-9e20-f5308d06c674}</Project>
-      <Name>SharePoint2013OnPrem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharePoint2016Online\SharePoint2016Online.csproj">
-      <Project>{8b770922-2953-44ac-a4c0-025861e45ed8}</Project>
-      <Name>SharePoint2016Online</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharePoint2016OnPrem\SharePoint2016OnPrem.csproj">
-      <Project>{5d520b17-887d-4105-bfab-8352d45c9684}</Project>
-      <Name>SharePoint2016OnPrem</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\EditRed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FileSettingRed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NewsPaperRed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PowerOffRed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VerticalNew.png" />
-    <None Include="Resources\CascadeNew.png" />
-    <Content Include="Karabina32x32.ico" />
-    <Content Include="Resources\Edit16.ico" />
-    <Content Include="Resources\FileSetting16.ico" />
-    <None Include="Resources\HorizontalNew.png" />
-    <None Include="Resources\Karabina16x16.png" />
-    <None Include="Resources\Karabina32x32.png" />
-    <None Include="Resources\Karabina48x48.png" />
-    <None Include="Resources\Karabina122x122.png" />
-    <None Include="Resources\KarabinaWorkflowFeatureIcon-Generic.png" />
-    <Content Include="Resources\NewsPaper16.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

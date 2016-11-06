@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace Karabina.SharePoint.Provisioning
 {
-    public class SharePoint2016OnPrem
+    public class SharePoint2016OnPrem : MarshalByRefObject
     {
         public SharePoint2016OnPrem()
         {
@@ -236,7 +236,7 @@ namespace Karabina.SharePoint.Provisioning
                 ProvisioningFieldCollection fieldCollection = new ProvisioningFieldCollection();
 
                 //Get only the fields we need.
-                foreach (Microsoft.SharePoint.Client.Field field in fields)
+                foreach (SPClient.Field field in fields)
                 {
                     if ((!field.ReadOnlyField) &&
                         (!field.Hidden) &&
@@ -942,8 +942,7 @@ namespace Karabina.SharePoint.Provisioning
                                             Title = webPartDefinition.WebPart.Title,
                                             Row = (uint)webPartDefinition.WebPart.ZoneIndex,
                                             Order = (uint)webPartDefinition.WebPart.ZoneIndex,
-                                            Contents = webPartxml,
-                                            Zone = webPartDefinition.ZoneId
+                                            Contents = webPartxml
 
                                         };
 

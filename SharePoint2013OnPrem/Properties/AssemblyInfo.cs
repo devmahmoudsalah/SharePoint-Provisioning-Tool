@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SharePoint2013OnPrem")]
+[assembly: AssemblyTitle("SharePoint Provisioning Tool - SharePoint2013 On Premises")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SharePoint2013OnPrem")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("Karabina SharePoint Tools")]
+[assembly: AssemblyCopyright("Copyright ©  2016, Karabina")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("00043c6b-e5e2-4fe2-9e20-f5308d06c674")]
+[assembly: Guid("ae1a606d-1270-4b1e-af5d-5c94b2112acc")]
 
 // Version information for an assembly consists of the following four values:
 //

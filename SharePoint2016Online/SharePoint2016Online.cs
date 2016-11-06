@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace Karabina.SharePoint.Provisioning
 {
-    public class SharePoint2016Online
+    public class SharePoint2016Online : MarshalByRefObject
     {
 
         public SharePoint2016Online()
@@ -237,7 +237,7 @@ namespace Karabina.SharePoint.Provisioning
                 ProvisioningFieldCollection fieldCollection = new ProvisioningFieldCollection();
 
                 //Get only the fields we need.
-                foreach (Microsoft.SharePoint.Client.Field field in fields)
+                foreach (SPClient.Field field in fields)
                 {
                     if ((!field.ReadOnlyField) &&
                         (!field.Hidden) &&

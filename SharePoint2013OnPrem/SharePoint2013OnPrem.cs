@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace Karabina.SharePoint.Provisioning
 {
-    public class SharePoint2013OnPrem
+    public class SharePoint2013OnPrem : MarshalByRefObject
     {
         public SharePoint2013OnPrem()
         {
@@ -68,7 +68,7 @@ namespace Karabina.SharePoint.Provisioning
 
         } //WriteMessageRange
 
-        private Dictionary<string, string> GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection, 
+        private Dictionary<string, string> GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection,
                                                               SPClient.FieldCollection fields)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
@@ -198,7 +198,7 @@ namespace Karabina.SharePoint.Provisioning
         } //GetItemFieldValues
 
 
-        private void GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection, SPClient.FieldCollection fields, 
+        private void GetItemFieldValues(ListItem item, ProvisioningFieldCollection fieldCollection, SPClient.FieldCollection fields,
                                         Dictionary<string, string> properties)
         {
             Dictionary<string, string> data = GetItemFieldValues(item, fieldCollection, fields);
@@ -236,7 +236,7 @@ namespace Karabina.SharePoint.Provisioning
                 ProvisioningFieldCollection fieldCollection = new ProvisioningFieldCollection();
 
                 //Get only the fields we need.
-                foreach (Microsoft.SharePoint.Client.Field field in fields)
+                foreach (SPClient.Field field in fields)
                 {
                     if ((!field.ReadOnlyField) &&
                         (!field.Hidden) &&
@@ -645,7 +645,7 @@ namespace Karabina.SharePoint.Provisioning
                         WriteMessage("Cleanup: Cleaning avaiable web templates from template");
                         foreach (var availableWebTemplate in baseTemplate.Publishing.AvailableWebTemplates)
                         {
-                            template.Publishing.AvailableWebTemplates.RemoveAll(p => 
+                            template.Publishing.AvailableWebTemplates.RemoveAll(p =>
                                 p.TemplateName.Equals(availableWebTemplate.TemplateName, StringComparison.OrdinalIgnoreCase));
 
                         }
@@ -789,7 +789,7 @@ namespace Karabina.SharePoint.Provisioning
                     WriteMessage("Cleanup: Cleaning property bag entries from template");
                     foreach (var propertyBagEntry in baseTemplate.PropertyBagEntries)
                     {
-                        template.PropertyBagEntries.RemoveAll(p => p.Key.Equals(propertyBagEntry.Key, 
+                        template.PropertyBagEntries.RemoveAll(p => p.Key.Equals(propertyBagEntry.Key,
                                                                                 StringComparison.OrdinalIgnoreCase));
 
                     }
@@ -814,8 +814,8 @@ namespace Karabina.SharePoint.Provisioning
 
             foreach (var list in lists)
             {
-                xml = Regex.Replace(xml, list.Id.ToString(), 
-                                    string.Format("{{listid:{0}}}", list.Title), 
+                xml = Regex.Replace(xml, list.Id.ToString(),
+                                    string.Format("{{listid:{0}}}", list.Title),
                                     RegexOptions.IgnoreCase);
 
             }
@@ -882,7 +882,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (item.FileSystemObjectType == FileSystemObjectType.File)
                     {
                         //Make sure file is not already saved during template creation
-                        int fileIndex = template.Files.FindIndex(p => 
+                        int fileIndex = template.Files.FindIndex(p =>
                                             ((p.Folder.Equals(fileDirectory, StringComparison.OrdinalIgnoreCase)) &&
                                              (p.Src.Equals(fileStreamName, StringComparison.OrdinalIgnoreCase))));
 
@@ -965,7 +965,7 @@ namespace Karabina.SharePoint.Provisioning
                     else if (item.FileSystemObjectType == FileSystemObjectType.Folder)
                     {
                         //Make sure the directory is not already stored during template creation
-                        int directoryIndex = template.Directories.FindIndex(p => 
+                        int directoryIndex = template.Directories.FindIndex(p =>
                                                 ((p.Folder.Equals(fileDirectory, StringComparison.OrdinalIgnoreCase)) &&
                                                  (p.Src.Equals(fileStreamName, StringComparison.OrdinalIgnoreCase))));
 
@@ -1342,7 +1342,7 @@ namespace Karabina.SharePoint.Provisioning
                         CleanupTemplate(provisioningOptions, template, baseTemplate);
 
                         //if not publishing site and publishing feature is activated, then clean publishing features from template
-                        if (!baseTemplate.BaseSiteTemplate.Equals(Constants.Enterprise_Wiki_TemplateId, 
+                        if (!baseTemplate.BaseSiteTemplate.Equals(Constants.Enterprise_Wiki_TemplateId,
                                                                   StringComparison.OrdinalIgnoreCase))
                         {
                             if (web.IsPublishingWeb())
@@ -1393,7 +1393,7 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     WriteMessage("Error: Start of inner exception");
                     WriteMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
-                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' }, 
+                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' },
                                                                          StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
 
@@ -1538,7 +1538,7 @@ namespace Karabina.SharePoint.Provisioning
                                              (provisioningOptions.PageContents ? Handlers.PageContents : 0) |
                                              (provisioningOptions.WebSettings ? Handlers.WebSettings : 0) |
                                              (provisioningOptions.Navigation ? Handlers.Navigation : 0);
-                    
+
                     web.ApplyProvisioningTemplate(template, ptai);
 
                     WriteMessage($"Done applying provisioning template to {web.Title} ( {web.Url} )");
@@ -1561,7 +1561,7 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     WriteMessage("Error: Start of inner exception");
                     WriteMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
-                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\r', '\n' }, 
+                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\r', '\n' },
                                                                          StringSplitOptions.RemoveEmptyEntries));
                     WriteMessage("Error: End of inner exception");
 
@@ -1629,7 +1629,7 @@ namespace Karabina.SharePoint.Provisioning
             if (template.AddIns?.Count > 0)
             {
                 TreeNode aiNodes = new TreeNode("Add-Ins");
-                aiNodes.Name = templateItems.AddItem("AddIns", TemplateControlType.ListBox, 
+                aiNodes.Name = templateItems.AddItem("AddIns", TemplateControlType.ListBox,
                                                      TemplateItemType.AddInList, null, rootNode.Name);
 
                 KeyValueList addInsList = new KeyValueList();
@@ -1637,8 +1637,8 @@ namespace Karabina.SharePoint.Provisioning
                 foreach (var addIn in template.AddIns)
                 {
                     TreeNode aiNode = new TreeNode(addIn.PackagePath);
-                    aiNode.Name = templateItems.AddItem(addIn.PackagePath, TemplateControlType.TextBox, 
-                                                        TemplateItemType.AddInItem, addIn.Source, 
+                    aiNode.Name = templateItems.AddItem(addIn.PackagePath, TemplateControlType.TextBox,
+                                                        TemplateItemType.AddInItem, addIn.Source,
                                                         aiNodes.Name);
 
                     aiNodes.Nodes.Add(aiNode);
@@ -1656,8 +1656,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.ComposedLook?.Name != null)
             {
                 TreeNode clNode = new TreeNode("Composed Look");
-                clNode.Name = templateItems.AddItem("ComposedLook", TemplateControlType.Form, 
-                                                    TemplateItemType.ComposedLook, GetComposedLook(), 
+                clNode.Name = templateItems.AddItem("ComposedLook", TemplateControlType.Form,
+                                                    TemplateItemType.ComposedLook, GetComposedLook(),
                                                     rootNode.Name);
 
                 rootNode.Nodes.Add(clNode);
@@ -1669,7 +1669,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode scaNodes = new TreeNode("Site Custom Actions");
                 scaNodes.Name = templateItems.AddItem("SiteCustomActions", TemplateControlType.ListBox,
-                                                      TemplateItemType.SiteCustomActionList, null, 
+                                                      TemplateItemType.SiteCustomActionList, null,
                                                       rootNode.Name);
 
                 KeyValueList siteCustomActionsList = new KeyValueList();
@@ -1698,7 +1698,7 @@ namespace Karabina.SharePoint.Provisioning
             if (template.CustomActions?.WebCustomActions?.Count > 0)
             {
                 TreeNode wcaNodes = new TreeNode("Web Custom Actions");
-                wcaNodes.Name = templateItems.AddItem("WebCustomActions", TemplateControlType.ListBox, 
+                wcaNodes.Name = templateItems.AddItem("WebCustomActions", TemplateControlType.ListBox,
                                                       TemplateItemType.WebCustomActionList, null,
                                                       rootNode.Name);
 
@@ -1737,9 +1737,9 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                sfNodes.Name = templateItems.AddItem("SiteFeatures", TemplateControlType.ListBox, 
-                                                     TemplateItemType.SiteFeatureList, 
-                                                     siteFeaturesList, 
+                sfNodes.Name = templateItems.AddItem("SiteFeatures", TemplateControlType.ListBox,
+                                                     TemplateItemType.SiteFeatureList,
+                                                     siteFeaturesList,
                                                      rootNode.Name);
 
                 rootNode.Nodes.Add(sfNodes);
@@ -1772,8 +1772,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.ContentTypes?.Count > 0)
             {
                 TreeNode ctNodes = new TreeNode("Content Types");
-                ctNodes.Name = templateItems.AddItem("ContentTypes", TemplateControlType.ListBox, 
-                                                     TemplateItemType.ContentTypeList, null, 
+                ctNodes.Name = templateItems.AddItem("ContentTypes", TemplateControlType.ListBox,
+                                                     TemplateItemType.ContentTypeList, null,
                                                      rootNode.Name);
 
                 KeyValueList contentTypeList = new KeyValueList();
@@ -1831,7 +1831,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     templateItems.SetContent(ctgNode.Name, contentTypeGroup);
 
-                    if (!contentTypeList.Exists(p => p.Key.Equals(contentType.Group, 
+                    if (!contentTypeList.Exists(p => p.Key.Equals(contentType.Group,
                                                 StringComparison.OrdinalIgnoreCase)))
                     {
                         contentTypeList.AddKeyValue(contentType.Group, ctgNode.Name);
@@ -1851,8 +1851,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.SiteFields?.Count > 0)
             {
                 TreeNode sfNodes = new TreeNode("Site Fields");
-                sfNodes.Name = templateItems.AddItem("SiteFields", TemplateControlType.ListBox, 
-                                                     TemplateItemType.SiteFieldList, null, 
+                sfNodes.Name = templateItems.AddItem("SiteFields", TemplateControlType.ListBox,
+                                                     TemplateItemType.SiteFieldList, null,
                                                      rootNode.Name);
 
                 KeyValueList siteFieldsList = new KeyValueList();
@@ -1926,7 +1926,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     templateItems.SetContent(sfgNode.Name, siteFieldsGroup);
 
-                    if (!siteFieldsList.Exists(p => p.Key.Equals(fieldGroup, 
+                    if (!siteFieldsList.Exists(p => p.Key.Equals(fieldGroup,
                                                StringComparison.OrdinalIgnoreCase)))
                     {
                         siteFieldsList.AddKeyValue(fieldGroup, sfgNode.Name);
@@ -1946,7 +1946,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 TreeNode fNodes = new TreeNode("Files");
                 fNodes.Name = templateItems.AddItem("Files", TemplateControlType.ListBox,
-                                                    TemplateItemType.FileList, null, 
+                                                    TemplateItemType.FileList, null,
                                                     rootNode.Name);
 
                 KeyValueList filesList = new KeyValueList();
@@ -2029,8 +2029,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.Lists?.Count > 0)
             {
                 TreeNode lNodes = new TreeNode("Lists");
-                lNodes.Name = templateItems.AddItem("Lists", TemplateControlType.ListBox, 
-                                                    TemplateItemType.ListList, null, 
+                lNodes.Name = templateItems.AddItem("Lists", TemplateControlType.ListBox,
+                                                    TemplateItemType.ListList, null,
                                                     rootNode.Name);
 
                 KeyValueList listsList = new KeyValueList();
@@ -2046,7 +2046,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (list.Fields?.Count > 0)
                     {
                         TreeNode fNodes = new TreeNode("Fields");
-                        fNodes.Name = templateItems.AddItem(lNode.Name + "_ListFields", TemplateControlType.ListBox, 
+                        fNodes.Name = templateItems.AddItem(lNode.Name + "_ListFields", TemplateControlType.ListBox,
                                                             TemplateItemType.ListFieldList, null,
                                                             lNode.Name);
 
@@ -2136,8 +2136,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.Localizations?.Count > 0)
             {
                 TreeNode glNodes = new TreeNode("Localizations");
-                glNodes.Name = templateItems.AddItem("Localizations", TemplateControlType.ListBox, 
-                                                    TemplateItemType.LocalizationsList, null, 
+                glNodes.Name = templateItems.AddItem("Localizations", TemplateControlType.ListBox,
+                                                    TemplateItemType.LocalizationsList, null,
                                                     rootNode.Name);
 
                 KeyValueList localizationsList = new KeyValueList();
@@ -2168,8 +2168,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.Pages?.Count > 0)
             {
                 TreeNode pNodes = new TreeNode("Pages");
-                pNodes.Name = templateItems.AddItem("Pages", TemplateControlType.ListBox, 
-                                                    TemplateItemType.PageList, null, 
+                pNodes.Name = templateItems.AddItem("Pages", TemplateControlType.ListBox,
+                                                    TemplateItemType.PageList, null,
                                                     rootNode.Name);
 
                 KeyValueList pageList = new KeyValueList();
@@ -2198,8 +2198,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.Properties?.Count > 0)
             {
                 TreeNode pNode = new TreeNode("Properties");
-                pNode.Name = templateItems.AddItem("Properties", TemplateControlType.ListView, 
-                                                   TemplateItemType.PropertiesList, null, 
+                pNode.Name = templateItems.AddItem("Properties", TemplateControlType.ListView,
+                                                   TemplateItemType.PropertiesList, null,
                                                    rootNode.Name);
 
                 KeyValueList propertiesList = new KeyValueList();
@@ -2221,8 +2221,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.PropertyBagEntries?.Count > 0)
             {
                 TreeNode pbeNodes = new TreeNode("Property Bag Entries");
-                pbeNodes.Name = templateItems.AddItem("PropertyBagEntries", TemplateControlType.ListView, 
-                                                      TemplateItemType.PropertyBagEntriesList, null, 
+                pbeNodes.Name = templateItems.AddItem("PropertyBagEntries", TemplateControlType.ListView,
+                                                      TemplateItemType.PropertyBagEntriesList, null,
                                                       rootNode.Name);
 
                 KeyValueList propertyBagEntriesList = new KeyValueList();
@@ -2246,7 +2246,7 @@ namespace Karabina.SharePoint.Provisioning
                 TreeNode pNode = new TreeNode("Publishing");
                 pNode.Name = templateItems.AddItem("Publishing", TemplateControlType.TextBox,
                                                    TemplateItemType.PublishingList,
-                                                   GetPublishing(template.Publishing), 
+                                                   GetPublishing(template.Publishing),
                                                    rootNode.Name);
 
                 rootNode.Nodes.Add(pNode);
@@ -2289,13 +2289,13 @@ namespace Karabina.SharePoint.Provisioning
             if (template.SupportedUILanguages?.Count > 0)
             {
                 TreeNode suilNode = new TreeNode("Supported UI Languages");
-                suilNode.Name = templateItems.AddItem("SupportedUILanguages", TemplateControlType.ListBox, 
-                                                      TemplateItemType.SupportedUILanguagesList, null, 
+                suilNode.Name = templateItems.AddItem("SupportedUILanguages", TemplateControlType.ListBox,
+                                                      TemplateItemType.SupportedUILanguagesList, null,
                                                       rootNode.Name);
 
                 KeyValueList supportedUILanguages = new KeyValueList();
 
-                foreach(var suil in template.SupportedUILanguages)
+                foreach (var suil in template.SupportedUILanguages)
                 {
                     supportedUILanguages.AddKeyValue(suil.LCID.ToString(), suil.LCID.ToString());
 
@@ -2312,8 +2312,8 @@ namespace Karabina.SharePoint.Provisioning
             if (template.TermGroups?.Count > 0)
             {
                 TreeNode tgNodes = new TreeNode("Term Groups");
-                tgNodes.Name = templateItems.AddItem("TermGroups", TemplateControlType.ListBox, 
-                                                     TemplateItemType.TermGroupList, null, 
+                tgNodes.Name = templateItems.AddItem("TermGroups", TemplateControlType.ListBox,
+                                                     TemplateItemType.TermGroupList, null,
                                                      rootNode.Name);
 
                 KeyValueList termGroupsList = new KeyValueList();
@@ -2325,7 +2325,7 @@ namespace Karabina.SharePoint.Provisioning
                                                         TemplateItemType.TermGroupItem,
                                                         GetTermGroup(termGroup.Id),
                                                         tgNodes.Name);
-                    
+
 
                     if (termGroup.TermSets?.Count > 0)
                     {
@@ -2343,7 +2343,7 @@ namespace Karabina.SharePoint.Provisioning
                                                                 TemplateItemType.TermSetItem,
                                                                 GetTermSet(termSet),
                                                                 tsNodes.Name);
-                            
+
                             tsNodes.Nodes.Add(tsNode);
 
                             termSetsList.AddKeyValue(termSet.Name, tsNode.Name);
@@ -2372,9 +2372,9 @@ namespace Karabina.SharePoint.Provisioning
             if (template.WebSettings != null)
             {
                 TreeNode wsNode = new TreeNode("Web Settings");
-                wsNode.Name = templateItems.AddItem("WebSettings", TemplateControlType.Form, 
-                                                    TemplateItemType.WebSetting, 
-                                                    GetWebSettings(template.WebSettings), 
+                wsNode.Name = templateItems.AddItem("WebSettings", TemplateControlType.Form,
+                                                    TemplateItemType.WebSetting,
+                                                    GetWebSettings(template.WebSettings),
                                                     rootNode.Name);
 
                 rootNode.Nodes.Add(wsNode);
@@ -2513,7 +2513,7 @@ namespace Karabina.SharePoint.Provisioning
             string result = string.Empty;
             if (EditingTemplate?.ContentTypes != null)
             {
-                PnPModel.ContentType contentType = EditingTemplate.ContentTypes.Find(p => p.Id.Equals(contentTypeId, 
+                PnPModel.ContentType contentType = EditingTemplate.ContentTypes.Find(p => p.Id.Equals(contentTypeId,
                                                                                      StringComparison.OrdinalIgnoreCase));
                 if (contentType != null)
                 {
@@ -2685,7 +2685,7 @@ namespace Karabina.SharePoint.Provisioning
             string result = string.Empty;
             if (EditingTemplate?.Workflows?.WorkflowDefinitions != null)
             {
-                WorkflowDefinition workflowDefinition = EditingTemplate.Workflows.WorkflowDefinitions.Find(p => 
+                WorkflowDefinition workflowDefinition = EditingTemplate.Workflows.WorkflowDefinitions.Find(p =>
                                                         p.Id.Equals(WorkflowDefinitionId));
 
                 if (workflowDefinition != null)
@@ -3018,7 +3018,7 @@ namespace Karabina.SharePoint.Provisioning
         {
             if (terms?.Count > 0)
             {
-                foreach(var term in terms)
+                foreach (var term in terms)
                 {
                     Term newT = new Term()
                     {
@@ -3038,7 +3038,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     if (term.Labels?.Count > 0)
                     {
-                        foreach(var label in term.Labels)
+                        foreach (var label in term.Labels)
                         {
                             TermLabel newL = new TermLabel()
                             {
@@ -3056,7 +3056,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     if (term.LocalProperties?.Count > 0)
                     {
-                        foreach(var localProperty in term.LocalProperties)
+                        foreach (var localProperty in term.LocalProperties)
                         {
                             newT.LocalProperties.Add(localProperty.Key, localProperty.Value);
 
@@ -3066,7 +3066,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     if (term.Properties?.Count > 0)
                     {
-                        foreach(var property in term.Properties)
+                        foreach (var property in term.Properties)
                         {
                             newT.Properties.Add(property.Key, property.Value);
 
@@ -3106,7 +3106,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 if (termSet.Properties?.Count > 0)
                 {
-                    foreach(var keyValue in termSet.Properties)
+                    foreach (var keyValue in termSet.Properties)
                     {
                         newTS.Properties.Add(keyValue.Key, keyValue.Value);
 
@@ -3125,7 +3125,7 @@ namespace Karabina.SharePoint.Provisioning
         } //GetTermSet
 
 
-        private void UpdateListWithNewList(ref ListInstance oldList, ListInstance newList, 
+        private void UpdateListWithNewList(ref ListInstance oldList, ListInstance newList,
                                            PnPModel.FieldCollection fields, PnPModel.ViewCollection views)
         {
             oldList.ContentTypeBindings.Clear();
@@ -3224,7 +3224,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         foreach (var templateItem in deletedItems)
                         {
-                            template.AddIns.RemoveAll(p => p.PackagePath.Equals(templateItem.Name, 
+                            template.AddIns.RemoveAll(p => p.PackagePath.Equals(templateItem.Name,
                                                                                 StringComparison.OrdinalIgnoreCase));
 
                             templateItems.RemoveItem(templateItem);
@@ -3238,7 +3238,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         foreach (var templateItem in changedItems)
                         {
-                            AddIn addIn = template.AddIns.Find(p => p.PackagePath.Equals(templateItem.Name, 
+                            AddIn addIn = template.AddIns.Find(p => p.PackagePath.Equals(templateItem.Name,
                                                                                          StringComparison.OrdinalIgnoreCase));
                             if (addIn != null)
                             {
@@ -3307,7 +3307,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         foreach (var templateItem in changedItems)
                         {
-                            PnPModel.ContentType oldCT = template.ContentTypes.Find(p => 
+                            PnPModel.ContentType oldCT = template.ContentTypes.Find(p =>
                                                             p.Id.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
                             if (oldCT != null)
                             {
@@ -3331,9 +3331,9 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.SiteCustomActionItem);
                     if (deletedItems?.Count > 0)
                     {
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
-                            template.CustomActions.SiteCustomActions.RemoveAll(p => 
+                            template.CustomActions.SiteCustomActions.RemoveAll(p =>
                                 p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
 
                             templateItems.RemoveItem(templateItem);
@@ -3345,9 +3345,9 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.SiteCustomActionItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
-                            CustomAction oldCA = template.CustomActions.SiteCustomActions.Find(p => 
+                            CustomAction oldCA = template.CustomActions.SiteCustomActions.Find(p =>
                                                     p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
                             if (oldCA != null)
                             {
@@ -3373,7 +3373,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         foreach (var templateItem in deletedItems)
                         {
-                            template.CustomActions.WebCustomActions.RemoveAll(p => 
+                            template.CustomActions.WebCustomActions.RemoveAll(p =>
                                 p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
 
                             templateItems.RemoveItem(templateItem);
@@ -3387,7 +3387,7 @@ namespace Karabina.SharePoint.Provisioning
                     {
                         foreach (var templateItem in changedItems)
                         {
-                            CustomAction oldCA = template.CustomActions.WebCustomActions.Find(p => 
+                            CustomAction oldCA = template.CustomActions.WebCustomActions.Find(p =>
                                                     p.RegistrationId.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
                             if (oldCA != null)
                             {
@@ -3479,8 +3479,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     } //if WebFeatures
 
-                    if ((template.Features.SiteFeatures.Count == 0) && 
-                        (template.Features.WebFeatures.Count==0))
+                    if ((template.Features.SiteFeatures.Count == 0) &&
+                        (template.Features.WebFeatures.Count == 0))
                     {
                         template.Features = null;
 
@@ -3490,16 +3490,16 @@ namespace Karabina.SharePoint.Provisioning
 
                 if (template.Files?.Count > 0)
                 {
-                    
+
                     List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.FileItem);
                     if (deletedItems?.Count > 0)
                     {
                         List<string> files = template.Connector.GetFiles();
                         List<string> folders = template.Connector.GetFolders();
 
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
-                            PnPModel.File file = template.Files.Find(p => p.Src.Equals(templateItem.Name, 
+                            PnPModel.File file = template.Files.Find(p => p.Src.Equals(templateItem.Name,
                                                                                        StringComparison.OrdinalIgnoreCase));
                             if (file != null)
                             {
@@ -3508,7 +3508,7 @@ namespace Karabina.SharePoint.Provisioning
                                 {
                                     fileName = file.Src;
 
-                                }                                
+                                }
 
                                 template.Connector.DeleteFile(fileName);
                                 template.Files.Remove(file);
@@ -3607,14 +3607,14 @@ namespace Karabina.SharePoint.Provisioning
                                 if (children?.Count > 0)
                                 {
                                     WebPartCollection webParts = new WebPartCollection(EditingTemplate);
-                                    foreach(TemplateItem childItem in children)
+                                    foreach (TemplateItem childItem in children)
                                     {
                                         List<TemplateItem> webPartItems = templateItems.GetChildren(childItem.Id);
-                                        foreach(TemplateItem webPartItem in webPartItems)
+                                        foreach (TemplateItem webPartItem in webPartItems)
                                         {
                                             WebPart webPart = JsonConvert.DeserializeObject<WebPart>((string)webPartItem.Content);
                                             List<TemplateItem> contentItems = templateItems.GetChildren(webPartItem.Id);
-                                            foreach(TemplateItem contentItem in contentItems)
+                                            foreach (TemplateItem contentItem in contentItems)
                                             {
                                                 XElement element = XElement.Parse((string)contentItem.Content, LoadOptions.None);
                                                 webPart.Contents = element.ToString(SaveOptions.DisableFormatting);
@@ -3643,7 +3643,7 @@ namespace Karabina.SharePoint.Provisioning
                                 oldFile.WebParts.Clear();
                                 oldFile.WebParts.AddRange(newFile.WebParts);
                                 oldFile.Properties.Clear();
-                                foreach(var keyValue in newFile.Properties)
+                                foreach (var keyValue in newFile.Properties)
                                 {
                                     oldFile.Properties.Add(keyValue.Key, keyValue.Value);
 
@@ -3652,7 +3652,7 @@ namespace Karabina.SharePoint.Provisioning
                             }
 
                             templateItems.CommitItem(templateItem);
-                            
+
                         }
 
                     } //if changedItems - files
@@ -3660,7 +3660,7 @@ namespace Karabina.SharePoint.Provisioning
                     changedItems = templateItems.GetChangedItems(TemplateItemType.FileWebPartItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
                             if (templateItem.IsChanged)
                             {
@@ -3683,7 +3683,7 @@ namespace Karabina.SharePoint.Provisioning
                                                     List<TemplateItem> contentItems = templateItems.GetChildren(webPartItem.Id);
                                                     foreach (TemplateItem contentItem in contentItems)
                                                     {
-                                                        XElement element = XElement.Parse((string)contentItem.Content, 
+                                                        XElement element = XElement.Parse((string)contentItem.Content,
                                                                                           LoadOptions.None);
                                                         webPart.Contents = element.ToString(SaveOptions.DisableFormatting);
 
@@ -3742,7 +3742,7 @@ namespace Karabina.SharePoint.Provisioning
                                                     List<TemplateItem> contentItems = templateItems.GetChildren(webPartItem.Id);
                                                     foreach (TemplateItem contentItem in contentItems)
                                                     {
-                                                        XElement element = XElement.Parse((string)contentItem.Content, 
+                                                        XElement element = XElement.Parse((string)contentItem.Content,
                                                                                           LoadOptions.None);
                                                         webPart.Contents = element.ToString(SaveOptions.DisableFormatting);
 
@@ -3783,9 +3783,9 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.ListItem);
                     if (deletedItems?.Count > 0)
                     {
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
-                            ListInstance listInstance = template.Lists.Find(p => p.Url.Equals(templateItem.Name, 
+                            ListInstance listInstance = template.Lists.Find(p => p.Url.Equals(templateItem.Name,
                                                                                               StringComparison.OrdinalIgnoreCase));
                             if (listInstance != null)
                             {
@@ -3802,20 +3802,20 @@ namespace Karabina.SharePoint.Provisioning
                     deletedItems = templateItems.GetDeletedItems(TemplateItemType.ListFieldItem);
                     if (deletedItems?.Count > 0)
                     {
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
                             TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.ListItem);
                             if (parentItem != null)
                             {
-                                ListInstance listInstance = template.Lists.Find(p => p.Url.Equals(parentItem.Name, 
+                                ListInstance listInstance = template.Lists.Find(p => p.Url.Equals(parentItem.Name,
                                                                                                   StringComparison.OrdinalIgnoreCase));
                                 if (listInstance != null)
                                 {
-                                    foreach(var field in listInstance.Fields)
+                                    foreach (var field in listInstance.Fields)
                                     {
                                         XElement element = XElement.Parse(field.SchemaXml, LoadOptions.None);
                                         string fieldName = element.Attribute("Name").Value;
-                                        if(templateItem.Name.Equals(fieldName, StringComparison.OrdinalIgnoreCase))
+                                        if (templateItem.Name.Equals(fieldName, StringComparison.OrdinalIgnoreCase))
                                         {
                                             listInstance.Fields.Remove(field);
                                             templateItems.RemoveItem(templateItem);
@@ -3872,9 +3872,9 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.ListItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
-                            ListInstance oldList = template.Lists.Find(p => p.Url.Equals(templateItem.Name, 
+                            ListInstance oldList = template.Lists.Find(p => p.Url.Equals(templateItem.Name,
                                                                                          StringComparison.OrdinalIgnoreCase));
                             if (oldList != null)
                             {
@@ -3883,12 +3883,12 @@ namespace Karabina.SharePoint.Provisioning
                                 List<TemplateItem> children = templateItems.GetChildren(templateItem.Id);
                                 if (children?.Count > 0)
                                 {
-                                    foreach(var childItem in children)
+                                    foreach (var childItem in children)
                                     {
                                         if (childItem.ItemType == TemplateItemType.ListFieldList)
                                         {
                                             List<TemplateItem> fieldItems = templateItems.GetChildren(childItem.Id);
-                                            foreach(var fieldItem in fieldItems)
+                                            foreach (var fieldItem in fieldItems)
                                             {
                                                 XElement fieldElement = XElement.Parse((string)fieldItem.Content, LoadOptions.None);
                                                 PnPModel.Field field = new PnPModel.Field();
@@ -3901,7 +3901,7 @@ namespace Karabina.SharePoint.Provisioning
                                         else if (childItem.ItemType == TemplateItemType.ListViewList)
                                         {
                                             List<TemplateItem> viewItems = templateItems.GetChildren(childItem.Id);
-                                            foreach(var viewItem in viewItems)
+                                            foreach (var viewItem in viewItems)
                                             {
                                                 XElement viewElement = XElement.Parse((string)viewItem.Content, LoadOptions.None);
                                                 PnPModel.View view = new PnPModel.View();
@@ -3930,12 +3930,12 @@ namespace Karabina.SharePoint.Provisioning
                     changedItems = templateItems.GetChangedItems(TemplateItemType.ListFieldItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
                             TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.ListItem);
                             if (parentItem != null)
                             {
-                                ListInstance oldList = template.Lists.Find(p => p.Url.Equals(parentItem.Name, 
+                                ListInstance oldList = template.Lists.Find(p => p.Url.Equals(parentItem.Name,
                                                                                              StringComparison.OrdinalIgnoreCase));
                                 if (oldList != null)
                                 {
@@ -4054,9 +4054,9 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.PageItem);
                     if (deletedItems?.Count > 0)
                     {
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
-                            Page oldPage = template.Pages.Find(p => p.Url.Equals(templateItem.Name, 
+                            Page oldPage = template.Pages.Find(p => p.Url.Equals(templateItem.Name,
                                                                                  StringComparison.OrdinalIgnoreCase));
                             if (oldPage != null)
                             {
@@ -4073,7 +4073,7 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.PageItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
                             Page oldPage = template.Pages.Find(p => p.Url.Equals(templateItem.Name,
                                                                                  StringComparison.OrdinalIgnoreCase));
@@ -4083,7 +4083,7 @@ namespace Karabina.SharePoint.Provisioning
                                 oldPage.Fields.Clear();
                                 if (newPage.Fields?.Count > 0)
                                 {
-                                    foreach(var field in newPage.Fields)
+                                    foreach (var field in newPage.Fields)
                                     {
                                         oldPage.Fields.Add(field.Key, field.Value);
 
@@ -4145,7 +4145,7 @@ namespace Karabina.SharePoint.Provisioning
                         foreach (var templateItem in changedItems)
                         {
                             KeyValueList keyValueList = templateItem.Content as KeyValueList;
-                            foreach(var keyValue in keyValueList)
+                            foreach (var keyValue in keyValueList)
                             {
                                 template.Properties.Add(keyValue.Key, keyValue.Value);
 
@@ -4165,7 +4165,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (deletedItems?.Count > 0)
                     {
                         template.PropertyBagEntries.Clear();
-                        foreach(var templateItem in deletedItems) //should only be one
+                        foreach (var templateItem in deletedItems) //should only be one
                         {
                             templateItems.RemoveItem(templateItem);
 
@@ -4180,7 +4180,7 @@ namespace Karabina.SharePoint.Provisioning
                         foreach (var templateItem in changedItems)
                         {
                             KeyValueList keyValueList = templateItem.Content as KeyValueList;
-                            foreach(var keyValue in keyValueList)
+                            foreach (var keyValue in keyValueList)
                             {
                                 PropertyBagEntry propertyBagEntry = new PropertyBagEntry()
                                 {
@@ -4207,7 +4207,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (deletedItems?.Count > 0)
                     {
                         template.Publishing = null;
-                        foreach(var templateItem in deletedItems) //should only be one
+                        foreach (var templateItem in deletedItems) //should only be one
                         {
                             templateItems.RemoveItem(templateItem);
 
@@ -4219,7 +4219,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (changedItems?.Count > 0)
                     {
                         Publishing oldPublishing = template.Publishing;
-                        foreach(var templateItem in changedItems) //should only be one
+                        foreach (var templateItem in changedItems) //should only be one
                         {
                             Publishing newPublishing = JsonConvert.DeserializeObject<Publishing>((string)templateItem.Content);
                             oldPublishing.AutoCheckRequirements = newPublishing.AutoCheckRequirements;
@@ -4341,7 +4341,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (deletedItems?.Count > 0)
                     {
                         template.SupportedUILanguages.Clear();
-                        foreach(var templateItem in deletedItems) //should only be one
+                        foreach (var templateItem in deletedItems) //should only be one
                         {
                             templateItems.RemoveItem(templateItem);
 
@@ -4353,10 +4353,10 @@ namespace Karabina.SharePoint.Provisioning
                     if (changedItems?.Count > 0)
                     {
                         template.SupportedUILanguages.Clear();
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
                             KeyValueList keyValueList = templateItem.Content as KeyValueList;
-                            foreach(var keyValue in keyValueList)
+                            foreach (var keyValue in keyValueList)
                             {
                                 SupportedUILanguage newSupportedUILanguage = new SupportedUILanguage()
                                 {
@@ -4382,7 +4382,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (deletedItems?.Count > 0)
                     {
                         template.RegionalSettings = null;
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
                             templateItems.RemoveItem(templateItem);
 
@@ -4394,7 +4394,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (changedItems?.Count > 0)
                     {
                         PnPModel.RegionalSettings oldRegionalSettings = template.RegionalSettings;
-                        foreach(var templateItem in changedItems) //should only be one
+                        foreach (var templateItem in changedItems) //should only be one
                         {
                             int[] newRegionalSettings = (int[])templateItem.Content;
                             oldRegionalSettings.AdjustHijriDays = newRegionalSettings[(int)RegionalSettingProperties.AdjustHijriDays];
@@ -4405,7 +4405,7 @@ namespace Karabina.SharePoint.Provisioning
                             oldRegionalSettings.FirstWeekOfYear = newRegionalSettings[(int)RegionalSettingProperties.FirstWeekOfYear];
                             oldRegionalSettings.LocaleId = newRegionalSettings[(int)RegionalSettingProperties.LocaleId];
                             oldRegionalSettings.ShowWeeks = (newRegionalSettings[(int)RegionalSettingProperties.ShowWeeks] == 1 ? true : false);
-                            oldRegionalSettings.Time24= (newRegionalSettings[(int)RegionalSettingProperties.Time24] == 1 ? true : false);
+                            oldRegionalSettings.Time24 = (newRegionalSettings[(int)RegionalSettingProperties.Time24] == 1 ? true : false);
                             oldRegionalSettings.TimeZone = newRegionalSettings[(int)RegionalSettingProperties.TimeZone];
                             oldRegionalSettings.WorkDayEndHour = (WorkHour)newRegionalSettings[(int)RegionalSettingProperties.WorkDayEndHour];
                             oldRegionalSettings.WorkDays = newRegionalSettings[(int)RegionalSettingProperties.WorkDays];
@@ -4442,7 +4442,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
                         if (fieldsToDelete.Count > 0)
                         {
-                            foreach(var field in fieldsToDelete)
+                            foreach (var field in fieldsToDelete)
                             {
                                 template.SiteFields.Remove(field);
 
@@ -4455,7 +4455,7 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.SiteFieldItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var siteField in template.SiteFields)
+                        foreach (var siteField in template.SiteFields)
                         {
                             XElement oldElement = XElement.Parse(siteField.SchemaXml);
                             string fieldID = oldElement.Attribute("ID").Value;
@@ -4497,7 +4497,7 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.TermGroupItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
                             TermGroup oldTermGroup = template.TermGroups.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
                             if (oldTermGroup != null)
@@ -4560,7 +4560,7 @@ namespace Karabina.SharePoint.Provisioning
                     deletedItems = templateItems.GetDeletedItems(TemplateItemType.TermSetItem);
                     if (deletedItems?.Count > 0)
                     {
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
                             TemplateItem parentItem = templateItems.GetParent(templateItem, TemplateItemType.TermGroupItem);
                             if (parentItem != null)
@@ -4624,7 +4624,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (deletedItems?.Count > 0)
                     {
                         template.WebSettings = null;
-                        foreach(var templateItem in deletedItems) //should only be one
+                        foreach (var templateItem in deletedItems) //should only be one
                         {
                             templateItems.RemoveItem(templateItem);
 
@@ -4636,7 +4636,7 @@ namespace Karabina.SharePoint.Provisioning
                     if (changedItems?.Count > 0)
                     {
                         WebSettings oldWebSettings = template.WebSettings;
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
                             string[] newWebSettings = (string[])templateItem.Content;
                             if (newWebSettings?.Length > 0)
@@ -4658,7 +4658,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                     } //if changedItems
-                    
+
                 } //if WebSettings
 
                 if (template.Workflows?.WorkflowDefinitions?.Count > 0)
@@ -4666,7 +4666,7 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.WorkflowDefinitionItem);
                     if (deletedItems?.Count > 0)
                     {
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
                             WorkflowDefinition oldWorlkflowDefinition = template.Workflows.WorkflowDefinitions.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
                             if (oldWorlkflowDefinition != null)
@@ -4684,7 +4684,7 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> changedItems = templateItems.GetChangedItems(TemplateItemType.WorkflowDefinitionItem);
                     if (changedItems?.Count > 0)
                     {
-                        foreach(var templateItem in changedItems)
+                        foreach (var templateItem in changedItems)
                         {
                             WorkflowDefinition oldWorlkflowDefinition = template.Workflows.WorkflowDefinitions.Find(p => p.Id.Equals(Guid.Parse(templateItem.Name)));
                             if (oldWorlkflowDefinition != null)
@@ -4702,7 +4702,7 @@ namespace Karabina.SharePoint.Provisioning
                                     oldWorlkflowDefinition.Properties.Clear();
                                     if (newWorkflowDefinition.Properties?.Count > 0)
                                     {
-                                        foreach(var keyValue in newWorkflowDefinition.Properties)
+                                        foreach (var keyValue in newWorkflowDefinition.Properties)
                                         {
                                             oldWorlkflowDefinition.Properties.Add(keyValue.Key, keyValue.Value);
 
@@ -4715,7 +4715,7 @@ namespace Karabina.SharePoint.Provisioning
                                     oldWorlkflowDefinition.RequiresInitiationForm = newWorkflowDefinition.RequiresInitiationForm;
                                     oldWorlkflowDefinition.RestrictToScope = newWorkflowDefinition.RestrictToScope;
                                     oldWorlkflowDefinition.RestrictToType = newWorkflowDefinition.RestrictToType;
-                                    
+
                                 }
 
                             }
@@ -4733,9 +4733,9 @@ namespace Karabina.SharePoint.Provisioning
                     List<TemplateItem> deletedItems = templateItems.GetDeletedItems(TemplateItemType.WorkflowSubscriptionItem);
                     if (deletedItems?.Count > 0)
                     {
-                        foreach(var templateItem in deletedItems)
+                        foreach (var templateItem in deletedItems)
                         {
-                            WorkflowSubscription oldWorkflowSubscription = template.Workflows.WorkflowSubscriptions.Find(p => 
+                            WorkflowSubscription oldWorkflowSubscription = template.Workflows.WorkflowSubscriptions.Find(p =>
                                                                             p.Name.Equals(templateItem.Name, StringComparison.OrdinalIgnoreCase));
                             if (oldWorkflowSubscription != null)
                             {
@@ -4778,7 +4778,7 @@ namespace Karabina.SharePoint.Provisioning
                                     oldWorkflowSubscription.PropertyDefinitions.Clear();
                                     if (newWorkflowSubscription.PropertyDefinitions?.Count > 0)
                                     {
-                                        foreach(var keyValue in newWorkflowSubscription.PropertyDefinitions)
+                                        foreach (var keyValue in newWorkflowSubscription.PropertyDefinitions)
                                         {
                                             oldWorkflowSubscription.PropertyDefinitions.Add(keyValue.Key, keyValue.Value);
 

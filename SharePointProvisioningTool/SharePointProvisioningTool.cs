@@ -9,10 +9,6 @@ namespace Karabina.SharePoint.Provisioning
     {
         private Color KarabinaRed = Color.FromArgb(Constants.Karabina_Red, Constants.Karabina_Green, Constants.Karabina_Blue);
 
-        private SharePoint2013OnPrem _sp2013OnPrem = null;
-        private SharePoint2016OnPrem _sp2016OnPrem = null;
-        private SharePoint2016Online _sp2016Online = null;
-
         private string lastFolder = string.Empty;
 
         public SharePointProvisioningTool()
@@ -101,31 +97,16 @@ namespace Karabina.SharePoint.Provisioning
             {
                 case SharePointVersion.SharePoint_2013_On_Premises:
                     spVersionTitle = Constants.SharePoint_2013_On_Premises;
-                    if (_sp2013OnPrem == null)
-                    {
-                        _sp2013OnPrem = new SharePoint2013OnPrem();
-
-                    }
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_On_Premises:
                     spVersionTitle = Constants.SharePoint_2016_On_Premises;
-                    if (_sp2016OnPrem == null)
-                    {
-                        _sp2016OnPrem = new SharePoint2016OnPrem();
-
-                    }
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_OnLine:
                     spVersionTitle = Constants.SharePoint_2016_Online;
-                    if (_sp2016Online == null)
-                    {
-                        _sp2016Online = new SharePoint2016Online();
-
-                    }
 
                     break;
 
@@ -189,17 +170,17 @@ namespace Karabina.SharePoint.Provisioning
             switch (callForm.SelectedVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premises:
-                    result = _sp2013OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    //result = _sp2013OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_On_Premises:
-                    result = _sp2016OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    //result = _sp2016OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_OnLine:
-                    result = _sp2016Online.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    //result = _sp2016Online.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
@@ -228,17 +209,17 @@ namespace Karabina.SharePoint.Provisioning
             switch (callForm.SelectedVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premises:
-                    result = _sp2013OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    //result = _sp2013OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_On_Premises:
-                    result = _sp2016OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    //result = _sp2016OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_OnLine:
-                    result = _sp2016Online.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    //result = _sp2016Online.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
 
                     break;
 
@@ -252,24 +233,6 @@ namespace Karabina.SharePoint.Provisioning
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_sp2016Online != null)
-            {
-                _sp2016Online = null;
-
-            }
-
-            if (_sp2016OnPrem != null)
-            {
-                _sp2016OnPrem = null;
-
-            }
-
-            if (_sp2013OnPrem != null)
-            {
-                _sp2013OnPrem = null;
-
-            }
-
             Close();
 
         } //ExitToolsStripMenuItem_Click
@@ -316,6 +279,7 @@ namespace Karabina.SharePoint.Provisioning
             if (result == DialogResult.OK)
             {
                 version = dialog.VersionSelected;
+                Program.currentVerion = version;
 
             }
 
@@ -438,36 +402,22 @@ namespace Karabina.SharePoint.Provisioning
                 {
                     case SharePointVersion.SharePoint_2013_On_Premises:
                         editForm.Text += Constants.SharePoint_2013_On_Premises;
-                        if (_sp2013OnPrem == null)
-                        {
-                            _sp2013OnPrem = new SharePoint2013OnPrem();
-                        }
 
-                        editForm.SP2013OP = _sp2013OnPrem;
+                        //editForm.SP2013OP = Program.sharePoint2013OnPremises;
 
                         break;
 
                     case SharePointVersion.SharePoint_2016_On_Premises:
                         editForm.Text += Constants.SharePoint_2016_On_Premises;
-                        if (_sp2016OnPrem == null)
-                        {
-                            _sp2016OnPrem = new SharePoint2016OnPrem();
 
-                        }
-
-                        editForm.SP2016OP = _sp2016OnPrem;
+                        //editForm.SP2016OP = Program.sharePoint2016OnPremises;
 
                         break;
 
                     case SharePointVersion.SharePoint_2016_OnLine:
                         editForm.Text += Constants.SharePoint_2016_Online;
-                        if (_sp2016Online == null)
-                        {
-                            _sp2016Online = new SharePoint2016Online();
 
-                        }
-
-                        editForm.SP2016OL = _sp2016Online;
+                        //editForm.SP2016OL = Program.sharePoint2016Online;
 
                         break;
 
