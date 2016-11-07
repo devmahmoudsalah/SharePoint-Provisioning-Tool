@@ -62,10 +62,6 @@
     <ApplicationIcon>Karabina32x32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AppDomainToolkit, Version=1.0.4.1, Culture=neutral, PublicKeyToken=f2fc7ab5180cf5c4, processorArchitecture=MSIL">
-      <HintPath>..\packages\AppDomainToolkit.1.0.4.3\lib\net\AppDomainToolkit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -112,7 +108,6 @@
     <Compile Include="SourceWin.designer.cs">
       <DependentUpon>SourceWin.cs</DependentUpon>
     </Compile>
-    <Compile Include="SPReflection.cs" />
     <Compile Include="TargetWin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -192,6 +186,10 @@
     <Content Include="Resources\VerticalNew.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssemblyLoader\AssemblyLoader.csproj">
+      <Project>{aad0918b-98b8-4085-9a84-963fae0c82bb}</Project>
+      <Name>AssemblyLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProvisioningGlobals\ProvisioningGlobals.csproj">
       <Project>{42f37640-6554-461e-9c68-74cea510eb4f}</Project>
       <Name>ProvisioningGlobals</Name>

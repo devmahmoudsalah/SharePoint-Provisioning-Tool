@@ -10,16 +10,9 @@ namespace Karabina.SharePoint.Provisioning
     static class Program
     {
 
-        /*
-        public static SPReflection sharePoint2013OnPremises = null;
-
-        public static SPReflection sharePoint2016OnPremises = null;
-
-        public static SPReflection sharePoint2016Online = null;
-        
-
-        public static SharePointVersion currentVerion = SharePointVersion.SharePoint_Invalid;
-        */
+        public static AppDomain appDomain2013OP = null;
+        public static AppDomain appDomain2016OP = null;
+        public static AppDomain appDomain2016OL = null;
 
         /// <summary>
         /// The main entry point for the application.
@@ -27,79 +20,134 @@ namespace Karabina.SharePoint.Provisioning
         [STAThread]
         static void Main(string[] args)
         {
-            /*
-            //appDomain2013OP
-            AppDomainSetup setup2013OP = new AppDomainSetup()
-            {
-                ApplicationBase = @"C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\",
-                ApplicationName = "SharePoint2013OnPrem",
-                PrivateBinPath = @"C:\Development\KarabinaSharePointTools\SharePoint2013OnPrem\bin\Debug\",
-                //ConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile,
-                DisallowApplicationBaseProbing = false,
-                DisallowBindingRedirects = false
-
-            };
-
-            AppDomain appDomain2013OP = AppDomain.CreateDomain("SharePoint 2013 On Premises", null, setup2013OP);
-
-            object sp2013OP = appDomain2013OP.CreateInstanceFrom(setup2013OP.ApplicationBase + setup2013OP.ApplicationName + ".dll", Constants.SharePoint2013OnPrem_Type_FullName).Unwrap();
-
-            sharePoint2013OnPremises = new SPReflection(appDomain2013OP, sp2013OP);
-
-
-            //appDomain2016OP
-            AppDomainSetup setup2016OP = new AppDomainSetup()
-            {
-                ApplicationBase = @"C:\Development\KarabinaSharePointTools\SharePoint2016OnPrem\bin\Debug\",
-                ApplicationName = "SharePoint2016OnPrem",
-                PrivateBinPath = @"C:\Development\KarabinaSharePointTools\SharePoint2016OnPrem\bin\Debug\",
-                ConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile,
-                DisallowApplicationBaseProbing = false,
-                DisallowBindingRedirects = false
-
-            };
-
-            AppDomain appDomain2016OP = AppDomain.CreateDomain("SharePoint 2016 On Premises", null, setup2016OP);
-
-            object sp2016OP = appDomain2016OP.CreateInstanceFrom(setup2016OP.ApplicationBase + setup2016OP.ApplicationName + ".dll", Constants.SharePoint2016OnPrem_Type_FullName).Unwrap();
-
-            sharePoint2016OnPremises = new SPReflection(appDomain2016OP, sp2016OP);
-
-
-            //appDomain2016OL
-            AppDomainSetup setup2016OL = new AppDomainSetup()
-            {
-                ApplicationBase = @"C:\Development\KarabinaSharePointTools\SharePoint2016Online\bin\Debug\",
-                ApplicationName = "SharePoint2016Online",
-                PrivateBinPath = @"C:\Development\KarabinaSharePointTools\SharePoint2016Online\bin\Debug\",
-                ConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile,
-                DisallowApplicationBaseProbing = false,
-                DisallowBindingRedirects = false
-
-            };
-
-            AppDomain appDomain2016OL = AppDomain.CreateDomain("SharePoint 2016 Online", null, setup2016OL);
-
-            object sp2016OL = appDomain2016OL.CreateInstanceFrom(setup2016OL.ApplicationBase + setup2016OL.ApplicationName + ".dll", Constants.SharePoint2016Online_Type_FullName).Unwrap();
-
-            sharePoint2016Online = new SPReflection(appDomain2016OL, sp2016OL);
-
-
-            currentVerion = SharePointVersion.SharePoint_Invalid;
-
-            AppDomain.Unload(appDomain2016OL);
-
-            AppDomain.Unload(appDomain2016OP);
-
-            AppDomain.Unload(appDomain2013OP);
-            */
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SharePointProvisioningTool());
 
+            if (appDomain2013OP != null)
+            {
+                AppDomain.Unload(appDomain2013OP);
+                appDomain2013OP = null;
+
+            }
+
+            if (appDomain2016OP != null)
+            {
+                AppDomain.Unload(appDomain2016OP);
+                appDomain2016OP = null;
+
+            }
+
+            if (appDomain2016OL != null)
+            {
+                AppDomain.Unload(appDomain2016OL);
+                appDomain2016OL = null;
+
+            }
+
         }
 
-    }
+        public static SPLoader LoadSPLoader(SharePointVersion version)
+        {
+            SPLoader loader = null;
+
+            switch (version)
+            {
+                case SharePointVersion.SharePoint_2013_On_Premises:
+
+                    AppDomainSetup setup2013OP = new AppDomainSetup()
+                    {
+                        ApplicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                        ApplicationName = "SharePoint2013OnPrem",
+                        PrivateBinPath = "SharePoint2013OnPrem;",
+                        DisallowApplicationBaseProbing = false,
+                        DisallowBindingRedirects = false
+
+                    };
+
+                    appDomain2013OP = AppDomain.CreateDomain("SharePoint 2013 On Premises", null, setup2013OP);
+
+                    appDomain2013OP.Load(typeof(SPLoader).Assembly.FullName);
+
+                    loader = (SPLoader)Activator.CreateInstance(appDomain2013OP,
+                                                                typeof(SPLoader).Assembly.FullName,
+                                                                typeof(SPLoader).FullName,
+                                                                false,
+                                                                BindingFlags.Public | BindingFlags.Instance,
+                                                                null, null, null, null).Unwrap();
+
+
+                    loader.LoadProvisioningAssembly(setup2013OP.ApplicationName);
+
+                    break;
+
+                case SharePointVersion.SharePoint_2016_On_Premises:
+
+                    AppDomainSetup setup2016OP = new AppDomainSetup()
+                    {
+                        ApplicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                        ApplicationName = "SharePoint2016OnPrem",
+                        PrivateBinPath = "SharePoint2016OnPrem;",
+                        DisallowApplicationBaseProbing = false,
+                        DisallowBindingRedirects = false
+
+                    };
+
+                    appDomain2016OP = AppDomain.CreateDomain("SharePoint 2016 On Premises", null, setup2016OP);
+
+                    appDomain2016OP.Load(typeof(SPLoader).Assembly.FullName);
+
+                    loader = (SPLoader)Activator.CreateInstance(appDomain2016OP,
+                                                                typeof(SPLoader).Assembly.FullName,
+                                                                typeof(SPLoader).FullName,
+                                                                false,
+                                                                BindingFlags.Public | BindingFlags.Instance,
+                                                                null, null, null, null).Unwrap();
+
+
+                    loader.LoadProvisioningAssembly(setup2016OP.ApplicationName);
+
+                    break;
+
+                case SharePointVersion.SharePoint_2016_OnLine:
+
+                    AppDomainSetup setup2016OL = new AppDomainSetup()
+                    {
+                        ApplicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                        ApplicationName = "SharePoint2016Online",
+                        PrivateBinPath = "SharePoint2016Online;",
+                        DisallowApplicationBaseProbing = false,
+                        DisallowBindingRedirects = false
+
+                    };
+
+                    appDomain2016OL = AppDomain.CreateDomain("SharePoint 2016 Online", null, setup2016OL);
+
+                    appDomain2016OL.Load(typeof(SPLoader).Assembly.FullName);
+
+                    loader = (SPLoader)Activator.CreateInstance(appDomain2016OL,
+                                                                typeof(SPLoader).Assembly.FullName,
+                                                                typeof(SPLoader).FullName,
+                                                                false,
+                                                                BindingFlags.Public | BindingFlags.Instance,
+                                                                null, null, null, null).Unwrap();
+
+
+                    loader.LoadProvisioningAssembly(setup2016OL.ApplicationName);
+
+                    break;
+
+                default:
+
+                    break;
+
+            } //switch
+
+            return loader;
+
+        } //LoadSPLoader
+
+    } //Program
 
 }

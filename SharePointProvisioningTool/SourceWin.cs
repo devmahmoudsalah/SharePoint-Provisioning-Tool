@@ -107,8 +107,6 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                foreach (char c in tbPassword.Text.ToCharArray()) pwdSecure.AppendChar(c);
-
             }
 
             if (string.IsNullOrWhiteSpace(tbTemplate.Text))
@@ -134,7 +132,7 @@ namespace Karabina.SharePoint.Provisioning
             _options.TemplateName = name.Replace(".pnp", "");
             _options.WebAddress = tbSharePointUrl.Text;
             _options.UserNameOrEmail = tbUserName.Text;
-            _options.UserPassword = pwdSecure;
+            _options.UserPassword = tbPassword.Text;
             _options.AuthenticationRequired = !cbNoUNP.Checked;
 
             Enabled = false;

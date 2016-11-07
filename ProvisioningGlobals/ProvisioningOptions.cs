@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security;
 
 namespace Karabina.SharePoint.Provisioning
 {
+    [Serializable]
     public class ProvisioningOptions
     {
         private bool _regionalSettings = true;
@@ -60,7 +62,7 @@ namespace Karabina.SharePoint.Provisioning
         //Security fields - used by the Create / Apply template methods
         private bool _authenticationRequired = true;
         private string _userNameOrEmail = string.Empty;
-        private SecureString _userPassword = null;
+        private string _userPassword = null;
         private string _userDomain = string.Empty;
         private string _templateName = string.Empty;
         private string _templatePath = string.Empty;
@@ -446,10 +448,16 @@ namespace Karabina.SharePoint.Provisioning
 
         } //UserNameOrEmail
 
-        public SecureString UserPassword
+        public string UserPassword
         {
-            get { return _userPassword; }
-            set { _userPassword = value; }
+            get
+            {
+                return System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(_userPassword));
+            }
+            set
+            {
+                _userPassword = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(value));
+            }
 
         } //UserPassword
 

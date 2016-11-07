@@ -14,6 +14,7 @@ namespace Karabina.SharePoint.Provisioning
     {
         private TreeNode _selectedNode = null;
         private TemplateItems _templateItems = null;
+        private SPLoader _spLoader = null;
 
         private SharePointVersion _selectedVersion = SharePointVersion.SharePoint_Invalid;
 
@@ -23,6 +24,13 @@ namespace Karabina.SharePoint.Provisioning
             set { _selectedVersion = value; }
 
         } //SelectedVersion
+
+        public SPLoader SharePointLoader
+        {
+            get { return _spLoader; }
+            set { _spLoader = value; }
+
+        } //SharePointLoader
 
         public delegate string OpenTemplateDelegate();
 
@@ -37,6 +45,59 @@ namespace Karabina.SharePoint.Provisioning
             InitializeComponent();
         }
 
+        private void BuildTreeNode(TemplateItem parentItem, TreeNode parentNode)
+        {
+            TreeNode childNode = new TreeNode(parentItem.Text);
+            childNode.Name = parentItem.Id;
+
+            parentNode.Nodes.Add(childNode);
+
+            List<TemplateItem> templateItems = _templateItems.GetChildren(parentItem.Id);
+            if (templateItems?.Count > 0)
+            {
+                foreach (var templateItem in templateItems)
+                {
+                    BuildTreeNode(templateItem, childNode);
+
+                }
+
+            }
+
+        } //BuildTreeNode
+
+
+        private void BuildTreeView()
+        {
+            tvTemplate.Nodes.Clear();
+            List<TemplateItem> rootItems = _templateItems.GetItems(TemplateItemType.Template);
+            if (rootItems?.Count > 0)
+            {
+                TemplateItem rootItem = rootItems.GetTemplateItemByName("TemplateNode");
+                if (rootItem != null)
+                {
+                    TreeNode rootNode = new TreeNode(rootItem.Text);
+                    rootNode.Name = rootItem.Id;
+                    List<TemplateItem> templateItems = _templateItems.GetChildren(rootItem.Id);
+                    if (templateItems?.Count > 0)
+                    {
+                        foreach (var templateItem in templateItems)
+                        {
+                            BuildTreeNode(templateItem, rootNode);
+
+                        }
+
+                    }
+
+                    rootNode.Expand();
+
+                    tvTemplate.Nodes.Add(rootNode);
+
+                }
+
+            }
+
+        } //BuildTreeView
+
         private void BrowseForTemplate(object sender, EventArgs e)
         {
             string fileName = OpenTemplate();
@@ -47,30 +108,18 @@ namespace Karabina.SharePoint.Provisioning
                 try
                 {
                     Cursor = Cursors.WaitCursor;
-                                        
+
                     int slashPosition = tbTemplate.Text.LastIndexOf('\\');
                     string path = tbTemplate.Text.Substring(0, slashPosition);
                     slashPosition++;
                     string name = tbTemplate.Text.Substring(slashPosition).Replace(".pnp", "");
 
-                    switch (_selectedVersion)
+                    _templateItems = _spLoader.OpenTemplateForEdit(path, name);
+
+                    if (_templateItems?.Count > 0)
                     {
-                        case SharePointVersion.SharePoint_2013_On_Premises:
-                            //_templateItems = SP2013OP.OpenTemplateForEdit(path, name, tvTemplate);
-
-                            break;
-
-                        case SharePointVersion.SharePoint_2016_On_Premises:
-                            //_templateItems = SP2016OP.OpenTemplateForEdit(path, name, tvTemplate);
-
-                            break;
-
-                        case SharePointVersion.SharePoint_2016_OnLine:
-                            //_templateItems = SP2016OL.OpenTemplateForEdit(path, name, tvTemplate);
-
-                            break;
-
-                    } // switch
+                        BuildTreeView();
+                    }
 
                 } // try
                 catch (Exception ex)
@@ -678,24 +727,7 @@ namespace Karabina.SharePoint.Provisioning
             {
                 RemoveEmptyNodes();
 
-                switch (_selectedVersion)
-                {
-                    case SharePointVersion.SharePoint_2013_On_Premises:
-                        //SP2013OP.SaveTemplateForEdit(_templateItems);
-
-                        break;
-
-                    case SharePointVersion.SharePoint_2016_On_Premises:
-                        //SP2016OP.SaveTemplateForEdit(_templateItems);
-
-                        break;
-
-                    case SharePointVersion.SharePoint_2016_OnLine:
-                        //SP2016OL.SaveTemplateForEdit(_templateItems);
-
-                        break;
-
-                } // switch
+                _spLoader.SaveTemplateForEdit(_templateItems);
 
                 bSave.Visible = false;
                 MessageBox.Show("Template saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

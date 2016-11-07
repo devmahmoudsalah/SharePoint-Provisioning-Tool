@@ -8,22 +8,22 @@ using System.Windows.Forms;
 
 namespace Karabina.SharePoint.Provisioning
 {
-    public class SPReflection
+    public class SPLoader : MarshalByRefObject
     {
         private Assembly assembly = null;
         private Type type = null;
         private object sharepointObject = null;
 
-        private MethodInfo applyProvisioningTemplate = null; //public bool ApplyProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
-        private MethodInfo createProvisioningTemplate = null; //public bool CreateProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
-        private MethodInfo openTemplateForEdit = null; //public TemplateItems OpenTemplateForEdit(string templatePath, string templateName, TreeView treeView)
-        private MethodInfo saveTemplateForEdit = null; //public void SaveTemplateForEdit(TemplateItems templateItems)
+        private MethodInfo applyProvisioningTemplate = null;
+        private MethodInfo createProvisioningTemplate = null;
+        private MethodInfo openTemplateForEdit = null;
+        private MethodInfo saveTemplateForEdit = null;
 
-        public SPReflection() { }
+        public SPLoader() { }
 
-        public SPReflection(AppDomain appDomain, object spObject)
+        public void LoadProvisioningAssembly(string assemblyName)
         {
-            assembly = appDomain.GetAssemblies().FirstOrDefault();
+            assembly = Assembly.Load(assemblyName);
             Type[] types = assembly.GetTypes();
             if (types.Length > 0)
             {
@@ -34,7 +34,7 @@ namespace Karabina.SharePoint.Provisioning
                 openTemplateForEdit = type.GetMethod("OpenTemplateForEdit");
                 saveTemplateForEdit = type.GetMethod("SaveTemplateForEdit");
 
-                sharepointObject = spObject; // Activator.CreateInstance(type);
+                sharepointObject = Activator.CreateInstance(type);
 
             }
 
@@ -60,9 +60,9 @@ namespace Karabina.SharePoint.Provisioning
 
         }
 
-        public TemplateItems OpenTemplateForEdit(string templatePath, string templateName, TreeView treeView)
+        public TemplateItems OpenTemplateForEdit(string templatePath, string templateName)
         {
-            object[] args = new object[] { templatePath, templateName, treeView };
+            object[] args = new object[] { templatePath, templateName };
 
             object result = openTemplateForEdit.Invoke(sharepointObject, args);
 

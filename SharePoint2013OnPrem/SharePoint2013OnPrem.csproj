@@ -48,7 +48,10 @@
       <HintPath>..\packages\SharePointPnPCore2013.2.8.1610.1\lib\net45\Microsoft.Online.SharePoint.Client.Tenant.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.SharePoint.Client, Version=15.0.0.0" />
+    <Reference Include="Microsoft.SharePoint.Client, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files\Common Files\microsoft shared\Web Server Extensions\15\ISAPI\Microsoft.SharePoint.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SharePoint.Client.DocumentManagement, Version=15.0.0.0" />
     <Reference Include="Microsoft.SharePoint.Client.Publishing, Version=15.0.0.0" />
     <Reference Include="Microsoft.SharePoint.Client.Runtime, Version=15.0.0.0" />
@@ -57,8 +60,8 @@
     <Reference Include="Microsoft.SharePoint.Client.Taxonomy, Version=15.0.0.0" />
     <Reference Include="Microsoft.SharePoint.Client.UserProfiles, Version=15.0.0.0" />
     <Reference Include="Microsoft.SharePoint.Client.WorkflowServices, Version=15.0.0.0" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OfficeDevPnP.Core, Version=2.8.1610.1, Culture=neutral, PublicKeyToken=3751622786b357c2, processorArchitecture=MSIL">

@@ -113,8 +113,6 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                foreach (char c in tbPassword.Text.ToCharArray()) pwdSecure.AppendChar(c);
-
             }
 
             int slashPosition = tbTemplate.Text.LastIndexOf('\\');
@@ -133,7 +131,7 @@ namespace Karabina.SharePoint.Provisioning
             _options.WebAddress = tbSharePointUrl.Text;
             _options.AuthenticationRequired = !cbNoUNP.Checked;
             _options.UserNameOrEmail = tbUserName.Text;
-            _options.UserPassword = pwdSecure;
+            _options.UserPassword = tbPassword.Text;
 
             Enabled = false;
             ApplyTemplate(this, _options);

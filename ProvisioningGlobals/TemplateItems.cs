@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Karabina.SharePoint.Provisioning
 {
+    [Serializable]
     public class TemplateItem
     {
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Text { get; set; }
 
         public string ParentId { get; set; }
 
@@ -74,12 +77,14 @@ namespace Karabina.SharePoint.Provisioning
 
         } //TemplateItem
 
-        public TemplateItem(string name, TemplateControlType controlType,
-                            TemplateItemType itemType, object content, string parentId)
+        public TemplateItem(string name, string text,
+                            TemplateControlType controlType, TemplateItemType itemType,
+                            object content, string parentId)
         {
             Id = Guid.NewGuid().ToString("N").ToUpperInvariant();
             IsChanged = false;
             Name = name;
+            Text = text;
             ParentId = parentId;
             ControlType = controlType;
             ItemType = itemType;
@@ -90,20 +95,34 @@ namespace Karabina.SharePoint.Provisioning
 
     } //TemplateItem
 
+    [Serializable]
     public class TemplateItems : List<TemplateItem>
     {
         public string TemplatePath { get; set; }
 
         public string TemplateFilename { get; set; }
 
-        public string AddItem(string name, TemplateControlType controlType,
-                            TemplateItemType itemType, object content, string parentId)
+        public string AddItem(string name, string text,
+                              TemplateControlType controlType, TemplateItemType itemType, 
+                              object content, string parentId)
         {
-            TemplateItem item = new TemplateItem(name, controlType, itemType, content, parentId);
+            TemplateItem item = new TemplateItem(name, text, controlType, itemType, content, parentId);
 
             Add(item);
 
             return item.Id;
+
+        } //AddItem
+
+        public TemplateItem AddTemplateItem(string name, string text,
+                                            TemplateControlType controlType, TemplateItemType itemType,
+                                            object content, string parentId)
+        {
+            TemplateItem item = new TemplateItem(name, text, controlType, itemType, content, parentId);
+
+            Add(item);
+
+            return item;
 
         } //AddItem
 

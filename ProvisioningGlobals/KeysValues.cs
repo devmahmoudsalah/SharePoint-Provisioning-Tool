@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Karabina.SharePoint.Provisioning
 {
+    [Serializable]
     public class KeyValue
     {
         public string Key { get; set; }
@@ -75,6 +76,7 @@ namespace Karabina.SharePoint.Provisioning
 
     } //KeyValue
 
+    [Serializable]
     public class KeyValueList : List<KeyValue>
     {
         public string DisplayMember
