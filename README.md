@@ -2,7 +2,7 @@
 ![](SharePointProvisioningTool/Resources/Karabina122x122.png) 
 # SharePoint Provisioning Tool
 
-SharePoint 2013 On Premises, SharePoint 2016 On Premises and SharePoint 2016 Online Provisioning Tool front end for the ===[PnP-Sites-Core](https://github.com/OfficeDev/PnP-Sites-Core)=== Provisioning Framework.
+SharePoint 2013 On Premises, SharePoint 2016 On Premises and SharePoint 2016 Online Provisioning Tool front end for the [PnP-Sites-Core](https://github.com/OfficeDev/PnP-Sites-Core) Provisioning Framework.
 
 ## Introduction
 
@@ -10,14 +10,13 @@ The aim of this project is to make it easy for SharePoint admins to use the powe
 
 The tool allows you to perform 3 functions:
 
-^^^
 ![](SharePointProvisioningTool/Resources/FileSettingRed.png) Create templates from a SharePoint site
 
 ![](SharePointProvisioningTool/Resources/EditRed.png) Edit the saved templates
 
 ![](SharePointProvisioningTool/Resources/NewsPaperRed.png) Apply templates to a SharePoint site
 
-^^^
+
 
 ## Operations
 When executing the tool it opens up as a MDI application.
@@ -63,7 +62,7 @@ Click the "```Browse...```" button to select the provisioning template to edit.
 
 ![](Images/OpenTemplate.png)
 
-Select the template that you want to edit from previous saved templates or download templates from the ===[SharePoint Templates Gallery](https://templates-gallery.sharepointpnp.com)===.
+Select the template that you want to edit from previous saved templates or download templates from the [SharePoint Templates Gallery](https://templates-gallery.sharepointpnp.com).
 
 ![](Images/EditTemplateList.png)
 
@@ -80,7 +79,7 @@ This allows you to edit the details of that item as shown in the image below.
 
 ![](Images/EditTemplateText.png)
 
-+++Note:+++ If the contents of the textbox is cleared, when you save the template that item will be deleted from the template before saving.
+Note: If the contents of the textbox is cleared, when you save the template that item will be deleted from the template before saving.
 
 Regional Settings, Web Settings and Composed Look items have their own form to edit. 
 Below is the form for Regional Settings:
