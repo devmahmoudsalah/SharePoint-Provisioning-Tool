@@ -2,7 +2,7 @@
 ![](SharePointProvisioningTool/Resources/Karabina122x122.png) 
 # SharePoint Provisioning Tool
 
-SharePoint 2013 On Premises, SharePoint 2016 On Premises and SharePoint 2016 Online Provisioning Tool front end for the [PnP-Sites-Core](https://github.com/OfficeDev/PnP-Sites-Core) Provisioning Framework.
+SharePoint 2013 On Premises, SharePoint 2016 On Premises and SharePoint 2016 Online Provisioning Tool front end for the [PnP-Sites-Core](https://github.com/OfficeDev/PnP-Sites-Core) Provisioning Framework. Download the [Setup](Setup.exe) to see it in action.
 
 ## Introduction
 
