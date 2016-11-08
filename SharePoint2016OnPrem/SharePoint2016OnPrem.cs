@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using Microsoft.SharePoint.Client;
 using OfficeDevPnP.Core.Framework.Provisioning.Connectors;
 using OfficeDevPnP.Core.Framework.Provisioning.Model;
@@ -29,8 +28,9 @@ namespace Karabina.SharePoint.Provisioning
         }
 
         private ProvisioningTemplate _editingTemplate = null;
-        private ListBox _lbOutput = null;
         private XMLTemplateProvider _editingProvider = null;
+        private Action<string> _writeMessage = null;
+        private Action<string[]> _writeMessageRange = null;
 
         public ProvisioningTemplate EditingTemplate
         {
@@ -38,13 +38,6 @@ namespace Karabina.SharePoint.Provisioning
             set { _editingTemplate = value; }
 
         } //EditingTemplate
-
-        public ListBox OutputBox
-        {
-            get { return _lbOutput; }
-            set { _lbOutput = value; }
-
-        } //OutputBox
 
         public XMLTemplateProvider EditingProvider
         {
@@ -55,17 +48,17 @@ namespace Karabina.SharePoint.Provisioning
 
         private void WriteMessage(string message)
         {
-            _lbOutput.Items.Add(message);
-            _lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
-            Application.DoEvents();
+            //_lbOutput.Items.Add(message);
+            //_lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
+            //Application.DoEvents();
 
         } //WriteMessage
 
         private void WriteMessageRange(string[] message)
         {
-            _lbOutput.Items.AddRange(message);
-            _lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
-            Application.DoEvents();
+            //_lbOutput.Items.AddRange(message);
+            //_lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
+            //Application.DoEvents();
 
         } //WriteMessageRange
 
@@ -228,7 +221,7 @@ namespace Karabina.SharePoint.Provisioning
             ctx.Load(fields);
             ctx.ExecuteQuery();
 
-            WriteMessage($"Info: Saving items from {listInstance.Title}");
+            _writeMessage($"Info: Saving items from {listInstance.Title}");
 
             int itemCount = 0;
 
@@ -264,13 +257,13 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            WriteMessage($"Info: {itemCount} items saved");
+            _writeMessage($"Info: {itemCount} items saved");
 
         } //SaveListItemsToTemplate
 
         private void FixReferenceFields(ProvisioningTemplate template, List<string> lookupLists)
         {
-            WriteMessage("Info: Start performing fix up of reference fields");
+            _writeMessage("Info: Start performing fix up of reference fields");
             Dictionary<string, int> indexFields = new Dictionary<string, int>();
             Dictionary<string, List<string>> referenceFields = new Dictionary<string, List<string>>();
             var fields = template.SiteFields;
@@ -382,7 +375,7 @@ namespace Karabina.SharePoint.Provisioning
 
             if (referenceFields.Count > 0)
             {
-                WriteMessage($"Info: Found {referenceFields.Count} fields to fix up");
+                _writeMessage($"Info: Found {referenceFields.Count} fields to fix up");
                 foreach (var referencedField in referenceFields)
                 {
                     index = indexFields[referencedField.Key];
@@ -422,7 +415,7 @@ namespace Karabina.SharePoint.Provisioning
 
             }
 
-            WriteMessage("Info: Done performing fix up of reference fields");
+            _writeMessage("Info: Done performing fix up of reference fields");
 
         } //FixReferenceFields
 
@@ -431,7 +424,7 @@ namespace Karabina.SharePoint.Provisioning
                                      ProvisioningTemplate baseTemplate)
         {
             int total = 0;
-            WriteMessage($"Info: Start performing {baseTemplate.BaseSiteTemplate} template clean up");
+            _writeMessage($"Info: Start performing {baseTemplate.BaseSiteTemplate} template clean up");
 
             if (provisioningOptions.CustomActions)
             {
@@ -442,7 +435,7 @@ namespace Karabina.SharePoint.Provisioning
                         (template.CustomActions.SiteCustomActions != null))
                     {
                         total = template.CustomActions.SiteCustomActions.Count;
-                        WriteMessage("Cleanup: Cleaning site collection custom actions from template");
+                        _writeMessage("Cleanup: Cleaning site collection custom actions from template");
                         foreach (var customAction in baseTemplate.CustomActions.SiteCustomActions)
                         {
                             template.CustomActions.SiteCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title,
@@ -451,7 +444,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.CustomActions.SiteCustomActions.Count;
-                        WriteMessage($"Cleanup: {total} site collection custom actions cleaned from template");
+                        _writeMessage($"Cleanup: {total} site collection custom actions cleaned from template");
 
                     }
 
@@ -459,7 +452,7 @@ namespace Karabina.SharePoint.Provisioning
                        (template.CustomActions.WebCustomActions != null))
                     {
                         total = template.CustomActions.WebCustomActions.Count;
-                        WriteMessage("Cleanup: Cleaning site custom actions from template");
+                        _writeMessage("Cleanup: Cleaning site custom actions from template");
                         foreach (var customAction in baseTemplate.CustomActions.WebCustomActions)
                         {
                             template.CustomActions.WebCustomActions.RemoveAll(p => p.Title.Equals(customAction.Title,
@@ -468,7 +461,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.CustomActions.WebCustomActions.Count;
-                        WriteMessage($"Cleanup: {total} site custom actions cleaned from template");
+                        _writeMessage($"Cleanup: {total} site custom actions cleaned from template");
 
                     }
 
@@ -485,7 +478,7 @@ namespace Karabina.SharePoint.Provisioning
                         (template.Features.SiteFeatures != null))
                     {
                         total = template.Features.SiteFeatures.Count;
-                        WriteMessage("Cleanup: Cleaning site collection features from template");
+                        _writeMessage("Cleanup: Cleaning site collection features from template");
                         foreach (var feature in baseTemplate.Features.SiteFeatures)
                         {
                             template.Features.SiteFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
@@ -493,7 +486,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.Features.SiteFeatures.Count;
-                        WriteMessage($"Cleanup: {total} site collection features cleaned from template");
+                        _writeMessage($"Cleanup: {total} site collection features cleaned from template");
 
                     }
 
@@ -501,7 +494,7 @@ namespace Karabina.SharePoint.Provisioning
                         (template.Features.WebFeatures != null))
                     {
                         total = template.Features.WebFeatures.Count;
-                        WriteMessage("Cleanup: Cleaning site features from template");
+                        _writeMessage("Cleanup: Cleaning site features from template");
                         foreach (var feature in baseTemplate.Features.WebFeatures)
                         {
                             template.Features.WebFeatures.RemoveAll(p => (p.Id.CompareTo(feature.Id) == 0));
@@ -509,7 +502,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.Features.WebFeatures.Count;
-                        WriteMessage($"Cleanup: {total} site features cleaned from template");
+                        _writeMessage($"Cleanup: {total} site features cleaned from template");
 
                     }
 
@@ -522,7 +515,7 @@ namespace Karabina.SharePoint.Provisioning
                 if ((baseTemplate.SiteFields != null) &&
                     (template.SiteFields != null))
                 {
-                    WriteMessage("Cleanup: Cleaning site collection fields from template");
+                    _writeMessage("Cleanup: Cleaning site collection fields from template");
                     List<string> baseFieldKeys = new List<string>();
                     Dictionary<string, int> fieldsIndex = new Dictionary<string, int>();
                     var baseFields = baseTemplate.SiteFields;
@@ -569,7 +562,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     }
 
-                    WriteMessage($"Cleanup: {fieldsToDelete} site collection fields cleaned from template");
+                    _writeMessage($"Cleanup: {fieldsToDelete} site collection fields cleaned from template");
                 }
 
             }
@@ -580,7 +573,7 @@ namespace Karabina.SharePoint.Provisioning
                     (template.Files != null))
                 {
                     total = template.Files.Count;
-                    WriteMessage("Cleanup: Cleaning files from template");
+                    _writeMessage("Cleanup: Cleaning files from template");
                     foreach (var file in baseTemplate.Files)
                     {
                         template.Files.RemoveAll(p => p.Src.Equals(file.Src, StringComparison.OrdinalIgnoreCase));
@@ -588,7 +581,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.Files.Count;
-                    WriteMessage($"Cleanup: {total} files cleaned from template");
+                    _writeMessage($"Cleanup: {total} files cleaned from template");
 
                 }
 
@@ -600,7 +593,7 @@ namespace Karabina.SharePoint.Provisioning
                     (template.Lists != null))
                 {
                     total = template.Lists.Count;
-                    WriteMessage("Cleanup: Cleaning lists from template");
+                    _writeMessage("Cleanup: Cleaning lists from template");
                     foreach (var listInstance in baseTemplate.Lists)
                     {
                         template.Lists.RemoveAll(p => p.Title.Equals(listInstance.Title, StringComparison.OrdinalIgnoreCase));
@@ -608,7 +601,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.Lists.Count;
-                    WriteMessage($"Cleanup: {total} lists cleaned from template");
+                    _writeMessage($"Cleanup: {total} lists cleaned from template");
 
                 }
 
@@ -620,7 +613,7 @@ namespace Karabina.SharePoint.Provisioning
                     (template.Pages != null))
                 {
                     total = template.Pages.Count;
-                    WriteMessage("Cleanup: Cleaning pages from template");
+                    _writeMessage("Cleanup: Cleaning pages from template");
                     foreach (var page in baseTemplate.Pages)
                     {
                         template.Pages.RemoveAll(p => p.Url.Equals(page.Url, StringComparison.OrdinalIgnoreCase));
@@ -628,7 +621,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.Pages.Count;
-                    WriteMessage($"Cleanup: {total} pages cleaned from template");
+                    _writeMessage($"Cleanup: {total} pages cleaned from template");
 
                 }
 
@@ -643,7 +636,7 @@ namespace Karabina.SharePoint.Provisioning
                         (template.Publishing.AvailableWebTemplates != null))
                     {
                         total = template.Publishing.AvailableWebTemplates.Count;
-                        WriteMessage("Cleanup: Cleaning avaiable web templates from template");
+                        _writeMessage("Cleanup: Cleaning avaiable web templates from template");
                         foreach (var availableWebTemplate in baseTemplate.Publishing.AvailableWebTemplates)
                         {
                             template.Publishing.AvailableWebTemplates.RemoveAll(p =>
@@ -652,7 +645,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.Publishing.AvailableWebTemplates.Count;
-                        WriteMessage($"Cleanup: {total} avaiable web templates cleaned from template");
+                        _writeMessage($"Cleanup: {total} avaiable web templates cleaned from template");
 
                     }
 
@@ -660,7 +653,7 @@ namespace Karabina.SharePoint.Provisioning
                         (template.Publishing.PageLayouts != null))
                     {
                         total = template.Publishing.PageLayouts.Count;
-                        WriteMessage("Cleanup: Cleaning page layouts from template");
+                        _writeMessage("Cleanup: Cleaning page layouts from template");
                         foreach (var pageLayout in baseTemplate.Publishing.PageLayouts)
                         {
                             template.Publishing.PageLayouts.RemoveAll(p => p.Path.Equals(pageLayout.Path,
@@ -669,7 +662,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.Publishing.PageLayouts.Count;
-                        WriteMessage($"Cleanup: {total} page layouts cleaned from template");
+                        _writeMessage($"Cleanup: {total} page layouts cleaned from template");
 
                     }
 
@@ -683,7 +676,7 @@ namespace Karabina.SharePoint.Provisioning
                     (template.SupportedUILanguages != null))
                 {
                     total = template.SupportedUILanguages.Count;
-                    WriteMessage("Cleanup: Cleaning supported UI languages from template");
+                    _writeMessage("Cleanup: Cleaning supported UI languages from template");
                     foreach (var supportedUILanguage in baseTemplate.SupportedUILanguages)
                     {
                         template.SupportedUILanguages.RemoveAll(p => (p.LCID == supportedUILanguage.LCID));
@@ -691,7 +684,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.SupportedUILanguages.Count;
-                    WriteMessage($"Cleanup: {total} supported UI languages cleaned from template");
+                    _writeMessage($"Cleanup: {total} supported UI languages cleaned from template");
 
                 }
 
@@ -703,7 +696,7 @@ namespace Karabina.SharePoint.Provisioning
                     (template.TermGroups != null))
                 {
                     total = template.TermGroups.Count;
-                    WriteMessage("Cleanup: Cleaning term groups from template");
+                    _writeMessage("Cleanup: Cleaning term groups from template");
                     foreach (var termGroup in baseTemplate.TermGroups)
                     {
                         template.TermGroups.RemoveAll(p => (p.Id.CompareTo(termGroup.Id) == 0));
@@ -711,7 +704,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.TermGroups.Count;
-                    WriteMessage($"Cleanup: {total} term groups cleaned from template");
+                    _writeMessage($"Cleanup: {total} term groups cleaned from template");
 
                 }
 
@@ -726,7 +719,7 @@ namespace Karabina.SharePoint.Provisioning
                         (template.Workflows.WorkflowSubscriptions != null))
                     {
                         total = template.Workflows.WorkflowSubscriptions.Count;
-                        WriteMessage("Cleanup: Cleaning workflow subscriptions from template");
+                        _writeMessage("Cleanup: Cleaning workflow subscriptions from template");
                         foreach (var workflowSubscription in baseTemplate.Workflows.WorkflowSubscriptions)
                         {
                             template.Workflows.WorkflowSubscriptions.RemoveAll(p =>
@@ -735,7 +728,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.Workflows.WorkflowSubscriptions.Count;
-                        WriteMessage($"Cleanup: {total} workflow subscriptions cleaned from template");
+                        _writeMessage($"Cleanup: {total} workflow subscriptions cleaned from template");
 
                     }
 
@@ -744,7 +737,7 @@ namespace Karabina.SharePoint.Provisioning
                         (template.Workflows.WorkflowDefinitions != null))
                     {
                         total = template.Workflows.WorkflowDefinitions.Count;
-                        WriteMessage("Cleanup: Cleaning workflow definitions from template");
+                        _writeMessage("Cleanup: Cleaning workflow definitions from template");
                         foreach (var workflowDefinition in baseTemplate.Workflows.WorkflowDefinitions)
                         {
                             template.Workflows.WorkflowDefinitions.RemoveAll(p =>
@@ -753,7 +746,7 @@ namespace Karabina.SharePoint.Provisioning
                         }
 
                         total -= template.Workflows.WorkflowDefinitions.Count;
-                        WriteMessage($"Cleanup: {total} workflow definitions cleaned from template");
+                        _writeMessage($"Cleanup: {total} workflow definitions cleaned from template");
 
                     }
 
@@ -767,7 +760,7 @@ namespace Karabina.SharePoint.Provisioning
                     (template.ContentTypes != null))
                 {
                     total = template.ContentTypes.Count;
-                    WriteMessage("Cleanup: Cleaning content types from template");
+                    _writeMessage("Cleanup: Cleaning content types from template");
                     foreach (var contentType in baseTemplate.ContentTypes)
                     {
                         template.ContentTypes.RemoveAll(p => p.Id.Equals(contentType.Id, StringComparison.OrdinalIgnoreCase));
@@ -775,7 +768,7 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.ContentTypes.Count;
-                    WriteMessage($"Cleanup: {total} content types cleaned from template");
+                    _writeMessage($"Cleanup: {total} content types cleaned from template");
 
                 }
 
@@ -787,7 +780,7 @@ namespace Karabina.SharePoint.Provisioning
                     (template.PropertyBagEntries != null))
                 {
                     total = template.PropertyBagEntries.Count;
-                    WriteMessage("Cleanup: Cleaning property bag entries from template");
+                    _writeMessage("Cleanup: Cleaning property bag entries from template");
                     foreach (var propertyBagEntry in baseTemplate.PropertyBagEntries)
                     {
                         template.PropertyBagEntries.RemoveAll(p => p.Key.Equals(propertyBagEntry.Key,
@@ -796,13 +789,13 @@ namespace Karabina.SharePoint.Provisioning
                     }
 
                     total -= template.PropertyBagEntries.Count;
-                    WriteMessage($"Cleanup: {total} property bag entries cleaned from template");
+                    _writeMessage($"Cleanup: {total} property bag entries cleaned from template");
 
                 }
 
             }
 
-            WriteMessage($"Info: Performed {baseTemplate.BaseSiteTemplate} template clean up");
+            _writeMessage($"Info: Performed {baseTemplate.BaseSiteTemplate} template clean up");
 
         } //CleanupTemplate
 
@@ -863,7 +856,7 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                WriteMessage($"Info: Saving items from {listInstance.Title} to template");
+                _writeMessage($"Info: Saving items from {listInstance.Title} to template");
 
                 int itemCount = 0;
 
@@ -986,18 +979,40 @@ namespace Karabina.SharePoint.Provisioning
 
                 }
 
-                WriteMessage($"Info: {itemCount} items saved");
+                _writeMessage($"Info: {itemCount} items saved");
 
             }
 
         } //SaveFilesToTemplate
 
-        public bool CreateProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
+        public bool CreateProvisioningTemplate(ProvisioningOptions provisioningOptions,
+                                               Action<string> writeMessage,
+                                               Action<string[]> writeMessageRange)
         {
             bool result = false;
             try
             {
-                _lbOutput = lbOutput;
+                if (writeMessage != null)
+                {
+                    _writeMessage = writeMessage;
+
+                }
+                else
+                {
+                    _writeMessage = WriteMessage;
+
+                }
+
+                if (writeMessageRange != null)
+                {
+                    _writeMessageRange = writeMessageRange;
+
+                }
+                else
+                {
+                    _writeMessageRange = WriteMessageRange;
+
+                }
 
                 using (var ctx = new ClientContext(provisioningOptions.WebAddress))
                 {
@@ -1024,7 +1039,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     ctx.RequestTimeout = Timeout.Infinite;
 
-                    WriteMessage($"Connecting to {provisioningOptions.WebAddress}");
+                    _writeMessage($"Connecting to {provisioningOptions.WebAddress}");
 
                     // Load the web with all fields we will need.
                     Web web = ctx.Web;
@@ -1037,8 +1052,8 @@ namespace Karabina.SharePoint.Provisioning
 
                     ctx.ExecuteQueryRetry();
 
-                    WriteMessage($"Creating provisioning template from {web.Title} ( {web.Url} )");
-                    WriteMessage($"Base template is {web.WebTemplate}#{web.Configuration}");
+                    _writeMessage($"Creating provisioning template from {web.Title} ( {web.Url} )");
+                    _writeMessage($"Base template is {web.WebTemplate}#{web.Configuration}");
 
 
                     string fileNamePNP = provisioningOptions.TemplateName + ".pnp";
@@ -1084,35 +1099,29 @@ namespace Karabina.SharePoint.Provisioning
                         switch (messageType)
                         {
                             case ProvisioningMessageType.Error:
-                                WriteMessage("Error: " + message);
+                                _writeMessage("Error: " + message);
 
                                 break;
 
                             case ProvisioningMessageType.Progress:
-                                WriteMessage("Progress: " + message);
+                                _writeMessage("Progress: " + message);
 
                                 break;
 
                             case ProvisioningMessageType.Warning:
-                                WriteMessage("Warning: " + message);
+                                _writeMessage("Warning: " + message);
 
                                 break;
 
                             case ProvisioningMessageType.EasterEgg:
-                                WriteMessage("EasterEgg: " + message);
+                                _writeMessage("EasterEgg: " + message);
 
                                 break;
 
                             default:
-                                WriteMessage("Unknown: " + message);
+                                _writeMessage("Unknown: " + message);
 
                                 break;
-
-                        }
-
-                        if (!lbOutput.HorizontalScrollbar)
-                        {
-                            lbOutput.HorizontalScrollbar = true;
 
                         }
 
@@ -1121,7 +1130,7 @@ namespace Karabina.SharePoint.Provisioning
                     ptci.ProgressDelegate = delegate (string message, int progress, int total)
                     {
                         // Output progress
-                        WriteMessage(string.Format("{0:00}/{1:00} - {2}", progress, total, message));
+                        _writeMessage(string.Format("{0:00}/{1:00} - {2}", progress, total, message));
 
                     };
 
@@ -1335,11 +1344,11 @@ namespace Karabina.SharePoint.Provisioning
                     if (provisioningOptions.ExcludeBaseTemplate)
                     {
                         ProvisioningTemplate baseTemplate = null;
-                        WriteMessage($"Info: Loading base template {web.WebTemplate}#{web.Configuration}");
+                        _writeMessage($"Info: Loading base template {web.WebTemplate}#{web.Configuration}");
 
                         baseTemplate = web.GetBaseTemplate(web.WebTemplate, web.Configuration);
 
-                        WriteMessage("Info: Base template loaded");
+                        _writeMessage("Info: Base template loaded");
 
                         //perform the clean up
                         CleanupTemplate(provisioningOptions, template, baseTemplate);
@@ -1350,8 +1359,8 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             if (web.IsPublishingWeb())
                             {
-                                WriteMessage("Info: Publishing feature actived on site");
-                                WriteMessage($"Info: Loading {Constants.Enterprise_Wiki_TemplateId} base template");
+                                _writeMessage("Info: Publishing feature actived on site");
+                                _writeMessage($"Info: Loading {Constants.Enterprise_Wiki_TemplateId} base template");
 
                                 string[] enterWikiArr = Constants.Enterprise_Wiki_TemplateId.Split(new char[] { '#' });
 
@@ -1359,7 +1368,7 @@ namespace Karabina.SharePoint.Provisioning
 
                                 baseTemplate = web.GetBaseTemplate(enterWikiArr[0], config);
 
-                                WriteMessage($"Info: Done loading {Constants.Enterprise_Wiki_TemplateId} base template");
+                                _writeMessage($"Info: Done loading {Constants.Enterprise_Wiki_TemplateId} base template");
 
                                 //perform the clean up
                                 CleanupTemplate(provisioningOptions, template, baseTemplate);
@@ -1374,9 +1383,9 @@ namespace Karabina.SharePoint.Provisioning
                     provider.SaveAs(template, fileNameXML);
 
 
-                    WriteMessage($"Template saved to {provisioningOptions.TemplatePath}\\{provisioningOptions.TemplateName}.pnp");
+                    _writeMessage($"Template saved to {provisioningOptions.TemplatePath}\\{provisioningOptions.TemplateName}.pnp");
 
-                    WriteMessage($"Done creating provisioning template from {web.Title} ( {web.Url} )");
+                    _writeMessage($"Done creating provisioning template from {web.Title} ( {web.Url} )");
 
                     result = true;
 
@@ -1385,24 +1394,18 @@ namespace Karabina.SharePoint.Provisioning
             }
             catch (Exception ex)
             {
-                if (!lbOutput.HorizontalScrollbar)
-                {
-                    lbOutput.HorizontalScrollbar = true;
-
-                }
-
-                WriteMessage("Error: " + ex.Message.Replace("\r\n", " "));
+                _writeMessage("Error: " + ex.Message.Replace("\r\n", " "));
                 if (ex.InnerException != null)
                 {
-                    WriteMessage("Error: Start of inner exception");
-                    WriteMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
-                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' },
+                    _writeMessage("Error: Start of inner exception");
+                    _writeMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
+                    _writeMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\n', '\r' },
                                                                          StringSplitOptions.RemoveEmptyEntries));
-                    WriteMessage("Error: End of inner exception");
+                    _writeMessage("Error: End of inner exception");
 
                 }
 
-                WriteMessageRange(ex.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
+                _writeMessageRange(ex.StackTrace.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries));
                 result = false;
 
             }
@@ -1411,12 +1414,35 @@ namespace Karabina.SharePoint.Provisioning
 
         } //CreateProvisioningTemplate
 
-        public bool ApplyProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
+        public bool ApplyProvisioningTemplate(ProvisioningOptions provisioningOptions,
+                                              Action<string> writeMessage,
+                                              Action<string[]> writeMessageRange)
         {
             bool result = false;
             try
             {
-                _lbOutput = lbOutput;
+                if (writeMessage != null)
+                {
+                    _writeMessage = writeMessage;
+
+                }
+                else
+                {
+                    _writeMessage = WriteMessage;
+
+                }
+
+                if (writeMessageRange != null)
+                {
+                    _writeMessageRange = writeMessageRange;
+
+                }
+                else
+                {
+                    _writeMessageRange = WriteMessageRange;
+
+                }
+
                 using (var ctx = new ClientContext(provisioningOptions.WebAddress))
                 {
                     if (provisioningOptions.AuthenticationRequired)
@@ -1444,7 +1470,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     string webTitle = string.Empty;
 
-                    WriteMessage($"Connecting to {provisioningOptions.WebAddress}");
+                    _writeMessage($"Connecting to {provisioningOptions.WebAddress}");
 
                     // Just to output the site details 
                     Web web = ctx.Web;
@@ -1453,7 +1479,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     webTitle = web.Title;
 
-                    WriteMessage($"Applying provisioning template to {webTitle} ( {web.Url} )");
+                    _writeMessage($"Applying provisioning template to {webTitle} ( {web.Url} )");
 
                     string fileNamePNP = provisioningOptions.TemplateName + ".pnp";
 
@@ -1465,7 +1491,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     ProvisioningTemplate template = templates[0];
 
-                    WriteMessage($"Base site template in provisioning template is {template.BaseSiteTemplate}");
+                    _writeMessage($"Base site template in provisioning template is {template.BaseSiteTemplate}");
 
                     if (template.WebSettings != null)
                     {
@@ -1482,35 +1508,29 @@ namespace Karabina.SharePoint.Provisioning
                         switch (messageType)
                         {
                             case ProvisioningMessageType.Error:
-                                WriteMessage("Error: " + message);
+                                _writeMessage("Error: " + message);
 
                                 break;
 
                             case ProvisioningMessageType.Progress:
-                                WriteMessage("Progress: " + message);
+                                _writeMessage("Progress: " + message);
 
                                 break;
 
                             case ProvisioningMessageType.Warning:
-                                WriteMessage("Warning: " + message);
+                                _writeMessage("Warning: " + message);
 
                                 break;
 
                             case ProvisioningMessageType.EasterEgg:
-                                WriteMessage("EasterEgg: " + message);
+                                _writeMessage("EasterEgg: " + message);
 
                                 break;
 
                             default:
-                                WriteMessage("Unknown: " + message);
+                                _writeMessage("Unknown: " + message);
 
                                 break;
-
-                        }
-
-                        if (!lbOutput.HorizontalScrollbar)
-                        {
-                            lbOutput.HorizontalScrollbar = true;
 
                         }
 
@@ -1518,7 +1538,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     ptai.ProgressDelegate = delegate (string message, int progress, int total)
                     {
-                        WriteMessage(string.Format("{0:00}/{1:00} - {2}", progress, total, message));
+                        _writeMessage(string.Format("{0:00}/{1:00} - {2}", progress, total, message));
 
                     };
 
@@ -1547,7 +1567,7 @@ namespace Karabina.SharePoint.Provisioning
 
                     web.ApplyProvisioningTemplate(template, ptai);
 
-                    WriteMessage($"Done applying provisioning template to {web.Title} ( {web.Url} )");
+                    _writeMessage($"Done applying provisioning template to {web.Title} ( {web.Url} )");
 
                     result = true;
 
@@ -1556,24 +1576,18 @@ namespace Karabina.SharePoint.Provisioning
             }
             catch (Exception ex)
             {
-                if (!lbOutput.HorizontalScrollbar)
-                {
-                    lbOutput.HorizontalScrollbar = true;
-
-                }
-
-                WriteMessage("Error: " + ex.Message.Replace("\r\n", " "));
+                _writeMessage("Error: " + ex.Message.Replace("\r\n", " "));
                 if (ex.InnerException != null)
                 {
-                    WriteMessage("Error: Start of inner exception");
-                    WriteMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
-                    WriteMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\r', '\n' },
+                    _writeMessage("Error: Start of inner exception");
+                    _writeMessage("Error: " + ex.InnerException.Message.Replace("\r\n", " "));
+                    _writeMessageRange(ex.InnerException.StackTrace.Split(new char[] { '\r', '\n' },
                                                                          StringSplitOptions.RemoveEmptyEntries));
-                    WriteMessage("Error: End of inner exception");
+                    _writeMessage("Error: End of inner exception");
 
                 }
 
-                WriteMessageRange(ex.StackTrace.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
+                _writeMessageRange(ex.StackTrace.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
 
                 result = false;
 

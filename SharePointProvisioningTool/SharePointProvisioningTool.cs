@@ -13,6 +13,8 @@ namespace Karabina.SharePoint.Provisioning
         private SPLoader _sp2016OnPrem = null;
         private SPLoader _sp2016Online = null;
 
+        private ListBox _lbOutput = null;
+
         private string lastFolder = string.Empty;
 
         public SharePointProvisioningTool()
@@ -163,6 +165,32 @@ namespace Karabina.SharePoint.Provisioning
 
         } //StartProgressWin
 
+        private void WriteMessage(string message)
+        {
+            if (_lbOutput != null)
+            {
+                _lbOutput.Items.Add(message);
+                _lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
+
+            }
+
+            Application.DoEvents();
+
+        } //WriteMessage
+
+        private void WriteMessageRange(string[] message)
+        {
+            if (_lbOutput != null)
+            {
+                _lbOutput.Items.AddRange(message);
+                _lbOutput.TopIndex = (_lbOutput.Items.Count - 1);
+
+            }
+
+            Application.DoEvents();
+
+        } //WriteMessageRange
+
         private void FinishProgressWin(ProgressWin progressWin)
         {
             progressWin.SetButtonState(true);
@@ -185,21 +213,22 @@ namespace Karabina.SharePoint.Provisioning
             string spVersionTitle = EnsureVersionLoaded(callForm.SelectedVersion);            
 
             ProgressWin progressWin = StartProgressWin(true, spVersionTitle);
+            _lbOutput = progressWin.ResultOutput;
 
             switch (callForm.SelectedVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premises:
-                    result = _sp2013OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    result = _sp2013OnPrem.CreateProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_On_Premises:
-                    result = _sp2016OnPrem.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    result = _sp2016OnPrem.CreateProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_OnLine:
-                    result = _sp2016Online.CreateProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    result = _sp2016Online.CreateProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);
 
                     break;
 
@@ -224,21 +253,22 @@ namespace Karabina.SharePoint.Provisioning
             string spVersionTitle = EnsureVersionLoaded(callForm.SelectedVersion);            
 
             ProgressWin progressWin = StartProgressWin(false, spVersionTitle);
+            _lbOutput = progressWin.ResultOutput;
 
             switch (callForm.SelectedVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premises:
-                    result = _sp2013OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    result = _sp2013OnPrem.ApplyProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_On_Premises:
-                    result = _sp2016OnPrem.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    result = _sp2016OnPrem.ApplyProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);
 
                     break;
 
                 case SharePointVersion.SharePoint_2016_OnLine:
-                    result = _sp2016Online.ApplyProvisioningTemplate(progressWin.ResultOutput, provisioningOptions);
+                    result = _sp2016Online.ApplyProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);
 
                     break;
 

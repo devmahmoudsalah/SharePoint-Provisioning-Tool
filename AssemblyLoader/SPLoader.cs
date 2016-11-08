@@ -40,9 +40,11 @@ namespace Karabina.SharePoint.Provisioning
 
         }
 
-        public bool ApplyProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
+        public bool ApplyProvisioningTemplate(ProvisioningOptions provisioningOptions,
+                                              Action<string> writeMessage,
+                                              Action<string[]> writeMessageRange)
         {
-            object[] args = new object[] { lbOutput, provisioningOptions };
+            object[] args = new object[] { provisioningOptions, writeMessage, writeMessageRange };
 
             object result = applyProvisioningTemplate.Invoke(sharepointObject, args);
 
@@ -50,9 +52,11 @@ namespace Karabina.SharePoint.Provisioning
 
         }
 
-        public bool CreateProvisioningTemplate(ListBox lbOutput, ProvisioningOptions provisioningOptions)
+        public bool CreateProvisioningTemplate(ProvisioningOptions provisioningOptions,
+                                               Action<string> writeMessage,
+                                               Action<string[]> writeMessageRange)
         {
-            object[] args = new object[] { lbOutput, provisioningOptions };
+            object[] args = new object[] { provisioningOptions, writeMessage, writeMessageRange };
 
             object result = createProvisioningTemplate.Invoke(sharepointObject, args);
 
