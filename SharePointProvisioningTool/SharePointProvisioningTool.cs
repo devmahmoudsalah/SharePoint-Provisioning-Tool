@@ -210,12 +210,14 @@ namespace Karabina.SharePoint.Provisioning
             SourceWin callForm = callee as SourceWin;
             bool result = false;
             callForm.Visible = false;
-            string spVersionTitle = EnsureVersionLoaded(callForm.SelectedVersion);            
+            provisioningOptions.SharePointVersion = callForm.SelectedVersion;
+
+            string spVersionTitle = EnsureVersionLoaded(provisioningOptions.SharePointVersion);
 
             ProgressWin progressWin = StartProgressWin(true, spVersionTitle);
             _lbOutput = progressWin.ResultOutput;
 
-            switch (callForm.SelectedVersion)
+            switch (provisioningOptions.SharePointVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premises:
                     result = _sp2013OnPrem.CreateProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);
@@ -249,13 +251,14 @@ namespace Karabina.SharePoint.Provisioning
             TargetWin callForm = callee as TargetWin;
             bool result = false;
             callForm.Visible = false;
+            provisioningOptions.SharePointVersion = callForm.SelectedVersion;
 
-            string spVersionTitle = EnsureVersionLoaded(callForm.SelectedVersion);            
+            string spVersionTitle = EnsureVersionLoaded(provisioningOptions.SharePointVersion);
 
             ProgressWin progressWin = StartProgressWin(false, spVersionTitle);
             _lbOutput = progressWin.ResultOutput;
 
-            switch (callForm.SelectedVersion)
+            switch (provisioningOptions.SharePointVersion)
             {
                 case SharePointVersion.SharePoint_2013_On_Premises:
                     result = _sp2013OnPrem.ApplyProvisioningTemplate(provisioningOptions, WriteMessage, WriteMessageRange);

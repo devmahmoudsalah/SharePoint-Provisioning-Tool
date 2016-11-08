@@ -67,6 +67,7 @@ namespace Karabina.SharePoint.Provisioning
         private string _templateName = string.Empty;
         private string _templatePath = string.Empty;
         private string _webAddress = string.Empty;
+        private SharePointVersion _sharePointVersion = 0;
 
         public ProvisioningOptions()
         {
@@ -488,6 +489,13 @@ namespace Karabina.SharePoint.Provisioning
             set { _webAddress = value; }
 
         } //WebAddress
+
+        public SharePointVersion SharePointVersion
+        {
+            get { return _sharePointVersion; }
+            set { _sharePointVersion = value; }
+
+        } //SharePointVersion
 
         public bool AtLeastOneOfTemplateOptions
         {

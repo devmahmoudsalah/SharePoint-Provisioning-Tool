@@ -51,9 +51,32 @@ namespace Karabina.SharePoint.Provisioning
         private void SetVersionSelected(object sender, EventArgs e)
         {
             RadioButton rb = sender as RadioButton;
-            string tag = (sender as Control).Tag.ToString();
-            int verNum = Convert.ToInt32(tag.Replace("Version0", ""));
-            _versionSelected = (SharePointVersion)verNum;
+            if (rb.Checked)
+            {
+                switch (rb.Name)
+                {
+                    case "rbSP2013OP":
+                        _versionSelected = SharePointVersion.SharePoint_2013_On_Premises;
+
+                        break;
+
+                    case "rbSP2016OP":
+                        _versionSelected = SharePointVersion.SharePoint_2016_On_Premises;
+
+                        break;
+
+                    case "rbSP2016OL":
+                        _versionSelected = SharePointVersion.SharePoint_2016_OnLine;
+
+                        break;
+
+                    default:
+
+                        break;
+
+                }
+
+            }
 
         } //SetVersionSelected
 

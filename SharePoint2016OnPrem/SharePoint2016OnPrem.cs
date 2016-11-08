@@ -327,51 +327,56 @@ namespace Karabina.SharePoint.Provisioning
                         {
                             if (value.IndexOf("{fieldtitle:") >= 0)
                             {
-                                string[] values = value.Split(new char[] { '{', '}' }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] values = value.Split(new char[] { '[', '{', '}', ']' },
+                                                              StringSplitOptions.RemoveEmptyEntries);
                                 foreach (string val in values)
                                 {
                                     if (val.StartsWith("fieldtitle:", StringComparison.OrdinalIgnoreCase))
                                     {
                                         string fieldTitle = val.Substring(11);
 
-                                        if (!referenceFields.ContainsKey(fieldTitle))
+                                        if (!string.IsNullOrWhiteSpace(fieldTitle))
                                         {
-                                            List<string> keyValues = new List<string>();
-                                            keyValues.Add(fieldName);
-                                            referenceFields.Add(fieldTitle, keyValues);
-
-                                        }
-                                        else
-                                        {
-                                            List<string> keyValues = referenceFields[fieldTitle];
-
-                                            if (keyValues == null)
+                                            if (!referenceFields.ContainsKey(fieldTitle))
                                             {
-                                                keyValues = new List<string>();
-
-                                            }
-
-                                            if (!keyValues.Contains(fieldName))
-                                            {
+                                                List<string> keyValues = new List<string>();
                                                 keyValues.Add(fieldName);
+                                                referenceFields.Add(fieldTitle, keyValues);
+
+                                            }
+                                            else
+                                            {
+                                                List<string> keyValues = referenceFields[fieldTitle];
+
+                                                if (keyValues == null)
+                                                {
+                                                    keyValues = new List<string>();
+
+                                                }
+
+                                                if (!keyValues.Contains(fieldName))
+                                                {
+                                                    keyValues.Add(fieldName);
+
+                                                }
 
                                             }
 
                                         }
 
-                                    }
+                                    } //if starts with fieldtitle
 
                                 }
 
-                            }
+                            } //if fieldtitle
 
-                        }
+                        } //if value
 
                     }
 
-                }
+                } //if fieldElement.HasElements
 
-            }
+            } //for totalFields
 
             if (referenceFields.Count > 0)
             {
@@ -1142,6 +1147,55 @@ namespace Karabina.SharePoint.Provisioning
                     // Execute actual extraction of the tepmplate 
                     ProvisioningTemplate template = web.GetProvisioningTemplate(ptci);
 
+                    //Set properties for template web site
+                    if (template.Properties?.Count > 0)
+                    {
+                        if (template.Properties.ContainsKey(Constants.PnP_Supports_SP2013_Platform))
+                        {
+                            template.Properties[Constants.PnP_Supports_SP2013_Platform] = ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2013_On_Premises) ? "true" : "false");
+
+                        }
+                        else
+                        {
+                            template.Properties.Add(Constants.PnP_Supports_SP2013_Platform, ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2013_On_Premises) ? "true" : "false"));
+
+                        }
+
+                        if (template.Properties.ContainsKey(Constants.PnP_Supports_SP2016_Platform))
+                        {
+                            template.Properties[Constants.PnP_Supports_SP2016_Platform] = ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2016_On_Premises) ? "true" : "false");
+
+                        }
+                        else
+                        {
+                            template.Properties.Add(Constants.PnP_Supports_SP2016_Platform, ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2016_On_Premises) ? "true" : "false"));
+
+                        }
+
+                        if (template.Properties.ContainsKey(Constants.PnP_Supports_SPO_Platform))
+                        {
+                            template.Properties[Constants.PnP_Supports_SPO_Platform] = ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2016_OnLine) ? "true" : "false");
+
+                        }
+                        else
+                        {
+                            template.Properties.Add(Constants.PnP_Supports_SPO_Platform, ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2016_OnLine) ? "true" : "false"));
+
+                        }
+
+                    }
+                    else
+                    {
+                        template.Properties.Add(Constants.PnP_Supports_SP2013_Platform, ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2013_On_Premises) ? "true" : "false"));
+                        template.Properties.Add(Constants.PnP_Supports_SP2016_Platform, ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2016_On_Premises) ? "true" : "false"));
+                        template.Properties.Add(Constants.PnP_Supports_SPO_Platform, ((provisioningOptions.SharePointVersion == SharePointVersion.SharePoint_2016_OnLine) ? "true" : "false"));
+
+                    }
+
+                    _writeMessage($"Info: PnP platform support for {Constants.SharePoint_2013_On_Premises} set to {template.Properties[Constants.PnP_Supports_SP2013_Platform]}");
+                    _writeMessage($"Info: PnP platform support for {Constants.SharePoint_2016_On_Premises} set to {template.Properties[Constants.PnP_Supports_SP2016_Platform]}");
+                    _writeMessage($"Info: PnP platform support for {Constants.SharePoint_2016_Online} set to {template.Properties[Constants.PnP_Supports_SPO_Platform]}");
+
                     //List to hold all the lookup list names
                     List<string> lookupListTitles = new List<string>();
 
@@ -1493,6 +1547,35 @@ namespace Karabina.SharePoint.Provisioning
 
                     _writeMessage($"Base site template in provisioning template is {template.BaseSiteTemplate}");
 
+                    //Check for template platform support
+                    if (template.Properties?.Count > 0)
+                    {
+                        if (template.Properties.ContainsKey(Constants.PnP_Supports_SP2013_Platform))
+                        {
+                            _writeMessage($"Info: PnP platform support for {Constants.SharePoint_2013_On_Premises} set to {template.Properties[Constants.PnP_Supports_SP2013_Platform]}");
+
+                        }
+
+                        if (template.Properties.ContainsKey(Constants.PnP_Supports_SP2016_Platform))
+                        {
+                            _writeMessage($"Info: PnP platform support for {Constants.SharePoint_2016_On_Premises} set to {template.Properties[Constants.PnP_Supports_SP2016_Platform]}");
+
+                        }
+
+                        if (template.Properties.ContainsKey(Constants.PnP_Supports_SPO_Platform))
+                        {
+                            _writeMessage($"Info: PnP platform support for {Constants.SharePoint_2016_Online} set to {template.Properties[Constants.PnP_Supports_SPO_Platform]}");
+
+                        }
+
+                    }
+                    else
+                    {
+                        _writeMessage("Warning: PnP platform support not defined");
+
+                    }
+
+                    //prevent web site title overwriting
                     if (template.WebSettings != null)
                     {
                         template.WebSettings.Title = webTitle;

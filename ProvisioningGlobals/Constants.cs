@@ -4,9 +4,9 @@ namespace Karabina.SharePoint.Provisioning
     public enum SharePointVersion
     {
         SharePoint_Invalid = 0,
-        SharePoint_2013_On_Premises = 1,
-        SharePoint_2016_On_Premises = 2,
-        SharePoint_2016_OnLine = 3
+        SharePoint_2013_On_Premises = 2013,
+        SharePoint_2016_On_Premises = 20160,
+        SharePoint_2016_OnLine = 20161
 
     } //SharePointVersion
 
@@ -114,13 +114,6 @@ namespace Karabina.SharePoint.Provisioning
 
     public static class Constants
     {
-        public static readonly string SharePoint2013OnPrem_Assembly_FullName = "SharePoint2013OnPrem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-        public static readonly string SharePoint2013OnPrem_Type_FullName = "Karabina.SharePoint.Provisioning.SharePoint2013OnPrem";
-        public static readonly string SharePoint2016OnPrem_Assembly_FullName = "SharePoint2016OnPrem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-        public static readonly string SharePoint2016OnPrem_Type_FullName = "Karabina.SharePoint.Provisioning.SharePoint2016OnPrem";
-        public static readonly string SharePoint2016Online_Assembly_FullName = "SharePoint2016Online, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-        public static readonly string SharePoint2016Online_Type_FullName = "Karabina.SharePoint.Provisioning.SharePoint2016Online";
-
         public static readonly string SharePoint_2013_On_Premises = "SharePoint 2013 On Premises";
         public static readonly string SharePoint_2016_On_Premises = "SharePoint 2016 On Premises";
         public static readonly string SharePoint_2016_Online = "SharePoint 2016 Online";
@@ -142,6 +135,9 @@ namespace Karabina.SharePoint.Provisioning
         public static readonly int Karabina_Green = 0;
         public static readonly int Karabina_Blue = 0;
         public static readonly string Add_New = "<Add New>";
+        public static readonly string PnP_Supports_SPO_Platform = "PnP_Supports_SPO_Platform";
+        public static readonly string PnP_Supports_SP2016_Platform = "PnP_Supports_SP2016_Platform";
+        public static readonly string PnP_Supports_SP2013_Platform = "PnP_Supports_SP2013_Platform";
 
     } //Constants
 
