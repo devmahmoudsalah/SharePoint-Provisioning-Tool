@@ -23,7 +23,7 @@ When executing the tool it opens up as a MDI application.
 
 ![](Images/MainScreen.png)
 
-The three buttons are for "```Create Template```", "```Edit Template```" and "```Apply Template```" in that order. On clicking any of them 
+The three buttons are for ```Create Template```, ```Edit Template``` and ```Apply Template``` in that order. On clicking any of them 
 will open the Select SharePoint Version screen.
 
 ![](Images/VersionSelect.png)
@@ -34,31 +34,31 @@ If you select the wrong version you will get an error during the chosen operatio
 
 #### Create Template
 
-To create a provisioning template from a SharePoint site, click the "```Create Template```" button. After selecting the SharePoint version the following screen will appear.
+To create a provisioning template from a SharePoint site, click the ```Create Template``` button. After selecting the SharePoint version the following screen will appear.
 
 ![](Images/CreateTemplate.png)
 
-Complete the fields as shown on the screen. The "```Authentication not required```" checkbox is for the On Premises versions and if the tool is run from the server and you are logged in with the farm account.
+Complete the fields as shown on the screen. The ```Authentication not required``` checkbox is for the On Premises versions and if the tool is run from the server and you are logged in with the farm account.
 
-The "```Options```" button enables you to select what will be saved in the template. This includes the options to select what content will be saved with the template.
+The ```Options``` button enables you to select what will be saved in the template. This includes the options to select what content will be saved with the template.
 
 ![](Images/CreateOptions.png)
 
-When the "```Exculde base template```" option is checked and the SharePoint site was created from one of the standard templates, then the saved template will not have any of the files, pages, content types or site fields matching in the base template.
+When the ```Exculde base template``` option is checked and the SharePoint site was created from one of the standard templates, then the saved template will not have any of the files, pages, content types or site fields matching in the base template.
 
 
-After clicking the "```Create```" button a progress screen will appear showing the progress of the save operation.
+After clicking the ```Create``` button a progress screen will appear showing the progress of the save operation.
 
 ![](Images/CreateProgress.png)
 
 ----------
 ### Edit Template
 
-To edit a saved template, click the "```Edit Template```" button. After selecting the SharePoint version the following screen will appear.
+To edit a saved template, click the ```Edit Template``` button. After selecting the SharePoint version the following screen will appear.
 
 ![](Images/EditStart.png)
 
-Click the "```Browse...```" button to select the provisioning template to edit.
+Click the ```Browse...``` button to select the provisioning template to edit.
 
 ![](Images/OpenTemplate.png)
 
@@ -102,20 +102,20 @@ While editing you can save the template.
 
 ### Apply Template
 
-To apply a saved provisioning template to a SharePoint site, click the "```Apply Template```" button. 
+To apply a saved provisioning template to a SharePoint site, click the ```Apply Template``` button. 
 After selecting the SharePoint version the following form will appear.
 
 ![](Images/ApplyTemplate.png)
 
-Click the "```Browse...```" button to select the provisioning template to apply. 
+Click the ```Browse...``` button to select the provisioning template to apply. 
 Complete the other fields specifing the SharePoint site URL where you want to apply the template to.
 
-Click the "```Options```" button to narrow down what will be applied to the site.
+Click the ```Options``` button to narrow down what will be applied to the site.
 
 ![](Images/ApplyOptions.png)
 
-For example to apply only the Site Fields, deselect all the options and select the "```Apply Fields```" option.
-Click to "```Apply```" button to apply the template to the SharePoint site. 
+For example to apply only the Site Fields, deselect all the options and select the ```Apply Fields``` option.
+Click to ```Apply``` button to apply the template to the SharePoint site. 
 The progress form will appear and show the status of the operation.
 
 ![](Images/ApplyProgress.png)
