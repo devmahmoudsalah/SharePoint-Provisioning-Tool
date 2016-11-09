@@ -2010,7 +2010,7 @@ namespace Karabina.SharePoint.Provisioning
                                                                   TemplateControlType.TextBox,
                                                                   TemplateItemType.FileWebPartItemContent,
                                                                   fieldXml,
-                                                                  fwpNode.Name);
+                                                                  fwpNode.Id);
 
                         }
 
@@ -2033,7 +2033,7 @@ namespace Karabina.SharePoint.Provisioning
                 TemplateItem lNodes = templateItems.AddTemplateItem("Lists", "Lists",
                                                     TemplateControlType.ListBox,
                                                     TemplateItemType.ListList, null,
-                                                    rootNode.Name);
+                                                    rootNode.Id);
 
                 KeyValueList listsList = new KeyValueList();
 
@@ -2043,13 +2043,13 @@ namespace Karabina.SharePoint.Provisioning
                                                                     TemplateControlType.TextBox,
                                                                     TemplateItemType.ListItem,
                                                                     GetListInstance(list.Url),
-                                                                    lNodes.Name);
+                                                                    lNodes.Id);
 
                     if (list.Fields?.Count > 0)
                     {
                         TemplateItem fNodes = templateItems.AddTemplateItem(lNode.Name + "_ListFields", "Fields", TemplateControlType.ListBox,
                                                             TemplateItemType.ListFieldList, null,
-                                                            lNode.Name);
+                                                            lNode.Id);
 
                         KeyValueList fieldsList = new KeyValueList();
 
