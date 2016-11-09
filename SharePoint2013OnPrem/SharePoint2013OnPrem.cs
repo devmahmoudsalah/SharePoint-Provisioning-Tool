@@ -2257,29 +2257,36 @@ namespace Karabina.SharePoint.Provisioning
 
             if (template.Security != null)
             {
-                SiteSecurity oldSecurity = template.Security;
-                SiteSecurity newSecurity = new SiteSecurity()
+                if ((template.Security.AdditionalAdministrators?.Count > 0) ||
+                    (template.Security.AdditionalMembers?.Count > 0) ||
+                    (template.Security.AdditionalOwners?.Count > 0) ||
+                    (template.Security.AdditionalVisitors?.Count > 0))
                 {
-                    BreakRoleInheritance = oldSecurity.BreakRoleInheritance,
-                    ClearSubscopes = oldSecurity.ClearSubscopes,
-                    CopyRoleAssignments = oldSecurity.CopyRoleAssignments
+                    SiteSecurity oldSecurity = template.Security;
+                    SiteSecurity newSecurity = new SiteSecurity()
+                    {
+                        BreakRoleInheritance = oldSecurity.BreakRoleInheritance,
+                        ClearSubscopes = oldSecurity.ClearSubscopes,
+                        CopyRoleAssignments = oldSecurity.CopyRoleAssignments
 
-                };
-                newSecurity.AdditionalAdministrators.AddRange(oldSecurity.AdditionalAdministrators);
-                newSecurity.AdditionalMembers.AddRange(oldSecurity.AdditionalMembers);
-                newSecurity.AdditionalOwners.AddRange(oldSecurity.AdditionalOwners);
-                newSecurity.AdditionalVisitors.AddRange(oldSecurity.AdditionalVisitors);
-                newSecurity.SiteGroups.AddRange(oldSecurity.SiteGroups);
-                newSecurity.SiteSecurityPermissions.RoleAssignments.AddRange(oldSecurity.SiteSecurityPermissions.RoleAssignments);
-                newSecurity.SiteSecurityPermissions.RoleDefinitions.AddRange(oldSecurity.SiteSecurityPermissions.RoleDefinitions);
+                    };
+                    newSecurity.AdditionalAdministrators.AddRange(oldSecurity.AdditionalAdministrators);
+                    newSecurity.AdditionalMembers.AddRange(oldSecurity.AdditionalMembers);
+                    newSecurity.AdditionalOwners.AddRange(oldSecurity.AdditionalOwners);
+                    newSecurity.AdditionalVisitors.AddRange(oldSecurity.AdditionalVisitors);
+                    newSecurity.SiteGroups.AddRange(oldSecurity.SiteGroups);
+                    newSecurity.SiteSecurityPermissions.RoleAssignments.AddRange(oldSecurity.SiteSecurityPermissions.RoleAssignments);
+                    newSecurity.SiteSecurityPermissions.RoleDefinitions.AddRange(oldSecurity.SiteSecurityPermissions.RoleDefinitions);
 
-                string security = JsonConvert.SerializeObject(newSecurity, Newtonsoft.Json.Formatting.Indented);
+                    string security = JsonConvert.SerializeObject(newSecurity, Newtonsoft.Json.Formatting.Indented);
 
-                TemplateItem sNode = templateItems.AddTemplateItem("SiteSecurity", "Site Security", TemplateControlType.TextBox,
-                                                   TemplateItemType.SecurityItem, security,
-                                                   rootNode.Id);
+                    TemplateItem sNode = templateItems.AddTemplateItem("SiteSecurity", "Site Security", TemplateControlType.TextBox,
+                                                       TemplateItemType.SecurityItem, security,
+                                                       rootNode.Id);
 
-                templateList.AddKeyValue(sNode.Text, sNode.Id);
+                    templateList.AddKeyValue(sNode.Text, sNode.Id);
+
+                }
 
             }
 
