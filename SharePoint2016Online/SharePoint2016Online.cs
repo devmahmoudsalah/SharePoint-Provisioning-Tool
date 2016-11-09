@@ -3759,8 +3759,8 @@ namespace Karabina.SharePoint.Provisioning
                                     foreach (var field in listInstance.Fields)
                                     {
                                         XElement element = XElement.Parse(field.SchemaXml, LoadOptions.None);
-                                        string fieldName = element.Attribute("Name").Value;
-                                        if (templateItem.Name.Equals(fieldName, StringComparison.OrdinalIgnoreCase))
+                                        string fieldID = element.Attribute("ID").Value;
+                                        if (templateItem.Name.Equals(fieldID, StringComparison.OrdinalIgnoreCase))
                                         {
                                             listInstance.Fields.Remove(field);
                                             templateItems.RemoveItem(templateItem);
