@@ -197,9 +197,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy $(SolutionDir)SharePoint2013OnPrem\bin\Debug\*.* $(TargetDir)SharePoint2013OnPrem\*.*
-copy $(SolutionDir)SharePoint2016OnPrem\bin\Debug\*.* $(TargetDir)SharePoint2016OnPrem\*.*
-copy $(SolutionDir)SharePoint2016Online\bin\Debug\*.* $(TargetDir)SharePoint2016Online\*.*
+    <PreBuildEvent>copy $(SolutionDir)SharePoint2013OnPrem\$(OutDir)*.* $(TargetDir)SharePoint2013OnPrem\*.*
+copy $(SolutionDir)SharePoint2016OnPrem\$(OutDir)*.* $(TargetDir)SharePoint2016OnPrem\*.*
+copy $(SolutionDir)SharePoint2016Online\$(OutDir)*.* $(TargetDir)SharePoint2016Online\*.*
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
