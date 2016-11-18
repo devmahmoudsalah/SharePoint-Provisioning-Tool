@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace Karabina.SharePoint.Provisioning
 {
-    public class SharePoint2016Online : MarshalByRefObject
+    public class SharePoint2016Online : MarshalByRefObject, IProvisioningTool
     {
 
         public SharePoint2016Online()

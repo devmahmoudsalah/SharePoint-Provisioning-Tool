@@ -56,6 +56,7 @@
     <Compile Include="DayHours.cs" />
     <Compile Include="Extentions.cs" />
     <Compile Include="FirstWeekYear.cs" />
+    <Compile Include="IProvisioningTool.cs" />
     <Compile Include="KeysValues.cs" />
     <Compile Include="Locales.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
