@@ -40,10 +40,10 @@
             // 
             this.rbSP2013OP.AutoSize = true;
             this.rbSP2013OP.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.rbSP2013OP.Location = new System.Drawing.Point(25, 46);
+            this.rbSP2013OP.Location = new System.Drawing.Point(25, 96);
             this.rbSP2013OP.Name = "rbSP2013OP";
             this.rbSP2013OP.Size = new System.Drawing.Size(190, 20);
-            this.rbSP2013OP.TabIndex = 2;
+            this.rbSP2013OP.TabIndex = 4;
             this.rbSP2013OP.TabStop = true;
             this.rbSP2013OP.Tag = "Version01";
             this.rbSP2013OP.Text = " SharePoint 2013 On Premises ";
@@ -72,10 +72,10 @@
             // 
             this.rbSP2016OL.AutoSize = true;
             this.rbSP2016OL.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.rbSP2016OL.Location = new System.Drawing.Point(25, 96);
+            this.rbSP2016OL.Location = new System.Drawing.Point(25, 46);
             this.rbSP2016OL.Name = "rbSP2016OL";
             this.rbSP2016OL.Size = new System.Drawing.Size(159, 20);
-            this.rbSP2016OL.TabIndex = 4;
+            this.rbSP2016OL.TabIndex = 2;
             this.rbSP2016OL.TabStop = true;
             this.rbSP2016OL.Tag = "Version03";
             this.rbSP2016OL.Text = " SharePoint 2016 Online ";
