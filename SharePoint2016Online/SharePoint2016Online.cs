@@ -175,6 +175,36 @@ namespace Karabina.SharePoint.Provisioning
 
                                 break;
 
+                            case ProvisioningFieldType.Choice:
+                                //Field is choice field, save as string
+                                data.Add(field.Name, value.ToString());
+
+                                break;
+
+                            case ProvisioningFieldType.MultiChoice:
+                                //Field is choice field and allow multiple values
+                                string[] values = value as string[];
+                                if (values?.Length > 0)
+                                {
+                                    StringBuilder sb = new StringBuilder();
+                                    foreach (var s in values)
+                                    {
+                                        if (sb.Length > 0)
+                                        {
+                                            sb.Append(",");
+
+                                        }
+
+                                        sb.Append(s);
+
+                                    } //foreach
+
+                                    data.Add(field.Name, sb.ToString());
+
+                                } //if values
+
+                                break;
+
                             default:
                                 //Field is text, number or one of the other types not checked above.
                                 data.Add(field.Name, value.ToString());
