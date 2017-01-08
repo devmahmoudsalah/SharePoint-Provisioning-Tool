@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Karabina.SharePoint.Provisioning
 {
-    public class SPLoader : MarshalByRefObject
+    public class SPLoader : MarshalByRefObject, IProvisioningTool
     {
         private Assembly assembly = null;
         private Type type = null;

@@ -81,7 +81,7 @@ namespace Karabina.SharePoint.Provisioning
                         switch (field.FieldType)
                         {
                             case ProvisioningFieldType.Lookup:
-                                FieldLookup fieldLookup = fields.GetFieldByName<FieldLookup>(field.Name);
+                                FieldLookup fieldLookup = fields.GetFieldByInternalName<FieldLookup>(field.Name);
                                 if (fieldLookup != null)
                                 {
                                     //Check it allows multiple values
@@ -118,7 +118,7 @@ namespace Karabina.SharePoint.Provisioning
                                 break;
 
                             case ProvisioningFieldType.User:
-                                FieldUser fieldUser = fields.GetFieldByName<FieldUser>(field.Name);
+                                FieldUser fieldUser = fields.GetFieldByInternalName<FieldUser>(field.Name);
                                 if (fieldUser != null)
                                 {
                                     //Check if it allows multiple users

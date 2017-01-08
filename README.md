@@ -14,7 +14,7 @@ The tool allows you to perform 3 functions:
 
 ![](SharePointProvisioningTool/Resources/EditRed.png) Edit the saved templates
 
-![](SharePointProvisioningTool/Resources/NewsPaperRed.png) Apply templates to a SharePoint site
+![](SharePointProvisioningTool/Resources/NewsPaperRed.png) Apply saved templates to a SharePoint site
 
 
 
